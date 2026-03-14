@@ -313,9 +313,13 @@ function logoImg(url, name, size=34) {
 // ══════════════════════════════════════════════
 function fmtTime(ts) {
   if (!ts) return '--:--';
-  return new Date(ts*1000).toLocaleTimeString('tr-TR', {
-    hour:'2-digit', minute:'2-digit', timeZone:'Europe/Istanbul'
-  });
+  const d = new Date(ts*1000);
+  const now = new Date();
+  const isToday = d.toDateString() === now.toDateString();
+  const time = d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit', timeZone:'Europe/Istanbul'});
+  if (isToday) return time;
+  const date = d.toLocaleDateString('tr-TR', {day:'2-digit', month:'2-digit', timeZone:'Europe/Istanbul'});
+  return `${date} ${time}`;
 }
 function fmtDate(ts) {
   if (!ts) return '';
@@ -440,7 +444,7 @@ function analyze(m) {
   if (corners >= 9.5 && enoughGames)
     systems.push({key:'corner', label:'📐 Korner'});
 
-  return { score, systems, odd1, oddX, odd2, oddOv25, oddIY };
+  return { score, systems, odd1, oddX, odd2 };
 }
 
 // ══════════════════════════════════════════════
@@ -690,9 +694,12 @@ async function setSub(s) {
   await render();
 }
 
-async function render() {
+async function render(preserveScroll=false) {
   const el = document.getElementById('content');
-  el.innerHTML = `<div class="loading"><div class="spin"></div><div class="ltxt">Yükleniyor…</div></div>`;
+  const scrollTop = preserveScroll ? el.scrollTop : 0;
+  if (!preserveScroll) {
+    el.innerHTML = `<div class="loading"><div class="spin"></div><div class="ltxt">Yükleniyor…</div></div>`;
+  }
   try {
     let h = '';
     if      (tab === 'live')     h = await renderLive();
@@ -704,6 +711,7 @@ async function render() {
     else if (tab === 'sistem')   h = await renderSistem();
     else if (tab === 'kupon')    h = renderKupon();
     el.innerHTML = h;
+    if (preserveScroll) el.scrollTop = scrollTop;
   } catch(e) {
     el.innerHTML = `<div class="err">❌ Hata: ${e.message}</div>`;
   }
@@ -1055,11 +1063,13 @@ function delK(i) {
 // ══════════════════════════════════════════════
 //  ZAMANLAYICI
 // ══════════════════════════════════════════════
-async function doRefresh() {
+async function doRefresh(auto=false) {
   cache = {today: null, tomorrow: null};
-  cdVal = 30;
-  document.getElementById('cd').textContent = 30;
-  await render();
+  if (!auto) {
+    cdVal = 30;
+    document.getElementById('cd').textContent = 30;
+  }
+  await render(auto);
 }
 
 function startCD() {
@@ -1067,7 +1077,7 @@ function startCD() {
   cdTmr = setInterval(() => {
     cdVal--;
     document.getElementById('cd').textContent = cdVal;
-    if (cdVal <= 0) { cdVal = 30; doRefresh(); }
+    if (cdVal <= 0) { cdVal = 30; doRefresh(true); }
   }, 1000);
 }
 
