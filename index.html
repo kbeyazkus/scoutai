@@ -146,23 +146,17 @@ let cdVal  = 30;
 let cdTmr  = null;
 
 async function apiGet(path){
-  const url = BASE+path;
-  const proxies = [
-    'https://thingproxy.freeboard.io/fetch/',
-    'https://api.allorigins.win/raw?url=',
-    'https://corsproxy.io/?url=',
-  ];
-  for(const proxy of proxies){
-    try {
-      const proxyUrl = proxy + encodeURIComponent(url);
-      const r = await fetch(proxyUrl);
-      if(!r.ok) continue;
-      const text = await r.text();
-      const j = JSON.parse(text);
-      if(j && j.success) return j.data||[];
-    } catch(e){ continue; }
+  // GitHub Actions tarafından kaydedilen lokal JSON dosyalarını oku
+  if(path.includes('todays-matches')){
+    const isToday = !path.includes('date=') || path.includes(dateStr(0));
+    const file = isToday ? 'data/today.json' : 'data/tomorrow.json';
+    const r = await fetch(file + '?t=' + Date.now());
+    if(!r.ok) throw new Error('Veri dosyası bulunamadı');
+    const j = await r.json();
+    if(j && j.success) return j.data||[];
+    throw new Error('Veri formatı hatalı');
   }
-  throw new Error('API bağlantısı kurulamadı');
+  throw new Error('Bilinmeyen istek');
 }
 
 function dateStr(offset){
@@ -173,7 +167,11 @@ function dateStr(offset){
 async function fetchDay(offset){
   const k=offset===0?'today':'tomorrow';
   if(cache[k]) return cache[k];
-  const all = await apiGet(`/todays-matches?key=${KEY}&date=${dateStr(offset)}&include=stats`);
+  const file = offset===0 ? 'data/today.json' : 'data/tomorrow.json';
+  const r = await fetch(file + '?t=' + Date.now());
+  if(!r.ok) throw new Error('Veri yüklenemedi');
+  const j = await r.json();
+  const all = j.data||[];
   const f = all.filter(m=>{
     const lg=(m.competition_name||m.league_name||'').toLowerCase();
     return GOOD.some(g=>lg.includes(g));
