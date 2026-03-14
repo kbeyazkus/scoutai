@@ -275,42 +275,69 @@ async function fetchDay(offset) {
   return cache[key];
 }
 
-// API-Football live.json → normalize edilmiş maç objesi
+// API-Football live.json → normalize edilmiş maç objesi + FootyStats istatistikleri
 async function fetchLive() {
   if (cache.live) return cache.live;
   const r = await fetch('data/live.json?t=' + Date.now());
   if (!r.ok) throw new Error('Canlı veri yüklenemedi');
   const j = await r.json();
   const list = Array.isArray(j.response) ? j.response : [];
+
+  // FootyStats today.json'u da çek — istatistik eşleştirmesi için
+  let fsMatches = [];
+  try {
+    fsMatches = await fetchDay(0);
+  } catch(e) {}
+
+  // Takım adına göre eşleştir (normalize edilmiş isim karşılaştırması)
+  const normName = s => String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const findFs = (homeName, awayName) => {
+    const hn = normName(homeName);
+    const an = normName(awayName);
+    return fsMatches.find(m => {
+      const fh = normName(m.home_name);
+      const fa = normName(m.away_name);
+      // tam eşleşme veya birinin diğerini içermesi
+      return (fh === hn || fh.includes(hn) || hn.includes(fh)) &&
+             (fa === an || fa.includes(an) || an.includes(fa));
+    }) || null;
+  };
+
   cache.live = list.map(x => {
     const fix  = x.fixture || {};
     const lg   = x.league  || {};
     const t    = x.teams   || {};
     const g    = x.goals   || {};
     const st   = fix.status || {};
-    // İstatistikler varsa çek
-    const stats = Array.isArray(x.statistics) ? x.statistics : [];
+
+    // Canlı istatistikler (API-Football)
+    const stats  = Array.isArray(x.statistics) ? x.statistics : [];
     const homeSt = stats.find(s => s.team?.id === t.home?.id)?.statistics || [];
     const awaySt = stats.find(s => s.team?.id === t.away?.id)?.statistics || [];
     const getStat = (arr, type) => {
       const s = arr.find(s => s.type === type);
       return s ? (s.value ?? null) : null;
     };
+
+    // FootyStats eşleştirmesi
+    const fs = findFs(t.home?.name, t.away?.name);
+
     return {
       id:               'af_' + fix.id,
       _afId:            fix.id,
       status:           'inprogress',
       home_name:        t.home?.name || '?',
       away_name:        t.away?.name || '?',
-      home_image:       t.home?.logo || '',
-      away_image:       t.away?.logo || '',
-      competition_name: lg.name || '',
+      home_image:       t.home?.logo  || (fs?.home_image || ''),
+      away_image:       t.away?.logo  || (fs?.away_image || ''),
+      competition_name: lg.name || (fs?.competition_name || ''),
       date_unix:        fix.timestamp || 0,
       homeGoalCount:    g.home ?? 0,
       awayGoalCount:    g.away ?? 0,
       elapsed:          st.elapsed || 0,
       status_short:     st.short || 'LIVE',
-      // İstatistikler
+
+      // Canlı istatistikler (API-Football)
       home_possession:  getStat(homeSt, 'Ball Possession'),
       away_possession:  getStat(awaySt, 'Ball Possession'),
       home_shots:       getStat(homeSt, 'Total Shots'),
@@ -323,11 +350,30 @@ async function fetchLive() {
       away_yellow:      getStat(awaySt, 'Yellow Cards'),
       home_red:         getStat(homeSt, 'Red Cards'),
       away_red:         getStat(awaySt, 'Red Cards'),
-      // FootyStats alanları boş bırak (analyze için)
-      home_ppg: 0, away_ppg: 0,
-      btts_potential: 0, o25_potential: 0, o05HT_potential: 0,
-      avg_potential: 0, cards_potential: 0, corners_potential: 0,
-      o05_potential: 0, odds_ft_1: 0, odds_ft_x: 0, odds_ft_2: 0,
+
+      // FootyStats istatistikleri (eşleşme varsa)
+      home_ppg:          fs?.home_ppg          || 0,
+      away_ppg:          fs?.away_ppg          || 0,
+      home_form:         fs?.home_form         || '',
+      away_form:         fs?.away_form         || '',
+      btts_potential:    fs?.btts_potential    || 0,
+      o25_potential:     fs?.o25_potential     || fs?.over25_potential || 0,
+      o05HT_potential:   fs?.o05HT_potential   || 0,
+      avg_potential:     fs?.avg_potential     || 0,
+      cards_potential:   fs?.cards_potential   || 0,
+      corners_potential: fs?.corners_potential || 0,
+      o05_potential:     fs?.o05_potential     || fs?.over05_potential || 0,
+      odds_ft_1:         fs?.odds_ft_1         || 0,
+      odds_ft_x:         fs?.odds_ft_x         || 0,
+      odds_ft_2:         fs?.odds_ft_2         || 0,
+      odds_ft_over25:    fs?.odds_ft_over25    || 0,
+      odds_ft_over15:    fs?.odds_ft_over15    || 0,
+      odds_1st_half_over05: fs?.odds_1st_half_over05 || 0,
+      odds_btts_yes:     fs?.odds_btts_yes     || 0,
+      team_a_xg_prematch: fs?.team_a_xg_prematch || 0,
+      team_b_xg_prematch: fs?.team_b_xg_prematch || 0,
+      matches_completed_minimum: fs?.matches_completed_minimum || 0,
+      _fsMatched: !!fs,
     };
   });
   return cache.live;
@@ -621,7 +667,7 @@ function liveCard(m) {
   const sx = k?.pick === 'X' ? ' sx' : '';
   const s2 = k?.pick === '2' ? ' s2' : '';
 
-  // İstatistik satırı
+  // Canlı istatistik satırı
   const statItem = (label, hv, av) => {
     if (hv === null && av === null) return '';
     const h = hv ?? '-', a = av ?? '-';
@@ -641,6 +687,26 @@ function liveCard(m) {
     statItem('Kırmızı', m.home_red, m.away_red),
   ].filter(Boolean).join('');
 
+  // FootyStats istatistikleri
+  const hPPGv = parseFloat(m.home_ppg) || 0;
+  const aPPGv = parseFloat(m.away_ppg) || 0;
+  const bttsV = parseFloat(m.btts_potential) || 0;
+  const ov25V = parseFloat(m.o25_potential) || 0;
+  const o05HTV= parseFloat(m.o05HT_potential) || 0;
+  const hPPGd = hPPGv > 0 ? hPPGv.toFixed(2) : '-';
+  const aPPGd = aPPGv > 0 ? aPPGv.toFixed(2) : '-';
+  const bttsd = bttsV > 0 ? Math.round(bttsV) + '%' : '-';
+  const ov25d = ov25V > 0 ? Math.round(ov25V) + '%' : '-';
+  const o05HTd= o05HTV > 0 ? Math.round(o05HTV) + '%' : '-';
+  const bttsC = bttsV >= 60 ? 'hi' : bttsV >= 45 ? 'med' : '';
+  const ov25C = ov25V >= 60 ? 'hi' : ov25V >= 45 ? 'med' : '';
+  const o05HC = o05HTV >= 65 ? 'hi' : o05HTV >= 50 ? 'med' : '';
+  const fsTag = m._fsMatched ? '' : `<div style="font-size:9px;color:var(--muted);padding:2px 12px">⚠️ Maç istatistikleri eşleştirilemedi</div>`;
+
+  // Oranlar
+  const a = analyze(m);
+  const tags = a.systems.map(s => `<div class="st st-${s.key}">${s.label}</div>`).join('');
+
   return `<div class="mc lv-mc">
   <div class="mc-top">
     <div class="lg-badge">${lg}</div>
@@ -657,15 +723,31 @@ function liveCard(m) {
   ${statsHtml ? `<div class="lv-stats">${statsHtml}</div>` : ''}
   <div class="mc-odds">
     <div class="odd-btn${s1}" onclick="bet('${m.id}','1')">
-      <div class="odd-lbl">1</div><div class="odd-val">–</div>
+      <div class="odd-lbl">1</div>
+      <div class="odd-val">${a.odd1>0?a.odd1.toFixed(2):'-'}</div>
     </div>
     <div class="odd-btn${sx}" onclick="bet('${m.id}','X')">
-      <div class="odd-lbl">X</div><div class="odd-val">–</div>
+      <div class="odd-lbl">X</div>
+      <div class="odd-val">${a.oddX>0?a.oddX.toFixed(2):'-'}</div>
     </div>
     <div class="odd-btn${s2}" onclick="bet('${m.id}','2')">
-      <div class="odd-lbl">2</div><div class="odd-val">–</div>
+      <div class="odd-lbl">2</div>
+      <div class="odd-val">${a.odd2>0?a.odd2.toFixed(2):'-'}</div>
     </div>
   </div>
+  <div class="mc-form">
+    <div class="fp">${formPills(m.home_form)}</div>
+    <div class="fp">${formPills(m.away_form)}</div>
+  </div>
+  <div class="mc-stats">
+    <div class="si"><div class="sl">Ev PPG</div><div class="sv">${hPPGd}</div></div>
+    <div class="si"><div class="sl">Dep PPG</div><div class="sv">${aPPGd}</div></div>
+    <div class="si"><div class="sl">BTTS</div><div class="sv ${bttsC}">${bttsd}</div></div>
+    <div class="si"><div class="sl">Üst 2.5</div><div class="sv ${ov25C}">${ov25d}</div></div>
+    <div class="si"><div class="sl">İY Gol</div><div class="sv ${o05HC}">${o05HTd}</div></div>
+  </div>
+  ${fsTag}
+  ${tags ? `<div class="mc-tags">${tags}</div>` : ''}
   <div class="mc-bot">
     <button class="anl-btn" onclick="openAnaliz('${m.id}')">🔍 Analiz</button>
   </div>
