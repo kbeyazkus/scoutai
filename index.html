@@ -277,7 +277,7 @@ async function fetchDay(offset) {
 
 // API-Football live.json → normalize edilmiş maç objesi + FootyStats istatistikleri
 async function fetchLive() {
-  // live.json her zaman taze çek (skor anlık güncellenir)
+  // live.json her zaman taze çek
   let list = [];
   try {
     const r = await fetch('data/live.json?t=' + Date.now());
@@ -287,23 +287,37 @@ async function fetchLive() {
     }
   } catch(e) {}
 
-  // today.json - cache varsa kullan, yoksa çek
-  let fsMatches = cache.today || [];
-  if (!fsMatches.length) {
+  // today + tomorrow'dan FootyStats verisi çek (cache varsa kullan)
+  let fsMatches = [];
+  if (!cache.today) {
     try {
       const rt = await fetch('data/today.json?t=' + Date.now());
       if (rt.ok) {
         const jt = await rt.json();
-        fsMatches = Array.isArray(jt.data) ? jt.data : [];
-        if (fsMatches.length > 0) cache.today = fsMatches;
+        cache.today = Array.isArray(jt.data) ? jt.data : [];
       }
     } catch(e) {}
   }
+  if (!cache.tomorrow) {
+    try {
+      const rt = await fetch('data/tomorrow.json?t=' + Date.now());
+      if (rt.ok) {
+        const jt = await rt.json();
+        cache.tomorrow = Array.isArray(jt.data) ? jt.data : [];
+      }
+    } catch(e) {}
+  }
+  // İkisini birleştir — canlı maç bazen tomorrow'da olabilir
+  fsMatches = [...(cache.today || []), ...(cache.tomorrow || [])];
 
   return buildLiveList(list, fsMatches);
 }
 
 function buildLiveList(list, fsMatches) {
+  // Sadece gerçekten oynanan maçları al
+  const liveStatuses = new Set(['1H','HT','2H','ET','BT','P','LIVE','INT']);
+  list = list.filter(x => liveStatuses.has(x.fixture?.status?.short || ''));
+
   // Takım adına göre eşleştir
   const normName = s => String(s||'').toLowerCase()
     .replace(/\b(afc|fc|sc|ac|rc|cd|ud|cf|sd|as|ss|sv|bk|if|fk|nk|sk|gk|hk|ik|rk|vv|sb|sl|af|bf|kvc|kv|united|city|club|sporting|real|atletico|athletic|deportivo)\b/g,' ')
@@ -347,6 +361,7 @@ function buildLiveList(list, fsMatches) {
     const t    = x.teams   || {};
     const g    = x.goals   || {};
     const st   = fix.status || {};
+    const sc   = x.score   || {};
 
     const stats  = Array.isArray(x.statistics) ? x.statistics : [];
     const homeSt = stats.find(s => s.team?.id === t.home?.id)?.statistics || [];
@@ -358,14 +373,19 @@ function buildLiveList(list, fsMatches) {
 
     const fs = findFs(t.home?.name, t.away?.name);
 
-    // Skor: goals veya score.fulltime'dan al
-    const sc = x.score || {};
-    const hGoals = g.home !== null && g.home !== undefined ? g.home
-                 : sc.fulltime?.home !== null && sc.fulltime?.home !== undefined ? sc.fulltime.home
-                 : 0;
-    const aGoals = g.away !== null && g.away !== undefined ? g.away
-                 : sc.fulltime?.away !== null && sc.fulltime?.away !== undefined ? sc.fulltime.away
-                 : 0;
+    // Skor
+    const hGoals = (g.home !== null && g.home !== undefined) ? g.home
+                 : (sc.fulltime?.home !== null && sc.fulltime?.home !== undefined) ? sc.fulltime.home : 0;
+    const aGoals = (g.away !== null && g.away !== undefined) ? g.away
+                 : (sc.fulltime?.away !== null && sc.fulltime?.away !== undefined) ? sc.fulltime.away : 0;
+
+    // Dakika
+    const elapsed = st.elapsed || 0;
+    const extra   = st.extra   || 0;
+    const minStr  = st.short === 'HT' ? 'HT'
+                  : extra > 0 ? `${elapsed}+${extra}'`
+                  : elapsed > 0 ? `${elapsed}'`
+                  : st.short || 'CANLI';
 
     return {
       id:               'af_' + fix.id,
@@ -379,7 +399,9 @@ function buildLiveList(list, fsMatches) {
       date_unix:        fix.timestamp || 0,
       homeGoalCount:    hGoals,
       awayGoalCount:    aGoals,
-      elapsed:          st.elapsed || 0,
+      elapsed,
+      extra,
+      minStr,
       status_short:     st.short || 'LIVE',
       home_possession:  getStat(homeSt, 'Ball Possession'),
       away_possession:  getStat(awaySt, 'Ball Possession'),
@@ -700,7 +722,7 @@ function liveCard(m) {
   const lg = m.competition_name || '⚽';
   const hG = m.homeGoalCount ?? 0;
   const aG = m.awayGoalCount ?? 0;
-  const min = m.elapsed ? `${m.elapsed}'` : m.status_short || 'CANLI';
+  const min = m.minStr || (m.elapsed ? `${m.elapsed}'` : m.status_short || 'CANLI');
 
   const k  = kupon[m.id];
   const s1 = k?.pick === '1' ? ' s1' : '';
