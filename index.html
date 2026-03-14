@@ -252,7 +252,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 // ══════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════
-let cache   = {today:null, tomorrow:null, live:null};
+let cache   = {today:null, tomorrow:null};
 let kupon   = {};
 let saved   = JSON.parse(localStorage.getItem('sc_kup')||'[]');
 let tab     = 'live';
@@ -277,21 +277,7 @@ async function fetchDay(offset) {
 
 // API-Football live.json → normalize edilmiş maç objesi + FootyStats istatistikleri
 async function fetchLive() {
-  if (cache.live) return cache.live;
-
-  // today.json'u cache'den değil, her zaman taze çek (eşleştirme için kritik)
-  let fsMatches = [];
-  try {
-    const rt = await fetch('data/today.json?t=' + Date.now());
-    if (rt.ok) {
-      const jt = await rt.json();
-      fsMatches = Array.isArray(jt.data) ? jt.data : [];
-      // Cache'i de güncelle
-      if (fsMatches.length > 0) cache.today = fsMatches;
-    }
-  } catch(e) {}
-
-  // Sonra live.json çek
+  // live.json her zaman taze çek (skor anlık güncellenir)
   let list = [];
   try {
     const r = await fetch('data/live.json?t=' + Date.now());
@@ -301,14 +287,20 @@ async function fetchLive() {
     }
   } catch(e) {}
 
-  const result = buildLiveList(list, fsMatches);
-
-  // FootyStats verisi geldiyse cache'e kaydet
-  if (fsMatches.length > 0) {
-    cache.live = result;
+  // today.json - cache varsa kullan, yoksa çek
+  let fsMatches = cache.today || [];
+  if (!fsMatches.length) {
+    try {
+      const rt = await fetch('data/today.json?t=' + Date.now());
+      if (rt.ok) {
+        const jt = await rt.json();
+        fsMatches = Array.isArray(jt.data) ? jt.data : [];
+        if (fsMatches.length > 0) cache.today = fsMatches;
+      }
+    } catch(e) {}
   }
 
-  return result;
+  return buildLiveList(list, fsMatches);
 }
 
 function buildLiveList(list, fsMatches) {
@@ -1353,12 +1345,10 @@ function delK(i) {
 //  ZAMANLAYICI
 // ══════════════════════════════════════════════
 async function doRefresh(auto=false) {
-  // live cache her zaman temizle (skor güncelleme için)
-  // today/tomorrow cache'i koru (FootyStats verisi sık değişmez)
-  cache.live = null;
+  // today/tomorrow cache'ini temizle
+  cache.today = null;
+  cache.tomorrow = null;
   if (!auto) {
-    cache.today = null;
-    cache.tomorrow = null;
     cdVal = 10;
     document.getElementById('cd').textContent = 10;
   }
