@@ -762,7 +762,7 @@ async function openAnaliz(id){
   runAI(m, id);
 }
 
-async function runAI(m, id){
+function runAI(m, id){
   const hN = m.home_name||'?', aN = m.away_name||'?';
   const hppg = parseFloat(m.home_ppg)||0, appg = parseFloat(m.away_ppg)||0;
   const hxg  = parseFloat(m.team_a_xg_prematch)||parseFloat(m.team_a_xg)||0;
@@ -777,60 +777,113 @@ async function runAI(m, id){
   const o1=parseFloat(m.odds_ft_1)||0, ox=parseFloat(m.odds_ft_x)||0, o2=parseFloat(m.odds_ft_2)||0;
   const oov25=parseFloat(m.odds_ft_over25)||0, oiy=parseFloat(m.odds_1st_half_over05)||0;
   const games=parseInt(m.matches_completed_minimum)||0;
+  const hForm=formScore(m.home_form), aForm=formScore(m.away_form);
+  const ppgDiff = hppg - appg;
+  const xgDiff  = hxg - axg;
 
-  const prompt = `Sen bir futbol bahis analistsin. Aşağıdaki maç verilerine göre kısa ve net bir analiz yap.
+  const lines = [];
 
-MAÇ: ${hN} vs ${aN}
-LİG: ${m.competition_name||'?'}
-
-İSTATİSTİKLER:
-- Ev PPG: ${hppg} | Dep PPG: ${appg}
-- Ev xG: ${hxg>0?hxg:'-'} | Dep xG: ${axg>0?axg:'-'}
-- BTTS ihtimali: ${btts}%
-- Üst 2.5 ihtimali: ${ov25}%
-- İY Gol ihtimali: ${o05HT}%
-- Üst 0.5 ihtimali: ${ov05}%
-- Maç başı gol beklentisi: ${avgG}
-- Kart/maç: ${cards} | Korner/maç: ${corners}
-- Oynadıkları maç sayısı: ${games}
-- Oranlar: 1=${o1>0?o1:'-'} X=${ox>0?ox:'-'} 2=${o2>0?o2:'-'} Üst2.5=${oov25>0?oov25:'-'} İYGol=${oiy>0?oiy:'-'}
-- Ev formu: ${m.home_form||'bilinmiyor'} | Dep formu: ${m.away_form||'bilinmiyor'}
-
-Şunu yap:
-1. Bu maçta en güçlü sinyal nedir? (2-3 cümle)
-2. Dikkat edilmesi gereken risk nedir? (1-2 cümle)
-3. En mantıklı oynama şekli: sadece bir seçenek yaz (örn: "BTTS", "Üst 2.5", "1 Oyna", "İY Gol", "X2", "Riskli-Oynama")
-
-Türkçe yaz. Kısa ve net ol. Son satırda sadece şunu yaz: ÖNERI: [seçenek]`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:400,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const data = await res.json();
-    const txt = data.content?.[0]?.text||'Analiz alınamadı.';
-
-    // ÖNERİ satırını ayır
-    const lines = txt.trim().split('\n');
-    const pickLine = lines.find(l=>l.startsWith('ÖNERI:'));
-    const pick = pickLine ? pickLine.replace('ÖNERI:','').trim() : '';
-    const body = lines.filter(l=>!l.startsWith('ÖNERI:')).join('\n').trim();
-
-    const box = document.getElementById(`ai-box-${id}`);
-    if(box) box.innerHTML = `
-      <div class="ai-txt">${body}</div>
-      ${pick?`<div class="ai-pick">✅ ${pick}</div>`:''}
-    `;
-  } catch(e) {
-    const box = document.getElementById(`ai-box-${id}`);
-    if(box) box.innerHTML = `<div style="color:var(--muted);font-size:12px">AI analizi alınamadı.</div>`;
+  // ── 1. TAKIM GÜCÜ ──
+  if(ppgDiff >= 1.2){
+    lines.push(`${hN}, maç başı puan ortalamasında ${hppg.toFixed(2)} ile ${aN}'a (${appg.toFixed(2)}) karşı belirgin üstünlük sağlıyor. Ev sahibi bu sezonda rakiplerini eziyet ediyor.`);
+  } else if(ppgDiff >= 0.5){
+    lines.push(`${hN} (${hppg.toFixed(2)} puan/maç) ile ${aN} (${appg.toFixed(2)}) arasında ev sahibi lehine net bir güç farkı var.`);
+  } else if(ppgDiff <= -1.2){
+    lines.push(`${aN}, deplasmanda ${appg.toFixed(2)} puan/maç ortalamasıyla ${hN}'den (${hppg.toFixed(2)}) çok daha güçlü görünüyor.`);
+  } else if(ppgDiff <= -0.5){
+    lines.push(`${aN} (${appg.toFixed(2)} puan/maç) deplasman takımı olmasına rağmen ${hN}'den (${hppg.toFixed(2)}) daha form durumda.`);
+  } else {
+    lines.push(`${hN} (${hppg.toFixed(2)}) ile ${aN} (${appg.toFixed(2)}) birbirine oldukça yakın güçte iki takım. Sürpriz her an mümkün.`);
   }
+
+  // ── 2. xG ANALİZİ ──
+  if(hxg > 0 || axg > 0){
+    if(Math.abs(xgDiff) >= 0.5){
+      const strong = xgDiff>0 ? hN : aN;
+      const weak   = xgDiff>0 ? aN : hN;
+      const sv = xgDiff>0 ? hxg : axg, wv = xgDiff>0 ? axg : hxg;
+      lines.push(`Beklenen gol değerleri (xG) de bu farkı doğruluyor: ${strong} ${sv.toFixed(2)} xG ile ${weak}'nın (${wv.toFixed(2)}) önüne geçiyor.`);
+    } else {
+      lines.push(`xG değerleri birbirine yakın (${hN}: ${hxg.toFixed(2)}, ${aN}: ${axg.toFixed(2)}). Gol üretimi açısından dengeli bir maç bekleniyor.`);
+    }
+  }
+
+  // ── 3. FORM ──
+  if(hForm >= 10 && aForm <= 4){
+    lines.push(`${hN} son formuyla mükemmel giderken, ${aN} formda ciddi sorun yaşıyor. Moral açısından büyük uçurum var.`);
+  } else if(aForm >= 10 && hForm <= 4){
+    lines.push(`${aN} son maçlarda çok iyi form tutturmuş. ${hN} ise maç kaybetmeye devam ediyor.`);
+  } else if(hForm >= 9){
+    lines.push(`${hN} son 5 maçta güçlü bir form sergiledi.`);
+  } else if(aForm >= 9){
+    lines.push(`${aN} son 5 maçta etkileyici bir form yakaladı.`);
+  }
+
+  // ── 4. GOL SİNYALLERİ ──
+  const golSinyaller = [];
+  if(btts >= 70) golSinyaller.push(`BTTS ihtimali %${Math.round(btts)} ile çok yüksek — her iki takımın da gol atması kuvvetle muhtemel`);
+  else if(btts >= 55) golSinyaller.push(`BTTS ihtimali %${Math.round(btts)} — iki takımın da gol atma ihtimali makul seviyede`);
+  if(ov25 >= 65) golSinyaller.push(`Üst 2.5 ihtimali %${Math.round(ov25)} ile yüksek, gollü bir maç bekleniyor`);
+  else if(ov25 >= 45) golSinyaller.push(`Üst 2.5 ihtimali %${Math.round(ov25)} ile orta seviyede`);
+  if(o05HT >= 75) golSinyaller.push(`İlk yarıda gol çıkma ihtimali %${Math.round(o05HT)} — ilk yarı bahisleri değerlendirilebilir`);
+  if(golSinyaller.length) lines.push(golSinyaller.join('. ') + '.');
+
+  // ── 5. RİSK ──
+  const riskler = [];
+  if(games < 8) riskler.push(`Her iki takım da henüz az maç oynadı (${games} maç), istatistikler yeterince olgunlaşmamış olabilir`);
+  if(Math.abs(ppgDiff) < 0.3 && (hxg===0 && axg===0)) riskler.push(`Takımlar çok dengeli, net bir favori yok ve xG verisi eksik`);
+  if(o1 > 0 && o1 < 1.3) riskler.push(`${hN} oranı ${o1.toFixed(2)} ile aşırı düşük — bu oran üzerinde oynamak uzun vadede kazandırmaz`);
+  if(o2 > 0 && o2 < 1.3) riskler.push(`${aN} oranı ${o2.toFixed(2)} ile aşırı düşük`);
+  if(riskler.length) lines.push(`⚠️ Risk: ${riskler.join('. ')}.`);
+
+  // ── 6. ÖNERİ KARAR MANTIĞI ──
+  let pick = '';
+  let pickReason = '';
+
+  // Sinyal puanları hesapla
+  const signals = {
+    'BTTS': btts,
+    'Üst 2.5': ov25,
+    'İY Gol': o05HT,
+    'Daily (Üst 0.5)': ov05,
+  };
+
+  if(ppgDiff >= 1.0 && (hxg===0 || hxg >= axg - 0.1) && o1 > 1.2){
+    pick = `1 Oyna · ${o1.toFixed(2)}`;
+    pickReason = `Ev sahibi hem puan hem de xG açısından belirgin üstün.`;
+  } else if(ppgDiff <= -1.0 && (axg===0 || axg >= hxg - 0.1) && o2 > 1.2){
+    pick = `2 Oyna · ${o2.toFixed(2)}`;
+    pickReason = `Deplasman takımı bu maçta belirgin favori.`;
+  } else if(btts >= 68){
+    pick = `BTTS${obtts>0?' · '+parseFloat(m.odds_btts_yes).toFixed(2):''}`;
+    pickReason = `Her iki takımın gol atma ihtimali çok yüksek (%${Math.round(btts)}).`;
+  } else if(o05HT >= 75){
+    pick = `İY Gol${oiy>0?' · '+oiy.toFixed(2):''}`;
+    pickReason = `İlk yarı gol ihtimali %${Math.round(o05HT)} ile çok güçlü sinyal.`;
+  } else if(ov25 >= 62){
+    pick = `Üst 2.5${oov25>0?' · '+oov25.toFixed(2):''}`;
+    pickReason = `Maç gollü geçme ihtimali %${Math.round(ov25)}.`;
+  } else if(ppgDiff >= 0.5 && o1 > 1.15){
+    pick = `1X`;
+    pickReason = `Ev sahibi güçlü ama kesin favori değil, güvenli seçenek 1X.`;
+  } else if(ppgDiff <= -0.5 && o2 > 1.15){
+    pick = `X2`;
+    pickReason = `Deplasman daha güçlü ama garantili değil, X2 mantıklı.`;
+  } else if(ov05 >= 93){
+    pick = `Daily · Üst 0.5`;
+    pickReason = `Maçta en az 1 gol çıkma ihtimali %${Math.round(ov05)} — neredeyse kesin.`;
+  } else {
+    pick = `Oynama`;
+    pickReason = `Net bir sinyal yok. Bu maçı atlamak daha sağlıklı.`;
+  }
+
+  lines.push(`\n💡 Neden: ${pickReason}`);
+
+  const box = document.getElementById(`ai-box-${id}`);
+  if(box) box.innerHTML = `
+    <div class="ai-txt">${lines.join('\n\n')}</div>
+    <div class="ai-pick">✅ ${pick}</div>
+  `;
 }
 
 
