@@ -257,7 +257,7 @@ let kupon   = {};
 let saved   = JSON.parse(localStorage.getItem('sc_kup')||'[]');
 let tab     = 'live';
 let subTab  = 'iy';
-let cdVal   = 30;
+let cdVal   = 10;
 let cdTmr   = null;
 const MM    = {}; // id → maç objesi
 
@@ -279,10 +279,16 @@ async function fetchDay(offset) {
 async function fetchLive() {
   if (cache.live) return cache.live;
 
-  // Önce FootyStats today.json'u yükle — eşleştirme için şart
+  // today.json'u cache'den değil, her zaman taze çek (eşleştirme için kritik)
   let fsMatches = [];
   try {
-    fsMatches = await fetchDay(0);
+    const rt = await fetch('data/today.json?t=' + Date.now());
+    if (rt.ok) {
+      const jt = await rt.json();
+      fsMatches = Array.isArray(jt.data) ? jt.data : [];
+      // Cache'i de güncelle
+      if (fsMatches.length > 0) cache.today = fsMatches;
+    }
   } catch(e) {}
 
   // Sonra live.json çek
@@ -297,7 +303,7 @@ async function fetchLive() {
 
   const result = buildLiveList(list, fsMatches);
 
-  // Sadece FootyStats verisi geldiyse cache'e kaydet
+  // FootyStats verisi geldiyse cache'e kaydet
   if (fsMatches.length > 0) {
     cache.live = result;
   }
@@ -983,6 +989,7 @@ async function render(preserveScroll=false) {
   }
 }
 
+
 // ══════════════════════════════════════════════
 //  ANALİZ MODAL
 // ══════════════════════════════════════════════
@@ -1348,8 +1355,8 @@ function delK(i) {
 async function doRefresh(auto=false) {
   cache = {today: null, tomorrow: null, live: null};
   if (!auto) {
-    cdVal = 30;
-    document.getElementById('cd').textContent = 30;
+    cdVal = 10;
+    document.getElementById('cd').textContent = 10;
   }
   await render(auto);
 }
@@ -1359,9 +1366,10 @@ function startCD() {
   cdTmr = setInterval(() => {
     cdVal--;
     document.getElementById('cd').textContent = cdVal;
-    if (cdVal <= 0) { cdVal = 30; doRefresh(true); }
+    if (cdVal <= 0) { cdVal = 10; doRefresh(true); }
   }, 1000);
 }
+
 
 // ── BAŞLAT ──
 render();
