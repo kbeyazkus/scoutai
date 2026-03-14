@@ -1,7 +1,7 @@
 name: Fetch Data
 on:
   schedule:
-    - cron: '*/1 * * * *'
+    - cron: '*/2 * * * *'
   workflow_dispatch:
 jobs:
   fetch:
@@ -11,8 +11,51 @@ jobs:
 
       - name: Fetch FootyStats (bugün/yarın)
         run: |
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats&chosen_leagues_only=true" > data/today.json
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats&chosen_leagues_only=true" > data/tomorrow.json
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today.json
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats" > data/tomorrow.json
+
+      - name: Fetch Liga NOS (Portugal)
+        run: |
+          curl -s "https://api.football-data-api.com/league-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&season_id=15115&include=stats" > data/extra_por.json
+
+      - name: Merge extra leagues into today.json
+        run: |
+          python3 << 'PYEOF'
+          import json
+          from datetime import datetime, timezone
+
+          today = datetime.now(timezone.utc).date()
+
+          with open('data/today.json') as f:
+              main = json.load(f)
+
+          main_data = main.get('data', [])
+          existing_ids = {m['id'] for m in main_data}
+
+          extra_files = ['data/extra_por.json']
+
+          for fname in extra_files:
+              try:
+                  with open(fname) as f:
+                      extra = json.load(f)
+                  for m in extra.get('data', []):
+                      if m['id'] in existing_ids:
+                          continue
+                      ts = m.get('date_unix', 0)
+                      if ts:
+                          match_date = datetime.fromtimestamp(ts, tz=timezone.utc).date()
+                          if match_date == today:
+                              main_data.append(m)
+                              existing_ids.add(m['id'])
+                              print(f"Eklendi: {m.get('home_name','?')} vs {m.get('away_name','?')}")
+              except Exception as e:
+                  print(f"Hata {fname}: {e}")
+
+          main['data'] = main_data
+          with open('data/today.json', 'w') as f:
+              json.dump(main, f)
+          print(f"Toplam maç: {len(main_data)}")
+          PYEOF
 
       - name: Fetch API-Football (canlı maçlar)
         run: |
