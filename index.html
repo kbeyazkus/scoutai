@@ -189,6 +189,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   <div class="tab"     onclick="go('tomorrow')">📆 Yarın</div>
   <div class="tab"     onclick="go('super')">🔥 Süper</div>
   <div class="tab"     onclick="go('banko')">⭐ Banko</div>
+  <div class="tab"     onclick="go('ust05')">⚡ Üst 0.5</div>
   <div class="tab"     onclick="go('sistem')">🎯 Sistem</div>
   <div class="tab"     onclick="go('kupon')">🎫 Kupon</div>
 </div>
@@ -630,6 +631,21 @@ async function renderSistem() {
   return h || `<div class="empty">📭 Uygun maç yok</div>`;
 }
 
+async function renderUst05() {
+  const t = await fetchDay(0);
+  const y = await fetchDay(1);
+  const all = dedupe([...t, ...y]).filter(isUp);
+  const list = all
+    .filter(m => (parseFloat(m.o05_potential) || parseFloat(m.over05_potential) || 0) >= 75)
+    .sort((a, b) => {
+      const av = parseFloat(a.o05_potential) || parseFloat(a.over05_potential) || 0;
+      const bv = parseFloat(b.o05_potential) || parseFloat(b.over05_potential) || 0;
+      return bv - av;
+    });
+  if (!list.length) return `<div class="empty">⚡ Üst 0.5 maç yok<br><small>%75+ ihtimal gerekli</small></div>`;
+  return `<div class="sh">⚡ ÜST 0.5 (${list.length})</div>` + list.map(card).join('');
+}
+
 function renderKupon() {
   if (!saved.length) return `<div class="empty">📭 Kayıtlı kupon yok</div>`;
   return saved.slice().reverse().map((k, ri) => {
@@ -655,7 +671,7 @@ function renderKupon() {
 // ══════════════════════════════════════════════
 async function go(t) {
   tab = t;
-  const tabs = ['live','today','tomorrow','super','banko','sistem','kupon'];
+  const tabs = ['live','today','tomorrow','super','banko','ust05','sistem','kupon'];
   document.querySelectorAll('.tab').forEach((el, i) => {
     el.classList.toggle('on', tabs[i] === t);
   });
@@ -684,6 +700,7 @@ async function render() {
     else if (tab === 'tomorrow') h = await renderDay(1);
     else if (tab === 'super')    h = await renderSuper();
     else if (tab === 'banko')    h = await renderBanko();
+    else if (tab === 'ust05')    h = await renderUst05();
     else if (tab === 'sistem')   h = await renderSistem();
     else if (tab === 'kupon')    h = renderKupon();
     el.innerHTML = h;
