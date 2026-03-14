@@ -1,7 +1,7 @@
 name: Fetch Data
 on:
   schedule:
-    - cron: '*/2 * * * *'
+    - cron: '*/1 * * * *'
   workflow_dispatch:
 jobs:
   fetch:
@@ -11,8 +11,8 @@ jobs:
 
       - name: Fetch FootyStats (bugün/yarın)
         run: |
-          curl "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today.json
-          curl "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats" > data/tomorrow.json
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats&chosen_leagues_only=true" > data/today.json
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats&chosen_leagues_only=true" > data/tomorrow.json
 
       - name: Fetch API-Football (canlı maçlar)
         run: |
