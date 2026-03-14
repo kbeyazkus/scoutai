@@ -568,9 +568,14 @@ async function renderDay(offset){
   return h;
 }
 
+function dedupe(arr){
+  const seen=new Set();
+  return arr.filter(m=>{ if(seen.has(m.id)) return false; seen.add(m.id); return true; });
+}
+
 async function renderSuper(){
   const t=await fetchDay(0), y=await fetchDay(1);
-  const all=[...t,...y].filter(isUp);
+  const all=dedupe([...t,...y]).filter(isUp);
   const analyzed=all.map(m=>({m,a:analyze(m)}));
   const sup=analyzed.filter(x=>x.a.score>=85).sort((a,b)=>b.a.score-a.a.score).map(x=>x.m);
   if(!sup.length) return `<div class="empty">🔥 Süper Banko maç yok<br><small>Güven skoru 85+ gerekli</small></div>`;
@@ -579,7 +584,7 @@ async function renderSuper(){
 
 async function renderBanko(){
   const t=await fetchDay(0), y=await fetchDay(1);
-  const all=[...t,...y].filter(isUp);
+  const all=dedupe([...t,...y]).filter(isUp);
   const analyzed2=all.map(m=>({m,a:analyze(m)}));
   const bnk=analyzed2.filter(x=>x.a.score>=75&&x.a.score<85).sort((a,b)=>b.a.score-a.a.score).map(x=>x.m);
   if(!bnk.length) return `<div class="empty">⭐ Banko maç yok<br><small>Güven skoru 75-84 gerekli</small></div>`;
@@ -588,7 +593,7 @@ async function renderBanko(){
 
 async function renderSistem(){
   const t=await fetchDay(0), y=await fetchDay(1);
-  const all=[...t,...y].filter(isUp);
+  const all=dedupe([...t,...y]).filter(isUp);
   const filtered=all.filter(m=>analyze(m).systems.some(s=>s.key===subTab)).sort((a,b)=>analyze(b).score-analyze(a).score);
 
   const labels={iy:'🌅 İY 0.5 Üst',ov25:'⚽ Üst 2.5',xg:'📊 xG Ev Avantajı',ht:'⏱ 0-0 HT',card:'🟥 Kart',daily:'💰 5% Daily',corner:'📐 Korner'};
