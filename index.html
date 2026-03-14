@@ -248,8 +248,9 @@ function analyze(m) {
   // Temel istatistikler
   const hPPG    = parseFloat(m.home_ppg)||0;
   const aPPG    = parseFloat(m.away_ppg)||0;
-  const hXG     = parseFloat(m.team_a_xg)||parseFloat(m.team_a_xg_prematch)||0;
-  const aXG     = parseFloat(m.team_b_xg)||parseFloat(m.team_b_xg_prematch)||0;
+  // xG: önce prematch kullan (maç başlamadıysa live xG=0 olur)
+  const hXG     = parseFloat(m.team_a_xg_prematch)||parseFloat(m.team_a_xg)||0;
+  const aXG     = parseFloat(m.team_b_xg_prematch)||parseFloat(m.team_b_xg)||0;
   const btts    = parseFloat(m.btts_potential)||0;
   const ov25    = parseFloat(m.o25_potential)||parseFloat(m.over25_potential)||0;
   const ov05    = parseFloat(m.o05_potential)||parseFloat(m.over05_potential)||95;
@@ -286,9 +287,12 @@ function analyze(m) {
     if      (xgDiff >= 0.6) score += 20;
     else if (xgDiff >= 0.3) score += 13;
     else if (xgDiff >= 0.1) score += 6;
+    else                    score += 3;
   } else {
     // xG yok, PPG'ye göre ekstra
-    if (ppgDiff >= 0.5) score += 8;
+    if      (ppgDiff >= 0.8) score += 12;
+    else if (ppgDiff >= 0.5) score += 8;
+    else if (ppgDiff >= 0.3) score += 4;
   }
 
   // ── 3. FORM (max 15p) ───────────────────────
@@ -303,6 +307,7 @@ function analyze(m) {
   if      (ov25 >= 70) score += 15;
   else if (ov25 >= 55) score += 10;
   else if (ov25 >= 40) score += 5;
+  else if (ov25 >= 25) score += 2;
 
   // ── 5. BTTS (max 10p) ───────────────────────
   if      (btts >= 65) score += 10;
@@ -314,14 +319,15 @@ function analyze(m) {
   else if (o05HT >= 55) score += 6;
   else if (o05HT >= 40) score += 2;
 
-  // ── CEZALAR ────────────────────────────────
-  // Berabere riski
-  if      (hPPG < 1.0 && aPPG < 1.0) score -= 30;
-  else if (hPPG < 1.2 && aPPG < 1.2) score -= 15;
-  // Az maç
-  if (!enoughGames) score = Math.min(score, 55);
-  // Çok düşük gol beklentisi
-  if (avgG < 1.5) score -= 10;
+  // ── CEZALAR (sadece gerçekten zayıf maçlar) ──
+  // Her iki takım da çok zayıf (PPG < 0.8)
+  if (hPPG < 0.8 && aPPG < 0.8) score -= 20;
+  // PPG verisi hiç yok
+  if (hPPG === 0 && aPPG === 0) score -= 15;
+  // Az maç oynanmış
+  if (!enoughGames) score = Math.min(score, 60);
+  // Çok düşük gol beklentisi (avg_potential 1.0'ın altı)
+  if (avgG > 0 && avgG < 1.0) score -= 8;
 
   score = Math.max(0, Math.min(100, score));
 
@@ -395,265 +401,4 @@ function analyze(m) {
   else if (score >= 75) { badge='⭐ BANKO';        bCls='b-banko'; mCls='banko'; }
   else                  { badge='❌ RİSKLİ';       bCls='b-risk'; }
 
-  return {score, badge, bCls, mCls, suggest, suggestOdd, systems, odd1, oddX, odd2, oddOv25, oddIY};
-}
-
-// ══════════════════════════════════════════════
-//  KART RENDER
-// ══════════════════════════════════════════════
-function fmtTime(ts){
-  if(!ts) return '--:--';
-  return new Date(ts*1000).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
-}
-
-function logo(url, name) {
-  if (url && url.startsWith('http'))
-    return `<img class="tlogo" src="${url}" alt="${name}" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=tlogo-ph>⚽</div>')">`;
-  return `<div class="tlogo-ph">⚽</div>`;
-}
-
-function card(m) {
-  MM[m.id] = m;
-  const hN  = m.home_name||'?';
-  const aN  = m.away_name||'?';
-  const lg  = m.competition_name||'⚽';
-  const lv  = isLive(m), dn = isDone(m);
-  const hG  = m.homeGoalCount??'-';
-  const aG  = m.awayGoalCount??'-';
-  const a   = analyze(m);
-
-  // Stats
-  const hPPG = m.home_ppg  ? parseFloat(m.home_ppg).toFixed(2)  : '-';
-  const aPPG = m.away_ppg  ? parseFloat(m.away_ppg).toFixed(2)  : '-';
-  const btts = m.btts_potential    ? Math.round(m.btts_potential)+'%'    : '-';
-  const ov25 = m.over25_potential  ? Math.round(m.over25_potential)+'%'  : '-';
-  const o05HT= m.o05HT_potential   ? Math.round(m.o05HT_potential)+'%'   : '-';
-  const crn  = m.corners_potential ? parseFloat(m.corners_potential).toFixed(1) : '-';
-
-  const ov25v= parseFloat(m.over25_potential)||0;
-  const o05v = parseFloat(m.o05HT_potential)||0;
-  const bttsv= parseFloat(m.btts_potential)||0;
-
-  const timeEl = lv
-    ? `<div><span class="live-dot"></span><span class="live-lbl">CANLI</span></div>`
-    : dn ? `<div class="mc-time">BİTTİ</div>`
-    : `<div class="mc-time">${fmtTime(m.date_unix)}</div>`;
-
-  const score = lv||dn ? `${hG}–${aG}` : '–';
-  const k = kupon[m.id];
-
-  const confColor = a.score>=85?'var(--orange)':a.score>=75?'var(--accent)':'var(--muted)';
-  const fillCls   = a.score>=85?'fill-s':a.score>=75?'fill-b':'fill-r';
-
-  const tags = a.systems.map(s=>`<div class="st st-${s.key}">${s.label}</div>`).join('');
-
-  return `<div class="mc${a.mCls?' '+a.mCls:''}">
-  <div class="mc-top"><div class="lg-badge">${lg}</div>${timeEl}</div>
-  <div class="mc-teams">
-    <div class="team-col h">${logo(m.home_image,hN)}<div class="tname h">${hN}</div></div>
-    <div class="score-box${lv?' live':''}">${score}</div>
-    <div class="team-col a"><div class="tname a">${aN}</div>${logo(m.away_image,aN)}</div>
-  </div>
-  <div class="mc-odds">
-    <div class="odd-btn${k?.pick==='1'?' s1':''}" onclick="bet(${m.id},'1')">
-      <div class="odd-lbl">1</div>
-      <div class="odd-val">${a.odd1>0?a.odd1.toFixed(2):'-'}</div>
-    </div>
-    <div class="odd-btn${k?.pick==='X'?' sx':''}" onclick="bet(${m.id},'X')">
-      <div class="odd-lbl">X</div>
-      <div class="odd-val">${a.oddX>0?a.oddX.toFixed(2):'-'}</div>
-    </div>
-    <div class="odd-btn${k?.pick==='2'?' s2':''}" onclick="bet(${m.id},'2')">
-      <div class="odd-lbl">2</div>
-      <div class="odd-val">${a.odd2>0?a.odd2.toFixed(2):'-'}</div>
-    </div>
-  </div>
-  <div class="mc-form">
-    <div class="fp">${formPills(m.home_form)}</div>
-    <div class="fp">${formPills(m.away_form)}</div>
-  </div>
-  <div class="mc-stats">
-    <div class="si"><div class="sl">Ev PPG</div><div class="sv">${hPPG}</div></div>
-    <div class="si"><div class="sl">Dep PPG</div><div class="sv">${aPPG}</div></div>
-    <div class="si"><div class="sl">BTTS</div><div class="sv ${bttsv>=60?'hi':bttsv>=45?'med':''}">${btts}</div></div>
-    <div class="si"><div class="sl">Üst 2.5</div><div class="sv ${ov25v>=60?'hi':ov25v>=45?'med':''}">${ov25}</div></div>
-    <div class="si"><div class="sl">İY Gol</div><div class="sv ${o05v>=65?'hi':o05v>=50?'med':''}">${o05HT}</div></div>
-  </div>
-  <div class="mc-conf">
-    <div>
-      <div class="sl">GÜVEN</div>
-      <div class="conf-num" style="color:${confColor}">${a.score}</div>
-    </div>
-    <div class="conf-right">
-      <div class="conf-bar"><div class="conf-fill ${fillCls}" style="width:${a.score}%"></div></div>
-      <div class="conf-suggest">${a.suggest}${a.suggestOdd?' · <span style="color:var(--accent)">'+a.suggestOdd+'</span>':''}</div>
-    </div>
-  </div>
-  ${tags?`<div class="mc-tags">${tags}</div>`:''}
-  <div class="mc-bot"><div class="badge ${a.bCls}">${a.badge}</div></div>
-</div>`;
-}
-
-// ══════════════════════════════════════════════
-//  RENDER
-// ══════════════════════════════════════════════
-async function renderLive(){
-  const all=await fetchDay(0);
-  const live=all.filter(isLive);
-  if(!live.length) return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
-  return `<div class="sh">CANLI (${live.length})</div>`+live.map(card).join('');
-}
-
-async function renderDay(offset){
-  const all=await fetchDay(offset);
-  if(!all.length) return `<div class="empty">📭 Maç bulunamadı</div>`;
-  const live=all.filter(isLive), done=all.filter(isDone), upco=all.filter(isUp);
-  let h='';
-  if(live.length) h+=`<div class="sh">🔴 CANLI (${live.length})</div>`+live.map(card).join('');
-  if(upco.length) h+=`<div class="sh">📅 YAKLAŞAN (${upco.length})</div>`+upco.map(card).join('');
-  if(done.length) h+=`<div class="sh">✅ BİTENLER (${done.length})</div>`+done.map(card).join('');
-  return h;
-}
-
-async function renderSuper(){
-  const t=await fetchDay(0), y=await fetchDay(1);
-  const all=[...t,...y].filter(isUp);
-  const analyzed=all.map(m=>({m,a:analyze(m)}));
-  const sup=analyzed.filter(x=>x.a.score>=85).sort((a,b)=>b.a.score-a.a.score).map(x=>x.m);
-  if(!sup.length) return `<div class="empty">🔥 Süper Banko maç yok<br><small>Güven skoru 85+ gerekli</small></div>`;
-  return `<div class="sh">🔥 SÜPER BANKOLAR (${sup.length})</div>`+sup.map(card).join('');
-}
-
-async function renderBanko(){
-  const t=await fetchDay(0), y=await fetchDay(1);
-  const all=[...t,...y].filter(isUp);
-  const analyzed2=all.map(m=>({m,a:analyze(m)}));
-  const bnk=analyzed2.filter(x=>x.a.score>=75&&x.a.score<85).sort((a,b)=>b.a.score-a.a.score).map(x=>x.m);
-  if(!bnk.length) return `<div class="empty">⭐ Banko maç yok<br><small>Güven skoru 75-84 gerekli</small></div>`;
-  return `<div class="sh">⭐ BANKOLAR (${bnk.length})</div>`+bnk.map(card).join('');
-}
-
-async function renderSistem(){
-  const t=await fetchDay(0), y=await fetchDay(1);
-  const all=[...t,...y].filter(isUp);
-  const filtered=all.filter(m=>analyze(m).systems.some(s=>s.key===subTab)).sort((a,b)=>analyze(b).score-analyze(a).score);
-
-  const labels={iy:'🌅 İY 0.5 Üst',ov25:'⚽ Üst 2.5',xg:'📊 xG Ev Avantajı',ht:'⏱ 0-0 HT',card:'🟥 Kart',daily:'💰 5% Daily',corner:'📐 Korner'};
-
-  if(!filtered.length) return `<div class="empty">📭 ${labels[subTab]}<br>Şu an uygun maç yok</div>`;
-
-  const now=new Date();
-  const tom=new Date(); tom.setDate(tom.getDate()+1);
-  const todayM=filtered.filter(m=>{if(!m.date_unix)return true;const d=new Date(m.date_unix*1000);return d.toDateString()===now.toDateString();});
-  const tomM  =filtered.filter(m=>{if(!m.date_unix)return false;const d=new Date(m.date_unix*1000);return d.toDateString()===tom.toDateString();});
-  const otherM=filtered.filter(m=>!todayM.includes(m)&&!tomM.includes(m));
-
-  let h='';
-  if(todayM.length) h+=`<div class="sh">📅 BUGÜN (${todayM.length})</div>`+todayM.map(card).join('');
-  if(tomM.length)   h+=`<div class="sh">📆 YARIN (${tomM.length})</div>`+tomM.map(card).join('');
-  if(otherM.length) h+=`<div class="sh">📋 DİĞER (${otherM.length})</div>`+otherM.map(card).join('');
-  return h||`<div class="empty">📭 Uygun maç yok</div>`;
-}
-
-function renderKupon(){
-  if(!saved.length) return `<div class="empty">📭 Kayıtlı kupon yok</div>`;
-  return saved.slice().reverse().map((k,ri)=>{
-    const idx=saved.length-1-ri;
-    return `<div class="kcard">
-  <div class="khead"><div class="kdate">${k.date}</div><div style="color:var(--accent);font-weight:700">${k.items.length} MAÇ</div></div>
-  ${k.items.map(it=>`<div class="krow2"><div style="font-size:12px;flex:1">${it.home} – ${it.away}</div><div class="mpick p${it.pick.toLowerCase()}">${it.pick}</div></div>`).join('')}
-  <button class="kdel" onclick="delK(${idx})">🗑 Sil</button>
-</div>`;
-  }).join('');
-}
-
-// ══════════════════════════════════════════════
-//  NAVİGASYON
-// ══════════════════════════════════════════════
-async function go(t){
-  tab=t;
-  document.querySelectorAll('.tab').forEach((el,i)=>{
-    el.classList.toggle('on',['live','today','tomorrow','super','banko','sistem','kupon'][i]===t);
-  });
-  const hasSub=t==='sistem';
-  document.getElementById('subtabs').classList.toggle('show',hasSub);
-  document.getElementById('content').classList.toggle('withsub',hasSub);
-  await render();
-}
-
-async function setSub(s){
-  subTab=s;
-  document.querySelectorAll('.stab').forEach((el,i)=>{
-    el.classList.toggle('on',['iy','ov25','xg','ht','card','daily','corner'][i]===s);
-  });
-  await render();
-}
-
-async function render(){
-  const el=document.getElementById('content');
-  el.innerHTML=`<div class="loading"><div class="spin"></div><div class="ltxt">Yükleniyor…</div></div>`;
-  try{
-    let h='';
-    if     (tab==='live')     h=await renderLive();
-    else if(tab==='today')    h=await renderDay(0);
-    else if(tab==='tomorrow') h=await renderDay(1);
-    else if(tab==='super')    h=await renderSuper();
-    else if(tab==='banko')    h=await renderBanko();
-    else if(tab==='sistem')   h=await renderSistem();
-    else if(tab==='kupon')    h=renderKupon();
-    el.innerHTML=h;
-  }catch(e){
-    el.innerHTML=`<div class="err">❌ Hata: ${e.message}</div>`;
-  }
-}
-
-// ══════════════════════════════════════════════
-//  KUPON
-// ══════════════════════════════════════════════
-function bet(id,pick){
-  const m=MM[id]; if(!m) return;
-  if(kupon[id]?.pick===pick) delete kupon[id];
-  else kupon[id]={home:m.home_name||'?',away:m.away_name||'?',pick,league:m.competition_name||''};
-  updFab(); render();
-}
-function updFab(){ document.getElementById('fc').textContent=Object.keys(kupon).length; }
-function openK(){
-  const items=Object.values(kupon);
-  if(!items.length){alert('Kupon boş!');return}
-  document.getElementById('mcontent').innerHTML=items.map(it=>
-    `<div class="mrow"><div style="font-size:12px;flex:1">${it.home} – ${it.away}</div><div class="mpick p${it.pick.toLowerCase()}">${it.pick}</div></div>`
-  ).join('');
-  document.getElementById('kmod').classList.add('on');
-}
-function closeK(){ document.getElementById('kmod').classList.remove('on'); }
-function outsideK(e){ if(e.target.id==='kmod') closeK(); }
-function saveK(){
-  const items=Object.values(kupon);
-  if(!items.length) return;
-  saved.push({date:new Date().toLocaleString('tr-TR'),items});
-  localStorage.setItem('sc_kup',JSON.stringify(saved));
-  kupon={}; updFab(); closeK(); alert('✅ Kupon kaydedildi!');
-}
-function clearK(){ kupon={}; updFab(); closeK(); render(); }
-function delK(i){ saved.splice(i,1); localStorage.setItem('sc_kup',JSON.stringify(saved)); render(); }
-
-// ══════════════════════════════════════════════
-//  ZAMANLAYICI
-// ══════════════════════════════════════════════
-async function doRefresh(){
-  cache={today:null,tomorrow:null};
-  cdVal=30; document.getElementById('cd').textContent=30;
-  await render();
-}
-function startCD(){
-  clearInterval(cdTmr);
-  cdTmr=setInterval(()=>{
-    cdVal--; document.getElementById('cd').textContent=cdVal;
-    if(cdVal<=0){ cdVal=30; doRefresh(); }
-  },1000);
-}
-
-render(); startCD();
-</script>
-</body>
-</html>
+  return {score, badge, bCls, mCls, suggest, suggestOdd
