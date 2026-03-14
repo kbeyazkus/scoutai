@@ -1353,8 +1353,12 @@ function delK(i) {
 //  ZAMANLAYICI
 // ══════════════════════════════════════════════
 async function doRefresh(auto=false) {
-  cache = {today: null, tomorrow: null, live: null};
+  // live cache her zaman temizle (skor güncelleme için)
+  // today/tomorrow cache'i koru (FootyStats verisi sık değişmez)
+  cache.live = null;
   if (!auto) {
+    cache.today = null;
+    cache.tomorrow = null;
     cdVal = 10;
     document.getElementById('cd').textContent = 10;
   }
