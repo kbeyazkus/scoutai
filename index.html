@@ -278,39 +278,78 @@ async function fetchDay(offset) {
 // API-Football live.json → normalize edilmiş maç objesi + FootyStats istatistikleri
 async function fetchLive() {
   if (cache.live) return cache.live;
-  const r = await fetch('data/live.json?t=' + Date.now());
-  if (!r.ok) throw new Error('Canlı veri yüklenemedi');
-  const j = await r.json();
-  const list = Array.isArray(j.response) ? j.response : [];
 
-  // FootyStats today.json'u da çek — istatistik eşleştirmesi için
+  // Önce FootyStats today.json'u yükle — eşleştirme için şart
   let fsMatches = [];
   try {
     fsMatches = await fetchDay(0);
   } catch(e) {}
 
-  // Takım adına göre eşleştir (normalize edilmiş isim karşılaştırması)
-  const normName = s => String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-  const findFs = (homeName, awayName) => {
-    const hn = normName(homeName);
-    const an = normName(awayName);
-    return fsMatches.find(m => {
-      const fh = normName(m.home_name);
-      const fa = normName(m.away_name);
-      // tam eşleşme veya birinin diğerini içermesi
-      return (fh === hn || fh.includes(hn) || hn.includes(fh)) &&
-             (fa === an || fa.includes(an) || an.includes(fa));
-    }) || null;
+  // Sonra live.json çek
+  let list = [];
+  try {
+    const r = await fetch('data/live.json?t=' + Date.now());
+    if (r.ok) {
+      const j = await r.json();
+      list = Array.isArray(j.response) ? j.response : [];
+    }
+  } catch(e) {}
+
+  const result = buildLiveList(list, fsMatches);
+
+  // Sadece FootyStats verisi geldiyse cache'e kaydet
+  if (fsMatches.length > 0) {
+    cache.live = result;
+  }
+
+  return result;
+}
+
+function buildLiveList(list, fsMatches) {
+  // Takım adına göre eşleştir
+  const normName = s => String(s||'').toLowerCase()
+    .replace(/\b(afc|fc|sc|ac|rc|cd|ud|cf|sd|as|ss|sv|bk|if|fk|nk|sk|gk|hk|ik|rk|vv|sb|sl|af|bf|kvc|kv|united|city|club|sporting|real|atletico|athletic|deportivo)\b/g,' ')
+    .replace(/[^a-z0-9]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+
+  const matchScore = (a, b) => {
+    if (!a || !b) return 0;
+    const na = normName(a);
+    const nb = normName(b);
+    if (na === nb) return 1.0;
+    if (na.includes(nb) || nb.includes(na)) return 0.95;
+    const wa = na.split(' ').filter(w => w.length >= 3);
+    const wb = nb.split(' ').filter(w => w.length >= 3);
+    if (!wa.length || !wb.length) return 0;
+    let matched = 0;
+    for (const w of wa) {
+      if (wb.some(x => x.includes(w) || w.includes(x))) matched++;
+    }
+    return matched / Math.max(wa.length, wb.length);
   };
 
-  cache.live = list.map(x => {
+  const findFs = (homeName, awayName) => {
+    let best = null, bestScore = 0;
+    for (const m of fsMatches) {
+      const hScore = matchScore(homeName, m.home_name);
+      const aScore = matchScore(awayName, m.away_name);
+      const total = hScore + aScore;
+      if (total > bestScore && hScore >= 0.6 && aScore >= 0.6) {
+        bestScore = total;
+        best = m;
+      }
+    }
+    return best;
+  };
+
+  return list.map(x => {
     const fix  = x.fixture || {};
     const lg   = x.league  || {};
     const t    = x.teams   || {};
     const g    = x.goals   || {};
     const st   = fix.status || {};
 
-    // Canlı istatistikler (API-Football)
     const stats  = Array.isArray(x.statistics) ? x.statistics : [];
     const homeSt = stats.find(s => s.team?.id === t.home?.id)?.statistics || [];
     const awaySt = stats.find(s => s.team?.id === t.away?.id)?.statistics || [];
@@ -319,7 +358,6 @@ async function fetchLive() {
       return s ? (s.value ?? null) : null;
     };
 
-    // FootyStats eşleştirmesi
     const fs = findFs(t.home?.name, t.away?.name);
 
     return {
@@ -336,8 +374,6 @@ async function fetchLive() {
       awayGoalCount:    g.away ?? 0,
       elapsed:          st.elapsed || 0,
       status_short:     st.short || 'LIVE',
-
-      // Canlı istatistikler (API-Football)
       home_possession:  getStat(homeSt, 'Ball Possession'),
       away_possession:  getStat(awaySt, 'Ball Possession'),
       home_shots:       getStat(homeSt, 'Total Shots'),
@@ -350,8 +386,6 @@ async function fetchLive() {
       away_yellow:      getStat(awaySt, 'Yellow Cards'),
       home_red:         getStat(homeSt, 'Red Cards'),
       away_red:         getStat(awaySt, 'Red Cards'),
-
-      // FootyStats istatistikleri (eşleşme varsa)
       home_ppg:          fs?.home_ppg          || 0,
       away_ppg:          fs?.away_ppg          || 0,
       home_form:         fs?.home_form         || '',
@@ -376,7 +410,6 @@ async function fetchLive() {
       _fsMatched: !!fs,
     };
   });
-  return cache.live;
 }
 
 // ══════════════════════════════════════════════
@@ -1025,11 +1058,15 @@ function openAnaliz(id) {
 
   // ── 1. Güç Karşılaştırması (Ev vs Dep) ──
   html += `<div class="asec"><div class="asec-title">⚔️ GÜÇ KARŞILAŞTIRMASI</div>`;
-  html += `<div style="display:grid;grid-template-columns:1fr auto 1fr;font-size:10px;color:var(--muted);text-align:center;padding:0 8px 4px">
-    <span>EV</span><span></span><span>DEPLASMAN</span>
-  </div>`;
-  html += cmpRow('Maç Başı Puan', hppg, appg);
-  html += cmpRow('xG (Beklenen Gol)', hxg, axg);
+  if (hppg > 0 || appg > 0 || hxg > 0 || axg > 0) {
+    html += `<div style="display:grid;grid-template-columns:1fr auto 1fr;font-size:10px;color:var(--muted);text-align:center;padding:0 8px 4px">
+      <span>EV</span><span></span><span>DEPLASMAN</span>
+    </div>`;
+    html += cmpRow('Maç Başı Puan', hppg, appg);
+    html += cmpRow('xG (Beklenen Gol)', hxg, axg);
+  } else {
+    html += `<div style="color:var(--muted);font-size:12px;padding:6px 0">⚠️ Bu maç istatistik veri tabanımızda yok. Sadece canlı veriler gösteriliyor.</div>`;
+  }
   html += `</div>`;
 
   // ── 2. Maç İstatistikleri ──
@@ -1144,6 +1181,18 @@ function buildAnaliz(m, id) {
   const xgDiff  = hxg - axg;
 
   const lines = [];
+
+  // Hiç veri yoksa (canlı maç, istatistik tabanımızda yok)
+  const hasData = hppg > 0 || appg > 0 || hxg > 0 || axg > 0 || btts > 0 || ov25 > 0;
+  if (!hasData) {
+    const box = document.getElementById(`ai-${id}`);
+    if (box) {
+      box.innerHTML = `
+        <div class="ai-txt">⚠️ Bu maç için ön maç istatistikleri veri tabanımızda bulunmuyor.\n\nBu durum genellikle maçın takip ettiğimiz 50 lig dışında olmasından kaynaklanıyor.\n\nCanlı skor ve dakika bilgisi gösterilmeye devam ediyor.</div>
+      `;
+    }
+    return;
+  }
 
   // 1. Takım gücü
   if (ppgDiff >= 1.2) {
