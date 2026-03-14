@@ -111,6 +111,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 .st-daily{background:rgba(100,200,255,.12);color:#64c8ff}
 .st-corner{background:rgba(200,150,255,.12);color:#c896ff}
 
+/* ── CANLI İSTATİSTİKLER ── */
+.lv-mc{border-color:rgba(255,77,109,.4)}
+.lv-stats{padding:6px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.lv-stat{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:4px;font-size:11px}
+.lv-sh{font-family:'DM Mono',monospace;font-weight:700;color:var(--text)}
+.lv-sa{font-family:'DM Mono',monospace;font-weight:700;color:var(--text);text-align:right}
+.lv-sl{font-size:10px;color:var(--muted);text-align:center}
+
 /* ── ALT BAR (KART) ── */
 .mc-bot{border-top:1px solid var(--border);padding:6px 12px;display:flex;align-items:center;justify-content:flex-end}
 .anl-btn{background:linear-gradient(135deg,var(--purple),#5a3cc4);border:none;border-radius:7px;padding:5px 14px;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:.5px}
@@ -244,7 +252,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 // ══════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════
-let cache   = {today:null, tomorrow:null};
+let cache   = {today:null, tomorrow:null, live:null};
 let kupon   = {};
 let saved   = JSON.parse(localStorage.getItem('sc_kup')||'[]');
 let tab     = 'live';
@@ -265,6 +273,64 @@ async function fetchDay(offset) {
   const j = await r.json();
   cache[key] = Array.isArray(j.data) ? j.data : [];
   return cache[key];
+}
+
+// API-Football live.json → normalize edilmiş maç objesi
+async function fetchLive() {
+  if (cache.live) return cache.live;
+  const r = await fetch('data/live.json?t=' + Date.now());
+  if (!r.ok) throw new Error('Canlı veri yüklenemedi');
+  const j = await r.json();
+  const list = Array.isArray(j.response) ? j.response : [];
+  cache.live = list.map(x => {
+    const fix  = x.fixture || {};
+    const lg   = x.league  || {};
+    const t    = x.teams   || {};
+    const g    = x.goals   || {};
+    const st   = fix.status || {};
+    // İstatistikler varsa çek
+    const stats = Array.isArray(x.statistics) ? x.statistics : [];
+    const homeSt = stats.find(s => s.team?.id === t.home?.id)?.statistics || [];
+    const awaySt = stats.find(s => s.team?.id === t.away?.id)?.statistics || [];
+    const getStat = (arr, type) => {
+      const s = arr.find(s => s.type === type);
+      return s ? (s.value ?? null) : null;
+    };
+    return {
+      id:               'af_' + fix.id,
+      _afId:            fix.id,
+      status:           'inprogress',
+      home_name:        t.home?.name || '?',
+      away_name:        t.away?.name || '?',
+      home_image:       t.home?.logo || '',
+      away_image:       t.away?.logo || '',
+      competition_name: lg.name || '',
+      date_unix:        fix.timestamp || 0,
+      homeGoalCount:    g.home ?? 0,
+      awayGoalCount:    g.away ?? 0,
+      elapsed:          st.elapsed || 0,
+      status_short:     st.short || 'LIVE',
+      // İstatistikler
+      home_possession:  getStat(homeSt, 'Ball Possession'),
+      away_possession:  getStat(awaySt, 'Ball Possession'),
+      home_shots:       getStat(homeSt, 'Total Shots'),
+      away_shots:       getStat(awaySt, 'Total Shots'),
+      home_shots_on:    getStat(homeSt, 'Shots on Goal'),
+      away_shots_on:    getStat(awaySt, 'Shots on Goal'),
+      home_corners:     getStat(homeSt, 'Corner Kicks'),
+      away_corners:     getStat(awaySt, 'Corner Kicks'),
+      home_yellow:      getStat(homeSt, 'Yellow Cards'),
+      away_yellow:      getStat(awaySt, 'Yellow Cards'),
+      home_red:         getStat(homeSt, 'Red Cards'),
+      away_red:         getStat(awaySt, 'Red Cards'),
+      // FootyStats alanları boş bırak (analyze için)
+      home_ppg: 0, away_ppg: 0,
+      btts_potential: 0, o25_potential: 0, o05HT_potential: 0,
+      avg_potential: 0, cards_potential: 0, corners_potential: 0,
+      o05_potential: 0, odds_ft_1: 0, odds_ft_x: 0, odds_ft_2: 0,
+    };
+  });
+  return cache.live;
 }
 
 // ══════════════════════════════════════════════
@@ -539,8 +605,74 @@ function card(m) {
 }
 
 // ══════════════════════════════════════════════
-//  RENDER FONKSİYONLARI
+//  CANLI MAÇ KARTI (API-Football)
 // ══════════════════════════════════════════════
+function liveCard(m) {
+  MM[m.id] = m;
+  const hN = m.home_name || '?';
+  const aN = m.away_name || '?';
+  const lg = m.competition_name || '⚽';
+  const hG = m.homeGoalCount ?? 0;
+  const aG = m.awayGoalCount ?? 0;
+  const min = m.elapsed ? `${m.elapsed}'` : m.status_short || 'CANLI';
+
+  const k  = kupon[m.id];
+  const s1 = k?.pick === '1' ? ' s1' : '';
+  const sx = k?.pick === 'X' ? ' sx' : '';
+  const s2 = k?.pick === '2' ? ' s2' : '';
+
+  // İstatistik satırı
+  const statItem = (label, hv, av) => {
+    if (hv === null && av === null) return '';
+    const h = hv ?? '-', a = av ?? '-';
+    return `<div class="lv-stat">
+      <span class="lv-sh">${h}</span>
+      <span class="lv-sl">${label}</span>
+      <span class="lv-sa">${a}</span>
+    </div>`;
+  };
+
+  const statsHtml = [
+    statItem('Top', m.home_possession, m.away_possession),
+    statItem('Şut', m.home_shots, m.away_shots),
+    statItem('İsabetli', m.home_shots_on, m.away_shots_on),
+    statItem('Korner', m.home_corners, m.away_corners),
+    statItem('Sarı', m.home_yellow, m.away_yellow),
+    statItem('Kırmızı', m.home_red, m.away_red),
+  ].filter(Boolean).join('');
+
+  return `<div class="mc lv-mc">
+  <div class="mc-top">
+    <div class="lg-badge">${lg}</div>
+    <div style="display:flex;align-items:center;gap:5px">
+      <span class="live-dot"></span>
+      <span class="live-lbl">${min}</span>
+    </div>
+  </div>
+  <div class="mc-teams">
+    <div class="team-col h">${logoImg(m.home_image,hN)}<div class="tname h">${hN}</div></div>
+    <div class="score-box live" style="font-size:24px;font-weight:700">${hG}–${aG}</div>
+    <div class="team-col a"><div class="tname a">${aN}</div>${logoImg(m.away_image,aN)}</div>
+  </div>
+  ${statsHtml ? `<div class="lv-stats">${statsHtml}</div>` : ''}
+  <div class="mc-odds">
+    <div class="odd-btn${s1}" onclick="bet('${m.id}','1')">
+      <div class="odd-lbl">1</div><div class="odd-val">–</div>
+    </div>
+    <div class="odd-btn${sx}" onclick="bet('${m.id}','X')">
+      <div class="odd-lbl">X</div><div class="odd-val">–</div>
+    </div>
+    <div class="odd-btn${s2}" onclick="bet('${m.id}','2')">
+      <div class="odd-lbl">2</div><div class="odd-val">–</div>
+    </div>
+  </div>
+  <div class="mc-bot">
+    <button class="anl-btn" onclick="openAnaliz('${m.id}')">🔍 Analiz</button>
+  </div>
+</div>`;
+}
+
+
 function dedupe(arr) {
   const seen = new Set();
   return arr.filter(m => {
@@ -551,10 +683,29 @@ function dedupe(arr) {
 }
 
 async function renderLive() {
-  const all  = await fetchDay(0);
-  const live = all.filter(isLive);
-  if (!live.length) return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
-  return `<div class="sh">CANLI (${live.length})</div>` + live.map(card).join('');
+  let liveMatches = [];
+
+  // Önce API-Football live.json'dan dene
+  try {
+    liveMatches = await fetchLive();
+  } catch(e) {
+    // Hata olursa FootyStats'tan dön
+    liveMatches = [];
+  }
+
+  // API-Football boşsa FootyStats'tan canlıları al
+  if (!liveMatches.length) {
+    try {
+      const all = await fetchDay(0);
+      liveMatches = all.filter(isLive);
+    } catch(e) {}
+  }
+
+  if (!liveMatches.length)
+    return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
+
+  return `<div class="sh">🔴 CANLI (${liveMatches.length})</div>` +
+    liveMatches.map(m => liveCard(m)).join('');
 }
 
 async function renderDay(offset) {
@@ -1064,7 +1215,7 @@ function delK(i) {
 //  ZAMANLAYICI
 // ══════════════════════════════════════════════
 async function doRefresh(auto=false) {
-  cache = {today: null, tomorrow: null};
+  cache = {today: null, tomorrow: null, live: null};
   if (!auto) {
     cdVal = 30;
     document.getElementById('cd').textContent = 30;
