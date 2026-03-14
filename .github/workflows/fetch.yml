@@ -9,55 +9,85 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Fetch FootyStats (bugün/yarın)
+      - name: Fetch FootyStats main
         run: |
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today.json
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats" > data/tomorrow.json
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats" > data/tomorrow_main.json
 
-      - name: Fetch Liga NOS (Portugal)
+      - name: Fetch all selected leagues
         run: |
-          curl -s "https://api.football-data-api.com/league-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&season_id=15115&include=stats" > data/extra_por.json
+          KEY="efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
+          # Tüm seçili liglerin 2025/2026 season ID'leri
+          SEASONS="
+            16504 15000 14968 14924 15050 15115 14972 14930 14936 16572
+            14932 15068 14954 15632 14937 14931 14923 16544 16783 16576
+            16571 16789 15047 14893 15065 14956 15066 16558 15199 14973
+            15055 16627 16714 15741 15002 15015 16615 16614 15587 16213
+            15163 15544 15031 15717 16242 14904 16333 16243
+          "
+          for SID in $SEASONS; do
+            curl -s "https://api.football-data-api.com/league-matches?key=$KEY&season_id=$SID&include=stats" > data/extra_$SID.json
+            sleep 0.2
+          done
 
-      - name: Merge extra leagues into today.json
+      - name: Merge all leagues
         run: |
           python3 << 'PYEOF'
-          import json
+          import json, os, glob
           from datetime import datetime, timezone
 
           today = datetime.now(timezone.utc).date()
+          tom = None
 
-          with open('data/today.json') as f:
+          with open('data/today_main.json') as f:
               main = json.load(f)
+          with open('data/tomorrow_main.json') as f:
+              tmr_main = json.load(f)
 
-          main_data = main.get('data', [])
-          existing_ids = {m['id'] for m in main_data}
+          today_data = main.get('data', [])
+          tmr_data = tmr_main.get('data', [])
+          today_ids = {m['id'] for m in today_data}
+          tmr_ids = {m['id'] for m in tmr_data}
 
-          extra_files = ['data/extra_por.json']
+          added_today = 0
+          added_tmr = 0
 
-          for fname in extra_files:
+          for fname in glob.glob('data/extra_*.json'):
               try:
                   with open(fname) as f:
                       extra = json.load(f)
                   for m in extra.get('data', []):
-                      if m['id'] in existing_ids:
-                          continue
                       ts = m.get('date_unix', 0)
-                      if ts:
-                          match_date = datetime.fromtimestamp(ts, tz=timezone.utc).date()
-                          if match_date == today:
-                              main_data.append(m)
-                              existing_ids.add(m['id'])
-                              print(f"Eklendi: {m.get('home_name','?')} vs {m.get('away_name','?')}")
+                      if not ts:
+                          continue
+                      d = datetime.fromtimestamp(ts, tz=timezone.utc).date()
+                      if d == today and m['id'] not in today_ids:
+                          today_data.append(m)
+                          today_ids.add(m['id'])
+                          added_today += 1
+                      elif d > today and m['id'] not in tmr_ids:
+                          tmr_data.append(m)
+                          tmr_ids.add(m['id'])
+                          added_tmr += 1
+                  os.remove(fname)
               except Exception as e:
                   print(f"Hata {fname}: {e}")
 
-          main['data'] = main_data
+          main['data'] = today_data
+          tmr_main['data'] = tmr_data
+
           with open('data/today.json', 'w') as f:
               json.dump(main, f)
-          print(f"Toplam maç: {len(main_data)}")
+          with open('data/tomorrow.json', 'w') as f:
+              json.dump(tmr_main, f)
+
+          os.remove('data/today_main.json')
+          os.remove('data/tomorrow_main.json')
+
+          print(f"Bugün: {len(today_data)} maç (+{added_today}), Yarın: {len(tmr_data)} maç (+{added_tmr})")
           PYEOF
 
-      - name: Fetch API-Football (canlı maçlar)
+      - name: Fetch API-Football (canlı)
         run: |
           curl -s "https://v3.football.api-sports.io/fixtures?live=all" \
             -H "x-apisports-key: 8763cc54795f6a9d3c1a982e903f530f" \
