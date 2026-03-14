@@ -358,6 +358,15 @@ function buildLiveList(list, fsMatches) {
 
     const fs = findFs(t.home?.name, t.away?.name);
 
+    // Skor: goals veya score.fulltime'dan al
+    const sc = x.score || {};
+    const hGoals = g.home !== null && g.home !== undefined ? g.home
+                 : sc.fulltime?.home !== null && sc.fulltime?.home !== undefined ? sc.fulltime.home
+                 : 0;
+    const aGoals = g.away !== null && g.away !== undefined ? g.away
+                 : sc.fulltime?.away !== null && sc.fulltime?.away !== undefined ? sc.fulltime.away
+                 : 0;
+
     return {
       id:               'af_' + fix.id,
       _afId:            fix.id,
@@ -368,8 +377,8 @@ function buildLiveList(list, fsMatches) {
       away_image:       t.away?.logo  || (fs?.away_image || ''),
       competition_name: lg.name || (fs?.competition_name || ''),
       date_unix:        fix.timestamp || 0,
-      homeGoalCount:    g.home ?? 0,
-      awayGoalCount:    g.away ?? 0,
+      homeGoalCount:    hGoals,
+      awayGoalCount:    aGoals,
       elapsed:          st.elapsed || 0,
       status_short:     st.short || 'LIVE',
       home_possession:  getStat(homeSt, 'Ball Possession'),
