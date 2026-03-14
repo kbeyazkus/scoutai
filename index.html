@@ -8,123 +8,120 @@
 <title>ScoutAI Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0a0f;--bg2:#111118;--bg3:#18181f;--card:#1c1c25;--border:#2a2a38;--accent:#00e5a0;--purple:#7c5cfc;--red:#ff4d6d;--gold:#ffd166;--text:#e8e8f0;--muted:#6060a0}
+:root{--bg:#0a0a0f;--bg2:#111118;--bg3:#18181f;--card:#1c1c25;--border:#2a2a38;--accent:#00e5a0;--purple:#7c5cfc;--red:#ff4d6d;--gold:#ffd166;--text:#e8e8f0;--muted:#6060a0;--orange:#ff6432}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow:hidden}
-
-/* HEADER */
 #hdr{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px}
 .logo{font-size:19px;font-weight:700;letter-spacing:2px;background:linear-gradient(90deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 #ref-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;padding:5px 11px;cursor:pointer;display:flex;align-items:center;gap:5px}
 #cd{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent)}
-
-/* TABS */
 #tabs{position:fixed;top:52px;left:0;right:0;z-index:99;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none}
 #tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:10px 14px;font-size:13px;font-weight:600;letter-spacing:.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.tab{flex-shrink:0;padding:10px 13px;font-size:13px;font-weight:600;letter-spacing:.4px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
 .tab.on{color:var(--accent);border-bottom-color:var(--accent)}
-
-/* SUB TABS */
-#subtabs{position:fixed;top:96px;left:0;right:0;z-index:98;background:var(--bg3);border-bottom:1px solid var(--border);display:none;overflow-x:auto;scrollbar-width:none;padding:0 8px}
+#subtabs{position:fixed;top:96px;left:0;right:0;z-index:98;background:var(--bg3);border-bottom:1px solid var(--border);display:none;overflow-x:auto;scrollbar-width:none;padding:0 6px}
 #subtabs::-webkit-scrollbar{display:none}
 #subtabs.show{display:flex}
-.stab{flex-shrink:0;padding:8px 12px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.stab{flex-shrink:0;padding:7px 11px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
 .stab.on{color:var(--gold);border-bottom-color:var(--gold)}
-
-/* CONTENT */
 #content{position:fixed;top:96px;left:0;right:0;bottom:60px;overflow-y:auto;padding:10px 12px}
 #content.withsub{top:132px}
-
-/* FAB */
 #fab{position:fixed;bottom:0;left:0;right:0;z-index:100;height:60px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px}
 #fab-info{font-size:13px;color:var(--muted)}
 #fab-info b{color:var(--accent)}
 #fab-open{background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;padding:9px 18px;color:#000;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;cursor:pointer}
-
-/* SECTION HEAD */
 .sh{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);padding:14px 2px 7px;display:flex;align-items:center;gap:8px}
 .sh::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* MATCH CARD */
-.mc{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden}
-.mc.super{border-color:rgba(255,100,50,.5)}
-.mc.banko{border-color:rgba(0,229,160,.4)}
-
+.mc{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;transition:border-color .2s}
+.mc.super{border-color:rgba(255,100,50,.6)}
+.mc.banko{border-color:rgba(0,229,160,.5)}
 .mc-top{padding:8px 12px 4px;display:flex;align-items:center;justify-content:space-between;gap:6px}
-.lg-badge{font-size:11px;color:var(--muted);flex:1}
+.lg-badge{font-size:11px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mc-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
 .live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block;margin-right:3px;animation:blink 1s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .live-lbl{font-size:11px;color:var(--red);font-weight:700}
 
-/* SCORE ROW */
-.mc-score{padding:4px 12px 6px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
-.team-block{display:flex;flex-direction:column;align-items:center;gap:4px}
-.team-block.h{align-items:flex-start}
-.team-block.a{align-items:flex-end}
-.team-logo{width:32px;height:32px;border-radius:6px;object-fit:contain;background:var(--bg3);padding:2px}
-.team-logo-placeholder{width:32px;height:32px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:16px}
-.team-name{font-size:13px;font-weight:600;line-height:1.2;text-align:center}
-.team-block.h .team-name{text-align:left}
-.team-block.a .team-name{text-align:right}
-.score-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;text-align:center;font-family:'DM Mono',monospace;font-size:20px;font-weight:500;min-width:70px}
+/* TEAMS ROW */
+.mc-teams{padding:6px 12px 4px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+.team-col{display:flex;flex-direction:column;align-items:center;gap:3px}
+.team-col.h{align-items:flex-start}
+.team-col.a{align-items:flex-end}
+.tlogo{width:34px;height:34px;border-radius:6px;object-fit:contain;background:var(--bg3);padding:2px}
+.tlogo-ph{width:34px;height:34px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tname{font-size:13px;font-weight:600;line-height:1.2;max-width:110px}
+.tname.h{text-align:left}
+.tname.a{text-align:right}
+.score-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center;font-family:'DM Mono',monospace;font-size:20px;min-width:68px}
 .score-box.live{border-color:var(--red);color:var(--red)}
 
+/* ODDS ROW */
+.mc-odds{padding:3px 12px 5px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px}
+.odd-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 0;text-align:center;cursor:pointer;transition:all .15s}
+.odd-btn.s1{background:rgba(0,229,160,.2);border-color:var(--accent)}
+.odd-btn.sx{background:rgba(255,209,102,.2);border-color:var(--gold)}
+.odd-btn.s2{background:rgba(124,92,252,.2);border-color:var(--purple)}
+.odd-lbl{font-size:10px;color:var(--muted);letter-spacing:.3px}
+.odd-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--text)}
+.odd-btn.s1 .odd-val{color:var(--accent)}
+.odd-btn.sx .odd-val{color:var(--gold)}
+.odd-btn.s2 .odd-val{color:var(--purple)}
+
 /* FORM */
-.mc-form{padding:2px 12px 6px;display:flex;justify-content:space-between}
+.mc-form{padding:2px 12px 5px;display:flex;justify-content:space-between}
 .fp{display:flex;gap:2px}
-.fc{width:18px;height:18px;border-radius:3px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.fc{width:17px;height:17px;border-radius:3px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .fc.W{background:rgba(0,229,160,.15);color:var(--accent)}
 .fc.D{background:rgba(255,209,102,.15);color:var(--gold)}
 .fc.L{background:rgba(255,77,109,.15);color:var(--red)}
 
-/* STATS */
-.mc-stats{padding:4px 12px 8px;display:grid;grid-template-columns:repeat(4,1fr);gap:3px;border-top:1px solid var(--border)}
-.si{text-align:center}
+/* STATS GRID */
+.mc-stats{padding:4px 12px 6px;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;border-top:1px solid var(--border)}
+.si{text-align:center;padding:2px 0}
 .sl{font-size:9px;color:var(--muted)}
 .sv{font-family:'DM Mono',monospace;font-size:11px;color:var(--text)}
+.sv.hi{color:var(--accent)}
+.sv.med{color:var(--gold)}
 
-/* SCORE BAR */
-.mc-score-bar{padding:6px 12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.score-num{font-size:22px;font-weight:700;font-family:'DM Mono',monospace;min-width:36px;text-align:center}
-.score-label{font-size:10px;color:var(--muted);letter-spacing:.5px}
-.score-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
-.score-bar-fill{height:100%;border-radius:3px;transition:width .3s}
-.fill-super{background:linear-gradient(90deg,#ff6432,#ff4d6d)}
-.fill-banko{background:linear-gradient(90deg,var(--accent),#00b87a)}
-.fill-risk{background:var(--border)}
+/* CONFIDENCE BAR */
+.mc-conf{padding:6px 12px 4px;display:flex;align-items:center;gap:10px;border-top:1px solid var(--border)}
+.conf-num{font-size:24px;font-weight:700;font-family:'DM Mono',monospace;min-width:40px}
+.conf-right{flex:1}
+.conf-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.conf-fill{height:100%;border-radius:3px}
+.fill-s{background:linear-gradient(90deg,var(--orange),var(--red))}
+.fill-b{background:linear-gradient(90deg,var(--accent),#00c87a)}
+.fill-r{background:var(--muted)}
+.conf-suggest{font-size:12px;font-weight:700;color:var(--gold)}
+.conf-odds{font-size:11px;color:var(--muted)}
 
-/* BOTTOM */
-.mc-bot{border-top:1px solid var(--border);padding:7px 12px;display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
-.badge{font-size:10px;font-weight:700;letter-spacing:.3px;padding:3px 7px;border-radius:5px}
-.b-super{background:rgba(255,100,50,.2);color:#ff6432;border:1px solid rgba(255,100,50,.4)}
-.b-banko{background:rgba(0,229,160,.15);color:var(--accent);border:1px solid rgba(0,229,160,.3)}
-.b-risk{background:rgba(255,77,109,.1);color:var(--red);border:1px solid rgba(255,77,109,.2)}
-.suggest{font-size:11px;color:var(--gold);font-weight:600;padding:3px 7px;background:rgba(255,209,102,.1);border-radius:5px;border:1px solid rgba(255,209,102,.2)}
-.bbet{display:flex;gap:4px}
-.bb{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 9px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s}
-.bb.s1{background:rgba(0,229,160,.2);border-color:var(--accent);color:var(--accent)}
-.bb.sx{background:rgba(255,209,102,.2);border-color:var(--gold);color:var(--gold)}
-.bb.s2{background:rgba(124,92,252,.2);border-color:var(--purple);color:var(--purple)}
-
-/* SYSTEM TAGS */
-.sys-tags{padding:4px 12px 6px;display:flex;gap:4px;flex-wrap:wrap}
-.sys-tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.3px}
+/* SYS TAGS */
+.mc-tags{padding:3px 12px 6px;display:flex;gap:3px;flex-wrap:wrap}
+.st{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;letter-spacing:.3px}
 .st-xg{background:rgba(124,92,252,.15);color:var(--purple)}
-.st-ht{background:rgba(0,229,160,.12);color:var(--accent)}
-.st-iy{background:rgba(255,209,102,.12);color:var(--gold)}
-.st-ov{background:rgba(255,100,50,.12);color:#ff6432}
+.st-iy{background:rgba(0,229,160,.12);color:var(--accent)}
+.st-ov{background:rgba(255,100,50,.12);color:var(--orange)}
+.st-ht{background:rgba(255,209,102,.12);color:var(--gold)}
 .st-card{background:rgba(255,77,109,.12);color:var(--red)}
 .st-daily{background:rgba(100,200,255,.12);color:#64c8ff}
-.st-mls{background:rgba(200,100,255,.12);color:#c864ff}
+.st-corner{background:rgba(200,150,255,.12);color:#c896ff}
 
-/* LOADING / EMPTY / ERROR */
+/* BOTTOM */
+.mc-bot{border-top:1px solid var(--border);padding:6px 12px;display:flex;align-items:center;justify-content:space-between}
+.badge{font-size:10px;font-weight:700;letter-spacing:.3px;padding:3px 7px;border-radius:5px}
+.b-super{background:rgba(255,100,50,.2);color:var(--orange);border:1px solid rgba(255,100,50,.4)}
+.b-banko{background:rgba(0,229,160,.15);color:var(--accent);border:1px solid rgba(0,229,160,.3)}
+.b-risk{background:rgba(100,100,150,.1);color:var(--muted);border:1px solid var(--border)}
+
+/* LOADING/EMPTY/ERR */
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:220px;gap:12px}
 .spin{width:30px;height:30px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .ltxt{font-size:13px;color:var(--muted)}
-.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px;line-height:2}
-.err{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.3);border-radius:10px;padding:14px;margin-bottom:10px;font-size:13px;color:var(--red);line-height:1.5}
+.empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:14px;line-height:2}
+.err{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.3);border-radius:10px;padding:14px;margin-bottom:10px;font-size:13px;color:var(--red);line-height:1.6}
 
 /* KUPON MODAL */
 #kmod{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.85);backdrop-filter:blur(4px);display:none;align-items:flex-end}
@@ -133,20 +130,18 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .mt{font-size:18px;font-weight:700}
 .mx{background:var(--border);border:none;border-radius:50%;width:28px;height:28px;color:var(--text);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.mrow{padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.mrow{padding:9px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:8px}
 .mrow:last-child{border-bottom:none}
-.mpick{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px}
+.mpick{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap}
 .p1{background:rgba(0,229,160,.2);color:var(--accent)}
 .px{background:rgba(255,209,102,.2);color:var(--gold)}
 .p2{background:rgba(124,92,252,.2);color:var(--purple)}
 .msave{width:100%;margin-top:14px;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:12px;padding:13px;color:#000;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;cursor:pointer}
 .mclr{width:100%;margin-top:7px;background:none;border:1px solid var(--border);border-radius:12px;padding:11px;color:var(--muted);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
-
-/* SAVED KUPONS */
 .kcard{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
 .khead{padding:9px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .kdate{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
-.krow{padding:8px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.krow2{padding:8px 13px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:13px}
 .kdel{background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:11px;padding:4px 8px;cursor:pointer;font-family:'Rajdhani',sans-serif;margin:6px 13px}
 </style>
 </head>
@@ -168,12 +163,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 </div>
 
 <div id="subtabs">
-  <div class="stab on"  onclick="setSub('iy')">🌅 İY Gol</div>
-  <div class="stab"     onclick="setSub('ov25')">⚽ Üst 2.5</div>
-  <div class="stab"     onclick="setSub('xg')">📊 Home xG</div>
-  <div class="stab"     onclick="setSub('ht')">0-0 HT</div>
-  <div class="stab"     onclick="setSub('card')">🟥 Kart</div>
-  <div class="stab"     onclick="setSub('daily')">💰 Daily</div>
+  <div class="stab on" onclick="setSub('iy')">🌅 İY Gol</div>
+  <div class="stab"    onclick="setSub('ov25')">⚽ Üst 2.5</div>
+  <div class="stab"    onclick="setSub('xg')">📊 xG Ev</div>
+  <div class="stab"    onclick="setSub('ht')">⏱ 0-0 HT</div>
+  <div class="stab"    onclick="setSub('card')">🟥 Kart</div>
+  <div class="stab"    onclick="setSub('daily')">💰 Daily</div>
+  <div class="stab"    onclick="setSub('corner')">📐 Korner</div>
 </div>
 
 <div id="content">
@@ -198,217 +194,245 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 </div>
 
 <script>
-// ═══════════════════════════════════════════
+// ══════════════════════════════════════════════
 //  STATE
-// ═══════════════════════════════════════════
-let cache   = {today:null, tomorrow:null};
-let kupon   = {};
-let saved   = JSON.parse(localStorage.getItem('sc_kup')||'[]');
-let tab     = 'live';
-let subTab  = 'iy';
-let cdVal   = 30;
-let cdTmr   = null;
-const matchMap = {};
+// ══════════════════════════════════════════════
+let cache  = {today:null,tomorrow:null};
+let kupon  = {};
+let saved  = JSON.parse(localStorage.getItem('sc_kup')||'[]');
+let tab    = 'live';
+let subTab = 'iy';
+let cdVal  = 30;
+let cdTmr  = null;
+const MM   = {}; // matchMap
 
-// ═══════════════════════════════════════════
+// ══════════════════════════════════════════════
 //  VERİ
-// ═══════════════════════════════════════════
+// ══════════════════════════════════════════════
 async function fetchDay(offset) {
-  const key  = offset===0 ? 'today' : 'tomorrow';
+  const key  = offset===0?'today':'tomorrow';
   if (cache[key]) return cache[key];
-  const file = offset===0 ? 'data/today.json' : 'data/tomorrow.json';
-  const r = await fetch(file+'?t='+Date.now());
+  const r = await fetch((offset===0?'data/today.json':'data/tomorrow.json')+'?t='+Date.now());
   if (!r.ok) throw new Error('Veri yüklenemedi');
   const j = await r.json();
-  cache[key] = Array.isArray(j.data) ? j.data : [];
+  cache[key] = Array.isArray(j.data)?j.data:[];
   return cache[key];
 }
 
-// ═══════════════════════════════════════════
+// ══════════════════════════════════════════════
 //  DURUM
-// ═══════════════════════════════════════════
+// ══════════════════════════════════════════════
 function isLive(m){ const s=String(m.status||'').toLowerCase(); return s==='inprogress'||s==='live'; }
 function isDone(m){ const s=String(m.status||'').toLowerCase(); return s==='complete'; }
-function isUpcoming(m){ return !isLive(m)&&!isDone(m); }
+function isUp(m){ return !isLive(m)&&!isDone(m); }
 
-// ═══════════════════════════════════════════
-//  FORM HESABI
-// ═══════════════════════════════════════════
-function formScore(str) {
-  if (!str) return 0;
-  return String(str).split('').slice(0,5).reduce((acc,c)=>acc+(c==='W'?3:c==='D'?1:0),0);
+// ══════════════════════════════════════════════
+//  FORM
+// ══════════════════════════════════════════════
+function formScore(str){
+  if(!str) return 0;
+  return String(str).split('').slice(0,5).reduce((a,c)=>a+(c==='W'?3:c==='D'?1:0),0);
 }
-function formPills(str) {
-  if (!str) return '';
+function formPills(str){
+  if(!str) return '';
   return String(str).split('').slice(0,5).map(c=>{
     const f=c==='W'?'W':c==='D'?'D':'L';
     return `<div class="fc ${f}">${f}</div>`;
   }).join('');
 }
 
-// ═══════════════════════════════════════════
-//  GÜVEN SKORU & SİSTEM ANALİZİ
-// ═══════════════════════════════════════════
-function analyzeMatch(m) {
-  const hPPG   = parseFloat(m.home_ppg)||0;
-  const aPPG   = parseFloat(m.away_ppg)||0;
-  const hXG    = parseFloat(m.team_a_xg)||0;
-  const aXG    = parseFloat(m.team_b_xg)||0;
-  const btts   = parseFloat(m.btts_potential)||0;
-  const ov25   = parseFloat(m.over25_potential)||0;
-  const ov05   = parseFloat(m.over05_potential)||100;
-  const o05HT  = parseFloat(m.o05HT_potential)||0;
-  const o15HT  = parseFloat(m.o15HT_potential)||0;
-  const avgG   = parseFloat(m.avg_potential)||0;
-  const cards  = parseFloat(m.cards_potential)||0;
-  const hForm  = formScore(m.home_form);
-  const aForm  = formScore(m.away_form);
-  const hGames = parseInt(m.matches_completed_minimum)||0;
-  const hHTG   = parseFloat(m.o05HT_potential)||0;
+// ══════════════════════════════════════════════
+//  ANALİZ - TÜM FOOTYStats ALANLARI KULLANILIYOR
+// ══════════════════════════════════════════════
+function analyze(m) {
+  // Temel istatistikler
+  const hPPG    = parseFloat(m.home_ppg)||0;
+  const aPPG    = parseFloat(m.away_ppg)||0;
+  const hXG     = parseFloat(m.team_a_xg)||parseFloat(m.team_a_xg_prematch)||0;
+  const aXG     = parseFloat(m.team_b_xg)||parseFloat(m.team_b_xg_prematch)||0;
+  const btts    = parseFloat(m.btts_potential)||0;
+  const ov25    = parseFloat(m.o25_potential)||parseFloat(m.over25_potential)||0;
+  const ov05    = parseFloat(m.o05_potential)||parseFloat(m.over05_potential)||95;
+  const o05HT   = parseFloat(m.o05HT_potential)||0;
+  const avgG    = parseFloat(m.avg_potential)||0;
+  const cards   = parseFloat(m.cards_potential)||0;
+  const corners = parseFloat(m.corners_potential)||0;
+  const hForm   = formScore(m.home_form);
+  const aForm   = formScore(m.away_form);
+  const games   = parseInt(m.matches_completed_minimum)||0;
+  const enoughGames = games >= 8;
 
-  // Minimum maç filtresi
-  const enoughGames = hGames >= 8;
+  // Gerçek oranlar
+  const odd1  = parseFloat(m.odds_ft_1)||0;
+  const oddX  = parseFloat(m.odds_ft_x)||0;
+  const odd2  = parseFloat(m.odds_ft_2)||0;
+  const oddOv25 = parseFloat(m.odds_ft_over25)||0;
+  const oddIY   = parseFloat(m.odds_1st_half_over05)||0;
 
   let score = 0;
   const systems = [];
-  let suggest = '';
-  let suggestOdds = '';
 
-  // PPG farkı
+  // ── 1. PPG FARKI (max 25p) ──────────────────
   const ppgDiff = Math.abs(hPPG - aPPG);
-  if (ppgDiff >= 0.8) score += 20;
-  else if (ppgDiff >= 0.5) score += 12;
-  else if (ppgDiff >= 0.3) score += 6;
+  if      (ppgDiff >= 1.2) score += 25;
+  else if (ppgDiff >= 0.8) score += 20;
+  else if (ppgDiff >= 0.5) score += 14;
+  else if (ppgDiff >= 0.3) score += 8;
+  else                     score += 3;
 
-  // xG farkı
-  const xgDiff = hXG - aXG;
-  if (Math.abs(xgDiff) >= 0.5) score += 20;
-  else if (Math.abs(xgDiff) >= 0.3) score += 12;
-  else if (Math.abs(xgDiff) >= 0.15) score += 6;
+  // ── 2. xG FARKI (max 20p) ──────────────────
+  const xgDiff = Math.abs(hXG - aXG);
+  if (hXG > 0 || aXG > 0) {
+    if      (xgDiff >= 0.6) score += 20;
+    else if (xgDiff >= 0.3) score += 13;
+    else if (xgDiff >= 0.1) score += 6;
+  } else {
+    // xG yok, PPG'ye göre ekstra
+    if (ppgDiff >= 0.5) score += 8;
+  }
 
-  // Form
-  if (hForm >= 9 || aForm >= 9) score += 15;
-  else if (hForm >= 6 || aForm >= 6) score += 8;
+  // ── 3. FORM (max 15p) ───────────────────────
+  const topForm = Math.max(hForm, aForm);
+  const botForm = Math.min(hForm, aForm);
+  if      (topForm >= 12 && botForm >= 6) score += 15;
+  else if (topForm >= 9)                  score += 10;
+  else if (topForm >= 6)                  score += 6;
+  else                                    score += 2;
 
-  // Üst 2.5
-  if (ov25 >= 70) score += 15;
-  else if (ov25 >= 55) score += 8;
+  // ── 4. ÜST 2.5 POTANSİYELİ (max 15p) ───────
+  if      (ov25 >= 70) score += 15;
+  else if (ov25 >= 55) score += 10;
+  else if (ov25 >= 40) score += 5;
 
-  // BTTS
-  if (btts >= 65) score += 10;
-  else if (btts >= 50) score += 5;
+  // ── 5. BTTS (max 10p) ───────────────────────
+  if      (btts >= 65) score += 10;
+  else if (btts >= 50) score += 6;
+  else if (btts >= 35) score += 2;
 
-  // İY gol
-  if (o05HT >= 70) score += 10;
-  else if (o05HT >= 55) score += 5;
+  // ── 6. İY GOL (max 10p) ─────────────────────
+  if      (o05HT >= 70) score += 10;
+  else if (o05HT >= 55) score += 6;
+  else if (o05HT >= 40) score += 2;
 
-  // Berabere riski — düşür
-  if (hPPG < 1.1 && aPPG < 1.1) score -= 20;
-  else if (hPPG < 1.3 && aPPG < 1.3) score -= 10;
-
-  // Yeterli maç yoksa düşür
-  if (!enoughGames) score = Math.min(score, 50);
+  // ── CEZALAR ────────────────────────────────
+  // Berabere riski
+  if      (hPPG < 1.0 && aPPG < 1.0) score -= 30;
+  else if (hPPG < 1.2 && aPPG < 1.2) score -= 15;
+  // Az maç
+  if (!enoughGames) score = Math.min(score, 55);
+  // Çok düşük gol beklentisi
+  if (avgG < 1.5) score -= 10;
 
   score = Math.max(0, Math.min(100, score));
 
-  // ── SİSTEM ETİKETLERİ ──
+  // ── TAHMİN YÖN ─────────────────────────────
+  let suggest = '', suggestOdd = '';
+  const xgAvail = hXG > 0 || aXG > 0;
+  const hStronger = hPPG > aPPG + 0.4 && (!xgAvail || hXG >= aXG - 0.1);
+  const aStronger = aPPG > hPPG + 0.4 && (!xgAvail || aXG >= hXG - 0.1);
 
-  // 1. Home xG
-  if (hXG > aXG + 0.2 && enoughGames) {
-    systems.push({key:'xg', label:'📊 Home xG'});
-    if (!suggest) { suggest = hPPG > aPPG ? '1X oyna' : '1X oyna'; suggestOdds = '~1.4-1.7'; }
+  if (hStronger) {
+    suggest = '1 Oyna';
+    suggestOdd = odd1 > 0 ? odd1.toFixed(2) : '';
+  } else if (aStronger) {
+    suggest = '2 Oyna';
+    suggestOdd = odd2 > 0 ? odd2.toFixed(2) : '';
+  } else if (ov25 >= 60) {
+    suggest = 'Üst 2.5 Oyna';
+    suggestOdd = oddOv25 > 0 ? oddOv25.toFixed(2) : '';
+  } else if (o05HT >= 65) {
+    suggest = 'İY Gol Oyna';
+    suggestOdd = oddIY > 0 ? oddIY.toFixed(2) : '';
+  } else if (btts >= 60) {
+    suggest = 'BTTS Oyna';
+    suggestOdd = '';
+  } else if (hPPG > aPPG + 0.2) {
+    suggest = '1X Oyna';
+    suggestOdd = '';
+  } else if (aPPG > hPPG + 0.2) {
+    suggest = 'X2 Oyna';
+    suggestOdd = '';
+  } else {
+    suggest = 'Riskli';
+    suggestOdd = '';
   }
 
-  // 2. İY 0.5 Üst
-  if (o05HT >= 65 && enoughGames) {
+  // ── SİSTEM ETİKETLERİ ──────────────────────
+
+  // xG Ev Avantajı
+  if (hXG > aXG + 0.15 && enoughGames && odd1 > 0 && odd1 < 2.5)
+    systems.push({key:'xg', label:'📊 xG Ev'});
+
+  // İY 0.5 Üst
+  if (o05HT >= 65 && enoughGames)
     systems.push({key:'iy', label:'🌅 İY Gol'});
-    if (!suggest) { suggest = 'İY 0.5 Üst oyna'; suggestOdds = '~1.2-1.5'; }
-  }
 
-  // 3. Üst 2.5
-  if (ov25 >= 60 && enoughGames) {
+  // Üst 2.5
+  if (ov25 >= 60 && enoughGames)
     systems.push({key:'ov25', label:'⚽ Üst 2.5'});
-    if (!suggest) { suggest = 'Üst 2.5 oyna'; suggestOdds = '~1.6-2.0'; }
-  }
 
-  // 4. 0-0 HT (canlı maç, skor 0-0, avgG 2.5+)
+  // 0-0 HT (canlı)
   const hG = parseInt(m.homeGoalCount)||0;
   const aG = parseInt(m.awayGoalCount)||0;
-  if (isLive(m) && hG===0 && aG===0 && avgG>=2.5 && hForm>=6 && aForm>=6) {
+  if (isLive(m) && hG===0 && aG===0 && avgG>=2.5 && hForm>=6 && aForm>=6)
     systems.push({key:'ht', label:'⏱ 0-0 HT'});
-    if (!suggest) { suggest = '2.Yarı Üst 1.5 oyna'; suggestOdds = '~1.5-2.0'; }
-  }
 
-  // 5. Kart sistemi
-  if (cards >= 4.5 && enoughGames) {
+  // Kart
+  if (cards >= 4.0 && enoughGames)
     systems.push({key:'card', label:'🟥 Kart'});
-    if (!suggest && score < 60) { suggest = 'Kart bahsi'; suggestOdds = '~1.8-2.2'; }
-  }
 
-  // 6. 5% Daily - Üst 0.5 gol, ov05 yüksek
-  if (ov05 >= 95 && enoughGames) {
+  // Daily 5%
+  if (ov05 >= 93 && enoughGames)
     systems.push({key:'daily', label:'💰 Daily'});
-    if (!suggest) { suggest = 'Üst 0.5 oyna'; suggestOdds = '~1.05-1.15'; }
-  }
 
-  // Tahmin yönü
-  if (!suggest) {
-    if (hPPG > aPPG + 0.5) { suggest = '1 oyna'; suggestOdds = '~1.5-2.0'; }
-    else if (aPPG > hPPG + 0.5) { suggest = '2 oyna'; suggestOdds = '~1.8-2.5'; }
-    else { suggest = 'X riski var'; suggestOdds = ''; }
-  }
+  // Korner
+  if (corners >= 9.5 && enoughGames)
+    systems.push({key:'corner', label:'📐 Korner'});
 
   // Badge
-  let badge, badgeCls, cardCls='';
-  if (score >= 85) { badge='🔥 SÜPER BANKO'; badgeCls='b-super'; cardCls='super'; }
-  else if (score >= 75) { badge='⭐ BANKO'; badgeCls='b-banko'; cardCls='banko'; }
-  else { badge='❌ RİSKLİ'; badgeCls='b-risk'; }
+  let badge, bCls, mCls='';
+  if      (score >= 85) { badge='🔥 SÜPER BANKO'; bCls='b-super'; mCls='super'; }
+  else if (score >= 75) { badge='⭐ BANKO';        bCls='b-banko'; mCls='banko'; }
+  else                  { badge='❌ RİSKLİ';       bCls='b-risk'; }
 
-  return {score, badge, badgeCls, cardCls, suggest, suggestOdds, systems, enoughGames};
+  return {score, badge, bCls, mCls, suggest, suggestOdd, systems, odd1, oddX, odd2, oddOv25, oddIY};
 }
 
-// ═══════════════════════════════════════════
-//  SİSTEM FİLTRELERİ
-// ═══════════════════════════════════════════
-function filterBySub(matches, sub) {
-  return matches.filter(m => {
-    const a = analyzeMatch(m);
-    return a.systems.some(s => s.key === sub);
-  });
-}
-
-// ═══════════════════════════════════════════
+// ══════════════════════════════════════════════
 //  KART RENDER
-// ═══════════════════════════════════════════
-function fmtTime(ts) {
-  if (!ts) return '--:--';
+// ══════════════════════════════════════════════
+function fmtTime(ts){
+  if(!ts) return '--:--';
   return new Date(ts*1000).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
 }
 
-function teamLogo(url, name) {
-  if (url && url.startsWith('http')) {
-    return `<img class="team-logo" src="${url}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="team-logo-placeholder" style="display:none">⚽</div>`;
-  }
-  return `<div class="team-logo-placeholder">⚽</div>`;
+function logo(url, name) {
+  if (url && url.startsWith('http'))
+    return `<img class="tlogo" src="${url}" alt="${name}" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=tlogo-ph>⚽</div>')">`;
+  return `<div class="tlogo-ph">⚽</div>`;
 }
 
 function card(m) {
-  matchMap[m.id] = m;
-  const hN   = m.home_name||'?';
-  const aN   = m.away_name||'?';
-  const hImg = m.home_image||'';
-  const aImg = m.away_image||'';
-  const lg   = m.competition_name||'⚽';
-  const lv   = isLive(m), dn = isDone(m);
-  const hG   = m.homeGoalCount??'-';
-  const aG   = m.awayGoalCount??'-';
-  const a    = analyzeMatch(m);
+  MM[m.id] = m;
+  const hN  = m.home_name||'?';
+  const aN  = m.away_name||'?';
+  const lg  = m.competition_name||'⚽';
+  const lv  = isLive(m), dn = isDone(m);
+  const hG  = m.homeGoalCount??'-';
+  const aG  = m.awayGoalCount??'-';
+  const a   = analyze(m);
 
-  const hPPG  = m.home_ppg  ? parseFloat(m.home_ppg).toFixed(2)  : '-';
-  const aPPG  = m.away_ppg  ? parseFloat(m.away_ppg).toFixed(2)  : '-';
-  const btts  = m.btts_potential   ? Math.round(m.btts_potential)+'%'   : '-';
-  const ov25  = m.over25_potential ? Math.round(m.over25_potential)+'%' : '-';
+  // Stats
+  const hPPG = m.home_ppg  ? parseFloat(m.home_ppg).toFixed(2)  : '-';
+  const aPPG = m.away_ppg  ? parseFloat(m.away_ppg).toFixed(2)  : '-';
+  const btts = m.btts_potential    ? Math.round(m.btts_potential)+'%'    : '-';
+  const ov25 = m.over25_potential  ? Math.round(m.over25_potential)+'%'  : '-';
+  const o05HT= m.o05HT_potential   ? Math.round(m.o05HT_potential)+'%'   : '-';
+  const crn  = m.corners_potential ? parseFloat(m.corners_potential).toFixed(1) : '-';
+
+  const ov25v= parseFloat(m.over25_potential)||0;
+  const o05v = parseFloat(m.o05HT_potential)||0;
+  const bttsv= parseFloat(m.btts_potential)||0;
 
   const timeEl = lv
     ? `<div><span class="live-dot"></span><span class="live-lbl">CANLI</span></div>`
@@ -416,6 +440,220 @@ function card(m) {
     : `<div class="mc-time">${fmtTime(m.date_unix)}</div>`;
 
   const score = lv||dn ? `${hG}–${aG}` : '–';
+  const k = kupon[m.id];
 
-  const barW   = a.score;
-  const barCls = a.score>=85?'fill-sup
+  const confColor = a.score>=85?'var(--orange)':a.score>=75?'var(--accent)':'var(--muted)';
+  const fillCls   = a.score>=85?'fill-s':a.score>=75?'fill-b':'fill-r';
+
+  const tags = a.systems.map(s=>`<div class="st st-${s.key}">${s.label}</div>`).join('');
+
+  return `<div class="mc${a.mCls?' '+a.mCls:''}">
+  <div class="mc-top"><div class="lg-badge">${lg}</div>${timeEl}</div>
+  <div class="mc-teams">
+    <div class="team-col h">${logo(m.home_image,hN)}<div class="tname h">${hN}</div></div>
+    <div class="score-box${lv?' live':''}">${score}</div>
+    <div class="team-col a"><div class="tname a">${aN}</div>${logo(m.away_image,aN)}</div>
+  </div>
+  <div class="mc-odds">
+    <div class="odd-btn${k?.pick==='1'?' s1':''}" onclick="bet(${m.id},'1')">
+      <div class="odd-lbl">1</div>
+      <div class="odd-val">${a.odd1>0?a.odd1.toFixed(2):'-'}</div>
+    </div>
+    <div class="odd-btn${k?.pick==='X'?' sx':''}" onclick="bet(${m.id},'X')">
+      <div class="odd-lbl">X</div>
+      <div class="odd-val">${a.oddX>0?a.oddX.toFixed(2):'-'}</div>
+    </div>
+    <div class="odd-btn${k?.pick==='2'?' s2':''}" onclick="bet(${m.id},'2')">
+      <div class="odd-lbl">2</div>
+      <div class="odd-val">${a.odd2>0?a.odd2.toFixed(2):'-'}</div>
+    </div>
+  </div>
+  <div class="mc-form">
+    <div class="fp">${formPills(m.home_form)}</div>
+    <div class="fp">${formPills(m.away_form)}</div>
+  </div>
+  <div class="mc-stats">
+    <div class="si"><div class="sl">Ev PPG</div><div class="sv">${hPPG}</div></div>
+    <div class="si"><div class="sl">Dep PPG</div><div class="sv">${aPPG}</div></div>
+    <div class="si"><div class="sl">BTTS</div><div class="sv ${bttsv>=60?'hi':bttsv>=45?'med':''}">${btts}</div></div>
+    <div class="si"><div class="sl">Üst 2.5</div><div class="sv ${ov25v>=60?'hi':ov25v>=45?'med':''}">${ov25}</div></div>
+    <div class="si"><div class="sl">İY Gol</div><div class="sv ${o05v>=65?'hi':o05v>=50?'med':''}">${o05HT}</div></div>
+  </div>
+  <div class="mc-conf">
+    <div>
+      <div class="sl">GÜVEN</div>
+      <div class="conf-num" style="color:${confColor}">${a.score}</div>
+    </div>
+    <div class="conf-right">
+      <div class="conf-bar"><div class="conf-fill ${fillCls}" style="width:${a.score}%"></div></div>
+      <div class="conf-suggest">${a.suggest}${a.suggestOdd?' · <span style="color:var(--accent)">'+a.suggestOdd+'</span>':''}</div>
+    </div>
+  </div>
+  ${tags?`<div class="mc-tags">${tags}</div>`:''}
+  <div class="mc-bot"><div class="badge ${a.bCls}">${a.badge}</div></div>
+</div>`;
+}
+
+// ══════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════
+async function renderLive(){
+  const all=await fetchDay(0);
+  const live=all.filter(isLive);
+  if(!live.length) return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
+  return `<div class="sh">CANLI (${live.length})</div>`+live.map(card).join('');
+}
+
+async function renderDay(offset){
+  const all=await fetchDay(offset);
+  if(!all.length) return `<div class="empty">📭 Maç bulunamadı</div>`;
+  const live=all.filter(isLive), done=all.filter(isDone), upco=all.filter(isUp);
+  let h='';
+  if(live.length) h+=`<div class="sh">🔴 CANLI (${live.length})</div>`+live.map(card).join('');
+  if(upco.length) h+=`<div class="sh">📅 YAKLAŞAN (${upco.length})</div>`+upco.map(card).join('');
+  if(done.length) h+=`<div class="sh">✅ BİTENLER (${done.length})</div>`+done.map(card).join('');
+  return h;
+}
+
+async function renderSuper(){
+  const t=await fetchDay(0), y=await fetchDay(1);
+  const all=[...t,...y].filter(isUp);
+  const analyzed=all.map(m=>({m,a:analyze(m)}));
+  const sup=analyzed.filter(x=>x.a.score>=85).sort((a,b)=>b.a.score-a.a.score).map(x=>x.m);
+  if(!sup.length) return `<div class="empty">🔥 Süper Banko maç yok<br><small>Güven skoru 85+ gerekli</small></div>`;
+  return `<div class="sh">🔥 SÜPER BANKOLAR (${sup.length})</div>`+sup.map(card).join('');
+}
+
+async function renderBanko(){
+  const t=await fetchDay(0), y=await fetchDay(1);
+  const all=[...t,...y].filter(isUp);
+  const analyzed2=all.map(m=>({m,a:analyze(m)}));
+  const bnk=analyzed2.filter(x=>x.a.score>=75&&x.a.score<85).sort((a,b)=>b.a.score-a.a.score).map(x=>x.m);
+  if(!bnk.length) return `<div class="empty">⭐ Banko maç yok<br><small>Güven skoru 75-84 gerekli</small></div>`;
+  return `<div class="sh">⭐ BANKOLAR (${bnk.length})</div>`+bnk.map(card).join('');
+}
+
+async function renderSistem(){
+  const t=await fetchDay(0), y=await fetchDay(1);
+  const all=[...t,...y].filter(isUp);
+  const filtered=all.filter(m=>analyze(m).systems.some(s=>s.key===subTab)).sort((a,b)=>analyze(b).score-analyze(a).score);
+
+  const labels={iy:'🌅 İY 0.5 Üst',ov25:'⚽ Üst 2.5',xg:'📊 xG Ev Avantajı',ht:'⏱ 0-0 HT',card:'🟥 Kart',daily:'💰 5% Daily',corner:'📐 Korner'};
+
+  if(!filtered.length) return `<div class="empty">📭 ${labels[subTab]}<br>Şu an uygun maç yok</div>`;
+
+  const now=new Date();
+  const tom=new Date(); tom.setDate(tom.getDate()+1);
+  const todayM=filtered.filter(m=>{if(!m.date_unix)return true;const d=new Date(m.date_unix*1000);return d.toDateString()===now.toDateString();});
+  const tomM  =filtered.filter(m=>{if(!m.date_unix)return false;const d=new Date(m.date_unix*1000);return d.toDateString()===tom.toDateString();});
+  const otherM=filtered.filter(m=>!todayM.includes(m)&&!tomM.includes(m));
+
+  let h='';
+  if(todayM.length) h+=`<div class="sh">📅 BUGÜN (${todayM.length})</div>`+todayM.map(card).join('');
+  if(tomM.length)   h+=`<div class="sh">📆 YARIN (${tomM.length})</div>`+tomM.map(card).join('');
+  if(otherM.length) h+=`<div class="sh">📋 DİĞER (${otherM.length})</div>`+otherM.map(card).join('');
+  return h||`<div class="empty">📭 Uygun maç yok</div>`;
+}
+
+function renderKupon(){
+  if(!saved.length) return `<div class="empty">📭 Kayıtlı kupon yok</div>`;
+  return saved.slice().reverse().map((k,ri)=>{
+    const idx=saved.length-1-ri;
+    return `<div class="kcard">
+  <div class="khead"><div class="kdate">${k.date}</div><div style="color:var(--accent);font-weight:700">${k.items.length} MAÇ</div></div>
+  ${k.items.map(it=>`<div class="krow2"><div style="font-size:12px;flex:1">${it.home} – ${it.away}</div><div class="mpick p${it.pick.toLowerCase()}">${it.pick}</div></div>`).join('')}
+  <button class="kdel" onclick="delK(${idx})">🗑 Sil</button>
+</div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  NAVİGASYON
+// ══════════════════════════════════════════════
+async function go(t){
+  tab=t;
+  document.querySelectorAll('.tab').forEach((el,i)=>{
+    el.classList.toggle('on',['live','today','tomorrow','super','banko','sistem','kupon'][i]===t);
+  });
+  const hasSub=t==='sistem';
+  document.getElementById('subtabs').classList.toggle('show',hasSub);
+  document.getElementById('content').classList.toggle('withsub',hasSub);
+  await render();
+}
+
+async function setSub(s){
+  subTab=s;
+  document.querySelectorAll('.stab').forEach((el,i)=>{
+    el.classList.toggle('on',['iy','ov25','xg','ht','card','daily','corner'][i]===s);
+  });
+  await render();
+}
+
+async function render(){
+  const el=document.getElementById('content');
+  el.innerHTML=`<div class="loading"><div class="spin"></div><div class="ltxt">Yükleniyor…</div></div>`;
+  try{
+    let h='';
+    if     (tab==='live')     h=await renderLive();
+    else if(tab==='today')    h=await renderDay(0);
+    else if(tab==='tomorrow') h=await renderDay(1);
+    else if(tab==='super')    h=await renderSuper();
+    else if(tab==='banko')    h=await renderBanko();
+    else if(tab==='sistem')   h=await renderSistem();
+    else if(tab==='kupon')    h=renderKupon();
+    el.innerHTML=h;
+  }catch(e){
+    el.innerHTML=`<div class="err">❌ Hata: ${e.message}</div>`;
+  }
+}
+
+// ══════════════════════════════════════════════
+//  KUPON
+// ══════════════════════════════════════════════
+function bet(id,pick){
+  const m=MM[id]; if(!m) return;
+  if(kupon[id]?.pick===pick) delete kupon[id];
+  else kupon[id]={home:m.home_name||'?',away:m.away_name||'?',pick,league:m.competition_name||''};
+  updFab(); render();
+}
+function updFab(){ document.getElementById('fc').textContent=Object.keys(kupon).length; }
+function openK(){
+  const items=Object.values(kupon);
+  if(!items.length){alert('Kupon boş!');return}
+  document.getElementById('mcontent').innerHTML=items.map(it=>
+    `<div class="mrow"><div style="font-size:12px;flex:1">${it.home} – ${it.away}</div><div class="mpick p${it.pick.toLowerCase()}">${it.pick}</div></div>`
+  ).join('');
+  document.getElementById('kmod').classList.add('on');
+}
+function closeK(){ document.getElementById('kmod').classList.remove('on'); }
+function outsideK(e){ if(e.target.id==='kmod') closeK(); }
+function saveK(){
+  const items=Object.values(kupon);
+  if(!items.length) return;
+  saved.push({date:new Date().toLocaleString('tr-TR'),items});
+  localStorage.setItem('sc_kup',JSON.stringify(saved));
+  kupon={}; updFab(); closeK(); alert('✅ Kupon kaydedildi!');
+}
+function clearK(){ kupon={}; updFab(); closeK(); render(); }
+function delK(i){ saved.splice(i,1); localStorage.setItem('sc_kup',JSON.stringify(saved)); render(); }
+
+// ══════════════════════════════════════════════
+//  ZAMANLAYICI
+// ══════════════════════════════════════════════
+async function doRefresh(){
+  cache={today:null,tomorrow:null};
+  cdVal=30; document.getElementById('cd').textContent=30;
+  await render();
+}
+function startCD(){
+  clearInterval(cdTmr);
+  cdTmr=setInterval(()=>{
+    cdVal--; document.getElementById('cd').textContent=cdVal;
+    if(cdVal<=0){ cdVal=30; doRefresh(); }
+  },1000);
+}
+
+render(); startCD();
+</script>
+</body>
+</html>
