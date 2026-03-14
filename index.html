@@ -372,14 +372,13 @@ function buildLiveList(list, fsMatches) {
     };
 
     const fs = findFs(t.home?.name, t.away?.name);
+    if (!fs) return null; // Seçili ligde değilse gösterme
 
-    // Skor
     const hGoals = (g.home !== null && g.home !== undefined) ? g.home
                  : (sc.fulltime?.home !== null && sc.fulltime?.home !== undefined) ? sc.fulltime.home : 0;
     const aGoals = (g.away !== null && g.away !== undefined) ? g.away
                  : (sc.fulltime?.away !== null && sc.fulltime?.away !== undefined) ? sc.fulltime.away : 0;
 
-    // Dakika
     const elapsed = st.elapsed || 0;
     const extra   = st.extra   || 0;
     const minStr  = st.short === 'HT' ? 'HT'
@@ -399,9 +398,7 @@ function buildLiveList(list, fsMatches) {
       date_unix:        fix.timestamp || 0,
       homeGoalCount:    hGoals,
       awayGoalCount:    aGoals,
-      elapsed,
-      extra,
-      minStr,
+      elapsed, extra, minStr,
       status_short:     st.short || 'LIVE',
       home_possession:  getStat(homeSt, 'Ball Possession'),
       away_possession:  getStat(awaySt, 'Ball Possession'),
@@ -415,30 +412,30 @@ function buildLiveList(list, fsMatches) {
       away_yellow:      getStat(awaySt, 'Yellow Cards'),
       home_red:         getStat(homeSt, 'Red Cards'),
       away_red:         getStat(awaySt, 'Red Cards'),
-      home_ppg:          fs?.home_ppg          || 0,
-      away_ppg:          fs?.away_ppg          || 0,
-      home_form:         fs?.home_form         || '',
-      away_form:         fs?.away_form         || '',
-      btts_potential:    fs?.btts_potential    || 0,
-      o25_potential:     fs?.o25_potential     || fs?.over25_potential || 0,
-      o05HT_potential:   fs?.o05HT_potential   || 0,
-      avg_potential:     fs?.avg_potential     || 0,
-      cards_potential:   fs?.cards_potential   || 0,
-      corners_potential: fs?.corners_potential || 0,
-      o05_potential:     fs?.o05_potential     || fs?.over05_potential || 0,
-      odds_ft_1:         fs?.odds_ft_1         || 0,
-      odds_ft_x:         fs?.odds_ft_x         || 0,
-      odds_ft_2:         fs?.odds_ft_2         || 0,
-      odds_ft_over25:    fs?.odds_ft_over25    || 0,
-      odds_ft_over15:    fs?.odds_ft_over15    || 0,
-      odds_1st_half_over05: fs?.odds_1st_half_over05 || 0,
-      odds_btts_yes:     fs?.odds_btts_yes     || 0,
-      team_a_xg_prematch: fs?.team_a_xg_prematch || 0,
-      team_b_xg_prematch: fs?.team_b_xg_prematch || 0,
-      matches_completed_minimum: fs?.matches_completed_minimum || 0,
-      _fsMatched: !!fs,
+      home_ppg:          fs.home_ppg          || 0,
+      away_ppg:          fs.away_ppg          || 0,
+      home_form:         fs.home_form         || '',
+      away_form:         fs.away_form         || '',
+      btts_potential:    fs.btts_potential    || 0,
+      o25_potential:     fs.o25_potential     || fs.over25_potential || 0,
+      o05HT_potential:   fs.o05HT_potential   || 0,
+      avg_potential:     fs.avg_potential     || 0,
+      cards_potential:   fs.cards_potential   || 0,
+      corners_potential: fs.corners_potential || 0,
+      o05_potential:     fs.o05_potential     || fs.over05_potential || 0,
+      odds_ft_1:         fs.odds_ft_1         || 0,
+      odds_ft_x:         fs.odds_ft_x         || 0,
+      odds_ft_2:         fs.odds_ft_2         || 0,
+      odds_ft_over25:    fs.odds_ft_over25    || 0,
+      odds_ft_over15:    fs.odds_ft_over15    || 0,
+      odds_1st_half_over05: fs.odds_1st_half_over05 || 0,
+      odds_btts_yes:     fs.odds_btts_yes     || 0,
+      team_a_xg_prematch: fs.team_a_xg_prematch || 0,
+      team_b_xg_prematch: fs.team_b_xg_prematch || 0,
+      matches_completed_minimum: fs.matches_completed_minimum || 0,
+      _fsMatched: true,
     };
-  });
+  }).filter(Boolean); // null olanları çıkar
 }
 
 // ══════════════════════════════════════════════
@@ -763,7 +760,7 @@ function liveCard(m) {
   const bttsC = bttsV >= 60 ? 'hi' : bttsV >= 45 ? 'med' : '';
   const ov25C = ov25V >= 60 ? 'hi' : ov25V >= 45 ? 'med' : '';
   const o05HC = o05HTV >= 65 ? 'hi' : o05HTV >= 50 ? 'med' : '';
-  const fsTag = m._fsMatched ? '' : `<div style="font-size:9px;color:var(--muted);padding:2px 12px">⚠️ Maç istatistikleri eşleştirilemedi</div>`;
+  const fsTag = '';
 
   // Oranlar
   const a = analyze(m);
