@@ -53,11 +53,10 @@ jobs:
           # --- MODEL BULUCU ---
           def get_working_model(key):
               if not key: return None
-              print("Uygun AI kanali doğunlaniyor...")
+              print("Sistem kontrol ediliyor...")
               url = f"https://generativelanguage.googleapis.com/v1beta/models?key={key}"
               try:
                   res = requests.get(url).json()
-                  # Senin hesabinda calisan 2.5 veya 1.5 surumunu bulur
                   models = [m['name'] for m in res.get('models', []) if 'generateContent' in m['supportedGenerationMethods']]
                   for target in ["gemini-2.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash"]:
                       for am in models:
@@ -66,26 +65,26 @@ jobs:
               except: return "models/gemini-1.5-flash"
 
           active_model = get_working_model(api_key)
-          print(f"Kullanilan VIP Model: {active_model}")
+          print(f"Aktif Model: {active_model}")
 
           def get_ai_prediction(m, api_key, model_path):
               url = f"https://generativelanguage.googleapis.com/v1beta/{model_path}:generateContent?key={api_key}"
               h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
               
-              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. PPG: {m.get('home_ppg')}-{m.get('away_ppg')}, xG: {h_xg}-{a_xg}. En mantikli tercihi ve nedenini 2 kisa cumleyle acikla. '🤖 ScoutAI Yorumu:' ile basla."
+              prompt = f"Futbol analisti olarak yorumla: {h_name} vs {a_name}. PPG: {m.get('home_ppg')}-{m.get('away_ppg')}, xG: {h_xg}-{a_xg}. En güvenilir tercihi tek cümleyle yaz ve 2 kisa cümleyle nedenini açıkla. '🤖 ScoutAI Yorumu:' ile başla."
               
               try:
                   res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=15)
                   if res.status_code == 200:
                       return res.json()['candidates'][0]['content']['parts'][0]['text']
                   elif res.status_code == 429:
-                      print("Hiz sinirina takildik, 10 saniye bekleniyor...")
-                      time.sleep(10) # 429 hatasinda ekstra bekleme
+                      print("Hız sınırına ulaşıldı, 60 saniye dinleniliyor...")
+                      time.sleep(60)
                   return None
               except: return None
 
-          # --- VERI ISLEME ---
+          # --- VERİLERİ YÜKLE ---
           today = datetime.now(timezone.utc).date()
           try:
               with open('data/today_main.json') as f: main = json.load(f)
@@ -103,25 +102,37 @@ jobs:
                   os.remove(fname)
               except: pass
 
-          # --- AI VIP ANALIZ (HIZ SINIRI KORUMALI) ---
-          print("VIP Analizler Hazirlaniyor (429 korumasi aktif)...")
+          # --- CANLI SKOR GÜNCELLEME ---
+          def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
+          try:
+              with open('data/live.json') as f: live_data = json.load(f)
+              live_map = {norm(lm.get('homeTeam',{}).get('name','')) + '_' + norm(lm.get('awayTeam',{}).get('name','')): {'h': lm.get('score',{}).get('fullTime',{}).get('home'), 'a': lm.get('score',{}).get('fullTime',{}).get('away'), 'st': lm.get('status')} for lm in live_data.get('matches', [])}
+              for m in today_data:
+                  ls = live_map.get(norm(m.get('home_name', '')) + '_' + norm(m.get('away_name', '')))
+                  if ls:
+                      m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
+                      if ls['st'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
+          except: pass
+
+          # --- AI VIP ANALİZ (SABIRLI MOD) ---
+          print("VIP Analizler Hazirlaniyor (Hiz korumasi aktif)...")
           count = 0
           for m in today_data:
-              if count >= 20: break # Gunluk 20 kaliteli mac yeterli
+              if count >= 20: break 
               
               if str(m.get('status', '')).lower() in ('incomplete', '', 'scheduled'):
                   try:
                       h_xg, a_xg = float(m.get("team_a_xg_prematch") or 0), float(m.get("team_b_xg_prematch") or 0)
                   except: h_xg, a_xg = 0, 0
                   
-                  # Sadece bahis degeri yuksek maclar (Filtreyi tekrar devreye aldik)
-                  if (h_xg + a_xg > 2.4) or abs(h_xg - a_xg) > 0.4:
+                  if (h_xg + a_xg > 2.5) or abs(h_xg - a_xg) > 0.4:
                       comment = get_ai_prediction(m, api_key, active_model)
                       if comment:
                           m['ai_comment'] = comment
                           count += 1
-                          print(f"Başarılı ({count}/20): {m.get('home_name')} vs {m.get('away_name')}")
-                          time.sleep(4) # Her istek arasi 4 saniye bekle (429 onleyici)
+                          print(f"Başarılı ({count}/20): {m.get('home_name')}")
+                          # 20 saniye bekleme: Dakikada 3 istek yaparak 429 hatasını tamamen bitirir
+                          time.sleep(20) 
 
           main['data'] = today_data
           with open('data/today.json', 'w') as f: json.dump(main, f)
@@ -132,5 +143,5 @@ jobs:
         run: |
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update + ScoutAI VIP Comments (429 Fix)" || true
+          git commit -m "Stats update + ScoutAI VIP Comments (Final Fix)" || true
           git push || true
