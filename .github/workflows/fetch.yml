@@ -76,9 +76,9 @@ jobs:
               Görev: En güvenilir 1 adet iddaa tercihini tek net cümleyle yaz ve nedenini 2 kısa cümleyle açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın.
               """
               try:
-                  # Yeni kütüphanede model kullanımı bu şekildedir
+                  # YENİ: Model ismini tam yol (models/...) olarak belirtiyoruz
                   response = client.models.generate_content(
-                      model='gemini-1.5-flash',
+                      model='models/gemini-1.5-flash',
                       contents=prompt
                   )
                   time.sleep(1.5) # Kota koruması
@@ -141,12 +141,12 @@ jobs:
           print("Yapay Zeka VIP Yorumları Hazırlanıyor...")
           count = 0
           for m in today_data:
-              if count >= 35: break # Her çalışmada max 35 maç (Kota güvenliği)
+              if count >= 35: break # Her çalışmada max 35 maç
               status = str(m.get('status', '')).lower()
               if status in ('incomplete', ''):
                   h_xg = float(m.get("team_a_xg_prematch") or 0)
                   a_xg = float(m.get("team_b_xg_prematch") or 0)
-                  # Sadece kaliteli maçları analiz et
+                  # Sadece kaliteli (xG yüksek veya net favorisi olan) maçları analiz et
                   if (h_xg + a_xg > 2.7) or abs(h_xg - a_xg) > 0.4:
                       comment = get_ai_prediction(m)
                       if comment:
