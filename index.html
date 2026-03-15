@@ -516,9 +516,20 @@ function card(m) {
   const lv = isLive(m);
   const dn = isDone(m);
 
-  // Skor gösterimi
-  const hG    = m.homeGoalCount ?? '-';
-  const aG    = m.awayGoalCount ?? '-';
+  // Skor gösterimi - canlıda goal_timings kullan (homeGoalCount güncel olmayabilir)
+  let hG, aG;
+  if (lv) {
+    // Canlı maçta timings listesinin uzunluğu = gerçek skor
+    const hTimings = Array.isArray(m.homeGoals_timings) ? m.homeGoals_timings
+                   : Array.isArray(m.homeGoals) ? m.homeGoals : null;
+    const aTimings = Array.isArray(m.awayGoals_timings) ? m.awayGoals_timings
+                   : Array.isArray(m.awayGoals) ? m.awayGoals : null;
+    hG = hTimings !== null ? hTimings.length : (m.homeGoalCount ?? 0);
+    aG = aTimings !== null ? aTimings.length : (m.awayGoalCount ?? 0);
+  } else {
+    hG = m.homeGoalCount ?? '-';
+    aG = m.awayGoalCount ?? '-';
+  }
   const score = (lv || dn) ? `${hG}–${aG}` : '–';
 
   // Zaman etiketi - dakika hesabı
