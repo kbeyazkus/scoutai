@@ -43,10 +43,10 @@ jobs:
             sleep 0.2
           done
 
-      - name: Merge all leagues
+      - name: Merge all leagues + live scores
         run: |
           python3 << 'PYEOF'
-          import json, os, glob
+          import json, os, glob, re
           from datetime import datetime, timezone
 
           today = datetime.now(timezone.utc).date()
@@ -61,6 +61,7 @@ jobs:
           today_ids = {m['id'] for m in today_data}
           tmr_ids = {m['id'] for m in tmr_data}
 
+          # Extra ligleri ekle
           for fname in glob.glob('data/extra_*.json'):
               try:
                   with open(fname) as f:
@@ -79,6 +80,52 @@ jobs:
                   os.remove(fname)
               except Exception as e:
                   print(f"Hata {fname}: {e}")
+
+          # Football-Data.org live skorları ile güncelle
+          def norm(s):
+              return re.sub(r'[^a-z]', '', (s or '').lower())
+
+          try:
+              with open('data/live.json') as f:
+                  live_data = json.load(f)
+              live_matches = live_data.get('matches', [])
+
+              # live map oluştur: normHomeTeam_normAwayTeam -> skor+dakika
+              live_map = {}
+              for lm in live_matches:
+                  hn = norm(lm.get('homeTeam', {}).get('name', ''))
+                  an = norm(lm.get('awayTeam', {}).get('name', ''))
+                  score = lm.get('score', {})
+                  ft = score.get('fullTime', {})
+                  ht = score.get('halfTime', {})
+                  h_goals = ft.get('home') if ft.get('home') is not None else ht.get('home')
+                  a_goals = ft.get('away') if ft.get('away') is not None else ht.get('away')
+                  minute = lm.get('minute')
+                  status = lm.get('status', '')
+                  if h_goals is not None:
+                      live_map[hn + '_' + an] = {
+                          'h': h_goals, 'a': a_goals,
+                          'min': minute, 'status': status
+                      }
+
+              updated = 0
+              for m in today_data:
+                  hn = norm(m.get('home_name', ''))
+                  an = norm(m.get('away_name', ''))
+                  key = hn + '_' + an
+                  if key in live_map:
+                      ls = live_map[key]
+                      m['homeGoalCount'] = ls['h']
+                      m['awayGoalCount'] = ls['a']
+                      m['totalGoalCount'] = ls['h'] + ls['a']
+                      if ls['min']:
+                          m['elapsed'] = ls['min']
+                      if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'):
+                          m['status'] = 'incomplete'
+                      updated += 1
+              print(f"Live skor güncellendi: {updated} maç")
+          except Exception as e:
+              print(f"Live skor hatası: {e}")
 
           main['data'] = today_data
           tmr_main['data'] = tmr_data
