@@ -516,16 +516,20 @@ function card(m) {
   const lv = isLive(m);
   const dn = isDone(m);
 
-  // Skor gösterimi - canlıda goal_timings kullan (homeGoalCount güncel olmayabilir)
+  // Skor gösterimi - Football-Data.org canlı skor varsa onu kullan
   let hG, aG;
   if (lv) {
-    // Canlı maçta timings listesinin uzunluğu = gerçek skor
-    const hTimings = Array.isArray(m.homeGoals_timings) ? m.homeGoals_timings
-                   : Array.isArray(m.homeGoals) ? m.homeGoals : null;
-    const aTimings = Array.isArray(m.awayGoals_timings) ? m.awayGoals_timings
-                   : Array.isArray(m.awayGoals) ? m.awayGoals : null;
-    hG = hTimings !== null ? hTimings.length : (m.homeGoalCount ?? 0);
-    aG = aTimings !== null ? aTimings.length : (m.awayGoalCount ?? 0);
+    if (m._liveHome !== undefined && m._liveHome !== null) {
+      hG = m._liveHome;
+      aG = m._liveAway;
+    } else {
+      const hTimings = Array.isArray(m.homeGoals_timings) ? m.homeGoals_timings
+                     : Array.isArray(m.homeGoals) ? m.homeGoals : null;
+      const aTimings = Array.isArray(m.awayGoals_timings) ? m.awayGoals_timings
+                     : Array.isArray(m.awayGoals) ? m.awayGoals : null;
+      hG = hTimings !== null ? hTimings.length : (m.homeGoalCount ?? 0);
+      aG = aTimings !== null ? aTimings.length : (m.awayGoalCount ?? 0);
+    }
   } else {
     hG = m.homeGoalCount ?? '-';
     aG = m.awayGoalCount ?? '-';
@@ -534,20 +538,20 @@ function card(m) {
 
   // Zaman etiketi - dakika hesabı
   let liveMin = '';
-  if (lv && m.date_unix) {
-    const totalMin = Math.floor((Date.now()/1000 - m.date_unix) / 60);
-    const htDone = parseInt(m.HTGoalCount) >= 0 && totalMin > 45;
-    
-    if (totalMin <= 45) {
-      // 1. Yarı
-      liveMin = `${totalMin}'`;
-    } else if (htDone && totalMin <= 60) {
-      // Devre arası
-      liveMin = `HY`;
-    } else if (totalMin > 60) {
-      // 2. Yarı (15dk devre arası çıkar)
-      const min2 = totalMin - 15;
-      liveMin = min2 <= 90 ? `${min2}'` : `90+'`;
+  if (lv) {
+    if (m._liveMin) {
+      liveMin = `${m._liveMin}'`;
+    } else if (m.date_unix) {
+      const totalMin = Math.floor((Date.now()/1000 - m.date_unix) / 60);
+      const htDone = parseInt(m.HTGoalCount) >= 0 && totalMin > 45;
+      if (totalMin <= 45) {
+        liveMin = `${totalMin}'`;
+      } else if (htDone && totalMin <= 60) {
+        liveMin = `HY`;
+      } else if (totalMin > 60) {
+        const min2 = totalMin - 15;
+        liveMin = min2 <= 90 ? `${min2}'` : `90+'`;
+      }
     }
   }
   const timeEl = lv
@@ -738,7 +742,7 @@ function dedupe(arr) {
 }
 
 async function renderLive() {
-  // FootyStats today.json'dan canlı maçları al — taze çek
+  // FootyStats today.json'dan canlı maçları al
   let liveMatches = [];
   try {
     const r = await fetch('data/today.json?t=' + Date.now());
@@ -753,8 +757,43 @@ async function renderLive() {
   if (!liveMatches.length)
     return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
 
-  return `<div class="sh">🔴 CANLI (${liveMatches.length})</div>` +
-    liveMatches.map(m => card(m)).join('');
+  // Football-Data.org live.json'dan canlı skorları al
+  let liveScores = {};
+  try {
+    const r = await fetch('data/live.json?t=' + Date.now());
+    if (r.ok) {
+      const j = await r.json();
+      const matches = Array.isArray(j.matches) ? j.matches : [];
+      // Takım ismine göre eşleştirme için map oluştur
+      for (const m of matches) {
+        const hN = (m.homeTeam?.name || '').toLowerCase().replace(/[^a-z]/g,'');
+        const aN = (m.awayTeam?.name || '').toLowerCase().replace(/[^a-z]/g,'');
+        const key = hN + '_' + aN;
+        liveScores[key] = {
+          home: m.score?.fullTime?.home ?? m.score?.halfTime?.home ?? null,
+          away: m.score?.fullTime?.away ?? m.score?.halfTime?.away ?? null,
+          minute: m.minute || null,
+          status: m.status || ''
+        };
+      }
+    }
+  } catch(e) {}
+
+  // FootyStats maçına Football-Data.org skorunu ekle
+  const normTeam = s => (s||'').toLowerCase().replace(/[^a-z]/g,'');
+  const enriched = liveMatches.map(m => {
+    const hN = normTeam(m.home_name);
+    const aN = normTeam(m.away_name);
+    const key = hN + '_' + aN;
+    const ls = liveScores[key];
+    if (ls && ls.home !== null && ls.away !== null) {
+      return {...m, _liveHome: ls.home, _liveAway: ls.away, _liveMin: ls.minute};
+    }
+    return m;
+  });
+
+  return `<div class="sh">🔴 CANLI (${enriched.length})</div>` +
+    enriched.map(m => card(m)).join('');
 }
 
 async function renderDay(offset) {
