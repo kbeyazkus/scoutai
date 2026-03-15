@@ -119,25 +119,31 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 .lv-sa{font-family:'DM Mono',monospace;font-weight:700;color:var(--text);text-align:right}
 .lv-sl{font-size:10px;color:var(--muted);text-align:center}
 
-/* ── FOTMOb TARZ CANLI ── */
-.lg-group{background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:10px}
-.lg-group-hdr{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg3)}
-.lg-group-hdr-name{font-size:12px;font-weight:700;color:var(--text);flex:1}
-.lg-group-hdr-count{font-size:11px;color:var(--muted)}
-.lv-row{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(42,42,56,.5);cursor:pointer;transition:background .15s;gap:8px}
-.lv-row:last-child{border-bottom:none}
-.lv-row:active{background:var(--bg3)}
-.lv-min{font-size:11px;font-weight:700;color:var(--red);min-width:28px;text-align:center}
-.lv-min.hy{color:var(--gold)}
-.lv-min.ft{color:var(--muted)}
-.lv-teams{flex:1;display:flex;flex-direction:column;gap:4px}
-.lv-team{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600}
-.lv-team img{width:18px;height:18px;object-fit:contain;border-radius:2px}
-.lv-team-ph{width:18px;height:18px;background:var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--muted)}
-.lv-score-col{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:20px}
-.lv-sc{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:var(--text);line-height:1}
-.lv-sc.win{color:var(--accent)}
-.lv-row-btn{font-size:10px;color:var(--muted);background:var(--bg3);border:none;border-radius:6px;padding:4px 8px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600}
+/* ── FOTMOB TARZ CANLI ── */
+.fm-group{margin-bottom:8px;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.fm-hdr{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--bg3)}
+.fm-hdr-flag{font-size:16px;line-height:1}
+.fm-hdr-info{flex:1}
+.fm-hdr-league{font-size:13px;font-weight:700;color:var(--text)}
+.fm-hdr-count{font-size:11px;color:var(--muted)}
+.fm-match{display:grid;grid-template-columns:36px 1fr auto;align-items:center;padding:10px 14px;border-top:1px solid var(--border);background:var(--card);cursor:pointer;transition:background .1s;gap:8px}
+.fm-match:active{background:var(--bg3)}
+.fm-min{font-size:11px;font-weight:800;color:var(--red);text-align:center;line-height:1.2}
+.fm-min span{display:block;width:6px;height:6px;background:var(--red);border-radius:50%;margin:3px auto 0;animation:pulse 1s infinite}
+.fm-min.hy{color:var(--gold)}
+.fm-min.hy span{background:var(--gold);animation:none}
+.fm-teams{display:flex;flex-direction:column;gap:5px}
+.fm-team{display:flex;align-items:center;gap:8px}
+.fm-logo{width:20px;height:20px;object-fit:contain;flex-shrink:0}
+.fm-logo-ph{width:20px;height:20px;background:var(--border);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted);font-weight:700;flex-shrink:0}
+.fm-name{font-size:14px;font-weight:600;color:var(--text)}
+.fm-name.win{color:var(--text);font-weight:800}
+.fm-name.lose{color:var(--muted)}
+.fm-scores{display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+.fm-score{font-family:'DM Mono',monospace;font-size:15px;font-weight:700;color:var(--text);line-height:1.4}
+.fm-score.win{color:var(--text)}
+.fm-score.lose{color:var(--muted)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* ── ALT BAR (KART) ── */
 .mc-bot{border-top:1px solid var(--border);padding:6px 12px;display:flex;align-items:center;justify-content:flex-end}
@@ -762,7 +768,6 @@ function dedupe(arr) {
 }
 
 async function renderLive() {
-  // FootyStats today.json'dan canlı maçları al
   let liveMatches = [];
   try {
     const r = await fetch('data/today.json?t=' + Date.now());
@@ -777,93 +782,114 @@ async function renderLive() {
   if (!liveMatches.length)
     return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
 
-  // Football-Data.org live.json'dan skorları al
+  // Football-Data.org live skorları
   let liveScores = {};
   try {
     const r = await fetch('data/live.json?t=' + Date.now());
     if (r.ok) {
       const j = await r.json();
-      const matches = Array.isArray(j.matches) ? j.matches : [];
-      for (const m of matches) {
-        const hN = (m.homeTeam?.name||'').toLowerCase().replace(/[^a-z]/g,'');
-        const aN = (m.awayTeam?.name||'').toLowerCase().replace(/[^a-z]/g,'');
-        liveScores[hN+'_'+aN] = {
-          home: m.score?.fullTime?.home ?? m.score?.halfTime?.home ?? null,
-          away: m.score?.fullTime?.away ?? m.score?.halfTime?.away ?? null,
-          minute: m.minute || null,
-          status: m.status || ''
-        };
+      for (const m of (j.matches||[])) {
+        const k = (m.homeTeam?.name||'').toLowerCase().replace(/[^a-z]/g,'')+'_'+(m.awayTeam?.name||'').toLowerCase().replace(/[^a-z]/g,'');
+        liveScores[k] = {home: m.score?.fullTime?.home ?? m.score?.halfTime?.home ?? null, away: m.score?.fullTime?.away ?? m.score?.halfTime?.away ?? null, minute: m.minute||null};
       }
     }
   } catch(e) {}
 
-  const normTeam = s => (s||'').toLowerCase().replace(/[^a-z]/g,'');
+  const normT = s => (s||'').toLowerCase().replace(/[^a-z]/g,'');
 
-  // Enrich ile live skor ekle
+  // Enrich
   const enriched = liveMatches.map(m => {
-    const key = normTeam(m.home_name)+'_'+normTeam(m.away_name);
-    const ls = liveScores[key];
-    if (ls && ls.home !== null) return {...m, _liveHome: ls.home, _liveAway: ls.away, _liveMin: ls.minute};
-    return m;
+    const ls = liveScores[normT(m.home_name)+'_'+normT(m.away_name)];
+    return ls?.home !== null && ls?.home !== undefined ? {...m, _h: ls.home, _a: ls.away, _min: ls.minute} : m;
   });
 
   // Lig bazında grupla
   const groups = {};
   for (const m of enriched) {
-    const lg = m.competition_name || m.league_name || 'Diğer';
+    const lg = m.competition_name || 'Diğer';
     if (!groups[lg]) groups[lg] = [];
     groups[lg].push(m);
   }
 
-  // Dakika hesabı
-  const getMin = (m) => {
-    if (m._liveMin) return {txt: m._liveMin+"'", cls: ''};
-    if (!m.date_unix) return {txt: 'CANLI', cls: ''};
-    const total = Math.floor((Date.now()/1000 - m.date_unix) / 60);
-    if (total <= 45) return {txt: total+"'", cls: ''};
-    if (total <= 62) return {txt: 'HY', cls: 'hy'};
-    const min2 = total - 15;
-    return {txt: (min2 <= 90 ? min2 : "90+")+"'", cls: ''};
+  // Lig bayrağı tahmini
+  const flagMap = {
+    'England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Premier League':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Championship':'🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    'Spain':'🇪🇸','La Liga':'🇪🇸','Segunda':'🇪🇸',
+    'Germany':'🇩🇪','Bundesliga':'🇩🇪','2. Bundesliga':'🇩🇪',
+    'Italy':'🇮🇹','Serie A':'🇮🇹','Serie B':'🇮🇹',
+    'France':'🇫🇷','Ligue 1':'🇫🇷','Ligue 2':'🇫🇷',
+    'Netherlands':'🇳🇱','Eredivisie':'🇳🇱',
+    'Portugal':'🇵🇹','Liga NOS':'🇵🇹','LigaPro':'🇵🇹',
+    'Turkey':'🇹🇷','Süper Lig':'🇹🇷',
+    'Belgium':'🇧🇪','Pro League':'🇧🇪',
+    'Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Premiership':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    'Brazil':'🇧🇷','Serie A':'🇧🇷',
+    'Argentina':'🇦🇷','USA':'🇺🇸','MLS':'🇺🇸',
+    'Champions League':'🏆','Europa League':'🏆','Conference League':'🏆',
+  };
+  const getFlag = (name) => {
+    for (const [k, v] of Object.entries(flagMap)) {
+      if (name.includes(k)) return v;
+    }
+    return '⚽';
   };
 
-  // Mini logo
-  const miniLogo = (url, name) => {
+  const getMin = (m) => {
+    if (m._min) return {txt: m._min+"'", hy: false};
+    if (!m.date_unix) return {txt: 'CANLI', hy: false};
+    const total = Math.floor((Date.now()/1000 - m.date_unix) / 60);
+    if (total <= 45) return {txt: total+"'", hy: false};
+    if (total <= 62) return {txt: 'HY', hy: true};
+    const min2 = total - 15;
+    return {txt: (min2<=90?min2:'90+')+"'", hy: false};
+  };
+
+  const logo = (url, name) => {
     if (url) {
       const src = url.startsWith('http') ? url : `https://footystats.org/${url}`;
-      return `<img src="${src}" alt="${name}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
-              <div class="lv-team-ph" style="display:none">${(name||'?')[0]}</div>`;
+      return `<img class="fm-logo" src="${src}" alt="" onerror="this.outerHTML='<div class=fm-logo-ph>${(name||'?')[0]}</div>'">`;
     }
-    return `<div class="lv-team-ph">${(name||'?')[0]}</div>`;
+    return `<div class="fm-logo-ph">${(name||'?')[0]}</div>`;
   };
 
-  let html = `<div style="font-size:11px;color:var(--muted);padding:4px 2px 8px">🔴 CANLI — ${enriched.length} maç</div>`;
+  let html = `<div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);padding:4px 2px 8px">🔴 CANLI · ${enriched.length} MAÇ</div>`;
 
   for (const [lgName, matches] of Object.entries(groups)) {
-    html += `<div class="lg-group">
-      <div class="lg-group-hdr">
-        <span class="live-dot"></span>
-        <span class="lg-group-hdr-name">${lgName}</span>
-        <span class="lg-group-hdr-count">${matches.length} maç</span>
+    const flag = getFlag(lgName);
+    html += `<div class="fm-group">
+      <div class="fm-hdr">
+        <div class="fm-hdr-flag">${flag}</div>
+        <div class="fm-hdr-info">
+          <div class="fm-hdr-league">${lgName}</div>
+        </div>
+        <div class="fm-hdr-count">${matches.length} maç</div>
       </div>`;
 
     for (const m of matches) {
       MM[m.id] = m;
-      const {txt: minTxt, cls: minCls} = getMin(m);
-      const hG = m._liveHome !== undefined ? m._liveHome
-               : (Array.isArray(m.homeGoals_timings) ? m.homeGoals_timings.length : (m.homeGoalCount ?? 0));
-      const aG = m._liveAway !== undefined ? m._liveAway
-               : (Array.isArray(m.awayGoals_timings) ? m.awayGoals_timings.length : (m.awayGoalCount ?? 0));
+      const {txt: minTxt, hy} = getMin(m);
+      const hG = m._h !== undefined ? m._h : (Array.isArray(m.homeGoals_timings) ? m.homeGoals_timings.length : (m.homeGoalCount ?? 0));
+      const aG = m._a !== undefined ? m._a : (Array.isArray(m.awayGoals_timings) ? m.awayGoals_timings.length : (m.awayGoalCount ?? 0));
       const hWin = hG > aG, aWin = aG > hG;
 
-      html += `<div class="lv-row" onclick="openAnaliz(${m.id})">
-        <div class="lv-min ${minCls}">${minTxt}</div>
-        <div class="lv-teams">
-          <div class="lv-team">${miniLogo(m.home_image, m.home_name)}<span>${m.home_name||'?'}</span></div>
-          <div class="lv-team">${miniLogo(m.away_image, m.away_name)}<span>${m.away_name||'?'}</span></div>
+      html += `<div class="fm-match" onclick="openAnaliz(${m.id})">
+        <div class="fm-min${hy?' hy':''}">
+          ${minTxt}
+          ${hy ? '' : '<span></span>'}
         </div>
-        <div class="lv-score-col">
-          <div class="lv-sc${hWin?' win':''}">${hG}</div>
-          <div class="lv-sc${aWin?' win':''}">${aG}</div>
+        <div class="fm-teams">
+          <div class="fm-team">
+            ${logo(m.home_image, m.home_name)}
+            <span class="fm-name${hWin?' win':aWin?' lose':''}">${m.home_name||'?'}</span>
+          </div>
+          <div class="fm-team">
+            ${logo(m.away_image, m.away_name)}
+            <span class="fm-name${aWin?' win':hWin?' lose':''}">${m.away_name||'?'}</span>
+          </div>
+        </div>
+        <div class="fm-scores">
+          <div class="fm-score${hWin?' win':aWin?' lose':''}">${hG}</div>
+          <div class="fm-score${aWin?' win':hWin?' lose':''}">${aG}</div>
         </div>
       </div>`;
     }
