@@ -9,10 +9,37 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Fetch FootyStats main
+      - name: Fetch FootyStats today (canlı skorlar dahil)
         run: |
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats" > data/tomorrow_main.json
+
+      - name: Commit today.json hemen (canlı skorlar için)
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          python3 << 'PYEOF'
+          import json
+          # today_main.json'u today.json'a kopyala (lig ekleme olmadan hızlı commit için)
+          with open('data/today_main.json') as f:
+              main = json.load(f)
+          # Varsa eski extra maçları koru
+          try:
+              with open('data/today.json') as f:
+                  old = json.load(f)
+              old_data = {m['id']: m for m in old.get('data', [])}
+              new_data = {m['id']: m for m in main.get('data', [])}
+              # Yeni veriden gelen maçları güncelle, geri kalanları koru
+              old_data.update(new_data)
+              main['data'] = list(old_data.values())
+          except:
+              pass
+          with open('data/today.json', 'w') as f:
+              json.dump(main, f)
+          PYEOF
+          git add data/today.json data/tomorrow_main.json
+          git commit -m "Live score update" || true
+          git push || true
 
       - name: Fetch all selected leagues
         run: |
@@ -29,7 +56,7 @@ jobs:
             sleep 0.2
           done
 
-      - name: Merge all leagues
+      - name: Merge all leagues into today.json
         run: |
           python3 << 'PYEOF'
           import json, os, glob
@@ -37,7 +64,7 @@ jobs:
 
           today = datetime.now(timezone.utc).date()
 
-          with open('data/today_main.json') as f:
+          with open('data/today.json') as f:
               main = json.load(f)
           with open('data/tomorrow_main.json') as f:
               tmr_main = json.load(f)
@@ -79,16 +106,13 @@ jobs:
           with open('data/tomorrow.json', 'w') as f:
               json.dump(tmr_main, f)
 
-          os.remove('data/today_main.json')
           os.remove('data/tomorrow_main.json')
-
           print(f"Bugün: {len(today_data)} maç (+{added_today}), Yarın: {len(tmr_data)} maç (+{added_tmr})")
           PYEOF
 
-      - name: Commit
+      - name: Final commit
         run: |
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
+          git pull --rebase || true
           git add data/
-          git commit -m "Update data" || exit 0
-          git push
+          git commit -m "Stats update" || true
+          git push || true
