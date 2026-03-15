@@ -49,48 +49,56 @@ jobs:
           from datetime import datetime, timezone
 
           api_key = os.environ.get("GEMINI_API_KEY")
-          
-          # Hata vermeyecek en dogru modeli otomatik bulma fonksiyonu
-          def find_working_model(api_key):
-              possible_models = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"]
-              for m_id in possible_models:
-                  url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_id}:generateContent?key={api_key}"
-                  try:
-                      test_res = requests.post(url, json={"contents": [{"parts": [{"text": "hi"}]}]})
-                      if test_res.status_code == 200:
-                          print(f"Calisan Model Bulundu: {m_id}")
-                          return m_id
-                  except: continue
-              return "gemini-1.5-flash" # Varsayilan
 
-          working_model_id = find_working_model(api_key) if api_key else "gemini-1.5-flash"
+          # --- MODELİ OTOMATİK BULAN AKILLI SİSTEM ---
+          def get_best_model(key):
+              if not key: return None
+              print("Sana özel calisan AI modeli araniyor...")
+              # Google'a senin anahtarinla hangi modellere izin verdigini soruyoruz
+              url = f"https://generativelanguage.googleapis.com/v1beta/models?key={key}"
+              try:
+                  res = requests.get(url).json()
+                  models = res.get('models', [])
+                  # Once Flash modellerini ara
+                  for m in models:
+                      if "gemini-1.5-flash" in m['name'] and "generateContent" in m['supportedGenerationMethods']:
+                          print(f"Buldum! Kullanilacak model: {m['name']}")
+                          return m['name']
+                  # Yoksa ilk calisan modeli al
+                  for m in models:
+                      if "generateContent" in m['supportedGenerationMethods']:
+                          print(f"Flash bulunamadi, su model kullanilacak: {m['name']}")
+                          return m['name']
+              except Exception as e:
+                  print(f"Model listesi alinirken hata: {e}")
+              return "models/gemini-1.5-flash" # Son care varsayilan
 
-          def get_ai_prediction(m, api_key, model_id):
-              # REST API uzerinden v1beta kanalini kullaniyoruz
-              url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={api_key}"
-              headers = {'Content-Type': 'application/json'}
-              
+          best_model = get_best_model(api_key)
+
+          def get_ai_prediction(m, api_key, model_path):
+              url = f"https://generativelanguage.googleapis.com/v1beta/{model_path}:generateContent?key={api_key}"
               h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
               h_xg = m.get("team_a_xg_prematch", 0)
               a_xg = m.get("team_b_xg_prematch", 0)
               
-              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. PPG: {m.get('home_ppg')}-{m.get('away_ppg')}, xG: {h_xg}-{a_xg}. En mantikli tercihi tek cumleyle yaz ve nedenini 2 kisa cumleyle acikla. '🤖 ScoutAI Yorumu:' ile basla."
-              payload = {"contents": [{"parts": [{"text": prompt}]}]}
+              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. PPG: {m.get('home_ppg')}-{m.get('away_ppg')}, xG: {h_xg}-{a_xg}. En mantikli tercihi ve nedenini 2 kisa cumleyle acikla. '🤖 ScoutAI Yorumu:' ile basla."
               
               try:
-                  response = requests.post(url, headers=headers, json=payload)
-                  if response.status_code == 200:
-                      return response.json()['candidates'][0]['content']['parts'][0]['text']
+                  res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]})
+                  if res.status_code == 200:
+                      return res.json()['candidates'][0]['content']['parts'][0]['text']
+                  print(f"Hata ({h_name}): {res.status_code}")
                   return None
               except: return None
 
-          # VERI YUKLE VE BIRLESTIR
+          # --- VERİLERİ YÜKLE ---
           today = datetime.now(timezone.utc).date()
           with open('data/today_main.json') as f: main = json.load(f)
           with open('data/tomorrow_main.json') as f: tmr_main = json.load(f)
-          today_data, tmr_data = main.get('data', []), tmr_main.get('data', [])
+          today_data = main.get('data', [])
           today_ids = {m['id'] for m in today_data}
 
+          # --- EK LİGLERİ BİRLEŞTİR ---
           for fname in glob.glob('data/extra_*.json'):
               try:
                   with open(fname) as f: extra = json.load(f)
@@ -101,7 +109,7 @@ jobs:
                   os.remove(fname)
               except: pass
 
-          # CANLI SKOR GUNCELLEME
+          # --- CANLI SKOR GÜNCELLEME ---
           def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
           try:
               with open('data/live.json') as f: live_data = json.load(f)
@@ -113,27 +121,27 @@ jobs:
                       if ls['st'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
           except: pass
 
-          # AI VIP ANALIZ
+          # --- AI VIP ANALİZ (DÜZELTİLMİŞ FİLTRE) ---
           print("Yapay Zeka VIP Yorumlari Hazirlaniyor...")
           count = 0
-          if api_key:
-              for m in today_data:
-                  if count >= 25: break
-                  status = str(m.get('status', '')).lower()
-                  if status in ('incomplete', ''):
-                      try:
-                          h_xg, a_xg = float(m.get("team_a_xg_prematch") or 0), float(m.get("team_b_xg_prematch") or 0)
-                      except: h_xg, a_xg = 0, 0
-                      # River Plate gibi degerli maclari yakalayan filtre
-                      if (h_xg + a_xg > 2.5) or abs(h_xg - a_xg) > 0.4:
-                          comment = get_ai_prediction(m, api_key, working_model_id)
-                          if comment:
-                              m['ai_comment'] = comment
-                              count += 1
-                              print(f"Basarili: {m.get('home_name')} vs {m.get('away_name')}")
-                              time.sleep(1.2)
+          for m in today_data:
+              if count >= 30: break
+              if str(m.get('status', '')).lower() in ('incomplete', ''):
+                  try:
+                      h_xg = float(m.get("team_a_xg_prematch") or 0)
+                      a_xg = float(m.get("team_b_xg_prematch") or 0)
+                  except: h_xg, a_xg = 0, 0
+                  
+                  # Filtreyi biraz daha esnettik (daha cok mac yorumlansin diye)
+                  if (h_xg + a_xg > 2.3) or abs(h_xg - a_xg) > 0.3:
+                      comment = get_ai_prediction(m, api_key, best_model)
+                      if comment:
+                          m['ai_comment'] = comment
+                          count += 1
+                          print(f"Basarili: {m.get('home_name')} vs {m.get('away_name')}")
+                          time.sleep(1.2)
 
-          main['data'], tmr_main['data'] = today_data, tmr_data
+          main['data'], tmr_main['data'] = today_data, tmr_main.get('data', [])
           with open('data/today.json', 'w') as f: json.dump(main, f)
           with open('data/tomorrow.json', 'w') as f: json.dump(tmr_main, f)
           print(f"Bitti. Toplam analiz edilen: {count} mac.")
@@ -143,5 +151,5 @@ jobs:
         run: |
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update + ScoutAI VIP VIP Comments" || true
+          git commit -m "Stats update + ScoutAI VIP Comments (Auto-Model)" || true
           git push || true
