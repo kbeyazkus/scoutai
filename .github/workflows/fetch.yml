@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Yapay zeka kütüphanesini en güncel sürümüyle kuruyoruz
-      - name: Install Google Generative AI
-        run: pip install -U google-generativeai
+      # YENİ VE RESMİ KÜTÜPHANEYİ KURUYORUZ
+      - name: Install Google GenAI
+        run: pip install -U google-genai
 
       - name: Fetch live scores (Football-Data.org)
         run: |
@@ -48,146 +48,120 @@ jobs:
           python3 << 'PYEOF'
           import json, os, glob, re, time
           from datetime import datetime, timezone
-          import google.generativeai as genai
+          from google import genai
 
-          # GEMINI AI AYARLARI (404 HATASI İÇİN DÜZELTİLDİ)
+          # YENİ KÜTÜPHANE AYARLARI
           api_key = os.environ.get("GEMINI_API_KEY")
-          ai_active = False
+          client = None
           if api_key:
               try:
-                  genai.configure(api_key=api_key)
-                  # Model ismini tam yol olarak belirtiyoruz: models/gemini-1.5-flash
-                  model = genai.GenerativeModel('models/gemini-1.5-flash') 
-                  ai_active = True
+                  client = genai.Client(api_key=api_key)
               except Exception as e:
                   print(f"AI Başlatma Hatası: {e}")
 
           def get_ai_prediction(m):
-              if not ai_active: return None
+              if not client: return None
               
-              h_name = m.get("home_name", "Ev")
-              a_name = m.get("away_name", "Deplasman")
-              h_ppg = m.get("home_ppg", 0)
-              a_ppg = m.get("away_ppg", 0)
+              h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
+              h_ppg, a_ppg = m.get("home_ppg", 0), m.get("away_ppg", 0)
               h_xg = m.get("team_a_xg_prematch", m.get("team_a_xg", 0))
               a_xg = m.get("team_b_xg_prematch", m.get("team_b_xg", 0))
-              btts = m.get("btts_potential", 0)
-              o25 = m.get("o25_potential", m.get("over25_potential", 0))
+              btts, o25 = m.get("btts_potential", 0), m.get("o25_potential", 0)
               
               prompt = f"""
-              Sen dünyanın en saygın, acımasız ve duygusuz iddaa analistisin. Oran tuzaklarına düşmezsin, sadece matematiksel gerçeklere odaklanırsın.
-              Şu maçı analiz et: {h_name} vs {a_name}
+              Dünyanın en saygın iddaa analisti olarak şu maçı analiz et: {h_name} vs {a_name}
+              Rapor: {h_name} (PPG:{h_ppg}, xG:{h_xg}), {a_name} (PPG:{a_ppg}, xG:{a_xg}). 
+              BTTS:%{btts}, Üst 2.5:%{o25}.
               
-              İstihbarat Raporu:
-              - {h_name}: Maç başı puanı: {h_ppg}, Beklenen Gol (xG): {h_xg}.
-              - {a_name}: Maç başı puanı: {a_ppg}, Beklenen Gol (xG): {a_xg}.
-              - Karşılıklı Gol İhtimali: %{btts}
-              - 2.5 Üst İhtimali: %{o25}
-              
-              Görev: Bana sadece 1 adet EN GÜVENİLİR iddaa tercihini (Örn: MS 1, 2.5 Üst vb.) tek bir net cümleyle yaz ve ardından nedenini 2 kısa cümleyle açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın. Skor tahmini yapma.
+              Görev: En güvenilir 1 adet iddaa tercihini tek net cümleyle yaz ve nedenini 2 kısa cümleyle açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın.
               """
               try:
-                  response = model.generate_content(prompt)
-                  time.sleep(2) # API kotasını korumak için 2 saniye bekleme
+                  # Yeni kütüphanede model kullanımı bu şekildedir
+                  response = client.models.generate_content(
+                      model='gemini-1.5-flash',
+                      contents=prompt
+                  )
+                  time.sleep(1.5) # Kota koruması
                   return response.text
               except Exception as e:
                   print(f"AI Yorum Hatası ({h_name} vs {a_name}): {e}")
                   return None
 
+          # MEVCUT VERİ İŞLEME KODLARI
           today = datetime.now(timezone.utc).date()
+          with open('data/today_main.json') as f: main = json.load(f)
+          with open('data/tomorrow_main.json') as f: tmr_main = json.load(f)
 
-          with open('data/today_main.json') as f:
-              main = json.load(f)
-          with open('data/tomorrow_main.json') as f:
-              tmr_main = json.load(f)
-
-          today_data = main.get('data', [])
-          tmr_data = tmr_main.get('data', [])
-          today_ids = {m['id'] for m in today_data}
-          tmr_ids = {m['id'] for m in tmr_data}
+          today_data, tmr_data = main.get('data', []), tmr_main.get('data', [])
+          today_ids, tmr_ids = {m['id'] for m in today_data}, {m['id'] for m in tmr_data}
 
           for fname in glob.glob('data/extra_*.json'):
               try:
-                  with open(fname) as f:
-                      extra = json.load(f)
+                  with open(fname) as f: extra = json.load(f)
                   for m in extra.get('data', []):
                       ts = m.get('date_unix', 0)
                       if not ts: continue
                       d = datetime.fromtimestamp(ts, tz=timezone.utc).date()
                       if d == today and m['id'] not in today_ids:
-                          today_data.append(m)
-                          today_ids.add(m['id'])
+                          today_data.append(m); today_ids.add(m['id'])
                       elif d > today and m['id'] not in tmr_ids:
-                          tmr_data.append(m)
-                          tmr_ids.add(m['id'])
+                          tmr_data.append(m); tmr_ids.add(m['id'])
                   os.remove(fname)
-              except Exception as e:
-                  pass
+              except: pass
 
           def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
           def match_score(a, b):
               na, nb = norm(a), norm(b)
               if na == nb: return 1.0
-              if na in nb or nb in na: return 0.9
               wa, wb = [w for w in na.split() if len(w) >= 3], [w for w in nb.split() if len(w) >= 3]
               if not wa or not wb: return 0
               matched = sum(1 for w in wa if any(w in x or x in w for x in wb))
               return matched / max(len(wa), len(wb))
 
+          # CANLI SKOR GÜNCELLEME
           try:
-              with open('data/live.json') as f:
-                  live_data = json.load(f)
-              live_matches = live_data.get('matches', [])
+              with open('data/live.json') as f: live_data = json.load(f)
               live_map = {}
-              for lm in live_matches:
-                  ht, at, score = lm.get('homeTeam', {}), lm.get('awayTeam', {}), lm.get('score', {})
-                  ft, ht_score = score.get('fullTime', {}), score.get('halfTime', {})
-                  h_g = ft.get('home') if ft.get('home') is not None else ht_score.get('home')
-                  a_g = ft.get('away') if ft.get('away') is not None else ht_score.get('away')
+              for lm in live_data.get('matches', []):
+                  h_g = lm.get('score', {}).get('fullTime', {}).get('home')
+                  a_g = lm.get('score', {}).get('fullTime', {}).get('away')
                   if h_g is None: continue
-                  for hn in [ht.get('name',''), ht.get('shortName',''), ht.get('tla','')]:
-                      for an in [at.get('name',''), at.get('shortName',''), at.get('tla','')]:
-                          if hn and an: live_map[norm(hn) + '_' + norm(an)] = {'h': h_g, 'a': a_g, 'min': lm.get('minute'), 'status': lm.get('status', '')}
+                  key = norm(lm.get('homeTeam', {}).get('name', '')) + '_' + norm(lm.get('awayTeam', {}).get('name', ''))
+                  live_map[key] = {'h': h_g, 'a': a_g, 'min': lm.get('minute'), 'status': lm.get('status')}
 
               for m in today_data:
                   hn, an = norm(m.get('home_name', '')), norm(m.get('away_name', ''))
                   ls = live_map.get(hn + '_' + an)
-                  if not ls:
-                      best = 0
-                      for lk, lv in live_map.items():
-                          p = lk.split('_')
-                          if len(p) != 2: continue
-                          s = match_score(hn, p[0]) + match_score(an, p[1])
-                          if s > best and s >= 1.4: best, ls = s, lv
                   if ls:
                       m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
-                      m['totalGoalCount'] = (ls['h'] or 0) + (ls['a'] or 0)
-                      if ls['min']: m['elapsed'] = ls['min']
-                      if ls['status'] == 'PAUSED': m['elapsed'], m['status'] = 'HY', 'live'
-                      elif ls['status'] in ('IN_PLAY', 'HALFTIME'): m['status'] = 'live'
-          except Exception: pass
+                      m['status'] = 'live' if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME') else m['status']
+          except: pass
 
-          # AI YORUMLARI (AKILLI FİLTRELEME İLE)
+          # AI ANALİZİ (FİLTRELİ)
           print("Yapay Zeka VIP Yorumları Hazırlanıyor...")
+          count = 0
           for m in today_data:
+              if count >= 35: break # Her çalışmada max 35 maç (Kota güvenliği)
               status = str(m.get('status', '')).lower()
-              if status == 'incomplete' or status == '':
+              if status in ('incomplete', ''):
                   h_xg = float(m.get("team_a_xg_prematch") or 0)
                   a_xg = float(m.get("team_b_xg_prematch") or 0)
-                  # Sadece kayda değer (xG yüksek veya güç farkı olan) maçlara yorum yap
-                  if (h_xg + a_xg > 2.6) or abs(h_xg - a_xg) > 0.4:
+                  # Sadece kaliteli maçları analiz et
+                  if (h_xg + a_xg > 2.7) or abs(h_xg - a_xg) > 0.4:
                       comment = get_ai_prediction(m)
-                      if comment: m['ai_comment'] = comment
+                      if comment:
+                          m['ai_comment'] = comment
+                          count += 1
 
           main['data'], tmr_main['data'] = today_data, tmr_data
           with open('data/today.json', 'w') as f: json.dump(main, f)
           with open('data/tomorrow.json', 'w') as f: json.dump(tmr_main, f)
-          print(f"Bugün: {len(today_data)}, Yarın: {len(tmr_data)}")
+          print(f"Bitti. Analiz edilen: {count} maç.")
           PYEOF
 
       - name: Final commit
         run: |
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update + AI Comments" || true
+          git commit -m "Stats update + AI VIP Comments" || true
           git push || true
