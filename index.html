@@ -310,7 +310,6 @@ function isLive(m) {
   const s = String(m.status||'').toLowerCase();
   if (s === 'inprogress' || s === 'live') return true;
   if (s === 'incomplete') {
-    // Maç başlamış mı? date_unix geçmişte mi?
     const now = Date.now() / 1000;
     return m.date_unix > 0 && m.date_unix <= now;
   }
