@@ -973,25 +973,83 @@ async function renderKombin() {
     return acc * (odd || 1);
   }, 1);
 
-  // ── 3. ÇILGIN 12'Lİ (yüksek oran, mantıklı seçimler) ──
-  const cilgin = scored
-    .filter(x => {
-      const a = x.a;
-      const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
-      return a.score >= 50 && odd >= 1.5;
-    })
+  // ── 3. ÇILGIN 12'Lİ (yüksek oran ama mantıklı) ──
+  // Mantık: Güçlü deplasmanlar (2 seç), sürpriz ev (1 seç yüksek oranla), Üst 2.5 yüksek olanlar
+  const cilginPool = scored.filter(x => {
+    const a = x.a;
+    const m = x.m;
+    const odd1 = parseFloat(m.odds_ft_1) || 0;
+    const odd2 = parseFloat(m.odds_ft_2) || 0;
+    const oddX = parseFloat(m.odds_ft_x) || 0;
+    const btts  = parseFloat(m.btts_potential) || 0;
+    const ov25  = parseFloat(m.o25_potential) || 0;
+    const hppg  = parseFloat(m.home_ppg) || 0;
+    const appg  = parseFloat(m.away_ppg) || 0;
+
+    // Senaryo 1: Güçlü deplasman (away daha güçlü ama odd2 >= 1.8)
+    const gucluDep = appg > hppg + 0.3 && odd2 >= 1.8 && odd2 <= 4.5;
+    // Senaryo 2: Yüksek oranlı ev favori (odd1 >= 2.0, hppg güçlü)
+    const yuksekEv = hppg > appg + 0.2 && odd1 >= 2.0 && odd1 <= 5.0;
+    // Senaryo 3: Çok gollü maç - Üst 2.5 yüksek oran
+    const gollu = ov25 >= 65 && (parseFloat(m.odds_ft_over25) || 0) >= 1.6;
+    // Senaryo 4: BTTS yüksek, iyi oran
+    const bttsIyi = btts >= 65 && (parseFloat(m.odds_btts_yes) || 0) >= 1.6;
+
+    return gucluDep || yuksekEv || gollu || bttsIyi;
+  });
+
+  // Her senaryodan dengeli seç
+  const getScenario = (pool, fn, n) => pool
+    .filter(fn)
     .sort((a, b) => {
-      // Güven skoru * oran dengesi
       const oddA = a.a.pick === '1' ? a.a.odd1 : a.a.pick === '2' ? a.a.odd2 : a.a.oddX;
       const oddB = b.a.pick === '1' ? b.a.odd1 : b.a.pick === '2' ? b.a.odd2 : b.a.oddX;
-      return (b.a.score * oddB) - (a.a.score * oddA);
+      return (b.a.score * Math.log(oddB + 1)) - (a.a.score * Math.log(oddA + 1));
     })
-    .slice(0, 12);
+    .slice(0, n);
+
+  // Senaryo bazlı seçim + pick override
+  const cilginRaw = [];
+  const cilginIds = new Set();
+
+  // Güçlü deplasman → pick: 2
+  for (const x of cilginPool.filter(x => {
+    const m = x.m;
+    return (parseFloat(m.away_ppg)||0) > (parseFloat(m.home_ppg)||0) + 0.3 && (parseFloat(m.odds_ft_2)||0) >= 1.8;
+  }).sort((a,b) => b.a.score - a.a.score).slice(0,4)) {
+    if (!cilginIds.has(x.m.id)) {
+      cilginRaw.push({...x, a: {...x.a, pick:'2', odd2: parseFloat(x.m.odds_ft_2)||x.a.odd2}});
+      cilginIds.add(x.m.id);
+    }
+  }
+  // Yüksek oranlı ev → pick: 1
+  for (const x of cilginPool.filter(x => {
+    const m = x.m;
+    return (parseFloat(m.odds_ft_1)||0) >= 2.0 && (parseFloat(m.home_ppg)||0) > (parseFloat(m.away_ppg)||0);
+  }).sort((a,b) => b.a.score - a.a.score).slice(0,4)) {
+    if (!cilginIds.has(x.m.id)) {
+      cilginRaw.push({...x, a: {...x.a, pick:'1', odd1: parseFloat(x.m.odds_ft_1)||x.a.odd1}});
+      cilginIds.add(x.m.id);
+    }
+  }
+  // Üst 2.5 → gösterim için pick olarak "Üst 2.5" — normal pick kullan
+  for (const x of cilginPool.filter(x => (parseFloat(x.m.o25_potential)||0) >= 65)
+    .sort((a,b) => (parseFloat(b.m.o25_potential)||0) - (parseFloat(a.m.o25_potential)||0))
+    .slice(0,4)) {
+    if (!cilginIds.has(x.m.id)) {
+      cilginRaw.push(x);
+      cilginIds.add(x.m.id);
+    }
+  }
+
+  const cilgin = cilginRaw.slice(0, 12);
 
   const cilginOran = cilgin.reduce((acc, x) => {
     const a = x.a;
-    const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
-    return acc * (odd || 1);
+    const odd = a.pick === '1' ? (parseFloat(x.m.odds_ft_1)||a.odd1)
+              : a.pick === '2' ? (parseFloat(x.m.odds_ft_2)||a.odd2)
+              : (parseFloat(x.m.odds_ft_x)||a.oddX);
+    return acc * (odd > 1 ? odd : 1);
   }, 1);
 
   // Kart HTML
