@@ -9,6 +9,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Fetch API-Football (canlı) - EN ÖNCE
+        run: |
+          curl -s "https://v3.football.api-sports.io/fixtures?live=all" \
+            -H "x-apisports-key: 8763cc54795f6a9d3c1a982e903f530f" \
+            > data/live.json
+
+      - name: Commit live.json hemen
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add data/live.json
+          git commit -m "Live update" || true
+          git push || true
+
       - name: Fetch FootyStats main
         run: |
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
@@ -17,7 +31,6 @@ jobs:
       - name: Fetch all selected leagues
         run: |
           KEY="efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
-          # Tüm seçili liglerin 2025/2026 season ID'leri
           SEASONS="
             16504 15000 14968 14924 15050 15115 14972 14930 14936 16572
             14932 15068 14954 15632 14937 14931 14923 16544 16783 16576
@@ -37,7 +50,6 @@ jobs:
           from datetime import datetime, timezone
 
           today = datetime.now(timezone.utc).date()
-          tom = None
 
           with open('data/today_main.json') as f:
               main = json.load(f)
@@ -87,16 +99,9 @@ jobs:
           print(f"Bugün: {len(today_data)} maç (+{added_today}), Yarın: {len(tmr_data)} maç (+{added_tmr})")
           PYEOF
 
-      - name: Fetch API-Football (canlı)
+      - name: Commit stats
         run: |
-          curl -s "https://v3.football.api-sports.io/fixtures?live=all" \
-            -H "x-apisports-key: 8763cc54795f6a9d3c1a982e903f530f" \
-            > data/live.json
-
-      - name: Commit
-        run: |
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
+          git pull --rebase || true
           git add data/
-          git commit -m "Update data" || exit 0
-          git push
+          git commit -m "Stats update" || true
+          git push || true
