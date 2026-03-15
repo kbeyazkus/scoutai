@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Yapay zeka kütüphanesini kuruyoruz
+      # Yapay zeka kütüphanesini en güncel sürümüyle kuruyoruz
       - name: Install Google Generative AI
-        run: pip install google-generativeai
+        run: pip install -U google-generativeai
 
       - name: Fetch live scores (Football-Data.org)
         run: |
@@ -50,13 +50,14 @@ jobs:
           from datetime import datetime, timezone
           import google.generativeai as genai
 
-          # GEMINI AI AYARLARI
+          # GEMINI AI AYARLARI (404 HATASI İÇİN DÜZELTİLDİ)
           api_key = os.environ.get("GEMINI_API_KEY")
           ai_active = False
           if api_key:
               try:
                   genai.configure(api_key=api_key)
-                  model = genai.GenerativeModel('gemini-1.5-flash') # Hızlı ve ucuz olan model
+                  # Model ismini tam yol olarak belirtiyoruz: models/gemini-1.5-flash
+                  model = genai.GenerativeModel('models/gemini-1.5-flash') 
                   ai_active = True
               except Exception as e:
                   print(f"AI Başlatma Hatası: {e}")
@@ -74,7 +75,7 @@ jobs:
               o25 = m.get("o25_potential", m.get("over25_potential", 0))
               
               prompt = f"""
-              Sen dünyanın en saygın, acımasız ve duygusuz iddaa analistisin. Oran tuzaklarına düşmezsin, sadece matematiksel gerçeklere ve oyunun doğasına odaklanırsın.
+              Sen dünyanın en saygın, acımasız ve duygusuz iddaa analistisin. Oran tuzaklarına düşmezsin, sadece matematiksel gerçeklere odaklanırsın.
               Şu maçı analiz et: {h_name} vs {a_name}
               
               İstihbarat Raporu:
@@ -83,17 +84,16 @@ jobs:
               - Karşılıklı Gol İhtimali: %{btts}
               - 2.5 Üst İhtimali: %{o25}
               
-              Görev: Bana sadece 1 adet EN GÜVENİLİR iddaa tercihini (Örn: MS 1, 2.5 Üst, İY 0.5 Üst vb.) tek bir net cümleyle yaz ve ardından bu seçimi neden yaptığını takımların gücünü sorgulayarak 2 kısa cümleyle açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın. Skor tahmini yapma.
+              Görev: Bana sadece 1 adet EN GÜVENİLİR iddaa tercihini (Örn: MS 1, 2.5 Üst vb.) tek bir net cümleyle yaz ve ardından nedenini 2 kısa cümleyle açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın. Skor tahmini yapma.
               """
               try:
                   response = model.generate_content(prompt)
-                  time.sleep(1) # API limitine takılmamak için 1 saniye bekle
+                  time.sleep(2) # API kotasını korumak için 2 saniye bekleme
                   return response.text
               except Exception as e:
                   print(f"AI Yorum Hatası ({h_name} vs {a_name}): {e}")
                   return None
 
-          # MEVCUT MERGE VE CANLI SKOR KODLARIN
           today = datetime.now(timezone.utc).date()
 
           with open('data/today_main.json') as f:
@@ -129,8 +129,7 @@ jobs:
               na, nb = norm(a), norm(b)
               if na == nb: return 1.0
               if na in nb or nb in na: return 0.9
-              wa = [w for w in na.split() if len(w) >= 3]
-              wb = [w for w in nb.split() if len(w) >= 3]
+              wa, wb = [w for w in na.split() if len(w) >= 3], [w for w in nb.split() if len(w) >= 3]
               if not wa or not wb: return 0
               matched = sum(1 for w in wa if any(w in x or x in w for x in wb))
               return matched / max(len(wa), len(wb))
@@ -141,68 +140,48 @@ jobs:
               live_matches = live_data.get('matches', [])
               live_map = {}
               for lm in live_matches:
-                  ht = lm.get('homeTeam', {})
-                  at = lm.get('awayTeam', {})
-                  score = lm.get('score', {})
-                  ft = score.get('fullTime', {})
-                  ht_score = score.get('halfTime', {})
-                  h_goals = ft.get('home') if ft.get('home') is not None else ht_score.get('home')
-                  a_goals = ft.get('away') if ft.get('away') is not None else ht_score.get('away')
-                  minute = lm.get('minute')
-                  status = lm.get('status', '')
-                  if h_goals is None: continue
+                  ht, at, score = lm.get('homeTeam', {}), lm.get('awayTeam', {}), lm.get('score', {})
+                  ft, ht_score = score.get('fullTime', {}), score.get('halfTime', {})
+                  h_g = ft.get('home') if ft.get('home') is not None else ht_score.get('home')
+                  a_g = ft.get('away') if ft.get('away') is not None else ht_score.get('away')
+                  if h_g is None: continue
                   for hn in [ht.get('name',''), ht.get('shortName',''), ht.get('tla','')]:
                       for an in [at.get('name',''), at.get('shortName',''), at.get('tla','')]:
-                          if hn and an:
-                              live_map[norm(hn) + '_' + norm(an)] = {'h': h_goals, 'a': a_goals, 'min': minute, 'status': status}
+                          if hn and an: live_map[norm(hn) + '_' + norm(an)] = {'h': h_g, 'a': a_g, 'min': lm.get('minute'), 'status': lm.get('status', '')}
 
               for m in today_data:
                   hn, an = norm(m.get('home_name', '')), norm(m.get('away_name', ''))
-                  key = hn + '_' + an
-                  ls = live_map.get(key)
+                  ls = live_map.get(hn + '_' + an)
                   if not ls:
-                      best_score = 0
-                      for lkey, lval in live_map.items():
-                          parts = lkey.split('_')
-                          if len(parts) != 2: continue
-                          lhn, lan = parts
-                          hs, as_ = match_score(hn, lhn), match_score(an, lan)
-                          total = hs + as_
-                          if total > best_score and hs >= 0.7 and as_ >= 0.7:
-                              best_score, ls = total, lval
-
+                      best = 0
+                      for lk, lv in live_map.items():
+                          p = lk.split('_')
+                          if len(p) != 2: continue
+                          s = match_score(hn, p[0]) + match_score(an, p[1])
+                          if s > best and s >= 1.4: best, ls = s, lv
                   if ls:
                       m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
                       m['totalGoalCount'] = (ls['h'] or 0) + (ls['a'] or 0)
                       if ls['min']: m['elapsed'] = ls['min']
-                      if ls['status'] == 'PAUSED':
-                          m['elapsed'], m['status'] = 'HY', 'live'
-                      elif ls['status'] in ('IN_PLAY', 'HALFTIME'):
-                          m['status'] = 'live'
+                      if ls['status'] == 'PAUSED': m['elapsed'], m['status'] = 'HY', 'live'
+                      elif ls['status'] in ('IN_PLAY', 'HALFTIME'): m['status'] = 'live'
+          except Exception: pass
 
-          except Exception as e:
-              pass
-
-          # AI YORUMLARINI SADECE BUGÜNÜN MAÇLARINA EKLE (Performans için)
-          print("Yapay Zeka Yorumları Hazırlanıyor...")
+          # AI YORUMLARI (AKILLI FİLTRELEME İLE)
+          print("Yapay Zeka VIP Yorumları Hazırlanıyor...")
           for m in today_data:
-              # Sadece henüz başlamamış maçlar için yorum alalım
               status = str(m.get('status', '')).lower()
               if status == 'incomplete' or status == '':
-                  # Çok fazla istek atmamak için şimdilik sadece xG'si yüksek maçları seçebiliriz
-                  # veya tüm maçlara atabiliriz. (Şu an tüm maçlara atıyor)
-                  comment = get_ai_prediction(m)
-                  if comment:
-                      m['ai_comment'] = comment
+                  h_xg = float(m.get("team_a_xg_prematch") or 0)
+                  a_xg = float(m.get("team_b_xg_prematch") or 0)
+                  # Sadece kayda değer (xG yüksek veya güç farkı olan) maçlara yorum yap
+                  if (h_xg + a_xg > 2.6) or abs(h_xg - a_xg) > 0.4:
+                      comment = get_ai_prediction(m)
+                      if comment: m['ai_comment'] = comment
 
-          main['data'] = today_data
-          tmr_main['data'] = tmr_data
-
-          with open('data/today.json', 'w') as f:
-              json.dump(main, f)
-          with open('data/tomorrow.json', 'w') as f:
-              json.dump(tmr_main, f)
-
+          main['data'], tmr_main['data'] = today_data, tmr_data
+          with open('data/today.json', 'w') as f: json.dump(main, f)
+          with open('data/tomorrow.json', 'w') as f: json.dump(tmr_main, f)
           print(f"Bugün: {len(today_data)}, Yarın: {len(tmr_data)}")
           PYEOF
 
@@ -212,4 +191,3 @@ jobs:
           git add data/
           git commit -m "Stats update + AI Comments" || true
           git push || true
-          
