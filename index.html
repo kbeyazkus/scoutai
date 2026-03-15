@@ -548,7 +548,9 @@ function card(m) {
   // Dakika - API'den gelen elapsed varsa kullan, yoksa hesapla
   let liveMin = '';
   if (lv) {
-    if (m.elapsed) {
+    if (m.elapsed === 'HY' || String(m.status).toLowerCase() === 'paused') {
+      liveMin = 'HY';
+    } else if (m.elapsed) {
       liveMin = m.elapsed + "'";
     } else if (m.date_unix) {
       const diff = Math.floor((Date.now() / 1000 - m.date_unix) / 60);
@@ -819,6 +821,7 @@ async function renderLive() {
   };
 
   const getMin = (m) => {
+    if (m.elapsed === 'HY' || String(m.status).toLowerCase() === 'paused') return {txt: 'HY', hy: true};
     if (m.elapsed) return {txt: m.elapsed+"'", hy: false};
     if (m._min) return {txt: m._min+"'", hy: false};
     if (!m.date_unix) return {txt: 'CANLI', hy: false};
