@@ -9,7 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Sadece veri çekmek için requests kütüphanesini garantiye alıyoruz
       - name: Install dependencies
         run: pip install requests
 
@@ -50,8 +49,8 @@ jobs:
           from datetime import datetime, timezone
 
           def get_ai_prediction(m, api_key):
-              # Kütüphane hatasını bypass etmek için doğrudan v1 (STABLE) endpointine bağlanıyoruz
-              url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={api_key}"
+              # 404 Hatasini cozmek icin en genis kapsamli modeli ve REST endpointini kullaniyoruz
+              url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={api_key}"
               headers = {'Content-Type': 'application/json'}
               
               h_name = m.get("home_name", "Ev")
@@ -59,26 +58,26 @@ jobs:
               h_xg = m.get("team_a_xg_prematch", 0)
               a_xg = m.get("team_b_xg_prematch", 0)
               
-              prompt = f"Futbol analisti olarak şu maçı yorumla: {h_name} vs {a_name}. Ev sahibi xG: {h_xg}, Deplasman xG: {a_xg}. En mantıklı bahis tahminini tek cümleyle yaz ve 2 cümleyle nedenini açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın."
+              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. Ev xG: {h_xg}, Dep xG: {a_xg}. En mantikli bahis tahminini tek cumleyle yaz ve 2 cumleyle nedenini acikla. Cevabin '🤖 ScoutAI Yorumu:' ile baslasin."
               
-              payload = {
-                  "contents": [{
-                      "parts": [{"text": prompt}]
-                  }]
-              }
+              payload = {"contents": [{"parts": [{"text": prompt}]}]}
               
               try:
                   response = requests.post(url, headers=headers, json=payload)
                   if response.status_code == 200:
                       return response.json()['candidates'][0]['content']['parts'][0]['text']
                   else:
-                      print(f"AI Hatası ({h_name} vs {a_name}): {response.status_code} - {response.text}")
+                      # Alternatif model ismini dene
+                      url_alt = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+                      response = requests.post(url_alt, headers=headers, json=payload)
+                      if response.status_code == 200:
+                          return response.json()['candidates'][0]['content']['parts'][0]['text']
+                      print(f"AI Hatasi ({h_name}): {response.status_code}")
                       return None
               except Exception as e:
-                  print(f"Bağlantı Hatası: {e}")
+                  print(f"Baglanti Hatasi: {e}")
                   return None
 
-          # VERİLERİ YÜKLE
           today = datetime.now(timezone.utc).date()
           api_key = os.environ.get("GEMINI_API_KEY")
           
@@ -88,7 +87,6 @@ jobs:
           tmr_data = tmr_main.get('data', [])
           today_ids = {m['id'] for m in today_data}
 
-          # EK LİGLERİ BİRLEŞTİR
           for fname in glob.glob('data/extra_*.json'):
               try:
                   with open(fname) as f: extra = json.load(f)
@@ -100,7 +98,6 @@ jobs:
                   os.remove(fname)
               except: pass
 
-          # CANLI SKOR GÜNCELLEME
           def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
           try:
               with open('data/live.json') as f: live_data = json.load(f)
@@ -118,8 +115,7 @@ jobs:
                       if ls['st'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
           except: pass
 
-          # YAPAY ZEKA VIP YORUMLARI
-          print("Yapay Zeka VIP Yorumları Hazırlanıyor...")
+          print("Yapay Zeka VIP Yorumlari Hazirlaniyor...")
           count = 0
           if api_key:
               for m in today_data:
@@ -131,24 +127,23 @@ jobs:
                           a_xg = float(m.get("team_b_xg_prematch") or 0)
                       except: h_xg, a_xg = 0, 0
                       
-                      # Analize değer kaliteli maçları seçiyoruz
                       if (h_xg + a_xg > 2.5) or abs(h_xg - a_xg) > 0.4:
                           comment = get_ai_prediction(m, api_key)
                           if comment:
                               m['ai_comment'] = comment
                               count += 1
-                              print(f"Analiz Tamamlandı: {m.get('home_name')} vs {m.get('away_name')}")
-                              time.sleep(1) # API hızı için kısa bekleme
+                              print(f"Basarili: {m.get('home_name')} vs {m.get('away_name')}")
+                              time.sleep(1.2)
 
           main['data'], tmr_main['data'] = today_data, tmr_data
           with open('data/today.json', 'w') as f: json.dump(main, f)
           with open('data/tomorrow.json', 'w') as f: json.dump(tmr_main, f)
-          print(f"Bitti. Toplam analiz edilen: {count} maç.")
+          print(f"Bitti. Toplam analiz edilen: {count} mac.")
           PYEOF
 
       - name: Final commit
         run: |
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update + Direct ScoutAI v1 Comments" || true
+          git commit -m "Stats update + ScoutAI VIP Comments" || true
           git push || true
