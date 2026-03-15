@@ -111,14 +111,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 .st-daily{background:rgba(100,200,255,.12);color:#64c8ff}
 .st-corner{background:rgba(200,150,255,.12);color:#c896ff}
 
-/* ── CANLI İSTATİSTİKLER ── */
-.lv-mc{border-color:rgba(255,77,109,.4)}
-.lv-stats{padding:6px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
-.lv-stat{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:4px;font-size:11px}
-.lv-sh{font-family:'DM Mono',monospace;font-weight:700;color:var(--text)}
-.lv-sa{font-family:'DM Mono',monospace;font-weight:700;color:var(--text);text-align:right}
-.lv-sl{font-size:10px;color:var(--muted);text-align:center}
-
 /* ── FOTMOB TARZ CANLI ── */
 .fm-group{margin-bottom:8px;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
 .fm-hdr{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--bg3)}
@@ -248,7 +240,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   <button id="fab-open" onclick="openK()">🎫 Kuponu Gör</button>
 </div>
 
-<!-- ANALİZ MODAL -->
 <div id="amod" onclick="outsideA(event)">
   <div id="amod-in">
     <div class="amod-head">
@@ -262,7 +253,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   </div>
 </div>
 
-<!-- KUPON MODAL -->
 <div id="kmod" onclick="outsideK(event)">
   <div id="kmod-in">
     <div class="mh">
@@ -301,7 +291,6 @@ async function fetchDay(offset) {
   cache[key] = Array.isArray(j.data) ? j.data : [];
   return cache[key];
 }
-
 
 // ══════════════════════════════════════════════
 //  MAÇ DURUM YARDIMCILARI
@@ -642,111 +631,6 @@ function card(m) {
 </div>`;
 }
 
-// ══════════════════════════════════════════════
-//  CANLI MAÇ KARTI (API-Football)
-// ══════════════════════════════════════════════
-function liveCard(m) {
-  MM[m.id] = m;
-  const hN = m.home_name || '?';
-  const aN = m.away_name || '?';
-  const lg = m.competition_name || '⚽';
-  const hG = m.homeGoalCount ?? 0;
-  const aG = m.awayGoalCount ?? 0;
-  const min = m.minStr || (m.elapsed ? `${m.elapsed}'` : m.status_short || 'CANLI');
-
-  const k  = kupon[m.id];
-  const s1 = k?.pick === '1' ? ' s1' : '';
-  const sx = k?.pick === 'X' ? ' sx' : '';
-  const s2 = k?.pick === '2' ? ' s2' : '';
-
-  // Canlı istatistik satırı
-  const statItem = (label, hv, av) => {
-    if (hv === null && av === null) return '';
-    const h = hv ?? '-', a = av ?? '-';
-    return `<div class="lv-stat">
-      <span class="lv-sh">${h}</span>
-      <span class="lv-sl">${label}</span>
-      <span class="lv-sa">${a}</span>
-    </div>`;
-  };
-
-  const statsHtml = [
-    statItem('Top', m.home_possession, m.away_possession),
-    statItem('Şut', m.home_shots, m.away_shots),
-    statItem('İsabetli', m.home_shots_on, m.away_shots_on),
-    statItem('Korner', m.home_corners, m.away_corners),
-    statItem('Sarı', m.home_yellow, m.away_yellow),
-    statItem('Kırmızı', m.home_red, m.away_red),
-  ].filter(Boolean).join('');
-
-  // FootyStats istatistikleri
-  const hPPGv = parseFloat(m.home_ppg) || 0;
-  const aPPGv = parseFloat(m.away_ppg) || 0;
-  const bttsV = parseFloat(m.btts_potential) || 0;
-  const ov25V = parseFloat(m.o25_potential) || 0;
-  const o05HTV= parseFloat(m.o05HT_potential) || 0;
-  const hPPGd = hPPGv > 0 ? hPPGv.toFixed(2) : '-';
-  const aPPGd = aPPGv > 0 ? aPPGv.toFixed(2) : '-';
-  const bttsd = bttsV > 0 ? Math.round(bttsV) + '%' : '-';
-  const ov25d = ov25V > 0 ? Math.round(ov25V) + '%' : '-';
-  const o05HTd= o05HTV > 0 ? Math.round(o05HTV) + '%' : '-';
-  const bttsC = bttsV >= 60 ? 'hi' : bttsV >= 45 ? 'med' : '';
-  const ov25C = ov25V >= 60 ? 'hi' : ov25V >= 45 ? 'med' : '';
-  const o05HC = o05HTV >= 65 ? 'hi' : o05HTV >= 50 ? 'med' : '';
-  const fsTag = '';
-
-  // Oranlar
-  const a = analyze(m);
-  const tags = a.systems.map(s => `<div class="st st-${s.key}">${s.label}</div>`).join('');
-
-  return `<div class="mc lv-mc">
-  <div class="mc-top">
-    <div class="lg-badge">${lg}</div>
-    <div style="display:flex;align-items:center;gap:5px">
-      <span class="live-dot"></span>
-      <span class="live-lbl">${min}</span>
-    </div>
-  </div>
-  <div class="mc-teams">
-    <div class="team-col h">${logoImg(m.home_image,hN)}<div class="tname h">${hN}</div></div>
-    <div class="score-box live" style="font-size:24px;font-weight:700">${hG}–${aG}</div>
-    <div class="team-col a"><div class="tname a">${aN}</div>${logoImg(m.away_image,aN)}</div>
-  </div>
-  ${statsHtml ? `<div class="lv-stats">${statsHtml}</div>` : ''}
-  <div class="mc-odds">
-    <div class="odd-btn${s1}" onclick="bet('${m.id}','1')">
-      <div class="odd-lbl">1</div>
-      <div class="odd-val">${a.odd1>0?a.odd1.toFixed(2):'-'}</div>
-    </div>
-    <div class="odd-btn${sx}" onclick="bet('${m.id}','X')">
-      <div class="odd-lbl">X</div>
-      <div class="odd-val">${a.oddX>0?a.oddX.toFixed(2):'-'}</div>
-    </div>
-    <div class="odd-btn${s2}" onclick="bet('${m.id}','2')">
-      <div class="odd-lbl">2</div>
-      <div class="odd-val">${a.odd2>0?a.odd2.toFixed(2):'-'}</div>
-    </div>
-  </div>
-  <div class="mc-form">
-    <div class="fp">${formPills(m.home_form)}</div>
-    <div class="fp">${formPills(m.away_form)}</div>
-  </div>
-  <div class="mc-stats">
-    <div class="si"><div class="sl">Ev PPG</div><div class="sv">${hPPGd}</div></div>
-    <div class="si"><div class="sl">Dep PPG</div><div class="sv">${aPPGd}</div></div>
-    <div class="si"><div class="sl">BTTS</div><div class="sv ${bttsC}">${bttsd}</div></div>
-    <div class="si"><div class="sl">Üst 2.5</div><div class="sv ${ov25C}">${ov25d}</div></div>
-    <div class="si"><div class="sl">İY Gol</div><div class="sv ${o05HC}">${o05HTd}</div></div>
-  </div>
-  ${fsTag}
-  ${tags ? `<div class="mc-tags">${tags}</div>` : ''}
-  <div class="mc-bot">
-    <button class="anl-btn" onclick="openAnaliz('${m.id}')">🔍 Analiz</button>
-  </div>
-</div>`;
-}
-
-
 function dedupe(arr) {
   const seen = new Set();
   return arr.filter(m => {
@@ -872,7 +756,7 @@ async function renderLive() {
       const aG = m._a !== undefined ? m._a : (m.awayGoalCount ?? 0);
       const hWin = hG > aG, aWin = aG > hG;
 
-      html += `<div class="fm-match" onclick="openAnaliz(${m.id})">
+      html += `<div class="fm-match" onclick="openAnaliz('${m.id}')">
         <div class="fm-min${hy?' hy':''}">
           ${minTxt}
           ${hy ? '' : '<span></span>'}
@@ -1052,7 +936,6 @@ async function renderKombin() {
   }, 1);
 
   // ── 3. ÇILGIN 12'Lİ (yüksek oran ama mantıklı) ──
-  // Mantık: Güçlü deplasmanlar (2 seç), sürpriz ev (1 seç yüksek oranla), Üst 2.5 yüksek olanlar
   const cilginPool = scored.filter(x => {
     const a = x.a;
     const m = x.m;
@@ -1064,33 +947,17 @@ async function renderKombin() {
     const hppg  = parseFloat(m.home_ppg) || 0;
     const appg  = parseFloat(m.away_ppg) || 0;
 
-    // Senaryo 1: Güçlü deplasman (away daha güçlü ama odd2 >= 1.8)
     const gucluDep = appg > hppg + 0.3 && odd2 >= 1.8 && odd2 <= 4.5;
-    // Senaryo 2: Yüksek oranlı ev favori (odd1 >= 2.0, hppg güçlü)
     const yuksekEv = hppg > appg + 0.2 && odd1 >= 2.0 && odd1 <= 5.0;
-    // Senaryo 3: Çok gollü maç - Üst 2.5 yüksek oran
     const gollu = ov25 >= 65 && (parseFloat(m.odds_ft_over25) || 0) >= 1.6;
-    // Senaryo 4: BTTS yüksek, iyi oran
     const bttsIyi = btts >= 65 && (parseFloat(m.odds_btts_yes) || 0) >= 1.6;
 
     return gucluDep || yuksekEv || gollu || bttsIyi;
   });
 
-  // Her senaryodan dengeli seç
-  const getScenario = (pool, fn, n) => pool
-    .filter(fn)
-    .sort((a, b) => {
-      const oddA = a.a.pick === '1' ? a.a.odd1 : a.a.pick === '2' ? a.a.odd2 : a.a.oddX;
-      const oddB = b.a.pick === '1' ? b.a.odd1 : b.a.pick === '2' ? b.a.odd2 : b.a.oddX;
-      return (b.a.score * Math.log(oddB + 1)) - (a.a.score * Math.log(oddA + 1));
-    })
-    .slice(0, n);
-
-  // Senaryo bazlı seçim + pick override
   const cilginRaw = [];
   const cilginIds = new Set();
 
-  // Güçlü deplasman → pick: 2
   for (const x of cilginPool.filter(x => {
     const m = x.m;
     return (parseFloat(m.away_ppg)||0) > (parseFloat(m.home_ppg)||0) + 0.3 && (parseFloat(m.odds_ft_2)||0) >= 1.8;
@@ -1100,7 +967,6 @@ async function renderKombin() {
       cilginIds.add(x.m.id);
     }
   }
-  // Yüksek oranlı ev → pick: 1
   for (const x of cilginPool.filter(x => {
     const m = x.m;
     return (parseFloat(m.odds_ft_1)||0) >= 2.0 && (parseFloat(m.home_ppg)||0) > (parseFloat(m.away_ppg)||0);
@@ -1110,7 +976,6 @@ async function renderKombin() {
       cilginIds.add(x.m.id);
     }
   }
-  // Üst 2.5 → gösterim için pick olarak "Üst 2.5" — normal pick kullan
   for (const x of cilginPool.filter(x => (parseFloat(x.m.o25_potential)||0) >= 65)
     .sort((a,b) => (parseFloat(b.m.o25_potential)||0) - (parseFloat(a.m.o25_potential)||0))
     .slice(0,4)) {
@@ -1121,7 +986,6 @@ async function renderKombin() {
   }
 
   const cilgin = cilginRaw.slice(0, 12);
-
   const cilginOran = cilgin.reduce((acc, x) => {
     const a = x.a;
     const odd = a.pick === '1' ? (parseFloat(x.m.odds_ft_1)||a.odd1)
@@ -1130,7 +994,6 @@ async function renderKombin() {
     return acc * (odd > 1 ? odd : 1);
   }, 1);
 
-  // Kart HTML
   const kombCard = (x, showScore=true) => {
     const {m, a} = x;
     const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
@@ -1152,7 +1015,6 @@ async function renderKombin() {
 
   let h = '';
 
-  // Tekli Bankolar
   h += `<div class="sh">🎯 TEKLİ BANKOLAR</div>`;
   if (!tekli.length) {
     h += `<div class="empty">Yeterli banko maç yok</div>`;
@@ -1162,7 +1024,6 @@ async function renderKombin() {
     h += `</div>`;
   }
 
-  // Güvenli Kombine
   h += `<div class="sh">🔗 GÜVENLİ KOMBİNE</div>`;
   if (guvenli.length < 2) {
     h += `<div class="empty">Yeterli maç yok</div>`;
@@ -1176,7 +1037,6 @@ async function renderKombin() {
     </div>`;
   }
 
-  // Çılgın 12'li
   h += `<div class="sh">🎲 ÇILGIN 12'Lİ</div>`;
   if (cilgin.length < 8) {
     h += `<div class="empty">Yeterli maç yok<br><small>Yarınki maçlar eklenince dolacak</small></div>`;
@@ -1263,7 +1123,7 @@ async function render(preserveScroll=false) {
 
 
 // ══════════════════════════════════════════════
-//  ANALİZ MODAL
+//  ANALİZ MODAL (VIP AI DESTEKLİ)
 // ══════════════════════════════════════════════
 function closeA() { document.getElementById('amod').classList.remove('on'); }
 function outsideA(e) { if (e.target.id === 'amod') closeA(); }
@@ -1342,11 +1202,9 @@ function openAnaliz(id) {
       <span>EV</span><span></span><span>DEPLASMAN</span>
     </div>`;
 
-    // Genel PPG
     html += cmpRow('Maç Başı Puan (PPG)', hppg, appg);
     html += cmpRow('Beklenen Gol (xG)', hxg, axg);
 
-    // Ev/Dep ayrımı
     const hHomePPG = parseFloat(m.home_ppg_home) || parseFloat(m.pre_match_home_ppg) || 0;
     const aAwayPPG = parseFloat(m.away_ppg_away) || parseFloat(m.pre_match_away_ppg) || 0;
     if (hHomePPG > 0 || aAwayPPG > 0) {
@@ -1354,7 +1212,6 @@ function openAnaliz(id) {
       html += cmpRow(`${hN} (Ev'de)`, hHomePPG, aAwayPPG);
     }
 
-    // Clean Sheet %
     const hCS = parseFloat(m.team_a_cs_potential) || 0;
     const aCS = parseFloat(m.team_b_cs_potential) || 0;
     if (hCS > 0 || aCS > 0) {
@@ -1365,7 +1222,6 @@ function openAnaliz(id) {
         <div class="cv-a${aCS > hCS ? ' w' : ''}">${aCS > 0 ? Math.round(aCS)+'%' : '-'}</div>
       </div>`;
     }
-
   } else {
     html += `<div style="color:var(--muted);font-size:12px;padding:6px 0">⚠️ Bu maç istatistik veri tabanımızda yok. Sadece canlı veriler gösteriliyor.</div>`;
   }
@@ -1374,16 +1230,13 @@ function openAnaliz(id) {
   // ── 2. Value Bet (Değer Bahis) ──
   const hasOdds = o1 > 1 || ox > 1 || o2 > 1;
   if (hasOdds && (hppg > 0 || appg > 0)) {
-    // Bizim hesabımıza göre kazanma olasılıkları
     const total = hppg + appg + 0.5;
     const pHome = hppg / total;
     const pAway = appg / total;
     const pDraw = 0.5 / total;
-    // Bookmaker olasılıkları (marj dahil)
     const bHome = o1 > 1 ? (1/o1) : 0;
     const bAway = o2 > 1 ? (1/o2) : 0;
     const bDraw = ox > 1 ? (1/ox) : 0;
-    // Value = bizim %si - bookmaker %si
     const vHome = o1 > 1 ? Math.round((pHome - bHome)*100) : 0;
     const vAway = o2 > 1 ? Math.round((pAway - bAway)*100) : 0;
     const vDraw = ox > 1 ? Math.round((pDraw - bDraw)*100) : 0;
@@ -1414,7 +1267,6 @@ function openAnaliz(id) {
       if (!form) return '';
       const results = form.split('').filter(c => ['W','D','L'].includes(c.toUpperCase()));
       const pills = formPills(form);
-      // Seri analizi
       const son3 = results.slice(-3);
       const kazanan = son3.filter(r => r.toUpperCase()==='W').length;
       const kaybeden = son3.filter(r => r.toUpperCase()==='L').length;
@@ -1440,9 +1292,6 @@ function openAnaliz(id) {
   if (hxg > 0 || axg > 0) {
     html += `<div class="asec"><div class="asec-title">📊 xG TREND ANALİZİ</div>`;
     const xgDiff = hxg - axg;
-    // xG vs PPG karşılaştırması
-    const hGolFark = hxg > 0 && hppg > 0 ? hxg - (hppg * 0.4) : 0;
-    const aGolFark = axg > 0 && appg > 0 ? axg - (appg * 0.4) : 0;
     let xgMsg = '';
     if (hxg > axg + 0.4) {
       xgMsg = `✅ ${hN} beklenen gol açısından belirgin üstün. Fırsat yaratıyor.`;
@@ -1480,7 +1329,6 @@ function openAnaliz(id) {
 
   // ── 6. Doğru Skor Tahmini (Poisson) ──
   if (hxg > 0 && axg > 0) {
-    // Poisson olasılık hesabı
     const poisson = (lambda, k) => {
       let r = Math.exp(-lambda);
       for (let i = 0; i < k; i++) r *= lambda / (i + 1);
@@ -1520,7 +1368,6 @@ function openAnaliz(id) {
   if (o05HT2 > 0 || ov25v > 0) {
     html += `<div class="asec"><div class="asec-title">⏱ HANGİ YARIDA GOL?</div>`;
     const iy_pct = o05HT2;
-    const iy2_est = ov25v > 0 ? Math.min(ov25v + 10, 95) : 0;
     html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">`;
     if (iy_pct > 0) {
       const iyC = iy_pct >= 70 ? 'var(--accent)' : iy_pct >= 50 ? 'var(--gold)' : 'var(--muted)';
@@ -1539,7 +1386,7 @@ function openAnaliz(id) {
     html += `</div></div>`;
   }
 
-  // ── 6. Bahis Oranları ──
+  // ── 8. Bahis Oranları ──
   html += `<div class="asec"><div class="asec-title">💰 BAHİS ORANLARI</div>`;
   html += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:6px">
     ${[['1 (Ev)',o1],['X (Beraberlik)',ox],['2 (Dep)',o2]].map(([l,v]) =>
@@ -1558,25 +1405,25 @@ function openAnaliz(id) {
     ).join('')}
   </div></div>`;
 
-  // ── 7. Kupona Ekle ──
+  // ── 9. Kupona Ekle ──
   const k = kupon[id];
   html += `<div class="asec"><div class="asec-title">🎫 KUPONA EKLE</div>
   <div class="kup-btns">
-    <button id="kbtn1-${id}" class="kup-btn${k?.pick==='1'?' a1':''}" onclick="betA(${id},'1')">
+    <button id="kbtn1-${id}" class="kup-btn${k?.pick==='1'?' a1':''}" onclick="betA('${id}','1')">
       1 · ${o1>0?o1.toFixed(2):'-'}
     </button>
-    <button id="kbtnX-${id}" class="kup-btn${k?.pick==='X'?' ax':''}" onclick="betA(${id},'X')">
+    <button id="kbtnX-${id}" class="kup-btn${k?.pick==='X'?' ax':''}" onclick="betA('${id}','X')">
       X · ${ox>0?ox.toFixed(2):'-'}
     </button>
-    <button id="kbtn2-${id}" class="kup-btn${k?.pick==='2'?' a2':''}" onclick="betA(${id},'2')">
+    <button id="kbtn2-${id}" class="kup-btn${k?.pick==='2'?' a2':''}" onclick="betA('${id}','2')">
       2 · ${o2>0?o2.toFixed(2):'-'}
     </button>
   </div></div>`;
 
-  // ── 8. Analiz & Öneri ──
+  // ── 10. Analiz & Öneri (Yükleme Ekranı) ──
   html += `<div class="asec"><div class="asec-title">🤖 ANALİZ & ÖNERİ</div>
-  <div class="ai-box" id="ai-${id}">
-    <div style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px">
+  <div id="ai-${id}">
+    <div style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;padding:14px;background:linear-gradient(135deg,rgba(124,92,252,.1),rgba(0,229,160,.08));border:1px solid rgba(124,92,252,.3);border-radius:12px;">
       <div class="spin"></div><span>Analiz yapılıyor…</span>
     </div>
   </div></div>`;
@@ -1587,7 +1434,7 @@ function openAnaliz(id) {
   setTimeout(() => buildAnaliz(m, id), 50);
 }
 
-// Kupona ekle (modal açıkken sayfa yeniden render edilmez)
+// Kupona ekle (modal açıkken)
 function betA(id, pick) {
   const m = MM[id];
   if (!m) return;
@@ -1597,7 +1444,7 @@ function betA(id, pick) {
     kupon[id] = {home: m.home_name||'?', away: m.away_name||'?', pick, league: m.competition_name||''};
   }
   updFab();
-  // Sadece butonları güncelle, modal açık kalsın
+  
   const k = kupon[id];
   ['1','X','2'].forEach(p => {
     const btn = document.getElementById(`kbtn${p}-${id}`);
@@ -1606,7 +1453,7 @@ function betA(id, pick) {
   });
 }
 
-// Analiz metni oluştur
+// Analiz metnini doldur (VIP AI Destekli)
 function buildAnaliz(m, id) {
   const hN    = m.home_name || '?';
   const aN    = m.away_name || '?';
@@ -1624,122 +1471,116 @@ function buildAnaliz(m, id) {
   const oiy   = parseFloat(m.odds_1st_half_over05) || 0;
   const obtts = parseFloat(m.odds_btts_yes) || 0;
   const games = parseInt(m.matches_completed_minimum) || 0;
-  const hForm = formScore(m.home_form);
-  const aForm = formScore(m.away_form);
-  const ppgDiff = hppg - appg;
-  const xgDiff  = hxg - axg;
 
-  const lines = [];
+  const box = document.getElementById(`ai-${id}`);
+  if (!box) return;
 
-  // Hiç veri yoksa (canlı maç, istatistik tabanımızda yok)
   const hasData = hppg > 0 || appg > 0 || hxg > 0 || axg > 0 || btts > 0 || ov25 > 0;
   if (!hasData) {
-    const box = document.getElementById(`ai-${id}`);
-    if (box) {
-      box.innerHTML = `
-        <div class="ai-txt">⚠️ Bu maç için ön maç istatistikleri veri tabanımızda bulunmuyor.\n\nBu durum genellikle maçın takip ettiğimiz 50 lig dışında olmasından kaynaklanıyor.\n\nCanlı skor ve dakika bilgisi gösterilmeye devam ediyor.</div>
-      `;
-    }
+    box.innerHTML = `
+      <div class="ai-txt" style="background:var(--bg3);padding:14px;border-radius:12px;">⚠️ Bu maç için ön maç istatistikleri veri tabanımızda bulunmuyor.<br><br>Bu durum genellikle maçın takip ettiğimiz 50 lig dışında olmasından kaynaklanıyor.<br><br>Canlı skor ve dakika bilgisi gösterilmeye devam ediyor.</div>
+    `;
     return;
   }
 
-  // 1. Takım gücü
-  if (ppgDiff >= 1.2) {
-    lines.push(`${hN}, maç başı puan ortalamasında ${hppg.toFixed(2)} ile ${aN}'ya (${appg.toFixed(2)}) karşı belirgin üstünlük sağlıyor.`);
-  } else if (ppgDiff >= 0.5) {
-    lines.push(`${hN} (${hppg.toFixed(2)} puan/maç), ${aN} (${appg.toFixed(2)}) karşısında ev avantajıyla birlikte güçlü görünüyor.`);
-  } else if (ppgDiff <= -1.2) {
-    lines.push(`${aN}, deplasmanda ${appg.toFixed(2)} puan/maç ortalamasıyla ${hN}'den (${hppg.toFixed(2)}) çok daha güçlü.`);
-  } else if (ppgDiff <= -0.5) {
-    lines.push(`${aN} (${appg.toFixed(2)} puan/maç), deplasman takımı olmasına rağmen ${hN}'den (${hppg.toFixed(2)}) daha form durumda.`);
-  } else {
-    lines.push(`${hN} (${hppg.toFixed(2)}) ile ${aN} (${appg.toFixed(2)}) birbirine çok yakın güçte. Sürpriz her an mümkün.`);
+  let finalHtml = '';
+
+  // 🌟 YAPAY ZEKA VIP YORUMU (Eğer Python'dan geldiyse) 🌟
+  if (m.ai_comment) {
+    finalHtml += `
+      <div style="background: linear-gradient(135deg, rgba(124, 92, 252, 0.15), rgba(0, 229, 160, 0.15)); border: 1px solid var(--purple); border-radius: 12px; padding: 15px; margin-bottom: 15px; position: relative;">
+        <div style="position: absolute; top: -10px; left: 15px; background: var(--bg2); padding: 0 8px; font-weight: 800; font-size: 11px; color: var(--accent); letter-spacing: 1px; border-radius: 4px;">
+          ✨ SCOUT AI VIP
+        </div>
+        <div style="font-size: 13px; line-height: 1.6; color: var(--text); margin-top: 5px;">
+          ${m.ai_comment.replace('🤖 ScoutAI Yorumu:', '').trim()}
+        </div>
+      </div>
+    `;
   }
 
-  // 2. xG analizi
+  const lines = [];
+  const ppgDiff = hppg - appg;
+  const xgDiff  = hxg - axg;
+
+  // Takım gücü
+  if (ppgDiff >= 1.2) {
+    lines.push(`• ${hN}, maç başı puan ortalamasında ${hppg.toFixed(2)} ile ${aN}'ya (${appg.toFixed(2)}) karşı belirgin üstünlük sağlıyor.`);
+  } else if (ppgDiff >= 0.5) {
+    lines.push(`• ${hN} (${hppg.toFixed(2)} puan/maç), ${aN} (${appg.toFixed(2)}) karşısında ev avantajıyla birlikte güçlü görünüyor.`);
+  } else if (ppgDiff <= -1.2) {
+    lines.push(`• ${aN}, deplasmanda ${appg.toFixed(2)} puan/maç ortalamasıyla ${hN}'den (${hppg.toFixed(2)}) çok daha güçlü.`);
+  } else if (ppgDiff <= -0.5) {
+    lines.push(`• ${aN} (${appg.toFixed(2)} puan/maç), deplasman takımı olmasına rağmen ${hN}'den (${hppg.toFixed(2)}) daha form durumda.`);
+  } else {
+    lines.push(`• ${hN} (${hppg.toFixed(2)}) ile ${aN} (${appg.toFixed(2)}) birbirine çok yakın güçte. Sürpriz her an mümkün.`);
+  }
+
+  // xG analizi
   if (hxg > 0 || axg > 0) {
     if (Math.abs(xgDiff) >= 0.5) {
       const str = xgDiff > 0 ? hN : aN;
       const stv = xgDiff > 0 ? hxg : axg;
       const wkv = xgDiff > 0 ? axg : hxg;
-      lines.push(`xG değerleri de bu farkı destekliyor: ${str} ${stv.toFixed(2)} xG ile rakibinin (${wkv.toFixed(2)}) önüne geçiyor.`);
+      lines.push(`• xG değerleri de bu farkı destekliyor: ${str} ${stv.toFixed(2)} xG ile rakibinin (${wkv.toFixed(2)}) önüne geçiyor.`);
     } else {
-      lines.push(`xG değerleri birbirine yakın (${hN}: ${hxg.toFixed(2)}, ${aN}: ${axg.toFixed(2)}). Gol üretimi dengeli bekleniyor.`);
+      lines.push(`• xG değerleri birbirine yakın (${hN}: ${hxg.toFixed(2)}, ${aN}: ${axg.toFixed(2)}). Gol üretimi dengeli bekleniyor.`);
     }
   }
 
-  // 3. Form
-  if (hForm >= 10 && aForm <= 4) {
-    lines.push(`${hN} son formda mükemmel giderken, ${aN} ciddi form sorunu yaşıyor.`);
-  } else if (aForm >= 10 && hForm <= 4) {
-    lines.push(`${aN} son maçlarda çok iyi form yakalamış. ${hN} ise kayıplarına devam ediyor.`);
-  } else if (hForm >= 9) {
-    lines.push(`${hN} son 5 maçta güçlü bir form sergiledi.`);
-  } else if (aForm >= 9) {
-    lines.push(`${aN} son 5 maçta etkileyici form yakaladı.`);
+  // Risk
+  if (games < 8) lines.push(`• ⚠️ Az maç oynanmış (${games}), istatistikler henüz tam oturmamış olabilir.`);
+
+  // 5. Basit Öneri (Eğer AI yorumu yoksa senin eski algoritman devreye girsin)
+  let pickHtml = '';
+  if (!m.ai_comment) {
+      let pick = '', pickReason = '';
+      if (ppgDiff >= 1.0 && (!hxg || hxg >= axg - 0.1) && o1 > 1.2) {
+        pick = `MS 1 (${o1.toFixed(2)})`;
+        pickReason = `Ev sahibi hem form hem xG açısından üstün.`;
+      } else if (ppgDiff <= -1.0 && (!axg || axg >= hxg - 0.1) && o2 > 1.2) {
+        pick = `MS 2 (${o2.toFixed(2)})`;
+        pickReason = `Deplasman takımı bu maçta belirgin favori.`;
+      } else if (btts >= 68) {
+        pick = `KG VAR ${obtts > 0 ? '(' + obtts.toFixed(2) + ')' : ''}`;
+        pickReason = `Her iki takımın gol atma ihtimali çok yüksek (%${Math.round(btts)}).`;
+      } else if (o05HT >= 75) {
+        pick = `İLK YARI 0.5 ÜST ${oiy > 0 ? '(' + oiy.toFixed(2) + ')' : ''}`;
+        pickReason = `İlk yarı gol olma olasılığı istatistiksel olarak çok yüksek (%${Math.round(o05HT)}).`;
+      } else if (ov25 >= 65) {
+        pick = `MAÇ SONU 2.5 ÜST ${oov25 > 0 ? '(' + oov25.toFixed(2) + ')' : ''}`;
+        pickReason = `İki takımın da maçları gollü geçiyor (%${Math.round(ov25)} ihtimal).`;
+      } else if (ov05 >= 93) {
+        pick = `MAÇ BOYU 0.5 ÜST`;
+        pickReason = `Maçta en az 1 gol çıkma ihtimali %${Math.round(ov05)} — neredeyse kesin.`;
+      } else {
+        pick = `OYNAMA`;
+        pickReason = `Net sinyal yok. Bu maçı atlamak daha sağlıklı.`;
+      }
+
+      if (pick) {
+        pickHtml = `
+          <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--border);">
+            <div style="display:inline-block; background:linear-gradient(135deg,var(--accent),var(--purple)); color:#000; font-weight:700; font-size:14px; padding:7px 16px; border-radius:8px; margin-bottom:8px;">✅ ${pick}</div>
+            <div style="font-size: 11px; color: var(--gold);">💡 Neden: ${pickReason}</div>
+          </div>
+        `;
+      }
   }
 
-  // 4. Gol sinyalleri
-  const golS = [];
-  if (btts >= 70)       golS.push(`BTTS ihtimali %${Math.round(btts)} — her iki takımın gol atması kuvvetle muhtemel`);
-  else if (btts >= 55)  golS.push(`BTTS ihtimali %${Math.round(btts)} — makul seviyede`);
-  if (ov25 >= 65)       golS.push(`Üst 2.5 ihtimali %${Math.round(ov25)} — gollü maç bekleniyor`);
-  else if (ov25 >= 45)  golS.push(`Üst 2.5 ihtimali %${Math.round(ov25)} — orta seviyede`);
-  if (o05HT >= 75)      golS.push(`İlk yarı gol ihtimali %${Math.round(o05HT)} — İY bahisleri değerlendirilebilir`);
-  if (golS.length)      lines.push(golS.join('. ') + '.');
+  finalHtml += `
+    <div style="font-size: 12px; color: var(--muted); line-height: 1.6; background: var(--bg3); padding: 14px; border-radius: 12px;">
+      <div style="font-weight: 700; color: var(--text); margin-bottom: 8px;">📊 İstatistiksel Özet:</div>
+      ${lines.join('<br><br>')}
+      ${pickHtml}
+    </div>
+  `;
 
-  // 5. Risk
-  const riskler = [];
-  if (games < 8)                                 riskler.push(`Az maç oynanmış (${games}), istatistikler olgunlaşmamış olabilir`);
-  if (Math.abs(ppgDiff) < 0.3 && !hxg && !axg)  riskler.push(`Takımlar dengeli, net favori yok, xG verisi eksik`);
-  if (o1 > 0 && o1 < 1.3)                        riskler.push(`${hN} oranı ${o1.toFixed(2)} — çok düşük oran, uzun vadede kazandırmaz`);
-  if (o2 > 0 && o2 < 1.3)                        riskler.push(`${aN} oranı ${o2.toFixed(2)} — çok düşük`);
-  if (riskler.length)   lines.push(`⚠️ Risk: ${riskler.join('. ')}.`);
-
-  // 6. Öneri
-  let pick = '', pickReason = '';
-  if (ppgDiff >= 1.0 && (!hxg || hxg >= axg - 0.1) && o1 > 1.2) {
-    pick = `1 Oyna · ${o1.toFixed(2)}`;
-    pickReason = `Ev sahibi hem PPG hem xG açısından belirgin üstün.`;
-  } else if (ppgDiff <= -1.0 && (!axg || axg >= hxg - 0.1) && o2 > 1.2) {
-    pick = `2 Oyna · ${o2.toFixed(2)}`;
-    pickReason = `Deplasman takımı bu maçta belirgin favori.`;
-  } else if (btts >= 68) {
-    pick = `BTTS${obtts > 0 ? ' · ' + obtts.toFixed(2) : ''}`;
-    pickReason = `Her iki takımın gol atma ihtimali çok yüksek (%${Math.round(btts)}).`;
-  } else if (o05HT >= 75) {
-    pick = `İY Gol${oiy > 0 ? ' · ' + oiy.toFixed(2) : ''}`;
-    pickReason = `İlk yarı gol ihtimali %${Math.round(o05HT)} — çok güçlü sinyal.`;
-  } else if (ov25 >= 62) {
-    pick = `Üst 2.5${oov25 > 0 ? ' · ' + oov25.toFixed(2) : ''}`;
-    pickReason = `Maç gollü geçme ihtimali %${Math.round(ov25)}.`;
-  } else if (ppgDiff >= 0.5 && o1 > 1.15) {
-    pick = `1X`;
-    pickReason = `Ev sahibi güçlü ama kesin favori değil, güvenli seçenek.`;
-  } else if (ppgDiff <= -0.5 && o2 > 1.15) {
-    pick = `X2`;
-    pickReason = `Deplasman daha güçlü ama garantili değil.`;
-  } else if (ov05 >= 93) {
-    pick = `Daily · Üst 0.5`;
-    pickReason = `Maçta en az 1 gol çıkma ihtimali %${Math.round(ov05)} — neredeyse kesin.`;
-  } else {
-    pick = `Oynama`;
-    pickReason = `Net sinyal yok. Bu maçı atlamak daha sağlıklı.`;
-  }
-
-  lines.push(`\n💡 Neden: ${pickReason}`);
-
-  const box = document.getElementById(`ai-${id}`);
-  if (box) {
-    box.innerHTML = `
-      <div class="ai-txt">${lines.join('\n\n')}</div>
-      <div class="ai-pick">✅ ${pick}</div>
-    `;
-  }
+  box.innerHTML = finalHtml;
 }
 
 // ══════════════════════════════════════════════
-//  KUPON
+//  KUPON GÜNCELLEMELERİ
 // ══════════════════════════════════════════════
 function bet(id, pick) {
   const m = MM[id];
@@ -1798,8 +1639,8 @@ async function doRefresh(auto=false) {
   cache.today = null;
   cache.tomorrow = null;
   if (!auto) {
-    cdVal = 10;
-    document.getElementById('cd').textContent = 10;
+    cdVal = 30;
+    document.getElementById('cd').textContent = 30;
   }
   await render(auto);
 }
@@ -1812,7 +1653,6 @@ function startCD() {
     if (cdVal <= 0) { cdVal = 30; doRefresh(true); }
   }, 1000);
 }
-
 
 // ── BAŞLAT ──
 render();
