@@ -294,8 +294,8 @@ const MM    = {}; // id → maç objesi
 async function fetchDay(offset) {
   const key = offset === 0 ? 'today' : 'tomorrow';
   if (cache[key]) return cache[key];
-  const url = (offset === 0 ? 'data/today.json' : 'data/tomorrow.json') + '?t=' + Date.now();
-  const r = await fetch(url);
+  const url = (offset === 0 ? 'data/today.json' : 'data/tomorrow.json') + '?cb=' + Date.now() + Math.random();
+  const r = await fetch(url, { cache: 'no-store' });
   if (!r.ok) throw new Error('Veri yüklenemedi');
   const j = await r.json();
   cache[key] = Array.isArray(j.data) ? j.data : [];
@@ -540,21 +540,36 @@ function card(m) {
   const lv = isLive(m);
   const dn = isDone(m);
 
-  // Skor - Python script'inden gelen gerçek veri
-  const hG = m.homeGoalCount ?? 0;
-  const aG = m.awayGoalCount ?? 0;
+  let hG, aG;
+  if (lv) {
+    hG = m.homeGoalCount ?? 0;
+    aG = m.awayGoalCount ?? 0;
+  } else {
+    hG = m.homeGoalCount ?? '-';
+    aG = m.awayGoalCount ?? '-';
+  }
   const score = (lv || dn) ? `${hG}–${aG}` : '–';
 
-  // Dakika - API'den gelen elapsed varsa kullan, yoksa hesapla
+  // Zaman etiketi - dakika hesabı
   let liveMin = '';
   if (lv) {
     if (m.elapsed === 'HY' || String(m.status).toLowerCase() === 'paused') {
       liveMin = 'HY';
     } else if (m.elapsed) {
-      liveMin = m.elapsed + "'";
+      liveMin = `${m.elapsed}'`;
+    } else if (m._liveMin) {
+      liveMin = `${m._liveMin}'`;
     } else if (m.date_unix) {
-      const diff = Math.floor((Date.now() / 1000 - m.date_unix) / 60);
-      liveMin = (diff > 0 ? (diff > 90 ? '90+' : diff) : '1') + "'";
+      const totalMin = Math.floor((Date.now()/1000 - m.date_unix) / 60);
+      const htDone = parseInt(m.HTGoalCount) >= 0 && totalMin > 45;
+      if (totalMin <= 45) {
+        liveMin = `${totalMin}'`;
+      } else if (htDone && totalMin <= 60) {
+        liveMin = `HY`;
+      } else if (totalMin > 60) {
+        const min2 = totalMin - 15;
+        liveMin = min2 <= 90 ? `${min2}'` : `90+'`;
+      }
     }
   }
   const timeEl = lv
@@ -576,16 +591,13 @@ function card(m) {
   const ov25d = ov25V > 0 ? Math.round(ov25V) + '%' : '-';
   const o05HTd= o05HTV > 0 ? Math.round(o05HTV) + '%' : '-';
 
-  // Renk sınıfı
   const bttsC = bttsV >= 60 ? 'hi' : bttsV >= 45 ? 'med' : '';
   const ov25C = ov25V >= 60 ? 'hi' : ov25V >= 45 ? 'med' : '';
   const o05HC = o05HTV >= 65 ? 'hi' : o05HTV >= 50 ? 'med' : '';
 
-  // Analiz ve sistem etiketleri
   const a    = analyze(m);
   const tags = a.systems.map(s => `<div class="st st-${s.key}">${s.label}</div>`).join('');
 
-  // Kupon durumu
   const k = kupon[m.id];
   const s1 = k?.pick === '1' ? ' s1' : '';
   const sx = k?.pick === 'X' ? ' sx' : '';
@@ -599,15 +611,15 @@ function card(m) {
     <div class="team-col a"><div class="tname a">${aN}</div>${logoImg(m.away_image,aN)}</div>
   </div>
   <div class="mc-odds">
-    <div class="odd-btn${s1}" onclick="bet(${m.id},'1')">
+    <div class="odd-btn${s1}" onclick="bet('${m.id}','1')">
       <div class="odd-lbl">1</div>
       <div class="odd-val">${a.odd1>0?a.odd1.toFixed(2):'-'}</div>
     </div>
-    <div class="odd-btn${sx}" onclick="bet(${m.id},'X')">
+    <div class="odd-btn${sx}" onclick="bet('${m.id}','X')">
       <div class="odd-lbl">X</div>
       <div class="odd-val">${a.oddX>0?a.oddX.toFixed(2):'-'}</div>
     </div>
-    <div class="odd-btn${s2}" onclick="bet(${m.id},'2')">
+    <div class="odd-btn${s2}" onclick="bet('${m.id}','2')">
       <div class="odd-lbl">2</div>
       <div class="odd-val">${a.odd2>0?a.odd2.toFixed(2):'-'}</div>
     </div>
@@ -625,7 +637,7 @@ function card(m) {
   </div>
   ${tags ? `<div class="mc-tags">${tags}</div>` : ''}
   <div class="mc-bot">
-    <button class="anl-btn" onclick="openAnaliz(${m.id})">🔍 Analiz</button>
+    <button class="anl-btn" onclick="openAnaliz('${m.id}')">🔍 Analiz</button>
   </div>
 </div>`;
 }
@@ -856,8 +868,8 @@ async function renderLive() {
     for (const m of matches) {
       MM[m.id] = m;
       const {txt: minTxt, hy} = getMin(m);
-      const hG = m.homeGoalCount ?? 0;
-      const aG = m.awayGoalCount ?? 0;
+      const hG = m._h !== undefined ? m._h : (m.homeGoalCount ?? 0);
+      const aG = m._a !== undefined ? m._a : (m.awayGoalCount ?? 0);
       const hWin = hG > aG, aWin = aG > hG;
 
       html += `<div class="fm-match" onclick="openAnaliz(${m.id})">
@@ -1797,7 +1809,7 @@ function startCD() {
   cdTmr = setInterval(() => {
     cdVal--;
     document.getElementById('cd').textContent = cdVal;
-    if (cdVal <= 0) { cdVal = 10; doRefresh(true); }
+    if (cdVal <= 0) { cdVal = 30; doRefresh(true); }
   }, 1000);
 }
 
