@@ -307,18 +307,17 @@ async function fetchDay(offset) {
 //  MAÇ DURUM YARDIMCILARI
 // ══════════════════════════════════════════════
 function isLive(m) {
-  const s = String(m.status||'').toLowerCase();
-  if (s === 'inprogress' || s === 'live') return true;
-  if (s === 'incomplete') {
-    const now = Date.now() / 1000;
-    return m.date_unix > 0 && m.date_unix <= now;
-  }
-  return false;
+  if (!m.status) return false;
+  const s = m.status.toLowerCase();
+  return s === 'live' || (s === 'incomplete' && Date.now()/1000 > m.date_unix);
 }
+
 function isDone(m) {
-  const s = String(m.status||'').toLowerCase();
-  return s === 'complete';
+  if (!m.status) return false;
+  const s = m.status.toLowerCase();
+  return s === 'complete' || s === 'finished';
 }
+
 function isUp(m) {
   return !isLive(m) && !isDone(m);
 }
@@ -541,33 +540,19 @@ function card(m) {
   const lv = isLive(m);
   const dn = isDone(m);
 
-  // Skor - homeGoalCount artık Football-Data.org ile güncel
-  let hG, aG;
-  if (lv) {
-    hG = m.homeGoalCount ?? 0;
-    aG = m.awayGoalCount ?? 0;
-  } else {
-    hG = m.homeGoalCount ?? '-';
-    aG = m.awayGoalCount ?? '-';
-  }
+  // Skor - Python script'inden gelen gerçek veri
+  const hG = m.homeGoalCount ?? 0;
+  const aG = m.awayGoalCount ?? 0;
   const score = (lv || dn) ? `${hG}–${aG}` : '–';
 
-  // Zaman etiketi - dakika hesabı
+  // Dakika - API'den gelen elapsed varsa kullan, yoksa hesapla
   let liveMin = '';
   if (lv) {
-    if (m._liveMin) {
-      liveMin = `${m._liveMin}'`;
+    if (m.elapsed) {
+      liveMin = m.elapsed + "'";
     } else if (m.date_unix) {
-      const totalMin = Math.floor((Date.now()/1000 - m.date_unix) / 60);
-      const htDone = parseInt(m.HTGoalCount) >= 0 && totalMin > 45;
-      if (totalMin <= 45) {
-        liveMin = `${totalMin}'`;
-      } else if (htDone && totalMin <= 60) {
-        liveMin = `HY`;
-      } else if (totalMin > 60) {
-        const min2 = totalMin - 15;
-        liveMin = min2 <= 90 ? `${min2}'` : `90+'`;
-      }
+      const diff = Math.floor((Date.now() / 1000 - m.date_unix) / 60);
+      liveMin = (diff > 0 ? (diff > 90 ? '90+' : diff) : '1') + "'";
     }
   }
   const timeEl = lv
