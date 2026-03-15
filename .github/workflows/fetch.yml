@@ -85,45 +85,76 @@ jobs:
           def norm(s):
               return re.sub(r'[^a-z]', '', (s or '').lower())
 
+          def match_score(a, b):
+              na, nb = norm(a), norm(b)
+              if na == nb: return 1.0
+              if na in nb or nb in na: return 0.9
+              # Kelime bazlı
+              wa = [w for w in na.split() if len(w) >= 3]
+              wb = [w for w in nb.split() if len(w) >= 3]
+              if not wa or not wb: return 0
+              matched = sum(1 for w in wa if any(w in x or x in w for x in wb))
+              return matched / max(len(wa), len(wb))
+
           try:
               with open('data/live.json') as f:
                   live_data = json.load(f)
               live_matches = live_data.get('matches', [])
 
-              # live map oluştur: normHomeTeam_normAwayTeam -> skor+dakika
+              # live map: tüm isim varyantlarını dene
               live_map = {}
               for lm in live_matches:
-                  hn = norm(lm.get('homeTeam', {}).get('name', ''))
-                  an = norm(lm.get('awayTeam', {}).get('name', ''))
+                  ht = lm.get('homeTeam', {})
+                  at = lm.get('awayTeam', {})
                   score = lm.get('score', {})
                   ft = score.get('fullTime', {})
-                  ht = score.get('halfTime', {})
-                  h_goals = ft.get('home') if ft.get('home') is not None else ht.get('home')
-                  a_goals = ft.get('away') if ft.get('away') is not None else ht.get('away')
+                  ht_score = score.get('halfTime', {})
+                  h_goals = ft.get('home') if ft.get('home') is not None else ht_score.get('home')
+                  a_goals = ft.get('away') if ft.get('away') is not None else ht_score.get('away')
                   minute = lm.get('minute')
                   status = lm.get('status', '')
-                  if h_goals is not None:
-                      live_map[hn + '_' + an] = {
-                          'h': h_goals, 'a': a_goals,
-                          'min': minute, 'status': status
-                      }
+                  if h_goals is None: continue
+                  # Birden fazla isim varyantı sakla
+                  for hn in [ht.get('name',''), ht.get('shortName',''), ht.get('tla','')]:
+                      for an in [at.get('name',''), at.get('shortName',''), at.get('tla','')]:
+                          if hn and an:
+                              key = norm(hn) + '_' + norm(an)
+                              live_map[key] = {'h': h_goals, 'a': a_goals, 'min': minute, 'status': status}
 
               updated = 0
               for m in today_data:
                   hn = norm(m.get('home_name', ''))
                   an = norm(m.get('away_name', ''))
                   key = hn + '_' + an
-                  if key in live_map:
-                      ls = live_map[key]
+
+                  # Direkt eşleşme
+                  ls = live_map.get(key)
+
+                  # Bulunamadıysa fuzzy eşleştir
+                  if not ls:
+                      best_score = 0
+                      for lkey, lval in live_map.items():
+                          parts = lkey.split('_')
+                          if len(parts) != 2: continue
+                          lhn, lan = parts
+                          hs = match_score(hn, lhn)
+                          as_ = match_score(an, lan)
+                          total = hs + as_
+                          if total > best_score and hs >= 0.7 and as_ >= 0.7:
+                              best_score = total
+                              ls = lval
+
+                  if ls:
                       m['homeGoalCount'] = ls['h']
                       m['awayGoalCount'] = ls['a']
-                      m['totalGoalCount'] = ls['h'] + ls['a']
+                      m['totalGoalCount'] = (ls['h'] or 0) + (ls['a'] or 0)
                       if ls['min']:
                           m['elapsed'] = ls['min']
                       if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'):
-                          m['status'] = 'incomplete'
+                          m['status'] = 'live'  # index.html 'live' arıyor
                       updated += 1
-              print(f"Live skor güncellendi: {updated} maç")
+                      print(f"✅ Güncellendi: {m.get('home_name')} {ls['h']}-{ls['a']} {m.get('away_name')} ({ls['status']})")
+              print(f"Toplam güncellenen: {updated} maç")
           except Exception as e:
               print(f"Live skor hatası: {e}")
 
