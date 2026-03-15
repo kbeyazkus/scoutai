@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # VERSİYON KARMAŞASINI BİTİRMEK İÇİN SABİT KURULUM
+      # EN GÜVENLİ VE STABİL KÜTÜPHANE KURULUMU
       - name: Install Google Generative AI
-        run: pip install -U "google-generativeai>=0.8.3"
+        run: pip install -U google-generativeai
 
       - name: Fetch live scores (Football-Data.org)
         run: |
@@ -49,60 +49,57 @@ jobs:
           import json, os, glob, re, time
           from datetime import datetime, timezone
           import google.generativeai as genai
-          from google.generativeai.types import RequestOptions
 
-          # KRİTİK AYAR: API'yi Kararlı v1 Sürümüne Zorla
+          # API AYARI (Hata riskini sıfırlayan transport ayarı eklendi)
           api_key = os.environ.get("GEMINI_API_KEY")
           ai_ready = False
           if api_key:
               try:
-                  genai.configure(api_key=api_key)
-                  # RequestOptions ile api_version'ı v1 yaparak beta hatasını bypass ediyoruz
-                  model = genai.GenerativeModel(
-                      model_name='gemini-1.5-flash',
-                      request_options=RequestOptions(api_version='v1')
-                  )
+                  # REST transport kullanarak v1beta sorunlarını bypass ediyoruz
+                  genai.configure(api_key=api_key, transport='rest')
+                  model = genai.GenerativeModel('gemini-1.5-flash')
                   ai_ready = True
               except Exception as e:
                   print(f"AI Baslatma Hatasi: {e}")
 
           def get_ai_prediction(m):
               if not ai_ready: return None
-              h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
-              h_ppg, a_ppg = m.get("home_ppg", 0), m.get("away_ppg", 0)
-              h_xg = m.get("team_a_xg_prematch", m.get("team_a_xg", 0))
-              a_xg = m.get("team_b_xg_prematch", m.get("team_b_xg", 0))
-              btts, o25 = m.get("btts_potential", 0), m.get("o25_potential", 0)
+              h_name = m.get("home_name", "Ev")
+              a_name = m.get("away_name", "Deplasman")
+              h_xg = m.get("team_a_xg_prematch", 0)
+              a_xg = m.get("team_b_xg_prematch", 0)
               
-              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. Rapor: PPG({h_ppg}-{a_ppg}), xG({h_xg}-{a_xg}), BTTS(%{btts}), 2.5 Üst(%{o25}). En güvenilir tercihi tek cümleyle yaz ve nedenini 2 kısa cümleyle açıkla. '🤖 ScoutAI Yorumu:' ile başla."
+              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. Ev xG: {h_xg}, Dep xG: {a_xg}. En mantıklı tercihi ve nedenini 3 kısa cümlede açıkla. '🤖 ScoutAI Yorumu:' ile başla."
               
               try:
                   response = model.generate_content(prompt)
-                  time.sleep(2) # Kota koruması
+                  time.sleep(1.5) # Kota güvenliği
                   return response.text
               except Exception as e:
-                  print(f"AI Yorum Hatasi ({h_name} vs {a_name}): {e}")
+                  print(f"AI Analiz Hatasi ({h_name} vs {a_name}): {e}")
                   return None
 
-          # VERİ İŞLEME
+          # VERİLERİ YÜKLE
           today = datetime.now(timezone.utc).date()
           with open('data/today_main.json') as f: main = json.load(f)
           with open('data/tomorrow_main.json') as f: tmr_main = json.load(f)
-          today_data, tmr_data = main.get('data', []), tmr_main.get('data', [])
-          today_ids, tmr_ids = {m['id'] for m in today_data}, {m['id'] for m in tmr_data}
+          today_data = main.get('data', [])
+          tmr_data = tmr_main.get('data', [])
+          today_ids = {m['id'] for m in today_data}
 
+          # EK LİGLERİ BİRLEŞTİR
           for fname in glob.glob('data/extra_*.json'):
               try:
                   with open(fname) as f: extra = json.load(f)
                   for m in extra.get('data', []):
                       ts = m.get('date_unix', 0)
-                      if not ts: continue
-                      if datetime.fromtimestamp(ts, tz=timezone.utc).date() == today and m['id'] not in today_ids:
-                          today_data.append(m); today_ids.add(m['id'])
+                      if ts and datetime.fromtimestamp(ts, tz=timezone.utc).date() == today and m['id'] not in today_ids:
+                          today_data.append(m)
+                          today_ids.add(m['id'])
                   os.remove(fname)
               except: pass
 
-          # CANLI SKOR
+          # CANLI SKOR GÜNCELLEME (BASİT VERSİYON)
           def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
           try:
               with open('data/live.json') as f: live_data = json.load(f)
@@ -112,39 +109,44 @@ jobs:
                   a_g = lm.get('score', {}).get('fullTime', {}).get('away')
                   if h_g is not None:
                       key = norm(lm.get('homeTeam', {}).get('name', '')) + '_' + norm(lm.get('awayTeam', {}).get('name', ''))
-                      live_map[key] = {'h': h_g, 'a': a_g, 'status': lm.get('status')}
+                      live_map[key] = {'h': h_g, 'a': a_g, 'st': lm.get('status')}
               for m in today_data:
                   ls = live_map.get(norm(m.get('home_name', '')) + '_' + norm(m.get('away_name', '')))
                   if ls:
                       m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
-                      if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
+                      if ls['st'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
           except: pass
 
-          # AI VIP ANALİZ
+          # YAPAY ZEKA ANALİZİ (GÜNCELLENMİŞ FİLTRE)
           print("Yapay Zeka VIP Yorumları Hazırlanıyor...")
           count = 0
           for m in today_data:
-              if count >= 20: break # Kota güvenliği
+              if count >= 30: break # Günlük kota koruması
               status = str(m.get('status', '')).lower()
               if status in ('incomplete', ''):
-                  h_xg = float(m.get("team_a_xg_prematch") or 0)
-                  a_xg = float(m.get("team_b_xg_prematch") or 0)
-                  # Sadece seçkin maçlar
-                  if (h_xg + a_xg > 2.8) or abs(h_xg - a_xg) > 0.6:
+                  # xG değerlerini float'a çevirerek kontrol et
+                  try:
+                      h_xg = float(m.get("team_a_xg_prematch") or 0)
+                      a_xg = float(m.get("team_b_xg_prematch") or 0)
+                  except: h_xg, a_xg = 0, 0
+                  
+                  # Filtreyi genişlettik: Toplam xG 2.5 üstü veya fark 0.4 üstü ise analiz et
+                  if (h_xg + a_xg > 2.5) or abs(h_xg - a_xg) > 0.4:
                       comment = get_ai_prediction(m)
                       if comment:
                           m['ai_comment'] = comment
                           count += 1
+                          print(f"Bitti: {m.get('home_name')} vs {m.get('away_name')}")
 
           main['data'], tmr_main['data'] = today_data, tmr_data
           with open('data/today.json', 'w') as f: json.dump(main, f)
           with open('data/tomorrow.json', 'w') as f: json.dump(tmr_main, f)
-          print(f"Bitti. Analiz edilen: {count} mac.")
+          print(f"Toplam analiz edilen maç sayısı: {count}")
           PYEOF
 
       - name: Final commit
         run: |
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update + AI VIP Comments" || true
+          git commit -m "Stats update + ScoutAI VIP Comments" || true
           git push || true
