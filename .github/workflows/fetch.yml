@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # EN STABİL KÜTÜPHANEYİ KURUYORUZ
-      - name: Install Gemini AI
-        run: pip install -U google-generativeai
+      # VERSİYON KARMAŞASINI BİTİRMEK İÇİN SABİT KURULUM
+      - name: Install Google Generative AI
+        run: pip install -U "google-generativeai>=0.8.3"
 
       - name: Fetch live scores (Football-Data.org)
         run: |
@@ -49,42 +49,47 @@ jobs:
           import json, os, glob, re, time
           from datetime import datetime, timezone
           import google.generativeai as genai
+          from google.generativeai.types import RequestOptions
 
-          # VERSİYON SORUNUNU ÇÖZEN TANIMLAMA
+          # KRİTİK AYAR: API'yi Kararlı v1 Sürümüne Zorla
           api_key = os.environ.get("GEMINI_API_KEY")
+          ai_ready = False
           if api_key:
               try:
                   genai.configure(api_key=api_key)
-                  # Burası kritik: v1beta yerine doğrudan stabil versiyonu zorluyoruz
-                  model = genai.GenerativeModel('gemini-1.5-flash')
+                  # RequestOptions ile api_version'ı v1 yaparak beta hatasını bypass ediyoruz
+                  model = genai.GenerativeModel(
+                      model_name='gemini-1.5-flash',
+                      request_options=RequestOptions(api_version='v1')
+                  )
+                  ai_ready = True
               except Exception as e:
                   print(f"AI Baslatma Hatasi: {e}")
 
           def get_ai_prediction(m):
+              if not ai_ready: return None
               h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
               h_ppg, a_ppg = m.get("home_ppg", 0), m.get("away_ppg", 0)
               h_xg = m.get("team_a_xg_prematch", m.get("team_a_xg", 0))
               a_xg = m.get("team_b_xg_prematch", m.get("team_b_xg", 0))
               btts, o25 = m.get("btts_potential", 0), m.get("o25_potential", 0)
               
-              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. PPG:{h_ppg}-{a_ppg}, xG:{h_xg}-{a_xg}. En mantikli tercihi tek cumleyle yaz ve 2 kisa cumleyle nedenini acikla. '🤖 ScoutAI Yorumu:' ile basla."
+              prompt = f"Analist olarak yorumla: {h_name} vs {a_name}. Rapor: PPG({h_ppg}-{a_ppg}), xG({h_xg}-{a_xg}), BTTS(%{btts}), 2.5 Üst(%{o25}). En güvenilir tercihi tek cümleyle yaz ve nedenini 2 kısa cümleyle açıkla. '🤖 ScoutAI Yorumu:' ile başla."
               
               try:
-                  # En stabil çağırma yöntemi
                   response = model.generate_content(prompt)
-                  time.sleep(2) 
+                  time.sleep(2) # Kota koruması
                   return response.text
               except Exception as e:
                   print(f"AI Yorum Hatasi ({h_name} vs {a_name}): {e}")
                   return None
 
-          # VERI MERGE ISLEMLERI
+          # VERİ İŞLEME
           today = datetime.now(timezone.utc).date()
           with open('data/today_main.json') as f: main = json.load(f)
           with open('data/tomorrow_main.json') as f: tmr_main = json.load(f)
           today_data, tmr_data = main.get('data', []), tmr_main.get('data', [])
-          today_ids = {m['id'] for m in today_data}
-          tmr_ids = {m['id'] for m in tmr_data}
+          today_ids, tmr_ids = {m['id'] for m in today_data}, {m['id'] for m in tmr_data}
 
           for fname in glob.glob('data/extra_*.json'):
               try:
@@ -92,14 +97,12 @@ jobs:
                   for m in extra.get('data', []):
                       ts = m.get('date_unix', 0)
                       if not ts: continue
-                      d = datetime.fromtimestamp(ts, tz=timezone.utc).date()
-                      if d == today and m['id'] not in today_ids:
+                      if datetime.fromtimestamp(ts, tz=timezone.utc).date() == today and m['id'] not in today_ids:
                           today_data.append(m); today_ids.add(m['id'])
-                      elif d > today and m['id'] not in tmr_ids:
-                          tmr_data.append(m); tmr_ids.add(m['id'])
                   os.remove(fname)
               except: pass
 
+          # CANLI SKOR
           def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
           try:
               with open('data/live.json') as f: live_data = json.load(f)
@@ -107,25 +110,26 @@ jobs:
               for lm in live_data.get('matches', []):
                   h_g = lm.get('score', {}).get('fullTime', {}).get('home')
                   a_g = lm.get('score', {}).get('fullTime', {}).get('away')
-                  if h_g is None: continue
-                  key = norm(lm.get('homeTeam', {}).get('name', '')) + '_' + norm(lm.get('awayTeam', {}).get('name', ''))
-                  live_map[key] = {'h': h_g, 'a': a_g, 'status': lm.get('status')}
+                  if h_g is not None:
+                      key = norm(lm.get('homeTeam', {}).get('name', '')) + '_' + norm(lm.get('awayTeam', {}).get('name', ''))
+                      live_map[key] = {'h': h_g, 'a': a_g, 'status': lm.get('status')}
               for m in today_data:
                   ls = live_map.get(norm(m.get('home_name', '')) + '_' + norm(m.get('away_name', '')))
                   if ls:
                       m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
-                      m['status'] = 'live' if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME') else m['status']
+                      if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
           except: pass
 
-          # AI VIP ANALIZ
-          print("Yapay Zeka VIP Yorumlari Hazirlaniyor...")
+          # AI VIP ANALİZ
+          print("Yapay Zeka VIP Yorumları Hazırlanıyor...")
           count = 0
           for m in today_data:
-              if count >= 25: break # İlk etapta test için sayıyı düşürdük
+              if count >= 20: break # Kota güvenliği
               status = str(m.get('status', '')).lower()
               if status in ('incomplete', ''):
                   h_xg = float(m.get("team_a_xg_prematch") or 0)
                   a_xg = float(m.get("team_b_xg_prematch") or 0)
+                  # Sadece seçkin maçlar
                   if (h_xg + a_xg > 2.8) or abs(h_xg - a_xg) > 0.6:
                       comment = get_ai_prediction(m)
                       if comment:
