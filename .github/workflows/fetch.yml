@@ -9,6 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # Yapay zeka kütüphanesini kuruyoruz
+      - name: Install Google Generative AI
+        run: pip install google-generativeai
+
       - name: Fetch live scores (Football-Data.org)
         run: |
           curl -s "https://api.football-data.org/v4/matches?status=LIVE" \
@@ -31,24 +35,65 @@ jobs:
       - name: Fetch all selected leagues
         run: |
           KEY="efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
-          SEASONS="
-            16504 15000 14968 14924 15050 15115 14972 14930 14936 16572
-            14932 15068 14954 15632 14937 14931 14923 16544 16783 16576
-            16571 16789 15047 14893 15065 14956 15066 16558 15199 14973
-            15055 16627 16714 15741 15002 15015 16615 16614 15587 16213
-            15163 15544 15031 15717 16242 14904 16333 16243
-          "
+          SEASONS="16504 15000 14968 14924 15050 15115 14972 14930 14936 16572 14932 15068 14954 15632 14937 14931 14923 16544 16783 16576 16571 16789 15047 14893 15065 14956 15066 16558 15199 14973 15055 16627 16714 15741 15002 15015 16615 16614 15587 16213 15163 15544 15031 15717 16242 14904 16333 16243"
           for SID in $SEASONS; do
             curl -s "https://api.football-data-api.com/league-matches?key=$KEY&season_id=$SID&include=stats" > data/extra_$SID.json
             sleep 0.2
           done
 
-      - name: Merge all leagues + live scores
+      - name: Merge all leagues + live scores + AI Prediction
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python3 << 'PYEOF'
-          import json, os, glob, re
+          import json, os, glob, re, time
           from datetime import datetime, timezone
+          import google.generativeai as genai
 
+          # GEMINI AI AYARLARI
+          api_key = os.environ.get("GEMINI_API_KEY")
+          ai_active = False
+          if api_key:
+              try:
+                  genai.configure(api_key=api_key)
+                  model = genai.GenerativeModel('gemini-1.5-flash') # Hızlı ve ucuz olan model
+                  ai_active = True
+              except Exception as e:
+                  print(f"AI Başlatma Hatası: {e}")
+
+          def get_ai_prediction(m):
+              if not ai_active: return None
+              
+              h_name = m.get("home_name", "Ev")
+              a_name = m.get("away_name", "Deplasman")
+              h_ppg = m.get("home_ppg", 0)
+              a_ppg = m.get("away_ppg", 0)
+              h_xg = m.get("team_a_xg_prematch", m.get("team_a_xg", 0))
+              a_xg = m.get("team_b_xg_prematch", m.get("team_b_xg", 0))
+              btts = m.get("btts_potential", 0)
+              o25 = m.get("o25_potential", m.get("over25_potential", 0))
+              
+              prompt = f"""
+              Sen dünyanın en saygın, acımasız ve duygusuz iddaa analistisin. Oran tuzaklarına düşmezsin, sadece matematiksel gerçeklere ve oyunun doğasına odaklanırsın.
+              Şu maçı analiz et: {h_name} vs {a_name}
+              
+              İstihbarat Raporu:
+              - {h_name}: Maç başı puanı: {h_ppg}, Beklenen Gol (xG): {h_xg}.
+              - {a_name}: Maç başı puanı: {a_ppg}, Beklenen Gol (xG): {a_xg}.
+              - Karşılıklı Gol İhtimali: %{btts}
+              - 2.5 Üst İhtimali: %{o25}
+              
+              Görev: Bana sadece 1 adet EN GÜVENİLİR iddaa tercihini (Örn: MS 1, 2.5 Üst, İY 0.5 Üst vb.) tek bir net cümleyle yaz ve ardından bu seçimi neden yaptığını takımların gücünü sorgulayarak 2 kısa cümleyle açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın. Skor tahmini yapma.
+              """
+              try:
+                  response = model.generate_content(prompt)
+                  time.sleep(1) # API limitine takılmamak için 1 saniye bekle
+                  return response.text
+              except Exception as e:
+                  print(f"AI Yorum Hatası ({h_name} vs {a_name}): {e}")
+                  return None
+
+          # MEVCUT MERGE VE CANLI SKOR KODLARIN
           today = datetime.now(timezone.utc).date()
 
           with open('data/today_main.json') as f:
@@ -61,15 +106,13 @@ jobs:
           today_ids = {m['id'] for m in today_data}
           tmr_ids = {m['id'] for m in tmr_data}
 
-          # Extra ligleri ekle
           for fname in glob.glob('data/extra_*.json'):
               try:
                   with open(fname) as f:
                       extra = json.load(f)
                   for m in extra.get('data', []):
                       ts = m.get('date_unix', 0)
-                      if not ts:
-                          continue
+                      if not ts: continue
                       d = datetime.fromtimestamp(ts, tz=timezone.utc).date()
                       if d == today and m['id'] not in today_ids:
                           today_data.append(m)
@@ -79,17 +122,13 @@ jobs:
                           tmr_ids.add(m['id'])
                   os.remove(fname)
               except Exception as e:
-                  print(f"Hata {fname}: {e}")
+                  pass
 
-          # Football-Data.org live skorları ile güncelle
-          def norm(s):
-              return re.sub(r'[^a-z]', '', (s or '').lower())
-
+          def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
           def match_score(a, b):
               na, nb = norm(a), norm(b)
               if na == nb: return 1.0
               if na in nb or nb in na: return 0.9
-              # Kelime bazlı
               wa = [w for w in na.split() if len(w) >= 3]
               wb = [w for w in nb.split() if len(w) >= 3]
               if not wa or not wb: return 0
@@ -100,8 +139,6 @@ jobs:
               with open('data/live.json') as f:
                   live_data = json.load(f)
               live_matches = live_data.get('matches', [])
-
-              # live map: tüm isim varyantlarını dene
               live_map = {}
               for lm in live_matches:
                   ht = lm.get('homeTeam', {})
@@ -114,52 +151,49 @@ jobs:
                   minute = lm.get('minute')
                   status = lm.get('status', '')
                   if h_goals is None: continue
-                  # Birden fazla isim varyantı sakla
                   for hn in [ht.get('name',''), ht.get('shortName',''), ht.get('tla','')]:
                       for an in [at.get('name',''), at.get('shortName',''), at.get('tla','')]:
                           if hn and an:
-                              key = norm(hn) + '_' + norm(an)
-                              live_map[key] = {'h': h_goals, 'a': a_goals, 'min': minute, 'status': status}
+                              live_map[norm(hn) + '_' + norm(an)] = {'h': h_goals, 'a': a_goals, 'min': minute, 'status': status}
 
-              updated = 0
               for m in today_data:
-                  hn = norm(m.get('home_name', ''))
-                  an = norm(m.get('away_name', ''))
+                  hn, an = norm(m.get('home_name', '')), norm(m.get('away_name', ''))
                   key = hn + '_' + an
-
-                  # Direkt eşleşme
                   ls = live_map.get(key)
-
-                  # Bulunamadıysa fuzzy eşleştir
                   if not ls:
                       best_score = 0
                       for lkey, lval in live_map.items():
                           parts = lkey.split('_')
                           if len(parts) != 2: continue
                           lhn, lan = parts
-                          hs = match_score(hn, lhn)
-                          as_ = match_score(an, lan)
+                          hs, as_ = match_score(hn, lhn), match_score(an, lan)
                           total = hs + as_
                           if total > best_score and hs >= 0.7 and as_ >= 0.7:
-                              best_score = total
-                              ls = lval
+                              best_score, ls = total, lval
 
                   if ls:
-                      m['homeGoalCount'] = ls['h']
-                      m['awayGoalCount'] = ls['a']
+                      m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
                       m['totalGoalCount'] = (ls['h'] or 0) + (ls['a'] or 0)
-                      if ls['min']:
-                          m['elapsed'] = ls['min']
+                      if ls['min']: m['elapsed'] = ls['min']
                       if ls['status'] == 'PAUSED':
-                          m['elapsed'] = 'HY'
-                          m['status'] = 'live'
+                          m['elapsed'], m['status'] = 'HY', 'live'
                       elif ls['status'] in ('IN_PLAY', 'HALFTIME'):
                           m['status'] = 'live'
-                      updated += 1
-                      print(f"✅ Güncellendi: {m.get('home_name')} {ls['h']}-{ls['a']} {m.get('away_name')} ({ls['status']})")
-              print(f"Toplam güncellenen: {updated} maç")
+
           except Exception as e:
-              print(f"Live skor hatası: {e}")
+              pass
+
+          # AI YORUMLARINI SADECE BUGÜNÜN MAÇLARINA EKLE (Performans için)
+          print("Yapay Zeka Yorumları Hazırlanıyor...")
+          for m in today_data:
+              # Sadece henüz başlamamış maçlar için yorum alalım
+              status = str(m.get('status', '')).lower()
+              if status == 'incomplete' or status == '':
+                  # Çok fazla istek atmamak için şimdilik sadece xG'si yüksek maçları seçebiliriz
+                  # veya tüm maçlara atabiliriz. (Şu an tüm maçlara atıyor)
+                  comment = get_ai_prediction(m)
+                  if comment:
+                      m['ai_comment'] = comment
 
           main['data'] = today_data
           tmr_main['data'] = tmr_data
@@ -169,8 +203,6 @@ jobs:
           with open('data/tomorrow.json', 'w') as f:
               json.dump(tmr_main, f)
 
-          os.remove('data/today_main.json')
-          os.remove('data/tomorrow_main.json')
           print(f"Bugün: {len(today_data)}, Yarın: {len(tmr_data)}")
           PYEOF
 
@@ -178,5 +210,6 @@ jobs:
         run: |
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update" || true
+          git commit -m "Stats update + AI Comments" || true
           git push || true
+          
