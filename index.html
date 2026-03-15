@@ -350,7 +350,6 @@ function fmtDate(ts) {
 function analyze(m) {
   const hPPG  = parseFloat(m.home_ppg) || 0;
   const aPPG  = parseFloat(m.away_ppg) || 0;
-  // xG: maç başlamadıysa prematch kullan (live xG = 0 olur)
   const hXG   = parseFloat(m.team_a_xg_prematch) || parseFloat(m.team_a_xg) || 0;
   const aXG   = parseFloat(m.team_b_xg_prematch) || parseFloat(m.team_b_xg) || 0;
   const ov25  = parseFloat(m.o25_potential) || parseFloat(m.over25_potential) || 0;
@@ -360,105 +359,147 @@ function analyze(m) {
   const btts  = parseFloat(m.btts_potential) || 0;
   const cards = parseFloat(m.cards_potential) || 0;
   const corners = parseFloat(m.corners_potential) || 0;
-  const hForm = formScore(m.home_form);
-  const aForm = formScore(m.away_form);
   const games = parseInt(m.matches_completed_minimum) || 0;
   const enoughGames = games >= 8;
 
-  const odd1  = parseFloat(m.odds_ft_1) || 0;
-  const oddX  = parseFloat(m.odds_ft_x) || 0;
-  const odd2  = parseFloat(m.odds_ft_2) || 0;
+  const odd1    = parseFloat(m.odds_ft_1) || 0;
+  const oddX    = parseFloat(m.odds_ft_x) || 0;
+  const odd2    = parseFloat(m.odds_ft_2) || 0;
   const oddOv25 = parseFloat(m.odds_ft_over25) || 0;
   const oddIY   = parseFloat(m.odds_1st_half_over05) || 0;
 
-  // ── SKOR ──
+  // ── FORM ANALİZİ (en önemli faktör) ──
+  const formScore2 = (form) => {
+    if (!form) return {score: 0, wins: 0, draws: 0, losses: 0, streak: 0, streakType: ''};
+    const arr = form.toUpperCase().split('').filter(c => ['W','D','L'].includes(c)).slice(-5);
+    const wins   = arr.filter(c => c==='W').length;
+    const draws  = arr.filter(c => c==='D').length;
+    const losses = arr.filter(c => c==='L').length;
+    const score  = wins * 3 + draws * 1;
+    // Son seri
+    let streak = 0, streakType = '';
+    for (let i = arr.length-1; i >= 0; i--) {
+      if (i === arr.length-1) { streakType = arr[i]; streak = 1; }
+      else if (arr[i] === streakType) streak++;
+      else break;
+    }
+    return {score, wins, draws, losses, streak, streakType};
+  };
+
+  const hF = formScore2(m.home_form);
+  const aF = formScore2(m.away_form);
+
+  // Sezon geneli PPG (pre_match = tüm sezon)
+  const hSeasonPPG = parseFloat(m.pre_match_home_ppg) || hPPG;
+  const aSeasonPPG = parseFloat(m.pre_match_away_ppg) || aPPG;
+
+  // Temiz kale %
+  const hCS = parseFloat(m.team_a_cs_potential) || 0;
+  const aCS = parseFloat(m.team_b_cs_potential) || 0;
+
+  // ── SKOR HESABI ──
   let score = 0;
   const ppgDiff = Math.abs(hPPG - aPPG);
   const xgDiff  = Math.abs(hXG - aXG);
 
-  // PPG farkı (max 25p)
-  if      (ppgDiff >= 1.2) score += 25;
-  else if (ppgDiff >= 0.8) score += 20;
-  else if (ppgDiff >= 0.5) score += 14;
-  else if (ppgDiff >= 0.3) score += 8;
-  else                     score += 3;
+  // 1. FORM SKORU (max 30p) — EN ÖNEMLİ
+  const topForm = Math.max(hF.score, aF.score);
+  const botForm = Math.min(hF.score, aF.score);
+  const formDiff = Math.abs(hF.score - aF.score);
 
-  // xG farkı (max 20p)
+  if      (topForm >= 13 && formDiff >= 6) score += 30; // Birisi mükemmel, diğeri kötü
+  else if (topForm >= 12 && botForm >= 9)  score += 25; // İkisi de iyi form
+  else if (topForm >= 12)                  score += 22; // Birisi mükemmel form
+  else if (formDiff >= 6)                  score += 18; // Belirgin form farkı
+  else if (topForm >= 9)                   score += 14; // Birisi iyi form
+  else if (topForm >= 6)                   score += 8;
+  else                                     score += 2;
+
+  // Form serisi bonusu (son 3 maçta aynı sonuç)
+  if (hF.streak >= 3 || aF.streak >= 3) score += 5;
+
+  // 2. PPG FARKI (max 20p)
+  if      (ppgDiff >= 1.2) score += 20;
+  else if (ppgDiff >= 0.8) score += 15;
+  else if (ppgDiff >= 0.5) score += 10;
+  else if (ppgDiff >= 0.3) score += 6;
+  else                     score += 2;
+
+  // 3. xG FARKI (max 15p)
   if (hXG > 0 || aXG > 0) {
-    if      (xgDiff >= 0.6) score += 20;
-    else if (xgDiff >= 0.3) score += 13;
-    else if (xgDiff >= 0.1) score += 6;
-    else                    score += 3;
+    if      (xgDiff >= 0.6) score += 15;
+    else if (xgDiff >= 0.3) score += 10;
+    else if (xgDiff >= 0.1) score += 5;
+    else                    score += 2;
   } else {
-    if      (ppgDiff >= 0.8) score += 12;
-    else if (ppgDiff >= 0.5) score += 8;
-    else if (ppgDiff >= 0.3) score += 4;
+    if (ppgDiff >= 0.8) score += 8;
+    else if (ppgDiff >= 0.5) score += 5;
   }
 
-  // Form (max 15p)
-  const topForm = Math.max(hForm, aForm);
-  const botForm = Math.min(hForm, aForm);
-  if      (topForm >= 12 && botForm >= 6) score += 15;
-  else if (topForm >= 9)                  score += 10;
-  else if (topForm >= 6)                  score += 6;
-  else                                    score += 2;
+  // 4. Üst 2.5 (max 12p)
+  if      (ov25 >= 70) score += 12;
+  else if (ov25 >= 55) score += 8;
+  else if (ov25 >= 40) score += 4;
+  else if (ov25 >= 25) score += 1;
 
-  // Üst 2.5 (max 15p)
-  if      (ov25 >= 70) score += 15;
-  else if (ov25 >= 55) score += 10;
-  else if (ov25 >= 40) score += 5;
-  else if (ov25 >= 25) score += 2;
-
-  // BTTS (max 10p)
-  if      (btts >= 65) score += 10;
-  else if (btts >= 50) score += 6;
+  // 5. BTTS (max 8p)
+  if      (btts >= 65) score += 8;
+  else if (btts >= 50) score += 5;
   else if (btts >= 35) score += 2;
 
-  // İY Gol (max 10p)
-  if      (o05HT >= 70) score += 10;
-  else if (o05HT >= 55) score += 6;
+  // 6. İY Gol (max 8p)
+  if      (o05HT >= 70) score += 8;
+  else if (o05HT >= 55) score += 5;
   else if (o05HT >= 40) score += 2;
 
-  // Cezalar
-  if (hPPG < 0.8 && aPPG < 0.8) score -= 20;
-  if (hPPG === 0 && aPPG === 0)  score -= 15;
-  if (!enoughGames)               score = Math.min(score, 60);
-  if (avgG > 0 && avgG < 1.0)    score -= 8;
+  // 7. Temiz kale farkı — defans gücü (max 5p)
+  if (hCS > 0 && aCS > 0) {
+    const csDiff = Math.abs(hCS - aCS);
+    if (csDiff >= 20) score += 5;
+    else if (csDiff >= 10) score += 3;
+  }
+
+  // ── CEZALAR ──
+  if (hPPG < 0.8 && aPPG < 0.8) score -= 20; // İki takım da zayıf
+  if (hPPG === 0 && aPPG === 0)  score -= 15; // Veri yok
+  if (!enoughGames)               score = Math.min(score, 60); // Az maç
+  if (avgG > 0 && avgG < 1.0)    score -= 8;  // Düşük gol maçı
+  // İki takım da kötü formdaysa ceza
+  if (hF.score <= 3 && aF.score <= 3 && games > 5) score -= 10;
 
   score = Math.max(0, Math.min(100, score));
 
   // ── SİSTEM ETİKETLERİ ──
   const systems = [];
 
-  // xG Ev Avantajı: hXG > aXG+0.15, yeterli maç, oran 1.3–2.5
   if (hXG > aXG + 0.15 && enoughGames && odd1 >= 1.3 && odd1 < 2.5)
     systems.push({key:'xg', label:'📊 xG Ev'});
 
-  // İY Gol
   if (o05HT >= 65 && enoughGames)
     systems.push({key:'iy', label:'🌅 İY Gol'});
 
-  // Üst 2.5
   if (ov25 >= 60 && enoughGames)
     systems.push({key:'ov25', label:'⚽ Üst 2.5'});
 
-  // 0-0 HT (sadece canlı, skor 0-0, yüksek gol beklentisi)
   const hGol = parseInt(m.homeGoalCount) || 0;
   const aGol = parseInt(m.awayGoalCount) || 0;
-  if (isLive(m) && hGol === 0 && aGol === 0 && avgG >= 2.5 && hForm >= 6 && aForm >= 6)
+  if (isLive(m) && hGol === 0 && aGol === 0 && avgG >= 2.5 && hF.score >= 6 && aF.score >= 6)
     systems.push({key:'ht', label:'⏱ 0-0 HT'});
 
-  // Kart
   if (cards >= 4.0 && enoughGames)
     systems.push({key:'card', label:'🟥 Kart'});
 
-  // Daily (Üst 0.5, neredeyse kesin)
   if (ov05 >= 93 && enoughGames)
     systems.push({key:'daily', label:'💰 Daily'});
 
-  // Korner
   if (corners >= 9.5 && enoughGames)
     systems.push({key:'corner', label:'📐 Korner'});
+
+  // Form serisi etiketi
+  if (hF.streak >= 3 && hF.streakType === 'W')
+    systems.push({key:'xg', label:`🔥 ${m.home_name?.split(' ')[0]} ${hF.streak} Galibiyet Serisi`});
+  else if (aF.streak >= 3 && aF.streakType === 'W')
+    systems.push({key:'xg', label:`🔥 ${m.away_name?.split(' ')[0]} ${aF.streak} Galibiyet Serisi`});
 
   return { score, systems, odd1, oddX, odd2 };
 }
@@ -480,9 +521,26 @@ function card(m) {
   const aG    = m.awayGoalCount ?? '-';
   const score = (lv || dn) ? `${hG}–${aG}` : '–';
 
-  // Zaman etiketi
+  // Zaman etiketi - dakika hesabı
+  let liveMin = '';
+  if (lv && m.date_unix) {
+    const totalMin = Math.floor((Date.now()/1000 - m.date_unix) / 60);
+    const htDone = parseInt(m.HTGoalCount) >= 0 && totalMin > 45;
+    
+    if (totalMin <= 45) {
+      // 1. Yarı
+      liveMin = `${totalMin}'`;
+    } else if (htDone && totalMin <= 60) {
+      // Devre arası
+      liveMin = `HY`;
+    } else if (totalMin > 60) {
+      // 2. Yarı (15dk devre arası çıkar)
+      const min2 = totalMin - 15;
+      liveMin = min2 <= 90 ? `${min2}'` : `90+'`;
+    }
+  }
   const timeEl = lv
-    ? `<div><span class="live-dot"></span><span class="live-lbl">${m.elapsed ? m.elapsed+"'" : 'CANLI'}</span></div>`
+    ? `<div><span class="live-dot"></span><span class="live-lbl">${liveMin || 'CANLI'}</span></div>`
     : dn
       ? `<div class="mc-time">BİTTİ</div>`
       : `<div class="mc-time">${fmtTime(m.date_unix)}</div>`;
@@ -704,27 +762,57 @@ async function renderDay(offset) {
 async function renderSuper() {
   const t = await fetchDay(0);
   const y = await fetchDay(1);
-  const all = dedupe([...t, ...y]).filter(isUp);
-  const list = all
-    .map(m => ({m, a: analyze(m)}))
-    .filter(x => x.a.score >= 85)
-    .sort((a, b) => b.a.score - a.a.score)
-    .map(x => x.m);
-  if (!list.length) return `<div class="empty">🔥 Süper Banko maç yok<br><small>Güven skoru 85+ gerekli</small></div>`;
-  return `<div class="sh">🔥 SÜPER BANKOLAR (${list.length})</div>` + list.map(card).join('');
+  const now = new Date();
+  const tom = new Date(); tom.setDate(tom.getDate() + 1);
+
+  const filter = (arr) => arr.filter(m => {
+    if (!m.date_unix) return false;
+    const d = new Date(m.date_unix*1000).toDateString();
+    return d === now.toDateString() || d === tom.toDateString();
+  });
+
+  const todayList = filter(t).filter(isUp)
+    .map(m => ({m, a: analyze(m)})).filter(x => x.a.score >= 85)
+    .sort((a,b) => b.a.score - a.a.score).map(x => x.m);
+  const tomList = filter(y).filter(isUp)
+    .map(m => ({m, a: analyze(m)})).filter(x => x.a.score >= 85)
+    .sort((a,b) => b.a.score - a.a.score).map(x => x.m);
+
+  if (!todayList.length && !tomList.length)
+    return `<div class="empty">🔥 Süper Banko maç yok<br><small>Güven skoru 85+ gerekli</small></div>`;
+
+  let h = '';
+  if (todayList.length) h += `<div class="sh">📅 BUGÜN (${todayList.length})</div>` + todayList.map(card).join('');
+  if (tomList.length)   h += `<div class="sh">📆 YARIN (${tomList.length})</div>`   + tomList.map(card).join('');
+  return h;
 }
 
 async function renderBanko() {
   const t = await fetchDay(0);
   const y = await fetchDay(1);
-  const all = dedupe([...t, ...y]).filter(isUp);
-  const list = all
-    .map(m => ({m, a: analyze(m)}))
-    .filter(x => x.a.score >= 75 && x.a.score < 85)
-    .sort((a, b) => b.a.score - a.a.score)
-    .map(x => x.m);
-  if (!list.length) return `<div class="empty">⭐ Banko maç yok<br><small>Güven skoru 75-84 gerekli</small></div>`;
-  return `<div class="sh">⭐ BANKOLAR (${list.length})</div>` + list.map(card).join('');
+  const now = new Date();
+  const tom = new Date(); tom.setDate(tom.getDate() + 1);
+
+  const filter = (arr) => arr.filter(m => {
+    if (!m.date_unix) return false;
+    const d = new Date(m.date_unix*1000).toDateString();
+    return d === now.toDateString() || d === tom.toDateString();
+  });
+
+  const todayList = filter(t).filter(isUp)
+    .map(m => ({m, a: analyze(m)})).filter(x => x.a.score >= 75 && x.a.score < 85)
+    .sort((a,b) => b.a.score - a.a.score).map(x => x.m);
+  const tomList = filter(y).filter(isUp)
+    .map(m => ({m, a: analyze(m)})).filter(x => x.a.score >= 75 && x.a.score < 85)
+    .sort((a,b) => b.a.score - a.a.score).map(x => x.m);
+
+  if (!todayList.length && !tomList.length)
+    return `<div class="empty">⭐ Banko maç yok<br><small>Güven skoru 75-84 gerekli</small></div>`;
+
+  let h = '';
+  if (todayList.length) h += `<div class="sh">📅 BUGÜN (${todayList.length})</div>` + todayList.map(card).join('');
+  if (tomList.length)   h += `<div class="sh">📆 YARIN (${tomList.length})</div>`   + tomList.map(card).join('');
+  return h;
 }
 
 async function renderSistem() {
@@ -1101,35 +1189,205 @@ function openAnaliz(id) {
     html += `<div style="display:grid;grid-template-columns:1fr auto 1fr;font-size:10px;color:var(--muted);text-align:center;padding:0 8px 4px">
       <span>EV</span><span></span><span>DEPLASMAN</span>
     </div>`;
-    html += cmpRow('Maç Başı Puan', hppg, appg);
-    html += cmpRow('xG (Beklenen Gol)', hxg, axg);
+
+    // Genel PPG
+    html += cmpRow('Maç Başı Puan (PPG)', hppg, appg);
+    html += cmpRow('Beklenen Gol (xG)', hxg, axg);
+
+    // Ev/Dep ayrımı
+    const hHomePPG = parseFloat(m.home_ppg_home) || parseFloat(m.pre_match_home_ppg) || 0;
+    const aAwayPPG = parseFloat(m.away_ppg_away) || parseFloat(m.pre_match_away_ppg) || 0;
+    if (hHomePPG > 0 || aAwayPPG > 0) {
+      html += `<div style="font-size:10px;color:var(--gold);text-align:center;padding:4px 0 2px">📍 Pozisyona Göre PPG</div>`;
+      html += cmpRow(`${hN} (Ev'de)`, hHomePPG, aAwayPPG);
+    }
+
+    // Clean Sheet %
+    const hCS = parseFloat(m.team_a_cs_potential) || 0;
+    const aCS = parseFloat(m.team_b_cs_potential) || 0;
+    if (hCS > 0 || aCS > 0) {
+      html += `<div style="font-size:10px;color:var(--gold);text-align:center;padding:4px 0 2px">🧹 Temiz Kale İhtimali</div>`;
+      html += `<div class="cmp-row">
+        <div class="cv-h${hCS > aCS ? ' w' : ''}">${hCS > 0 ? Math.round(hCS)+'%' : '-'}</div>
+        <div class="cv-l">Gol Yemez %</div>
+        <div class="cv-a${aCS > hCS ? ' w' : ''}">${aCS > 0 ? Math.round(aCS)+'%' : '-'}</div>
+      </div>`;
+    }
+
   } else {
     html += `<div style="color:var(--muted);font-size:12px;padding:6px 0">⚠️ Bu maç istatistik veri tabanımızda yok. Sadece canlı veriler gösteriliyor.</div>`;
   }
   html += `</div>`;
 
-  // ── 2. Maç İstatistikleri ──
-  html += `<div class="asec"><div class="asec-title">📈 MAÇ İSTATİSTİKLERİ</div>`;
-  html += statRow('BTTS (Her İki Takım Gol)', m.btts_potential, '%');
-  html += statRow('Üst 2.5 Gol', m.o25_potential || m.over25_potential, '%');
-  html += statRow('İlk Yarı Gol (Üst 0.5)', m.o05HT_potential, '%');
-  html += statRow('Üst 0.5 Gol (Daily)', m.o05_potential || m.over05_potential, '%');
-  html += statRow('Ortalama Gol/Maç', m.avg_potential, '');
-  html += statRow('Ortalama Korner/Maç', m.corners_potential, '');
-  html += statRow('Ortalama Kart/Maç', m.cards_potential, '');
-  html += `</div>`;
+  // ── 2. Value Bet (Değer Bahis) ──
+  const hasOdds = o1 > 1 || ox > 1 || o2 > 1;
+  if (hasOdds && (hppg > 0 || appg > 0)) {
+    // Bizim hesabımıza göre kazanma olasılıkları
+    const total = hppg + appg + 0.5;
+    const pHome = hppg / total;
+    const pAway = appg / total;
+    const pDraw = 0.5 / total;
+    // Bookmaker olasılıkları (marj dahil)
+    const bHome = o1 > 1 ? (1/o1) : 0;
+    const bAway = o2 > 1 ? (1/o2) : 0;
+    const bDraw = ox > 1 ? (1/ox) : 0;
+    // Value = bizim %si - bookmaker %si
+    const vHome = o1 > 1 ? Math.round((pHome - bHome)*100) : 0;
+    const vAway = o2 > 1 ? Math.round((pAway - bAway)*100) : 0;
+    const vDraw = ox > 1 ? Math.round((pDraw - bDraw)*100) : 0;
 
-  // ── 3. Son Form ──
+    html += `<div class="asec"><div class="asec-title">💎 VALUE BET (Değer Bahis)</div>`;
+    html += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px">Bizim hesabımız bookmaker'dan daha yüksekse = değerli bahis ✅</div>`;
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px">`;
+    const valueItem = (label, ourPct, diff, odd) => {
+      const color = diff > 3 ? 'var(--accent)' : diff > 0 ? 'var(--gold)' : 'var(--muted)';
+      const icon = diff > 3 ? '✅' : diff > 0 ? '🟡' : '❌';
+      return `<div style="background:var(--card);border-radius:8px;padding:8px;text-align:center">
+        <div style="font-size:10px;color:var(--muted)">${label}</div>
+        <div style="font-size:13px;font-weight:700;color:${color}">${icon} ${Math.round(ourPct*100)}%</div>
+        <div style="font-size:10px;color:var(--muted)">Oran: ${odd > 1 ? odd.toFixed(2) : '-'}</div>
+        <div style="font-size:11px;font-weight:700;color:${color}">${diff > 0 ? '+' : ''}${diff}%</div>
+      </div>`;
+    };
+    html += valueItem('1 (Ev)', pHome, vHome, o1);
+    html += valueItem('X (Bera)', pDraw, vDraw, ox);
+    html += valueItem('2 (Dep)', pAway, vAway, o2);
+    html += `</div></div>`;
+  }
+
+  // ── 3. Form Serisi Analizi ──
   html += `<div class="asec"><div class="asec-title">🏃 SON FORM (Son 5 Maç)</div>`;
   if (m.home_form || m.away_form) {
-    if (m.home_form) html += `<div class="frow"><div class="fnm">${hN}</div><div class="fp2">${formPills(m.home_form)}</div></div>`;
-    if (m.away_form) html += `<div class="frow"><div class="fnm">${aN}</div><div class="fp2">${formPills(m.away_form)}</div></div>`;
+    const formSeri = (form, name) => {
+      if (!form) return '';
+      const results = form.split('').filter(c => ['W','D','L'].includes(c.toUpperCase()));
+      const pills = formPills(form);
+      // Seri analizi
+      const son3 = results.slice(-3);
+      const kazanan = son3.filter(r => r.toUpperCase()==='W').length;
+      const kaybeden = son3.filter(r => r.toUpperCase()==='L').length;
+      let seriText = '';
+      if (kazanan === 3) seriText = `🔥 Son 3 maçta 3 galibiyet!`;
+      else if (kaybeden === 3) seriText = `❄️ Son 3 maçta 3 mağlubiyet`;
+      else if (kazanan === 0 && kaybeden >= 2) seriText = `📉 Kazanamıyor`;
+      else if (kazanan >= 2) seriText = `📈 İyi formda`;
+      return `<div style="margin-bottom:8px">
+        <div style="font-size:11px;font-weight:700;margin-bottom:3px">${name}</div>
+        <div class="fp2">${pills}</div>
+        ${seriText ? `<div style="font-size:11px;color:var(--gold);margin-top:3px">${seriText}</div>` : ''}
+      </div>`;
+    };
+    html += formSeri(m.home_form, hN);
+    html += formSeri(m.away_form, aN);
   } else {
     html += `<div style="color:var(--muted);font-size:12px">Form verisi yok</div>`;
   }
   html += `</div>`;
 
-  // ── 4. Bahis Oranları ──
+  // ── 4. xG Trend ──
+  if (hxg > 0 || axg > 0) {
+    html += `<div class="asec"><div class="asec-title">📊 xG TREND ANALİZİ</div>`;
+    const xgDiff = hxg - axg;
+    // xG vs PPG karşılaştırması
+    const hGolFark = hxg > 0 && hppg > 0 ? hxg - (hppg * 0.4) : 0;
+    const aGolFark = axg > 0 && appg > 0 ? axg - (appg * 0.4) : 0;
+    let xgMsg = '';
+    if (hxg > axg + 0.4) {
+      xgMsg = `✅ ${hN} beklenen gol açısından belirgin üstün. Fırsat yaratıyor.`;
+    } else if (axg > hxg + 0.4) {
+      xgMsg = `✅ ${aN} beklenen gol açısından belirgin üstün. Fırsat yaratıyor.`;
+    } else {
+      xgMsg = `⚖️ İki takımın xG değerleri birbirine yakın. Dengeli maç bekleniyor.`;
+    }
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+      <div style="background:var(--card);border-radius:8px;padding:8px;text-align:center">
+        <div style="font-size:10px;color:var(--muted)">${hN}</div>
+        <div style="font-size:18px;font-weight:700;color:var(--accent)">${hxg.toFixed(2)}</div>
+        <div style="font-size:10px;color:var(--muted)">xG/Maç</div>
+      </div>
+      <div style="background:var(--card);border-radius:8px;padding:8px;text-align:center">
+        <div style="font-size:10px;color:var(--muted)">${aN}</div>
+        <div style="font-size:18px;font-weight:700;color:var(--purple)">${axg.toFixed(2)}</div>
+        <div style="font-size:10px;color:var(--muted)">xG/Maç</div>
+      </div>
+    </div>`;
+    html += `<div style="font-size:12px;color:var(--text);line-height:1.5">${xgMsg}</div>`;
+    html += `</div>`;
+  }
+
+  // ── 5. Maç İstatistikleri ──
+  html += `<div class="asec"><div class="asec-title">📈 MAÇ İSTATİSTİKLERİ</div>`;
+  html += statRow('BTTS — Her iki takım gol atar', m.btts_potential, '%');
+  html += statRow('Üst 2.5 — 3+ gol çıkar', m.o25_potential || m.over25_potential, '%');
+  html += statRow('İlk Yarı Gol', m.o05HT_potential, '%');
+  html += statRow('Üst 0.5 — Gol çıkar (Kesin)', m.o05_potential || m.over05_potential, '%');
+  html += statRow('Ortalama Gol/Maç', m.avg_potential, '');
+  html += statRow('Ortalama Korner/Maç', m.corners_potential, '');
+  html += statRow('Ortalama Kart/Maç', m.cards_potential, '');
+  html += `</div>`;
+
+  // ── 6. Doğru Skor Tahmini (Poisson) ──
+  if (hxg > 0 && axg > 0) {
+    // Poisson olasılık hesabı
+    const poisson = (lambda, k) => {
+      let r = Math.exp(-lambda);
+      for (let i = 0; i < k; i++) r *= lambda / (i + 1);
+      return r;
+    };
+    const scores = [];
+    for (let h = 0; h <= 4; h++) {
+      for (let a = 0; a <= 4; a++) {
+        const p = poisson(hxg, h) * poisson(axg, a) * 100;
+        if (p >= 3) scores.push({h, a, p});
+      }
+    }
+    scores.sort((x, y) => y.p - x.p);
+    const top6 = scores.slice(0, 6);
+
+    if (top6.length) {
+      html += `<div class="asec"><div class="asec-title">🎯 DOĞRU SKOR TAHMİNİ</div>`;
+      html += `<div style="font-size:11px;color:var(--muted);margin-bottom:8px">xG değerlerine göre en olası skorlar</div>`;
+      html += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px">`;
+      top6.forEach(({h, a, p}, i) => {
+        const isTop = i === 0;
+        const color = isTop ? 'var(--accent)' : 'var(--text)';
+        const bg = isTop ? 'var(--border)' : 'var(--card)';
+        html += `<div style="background:${bg};border-radius:8px;padding:8px;text-align:center;${isTop?'border:1px solid var(--accent)':''}">
+          <div style="font-size:16px;font-weight:700;color:${color}">${h}–${a}</div>
+          <div style="font-size:11px;color:var(--muted)">${p.toFixed(1)}%</div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+  }
+
+  // ── 7. En Çok Gol Hangi Yarıda ──
+  const ht15 = parseFloat(m.o15HT_potential) || parseFloat(m.odds_1st_half_over05) || 0;
+  const ov25v = parseFloat(m.o25_potential) || parseFloat(m.over25_potential) || 0;
+  const o05HT2 = parseFloat(m.o05HT_potential) || 0;
+  if (o05HT2 > 0 || ov25v > 0) {
+    html += `<div class="asec"><div class="asec-title">⏱ HANGİ YARIDA GOL?</div>`;
+    const iy_pct = o05HT2;
+    const iy2_est = ov25v > 0 ? Math.min(ov25v + 10, 95) : 0;
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">`;
+    if (iy_pct > 0) {
+      const iyC = iy_pct >= 70 ? 'var(--accent)' : iy_pct >= 50 ? 'var(--gold)' : 'var(--muted)';
+      html += `<div style="background:var(--card);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">1. Yarı Gol</div>
+        <div style="font-size:22px;font-weight:700;color:${iyC}">${Math.round(iy_pct)}%</div>
+      </div>`;
+    }
+    if (ov25v > 0) {
+      const ov2C = ov25v >= 65 ? 'var(--accent)' : ov25v >= 45 ? 'var(--gold)' : 'var(--muted)';
+      html += `<div style="background:var(--card);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">3+ Gol (Üst 2.5)</div>
+        <div style="font-size:22px;font-weight:700;color:${ov2C}">${Math.round(ov25v)}%</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  // ── 6. Bahis Oranları ──
   html += `<div class="asec"><div class="asec-title">💰 BAHİS ORANLARI</div>`;
   html += `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:6px">
     ${[['1 (Ev)',o1],['X (Beraberlik)',ox],['2 (Dep)',o2]].map(([l,v]) =>
@@ -1148,7 +1406,7 @@ function openAnaliz(id) {
     ).join('')}
   </div></div>`;
 
-  // ── 5. Kupona Ekle ──
+  // ── 7. Kupona Ekle ──
   const k = kupon[id];
   html += `<div class="asec"><div class="asec-title">🎫 KUPONA EKLE</div>
   <div class="kup-btns">
@@ -1163,7 +1421,7 @@ function openAnaliz(id) {
     </button>
   </div></div>`;
 
-  // ── 6. Analiz & Öneri ──
+  // ── 8. Analiz & Öneri ──
   html += `<div class="asec"><div class="asec-title">🤖 ANALİZ & ÖNERİ</div>
   <div class="ai-box" id="ai-${id}">
     <div style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px">
