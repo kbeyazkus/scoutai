@@ -276,168 +276,6 @@ async function fetchDay(offset) {
   return cache[key];
 }
 
-// API-Football live.json → normalize edilmiş maç objesi + FootyStats istatistikleri
-async function fetchLive() {
-  // live.json her zaman taze çek
-  let list = [];
-  try {
-    const r = await fetch('data/live.json?t=' + Date.now());
-    if (r.ok) {
-      const j = await r.json();
-      list = Array.isArray(j.response) ? j.response : [];
-    }
-  } catch(e) {}
-
-  // today + tomorrow'dan FootyStats verisi çek (cache varsa kullan)
-  let fsMatches = [];
-  if (!cache.today) {
-    try {
-      const rt = await fetch('data/today.json?t=' + Date.now());
-      if (rt.ok) {
-        const jt = await rt.json();
-        cache.today = Array.isArray(jt.data) ? jt.data : [];
-      }
-    } catch(e) {}
-  }
-  if (!cache.tomorrow) {
-    try {
-      const rt = await fetch('data/tomorrow.json?t=' + Date.now());
-      if (rt.ok) {
-        const jt = await rt.json();
-        cache.tomorrow = Array.isArray(jt.data) ? jt.data : [];
-      }
-    } catch(e) {}
-  }
-  // İkisini birleştir — canlı maç bazen tomorrow'da olabilir
-  fsMatches = [...(cache.today || []), ...(cache.tomorrow || [])];
-
-  return buildLiveList(list, fsMatches);
-}
-
-function buildLiveList(list, fsMatches) {
-  // Sadece gerçekten oynanan maçları al
-  const liveStatuses = new Set(['1H','HT','2H','ET','BT','P','LIVE','INT']);
-  list = list.filter(x => liveStatuses.has(x.fixture?.status?.short || ''));
-
-  // Takım adına göre eşleştir
-  const normName = s => String(s||'').toLowerCase()
-    .replace(/\b(afc|fc|sc|ac|rc|cd|ud|cf|sd|as|ss|sv|bk|if|fk|nk|sk|gk|hk|ik|rk|vv|sb|sl|af|bf|kvc|kv|united|city|club|sporting|real|atletico|athletic|deportivo)\b/g,' ')
-    .replace(/[^a-z0-9]/g,' ')
-    .replace(/\s+/g,' ')
-    .trim();
-
-  const matchScore = (a, b) => {
-    if (!a || !b) return 0;
-    const na = normName(a);
-    const nb = normName(b);
-    if (na === nb) return 1.0;
-    if (na.includes(nb) || nb.includes(na)) return 0.95;
-    const wa = na.split(' ').filter(w => w.length >= 3);
-    const wb = nb.split(' ').filter(w => w.length >= 3);
-    if (!wa.length || !wb.length) return 0;
-    let matched = 0;
-    for (const w of wa) {
-      if (wb.some(x => x.includes(w) || w.includes(x))) matched++;
-    }
-    return matched / Math.max(wa.length, wb.length);
-  };
-
-  const findFs = (homeName, awayName) => {
-    let best = null, bestScore = 0;
-    for (const m of fsMatches) {
-      const hScore = matchScore(homeName, m.home_name);
-      const aScore = matchScore(awayName, m.away_name);
-      const total = hScore + aScore;
-      if (total > bestScore && hScore >= 0.6 && aScore >= 0.6) {
-        bestScore = total;
-        best = m;
-      }
-    }
-    return best;
-  };
-
-  return list.map(x => {
-    const fix  = x.fixture || {};
-    const lg   = x.league  || {};
-    const t    = x.teams   || {};
-    const g    = x.goals   || {};
-    const st   = fix.status || {};
-    const sc   = x.score   || {};
-
-    const stats  = Array.isArray(x.statistics) ? x.statistics : [];
-    const homeSt = stats.find(s => s.team?.id === t.home?.id)?.statistics || [];
-    const awaySt = stats.find(s => s.team?.id === t.away?.id)?.statistics || [];
-    const getStat = (arr, type) => {
-      const s = arr.find(s => s.type === type);
-      return s ? (s.value ?? null) : null;
-    };
-
-    const fs = findFs(t.home?.name, t.away?.name);
-    if (!fs) return null; // Seçili ligde değilse gösterme
-
-    const hGoals = (g.home !== null && g.home !== undefined) ? g.home
-                 : (sc.fulltime?.home !== null && sc.fulltime?.home !== undefined) ? sc.fulltime.home : 0;
-    const aGoals = (g.away !== null && g.away !== undefined) ? g.away
-                 : (sc.fulltime?.away !== null && sc.fulltime?.away !== undefined) ? sc.fulltime.away : 0;
-
-    const elapsed = st.elapsed || 0;
-    const extra   = st.extra   || 0;
-    const minStr  = st.short === 'HT' ? 'HT'
-                  : extra > 0 ? `${elapsed}+${extra}'`
-                  : elapsed > 0 ? `${elapsed}'`
-                  : st.short || 'CANLI';
-
-    return {
-      id:               'af_' + fix.id,
-      _afId:            fix.id,
-      status:           'inprogress',
-      home_name:        t.home?.name || '?',
-      away_name:        t.away?.name || '?',
-      home_image:       t.home?.logo  || (fs?.home_image || ''),
-      away_image:       t.away?.logo  || (fs?.away_image || ''),
-      competition_name: lg.name || (fs?.competition_name || ''),
-      date_unix:        fix.timestamp || 0,
-      homeGoalCount:    hGoals,
-      awayGoalCount:    aGoals,
-      elapsed, extra, minStr,
-      status_short:     st.short || 'LIVE',
-      home_possession:  getStat(homeSt, 'Ball Possession'),
-      away_possession:  getStat(awaySt, 'Ball Possession'),
-      home_shots:       getStat(homeSt, 'Total Shots'),
-      away_shots:       getStat(awaySt, 'Total Shots'),
-      home_shots_on:    getStat(homeSt, 'Shots on Goal'),
-      away_shots_on:    getStat(awaySt, 'Shots on Goal'),
-      home_corners:     getStat(homeSt, 'Corner Kicks'),
-      away_corners:     getStat(awaySt, 'Corner Kicks'),
-      home_yellow:      getStat(homeSt, 'Yellow Cards'),
-      away_yellow:      getStat(awaySt, 'Yellow Cards'),
-      home_red:         getStat(homeSt, 'Red Cards'),
-      away_red:         getStat(awaySt, 'Red Cards'),
-      home_ppg:          fs.home_ppg          || 0,
-      away_ppg:          fs.away_ppg          || 0,
-      home_form:         fs.home_form         || '',
-      away_form:         fs.away_form         || '',
-      btts_potential:    fs.btts_potential    || 0,
-      o25_potential:     fs.o25_potential     || fs.over25_potential || 0,
-      o05HT_potential:   fs.o05HT_potential   || 0,
-      avg_potential:     fs.avg_potential     || 0,
-      cards_potential:   fs.cards_potential   || 0,
-      corners_potential: fs.corners_potential || 0,
-      o05_potential:     fs.o05_potential     || fs.over05_potential || 0,
-      odds_ft_1:         fs.odds_ft_1         || 0,
-      odds_ft_x:         fs.odds_ft_x         || 0,
-      odds_ft_2:         fs.odds_ft_2         || 0,
-      odds_ft_over25:    fs.odds_ft_over25    || 0,
-      odds_ft_over15:    fs.odds_ft_over15    || 0,
-      odds_1st_half_over05: fs.odds_1st_half_over05 || 0,
-      odds_btts_yes:     fs.odds_btts_yes     || 0,
-      team_a_xg_prematch: fs.team_a_xg_prematch || 0,
-      team_b_xg_prematch: fs.team_b_xg_prematch || 0,
-      matches_completed_minimum: fs.matches_completed_minimum || 0,
-      _fsMatched: true,
-    };
-  }).filter(Boolean); // null olanları çıkar
-}
 
 // ══════════════════════════════════════════════
 //  MAÇ DURUM YARDIMCILARI
@@ -638,7 +476,7 @@ function card(m) {
 
   // Zaman etiketi
   const timeEl = lv
-    ? `<div><span class="live-dot"></span><span class="live-lbl">CANLI</span></div>`
+    ? `<div><span class="live-dot"></span><span class="live-lbl">${m.elapsed ? m.elapsed+"'" : 'CANLI'}</span></div>`
     : dn
       ? `<div class="mc-time">BİTTİ</div>`
       : `<div class="mc-time">${fmtTime(m.date_unix)}</div>`;
@@ -825,29 +663,23 @@ function dedupe(arr) {
 }
 
 async function renderLive() {
+  // FootyStats today.json'dan canlı maçları al — taze çek
   let liveMatches = [];
-
-  // Önce API-Football live.json'dan dene
   try {
-    liveMatches = await fetchLive();
-  } catch(e) {
-    // Hata olursa FootyStats'tan dön
-    liveMatches = [];
-  }
-
-  // API-Football boşsa FootyStats'tan canlıları al
-  if (!liveMatches.length) {
-    try {
-      const all = await fetchDay(0);
+    const r = await fetch('data/today.json?t=' + Date.now());
+    if (r.ok) {
+      const j = await r.json();
+      const all = Array.isArray(j.data) ? j.data : [];
+      cache.today = all;
       liveMatches = all.filter(isLive);
-    } catch(e) {}
-  }
+    }
+  } catch(e) {}
 
   if (!liveMatches.length)
     return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
 
   return `<div class="sh">🔴 CANLI (${liveMatches.length})</div>` +
-    liveMatches.map(m => liveCard(m)).join('');
+    liveMatches.map(m => card(m)).join('');
 }
 
 async function renderDay(offset) {
@@ -1547,7 +1379,6 @@ function delK(i) {
 //  ZAMANLAYICI
 // ══════════════════════════════════════════════
 async function doRefresh(auto=false) {
-  // today/tomorrow cache'ini temizle
   cache.today = null;
   cache.tomorrow = null;
   if (!auto) {
