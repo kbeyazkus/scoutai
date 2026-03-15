@@ -150,8 +150,11 @@ jobs:
                       m['totalGoalCount'] = (ls['h'] or 0) + (ls['a'] or 0)
                       if ls['min']:
                           m['elapsed'] = ls['min']
-                      if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'):
-                          m['status'] = 'live'  # index.html 'live' arıyor
+                      if ls['status'] == 'PAUSED':
+                          m['elapsed'] = 'HY'
+                          m['status'] = 'live'
+                      elif ls['status'] in ('IN_PLAY', 'HALFTIME'):
+                          m['status'] = 'live'
                       updated += 1
                       print(f"✅ Güncellendi: {m.get('home_name')} {ls['h']}-{ls['a']} {m.get('away_name')} ({ls['status']})")
               print(f"Toplam güncellenen: {updated} maç")
