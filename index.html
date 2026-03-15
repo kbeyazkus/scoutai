@@ -282,7 +282,13 @@ async function fetchDay(offset) {
 // ══════════════════════════════════════════════
 function isLive(m) {
   const s = String(m.status||'').toLowerCase();
-  return s === 'inprogress' || s === 'live';
+  if (s === 'inprogress' || s === 'live') return true;
+  if (s === 'incomplete') {
+    // Maç başlamış mı? date_unix geçmişte mi?
+    const now = Date.now() / 1000;
+    return m.date_unix > 0 && m.date_unix <= now;
+  }
+  return false;
 }
 function isDone(m) {
   const s = String(m.status||'').toLowerCase();
