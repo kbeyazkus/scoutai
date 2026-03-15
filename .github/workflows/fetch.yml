@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # YENİ VE RESMİ KÜTÜPHANEYİ KURUYORUZ
+      # EN GÜNCEL KÜTÜPHANE KURULUMU
       - name: Install Google GenAI
         run: pip install -U google-genai
 
@@ -50,50 +50,45 @@ jobs:
           from datetime import datetime, timezone
           from google import genai
 
-          # YENİ KÜTÜPHANE AYARLARI
+          # YENİ SDK AYARI
           api_key = os.environ.get("GEMINI_API_KEY")
           client = None
           if api_key:
               try:
                   client = genai.Client(api_key=api_key)
               except Exception as e:
-                  print(f"AI Başlatma Hatası: {e}")
+                  print(f"AI Baslatma Hatasi: {e}")
 
           def get_ai_prediction(m):
               if not client: return None
-              
               h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
               h_ppg, a_ppg = m.get("home_ppg", 0), m.get("away_ppg", 0)
               h_xg = m.get("team_a_xg_prematch", m.get("team_a_xg", 0))
               a_xg = m.get("team_b_xg_prematch", m.get("team_b_xg", 0))
               btts, o25 = m.get("btts_potential", 0), m.get("o25_potential", 0)
               
-              prompt = f"""
-              Dünyanın en saygın iddaa analisti olarak şu maçı analiz et: {h_name} vs {a_name}
-              Rapor: {h_name} (PPG:{h_ppg}, xG:{h_xg}), {a_name} (PPG:{a_ppg}, xG:{a_xg}). 
-              BTTS:%{btts}, Üst 2.5:%{o25}.
+              # COK KISA VE NET PROMPT (HATA RISKINI AZALTIR)
+              prompt = f"Futbol analisti olarak yorumla: {h_name} vs {a_name}. PPG:{h_ppg}-{a_ppg}, xG:{h_xg}-{a_xg}. En mantikli bahis tercihini tek cumleyle yaz ve 2 kisa cumleyle nedenini acikla. '🤖 ScoutAI Yorumu:' ile basla."
               
-              Görev: En güvenilir 1 adet iddaa tercihini tek net cümleyle yaz ve nedenini 2 kısa cümleyle açıkla. Cevabın '🤖 ScoutAI Yorumu:' ile başlasın.
-              """
               try:
-                  # YENİ: Model ismini tam yol (models/...) olarak belirtiyoruz
+                  # MODEL CAGRISI (404 HATASINI COZEN FORMAT)
                   response = client.models.generate_content(
-                      model='models/gemini-1.5-flash',
+                      model='gemini-1.5-flash',
                       contents=prompt
                   )
-                  time.sleep(1.5) # Kota koruması
+                  time.sleep(2) 
                   return response.text
               except Exception as e:
-                  print(f"AI Yorum Hatası ({h_name} vs {a_name}): {e}")
+                  print(f"AI Yorum Hatasi ({h_name} vs {a_name}): {e}")
                   return None
 
-          # MEVCUT VERİ İŞLEME KODLARI
+          # VERI MERGE ISLEMLERI
           today = datetime.now(timezone.utc).date()
           with open('data/today_main.json') as f: main = json.load(f)
           with open('data/tomorrow_main.json') as f: tmr_main = json.load(f)
-
           today_data, tmr_data = main.get('data', []), tmr_main.get('data', [])
-          today_ids, tmr_ids = {m['id'] for m in today_data}, {m['id'] for m in tmr_data}
+          today_ids = {m['id'] for m in today_data}
+          tmr_ids = {m['id'] for m in tmr_data}
 
           for fname in glob.glob('data/extra_*.json'):
               try:
@@ -109,16 +104,8 @@ jobs:
                   os.remove(fname)
               except: pass
 
+          # CANLI SKOR GUNCELLEME
           def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
-          def match_score(a, b):
-              na, nb = norm(a), norm(b)
-              if na == nb: return 1.0
-              wa, wb = [w for w in na.split() if len(w) >= 3], [w for w in nb.split() if len(w) >= 3]
-              if not wa or not wb: return 0
-              matched = sum(1 for w in wa if any(w in x or x in w for x in wb))
-              return matched / max(len(wa), len(wb))
-
-          # CANLI SKOR GÜNCELLEME
           try:
               with open('data/live.json') as f: live_data = json.load(f)
               live_map = {}
@@ -127,27 +114,25 @@ jobs:
                   a_g = lm.get('score', {}).get('fullTime', {}).get('away')
                   if h_g is None: continue
                   key = norm(lm.get('homeTeam', {}).get('name', '')) + '_' + norm(lm.get('awayTeam', {}).get('name', ''))
-                  live_map[key] = {'h': h_g, 'a': a_g, 'min': lm.get('minute'), 'status': lm.get('status')}
-
+                  live_map[key] = {'h': h_g, 'a': a_g, 'status': lm.get('status')}
               for m in today_data:
-                  hn, an = norm(m.get('home_name', '')), norm(m.get('away_name', ''))
-                  ls = live_map.get(hn + '_' + an)
+                  ls = live_map.get(norm(m.get('home_name', '')) + '_' + norm(m.get('away_name', '')))
                   if ls:
                       m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
                       m['status'] = 'live' if ls['status'] in ('IN_PLAY', 'PAUSED', 'HALFTIME') else m['status']
           except: pass
 
-          # AI ANALİZİ (FİLTRELİ)
-          print("Yapay Zeka VIP Yorumları Hazırlanıyor...")
+          # AI VIP ANALIZ (FILTRELI)
+          print("Yapay Zeka VIP Yorumlari Hazirlaniyor...")
           count = 0
           for m in today_data:
-              if count >= 35: break # Her çalışmada max 35 maç
+              if count >= 30: break # Kota korumasi
               status = str(m.get('status', '')).lower()
               if status in ('incomplete', ''):
                   h_xg = float(m.get("team_a_xg_prematch") or 0)
                   a_xg = float(m.get("team_b_xg_prematch") or 0)
-                  # Sadece kaliteli (xG yüksek veya net favorisi olan) maçları analiz et
-                  if (h_xg + a_xg > 2.7) or abs(h_xg - a_xg) > 0.4:
+                  # Sadece xG toplami yuksek veya bir tarafin bariz ustun oldugu maclari analiz et
+                  if (h_xg + a_xg > 2.7) or abs(h_xg - a_xg) > 0.5:
                       comment = get_ai_prediction(m)
                       if comment:
                           m['ai_comment'] = comment
@@ -156,7 +141,7 @@ jobs:
           main['data'], tmr_main['data'] = today_data, tmr_data
           with open('data/today.json', 'w') as f: json.dump(main, f)
           with open('data/tomorrow.json', 'w') as f: json.dump(tmr_main, f)
-          print(f"Bitti. Analiz edilen: {count} maç.")
+          print(f"Bitti. Analiz edilen: {count} mac.")
           PYEOF
 
       - name: Final commit
