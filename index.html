@@ -542,20 +542,11 @@ function card(m) {
   const lv = isLive(m);
   const dn = isDone(m);
 
-  // Skor gösterimi - Football-Data.org canlı skor varsa onu kullan
+  // Skor - homeGoalCount artık Football-Data.org ile güncel
   let hG, aG;
   if (lv) {
-    if (m._liveHome !== undefined && m._liveHome !== null) {
-      hG = m._liveHome;
-      aG = m._liveAway;
-    } else {
-      const hTimings = Array.isArray(m.homeGoals_timings) ? m.homeGoals_timings
-                     : Array.isArray(m.homeGoals) ? m.homeGoals : null;
-      const aTimings = Array.isArray(m.awayGoals_timings) ? m.awayGoals_timings
-                     : Array.isArray(m.awayGoals) ? m.awayGoals : null;
-      hG = hTimings !== null ? hTimings.length : (m.homeGoalCount ?? 0);
-      aG = aTimings !== null ? aTimings.length : (m.awayGoalCount ?? 0);
-    }
+    hG = m.homeGoalCount ?? 0;
+    aG = m.awayGoalCount ?? 0;
   } else {
     hG = m.homeGoalCount ?? '-';
     aG = m.awayGoalCount ?? '-';
@@ -813,19 +804,28 @@ async function renderLive() {
 
   // Lig bayrağı tahmini
   const flagMap = {
-    'England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Premier League':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Championship':'🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-    'Spain':'🇪🇸','La Liga':'🇪🇸','Segunda':'🇪🇸',
-    'Germany':'🇩🇪','Bundesliga':'🇩🇪','2. Bundesliga':'🇩🇪',
-    'Italy':'🇮🇹','Serie A':'🇮🇹','Serie B':'🇮🇹',
-    'France':'🇫🇷','Ligue 1':'🇫🇷','Ligue 2':'🇫🇷',
-    'Netherlands':'🇳🇱','Eredivisie':'🇳🇱',
-    'Portugal':'🇵🇹','Liga NOS':'🇵🇹','LigaPro':'🇵🇹',
-    'Turkey':'🇹🇷','Süper Lig':'🇹🇷',
-    'Belgium':'🇧🇪','Pro League':'🇧🇪',
-    'Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Premiership':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-    'Brazil':'🇧🇷','Serie A':'🇧🇷',
-    'Argentina':'🇦🇷','USA':'🇺🇸','MLS':'🇺🇸',
-    'Champions League':'🏆','Europa League':'🏆','Conference League':'🏆',
+    'Premier League':'🏴', 'Championship':'🏴', 'League One':'🏴',
+    'La Liga':'🇪🇸', 'Segunda':'🇪🇸',
+    'Bundesliga':'🇩🇪', '2. Bundesliga':'🇩🇪',
+    'Serie A':'🇮🇹', 'Serie B':'🇮🇹',
+    'Ligue 1':'🇫🇷', 'Ligue 2':'🇫🇷',
+    'Eredivisie':'🇳🇱',
+    'Liga NOS':'🇵🇹', 'LigaPro':'🇵🇹', 'Primeira':'🇵🇹',
+    'Süper Lig':'🇹🇷', '1. Lig':'🇹🇷',
+    'Pro League':'🇧🇪', 'Jupiler':'🇧🇪',
+    'Premiership':'🏴', 'Scotland':'🏴',
+    'Brazil':'🇧🇷', 'Brasileirao':'🇧🇷',
+    'Argentina':'🇦🇷',
+    'MLS':'🇺🇸', 'USA':'🇺🇸',
+    'Champions':'🏆', 'Europa':'🏆', 'Conference':'🏆',
+    'Norway':'🇳🇴', 'Sweden':'🇸🇪', 'Denmark':'🇩🇰',
+    'Greece':'🇬🇷', 'Poland':'🇵🇱', 'Romania':'🇷🇴',
+    'Russia':'🇷🇺', 'Ukraine':'🇺🇦', 'Serbia':'🇷🇸',
+    'Japan':'🇯🇵', 'Korea':'🇰🇷', 'China':'🇨🇳',
+    'Saudi':'🇸🇦', 'Egypt':'🇪🇬', 'South Africa':'🇿🇦',
+    'Colombia':'🇨🇴', 'Chile':'🇨🇱', 'Ecuador':'🇪🇨',
+    'Paraguay':'🇵🇾', 'Finland':'🇫🇮', 'Austria':'🇦🇹',
+    'Switzerland':'🇨🇭', 'Czech':'🇨🇿',
   };
   const getFlag = (name) => {
     for (const [k, v] of Object.entries(flagMap)) {
@@ -835,6 +835,7 @@ async function renderLive() {
   };
 
   const getMin = (m) => {
+    if (m.elapsed) return {txt: m.elapsed+"'", hy: false};
     if (m._min) return {txt: m._min+"'", hy: false};
     if (!m.date_unix) return {txt: 'CANLI', hy: false};
     const total = Math.floor((Date.now()/1000 - m.date_unix) / 60);
@@ -868,8 +869,8 @@ async function renderLive() {
     for (const m of matches) {
       MM[m.id] = m;
       const {txt: minTxt, hy} = getMin(m);
-      const hG = m._h !== undefined ? m._h : (Array.isArray(m.homeGoals_timings) ? m.homeGoals_timings.length : (m.homeGoalCount ?? 0));
-      const aG = m._a !== undefined ? m._a : (Array.isArray(m.awayGoals_timings) ? m.awayGoals_timings.length : (m.awayGoalCount ?? 0));
+      const hG = m.homeGoalCount ?? 0;
+      const aG = m.awayGoalCount ?? 0;
       const hWin = hG > aG, aWin = aG > hG;
 
       html += `<div class="fm-match" onclick="openAnaliz(${m.id})">
