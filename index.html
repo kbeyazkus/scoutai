@@ -198,6 +198,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   <div class="tab"     onclick="go('super')">🔥 Süper</div>
   <div class="tab"     onclick="go('banko')">⭐ Banko</div>
   <div class="tab"     onclick="go('ust05')">⚡ Üst 0.5</div>
+  <div class="tab"     onclick="go('kombin')">🎰 Kombinler</div>
   <div class="tab"     onclick="go('sistem')">🎯 Sistem</div>
   <div class="tab"     onclick="go('kupon')">🎫 Kupon</div>
 </div>
@@ -942,6 +943,120 @@ async function renderUst05() {
   return `<div class="sh">⚡ ÜST 0.5 (${list.length})</div>` + list.map(card).join('');
 }
 
+async function renderKombin() {
+  const t = await fetchDay(0);
+  const y = await fetchDay(1);
+  const all = dedupe([...t, ...y]).filter(isUp);
+
+  // Analiz skoru hesapla
+  const scored = all.map(m => ({m, a: analyze(m)})).filter(x => x.a.score > 0);
+
+  // ── 1. TEKLİ BANKOLAR (en güvenli 6 maç) ──
+  const tekli = scored
+    .filter(x => x.a.score >= 75)
+    .sort((a, b) => b.a.score - a.a.score)
+    .slice(0, 6);
+
+  // ── 2. GÜVENLİ KOMBİNE (score>=65, oran 1.3-2.2, 5 maç) ──
+  const guvenli = scored
+    .filter(x => {
+      const a = x.a;
+      const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
+      return a.score >= 65 && odd >= 1.3 && odd <= 2.5;
+    })
+    .sort((a, b) => b.a.score - a.a.score)
+    .slice(0, 5);
+
+  const guvenliOran = guvenli.reduce((acc, x) => {
+    const a = x.a;
+    const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
+    return acc * (odd || 1);
+  }, 1);
+
+  // ── 3. ÇILGIN 12'Lİ (yüksek oran, mantıklı seçimler) ──
+  const cilgin = scored
+    .filter(x => {
+      const a = x.a;
+      const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
+      return a.score >= 50 && odd >= 1.5;
+    })
+    .sort((a, b) => {
+      // Güven skoru * oran dengesi
+      const oddA = a.a.pick === '1' ? a.a.odd1 : a.a.pick === '2' ? a.a.odd2 : a.a.oddX;
+      const oddB = b.a.pick === '1' ? b.a.odd1 : b.a.pick === '2' ? b.a.odd2 : b.a.oddX;
+      return (b.a.score * oddB) - (a.a.score * oddA);
+    })
+    .slice(0, 12);
+
+  const cilginOran = cilgin.reduce((acc, x) => {
+    const a = x.a;
+    const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
+    return acc * (odd || 1);
+  }, 1);
+
+  // Kart HTML
+  const kombCard = (x, showScore=true) => {
+    const {m, a} = x;
+    const odd = a.pick === '1' ? a.odd1 : a.pick === '2' ? a.odd2 : a.oddX;
+    const pickLabel = a.pick === '1' ? `1 (${m.home_name})` : a.pick === '2' ? `2 (${m.away_name})` : 'X';
+    const oddStr = odd > 0 ? odd.toFixed(2) : '-';
+    const scoreBar = showScore ? `<div style="font-size:10px;color:var(--muted)">Güven: <span style="color:var(--accent)">${a.score}</span></div>` : '';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-size:13px;font-weight:700">${m.home_name} – ${m.away_name}</div>
+        <div style="font-size:11px;color:var(--muted)">${m.competition_name || ''} · ${fmtTime(m.date_unix)}</div>
+        ${scoreBar}
+      </div>
+      <div style="text-align:right;flex-shrink:0;margin-left:10px">
+        <div style="font-size:14px;font-weight:700;color:var(--gold)">${pickLabel}</div>
+        <div style="font-size:12px;color:var(--accent)">@${oddStr}</div>
+      </div>
+    </div>`;
+  };
+
+  let h = '';
+
+  // Tekli Bankolar
+  h += `<div class="sh">🎯 TEKLİ BANKOLAR</div>`;
+  if (!tekli.length) {
+    h += `<div class="empty">Yeterli banko maç yok</div>`;
+  } else {
+    h += `<div style="background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:14px">`;
+    h += tekli.map(x => kombCard(x, true)).join('');
+    h += `</div>`;
+  }
+
+  // Güvenli Kombine
+  h += `<div class="sh">🔗 GÜVENLİ KOMBİNE</div>`;
+  if (guvenli.length < 2) {
+    h += `<div class="empty">Yeterli maç yok</div>`;
+  } else {
+    h += `<div style="background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:6px">`;
+    h += guvenli.map(x => kombCard(x, true)).join('');
+    h += `</div>`;
+    h += `<div style="background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:12px;color:var(--muted)">${guvenli.length} maç · Toplam Oran</div>
+      <div style="font-size:20px;font-weight:700;color:var(--gold)">@${guvenliOran.toFixed(2)}</div>
+    </div>`;
+  }
+
+  // Çılgın 12'li
+  h += `<div class="sh">🎲 ÇILGIN 12'Lİ</div>`;
+  if (cilgin.length < 8) {
+    h += `<div class="empty">Yeterli maç yok<br><small>Yarınki maçlar eklenince dolacak</small></div>`;
+  } else {
+    h += `<div style="background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:6px">`;
+    h += cilgin.map(x => kombCard(x, false)).join('');
+    h += `</div>`;
+    h += `<div style="background:var(--card);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:12px;color:var(--muted)">${cilgin.length} maç · Toplam Oran</div>
+      <div style="font-size:20px;font-weight:700;color:var(--red)">@${cilginOran.toFixed(2)}</div>
+    </div>`;
+  }
+
+  return h;
+}
+
 function renderKupon() {
   if (!saved.length) return `<div class="empty">📭 Kayıtlı kupon yok</div>`;
   return saved.slice().reverse().map((k, ri) => {
@@ -967,7 +1082,7 @@ function renderKupon() {
 // ══════════════════════════════════════════════
 async function go(t) {
   tab = t;
-  const tabs = ['live','today','tomorrow','super','banko','ust05','sistem','kupon'];
+  const tabs = ['live','today','tomorrow','super','banko','ust05','kombin','sistem','kupon'];
   document.querySelectorAll('.tab').forEach((el, i) => {
     el.classList.toggle('on', tabs[i] === t);
   });
@@ -1000,6 +1115,7 @@ async function render(preserveScroll=false) {
     else if (tab === 'super')    h = await renderSuper();
     else if (tab === 'banko')    h = await renderBanko();
     else if (tab === 'ust05')    h = await renderUst05();
+    else if (tab === 'kombin')   h = await renderKombin();
     else if (tab === 'sistem')   h = await renderSistem();
     else if (tab === 'kupon')    h = renderKupon();
     el.innerHTML = h;
