@@ -53,12 +53,11 @@ jobs:
           # --- MODEL BULUCU ---
           def get_working_model(key):
               if not key: return None
-              print("Sistem kontrol ediliyor...")
               url = f"https://generativelanguage.googleapis.com/v1beta/models?key={key}"
               try:
                   res = requests.get(url).json()
                   models = [m['name'] for m in res.get('models', []) if 'generateContent' in m['supportedGenerationMethods']]
-                  for target in ["gemini-2.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash"]:
+                  for target in ["gemini-2.0-flash", "gemini-2.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash"]:
                       for am in models:
                           if target in am: return am
                   return models[0] if models else "models/gemini-1.5-flash"
@@ -67,22 +66,31 @@ jobs:
           active_model = get_working_model(api_key)
           print(f"Aktif Model: {active_model}")
 
-          def get_ai_prediction(m, api_key, model_path):
+          def get_ai_prediction_with_retry(m, api_key, model_path):
               url = f"https://generativelanguage.googleapis.com/v1beta/{model_path}:generateContent?key={api_key}"
               h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
-              
               prompt = f"Futbol analisti olarak yorumla: {h_name} vs {a_name}. PPG: {m.get('home_ppg')}-{m.get('away_ppg')}, xG: {h_xg}-{a_xg}. En güvenilir tercihi tek cümleyle yaz ve 2 kisa cümleyle nedenini açıkla. '🤖 ScoutAI Yorumu:' ile başla."
               
-              try:
-                  res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=15)
-                  if res.status_code == 200:
-                      return res.json()['candidates'][0]['content']['parts'][0]['text']
-                  elif res.status_code == 429:
-                      print("Hız sınırına ulaşıldı, 60 saniye dinleniliyor...")
-                      time.sleep(60)
-                  return None
-              except: return None
+              retries = 0
+              max_retries = 3
+              while retries < max_retries:
+                  try:
+                      res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=20)
+                      if res.status_code == 200:
+                          return res.json()['candidates'][0]['content']['parts'][0]['text']
+                      elif res.status_code == 429:
+                          print(f"Hız sınırı! {h_name} için 75 saniye bekleniyor... (Deneme {retries+1}/{max_retries})")
+                          time.sleep(75)
+                          retries += 1
+                      else:
+                          print(f"Hata ({res.status_code}): {h_name}")
+                          break
+                  except Exception as e:
+                      print(f"Bağlantı hatası: {e}")
+                      time.sleep(10)
+                      retries += 1
+              return None
 
           # --- VERİLERİ YÜKLE ---
           today = datetime.now(timezone.utc).date()
@@ -114,25 +122,24 @@ jobs:
                       if ls['st'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
           except: pass
 
-          # --- AI VIP ANALİZ (SABIRLI MOD) ---
-          print("VIP Analizler Hazirlaniyor (Hiz korumasi aktif)...")
+          # --- AI VIP ANALİZ ---
+          print("VIP Analizler Hazirlaniyor (Retry Mekanizması Aktif)...")
           count = 0
           for m in today_data:
               if count >= 20: break 
-              
               if str(m.get('status', '')).lower() in ('incomplete', '', 'scheduled'):
                   try:
                       h_xg, a_xg = float(m.get("team_a_xg_prematch") or 0), float(m.get("team_b_xg_prematch") or 0)
                   except: h_xg, a_xg = 0, 0
                   
-                  if (h_xg + a_xg > 2.5) or abs(h_xg - a_xg) > 0.4:
-                      comment = get_ai_prediction(m, api_key, active_model)
+                  # Filtreyi biraz daha esnettik ki 20 maç bulabilsin
+                  if (h_xg + a_xg > 2.2) or abs(h_xg - a_xg) > 0.35:
+                      comment = get_ai_prediction_with_retry(m, api_key, active_model)
                       if comment:
                           m['ai_comment'] = comment
                           count += 1
                           print(f"Başarılı ({count}/20): {m.get('home_name')}")
-                          # 20 saniye bekleme: Dakikada 3 istek yaparak 429 hatasını tamamen bitirir
-                          time.sleep(20) 
+                          time.sleep(25) # Her maç arası standart 25 saniye
 
           main['data'] = today_data
           with open('data/today.json', 'w') as f: json.dump(main, f)
@@ -143,5 +150,5 @@ jobs:
         run: |
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update + ScoutAI VIP Comments (Final Fix)" || true
+          git commit -m "Stats update + Retry AI Logic" || true
           git push || true
