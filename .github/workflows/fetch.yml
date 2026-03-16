@@ -24,8 +24,8 @@ jobs:
           import json, os, requests, time
 
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-          # URL yapısı tam olarak Google'ın istediği en güncel formata getirildi:
-          url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+          # Kararlı sürüm (v1) kullanılarak hata riski ortadan kaldırıldı
+          url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={api_key}"
 
           def get_ai_prediction(m):
               h, a = m.get("home_name"), m.get("away_name")
@@ -35,22 +35,20 @@ jobs:
               prompt = f"Analist olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI Yorumu:' ile başla."
               
               try:
-                  # Veri yapısı kontrol edildi
                   payload = {"contents": [{"parts": [{"text": prompt}]}]}
                   res = requests.post(url, json=payload, timeout=15)
                   
                   if res.status_code == 200:
                       return res.json()['candidates'][0]['content']['parts'][0]['text']
                   else:
-                      print(f"Hata ({res.status_code}): {res.text}")
+                      print(f"Hata ({res.status_code}): {res.text[:100]}")
               except Exception as e:
                   print(f"Baglanti Hatasi: {e}")
               return None
 
           try:
               with open('data/today_main.json') as f: 
-                  raw_data = json.load(f)
-                  data = raw_data.get('data', [])
+                  data = json.load(f).get('data', [])
           except: 
               data = []
 
@@ -80,5 +78,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Final Stable Update" || true
+          git commit -m "ScoutAI: Stable v1 Update" || true
           git push || true
