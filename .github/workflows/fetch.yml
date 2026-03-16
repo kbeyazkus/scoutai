@@ -1,7 +1,7 @@
-name: Fetch Data
+name: ScoutAI Light Speed Update
 on:
   schedule:
-    - cron: '*/2 * * * *'
+    - cron: '*/10 * * * *' # 10 dakikada bir jet gibi güncellenir
   workflow_dispatch:
 jobs:
   fetch:
@@ -12,143 +12,67 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch live scores (Football-Data.org)
-        run: |
-          curl -s "https://api.football-data.org/v4/matches?status=LIVE" \
-            -H "X-Auth-Token: 0e77b79d4df240869858036540f1aaae" \
-            > data/live.json
-
-      - name: Commit live scores hemen
-        run: |
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
-          git add data/live.json
-          git commit -m "Live scores" || true
-          git push || true
-
-      - name: Fetch FootyStats (istatistikler)
+      - name: Fetch Live Match Data
         run: |
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats" > data/tomorrow_main.json
 
-      - name: Fetch all selected leagues
-        run: |
-          KEY="efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
-          SEASONS="16504 15000 14968 14924 15050 15115 14972 14930 14936 16572 14932 15068 14954 15632 14937 14931 14923 16544 16783 16576 16571 16789 15047 14893 15065 14956 15066 16558 15199 14973 15055 16627 16714 15741 15002 15015 16615 16614 15587 16213 15163 15544 15031 15717 16242 14904 16333 16243"
-          for SID in $SEASONS; do
-            curl -s "https://api.football-data-api.com/league-matches?key=$KEY&season_id=$SID&include=stats" > data/extra_$SID.json
-            sleep 0.2
-          done
-
-      - name: Merge all leagues + live scores + AI Prediction
+      - name: AI Prediction (VIP Fast Mode)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python3 << 'PYEOF'
-          import json, os, glob, re, time, requests
-          from datetime import datetime, timezone
+          import json, os, requests, time
 
           api_key = os.environ.get("GEMINI_API_KEY")
+          # Ücretli/Kredili hesapta en hızlı model budur:
+          model_path = "models/gemini-1.5-flash" 
 
-          # --- MODEL BULUCU ---
-          def get_working_model(key):
-              if not key: return None
-              url = f"https://generativelanguage.googleapis.com/v1beta/models?key={key}"
-              try:
-                  res = requests.get(url).json()
-                  models = [m['name'] for m in res.get('models', []) if 'generateContent' in m['supportedGenerationMethods']]
-                  for target in ["gemini-2.0-flash", "gemini-2.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash"]:
-                      for am in models:
-                          if target in am: return am
-                  return models[0] if models else "models/gemini-1.5-flash"
-              except: return "models/gemini-1.5-flash"
-
-          active_model = get_working_model(api_key)
-          print(f"Aktif Model: {active_model}")
-
-          def get_ai_prediction_with_retry(m, api_key, model_path):
+          def get_ai_prediction(m):
               url = f"https://generativelanguage.googleapis.com/v1beta/{model_path}:generateContent?key={api_key}"
-              h_name, a_name = m.get("home_name", "Ev"), m.get("away_name", "Deplasman")
+              h, a = m.get("home_name"), m.get("away_name")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
-              prompt = f"Futbol analisti olarak yorumla: {h_name} vs {a_name}. PPG: {m.get('home_ppg')}-{m.get('away_ppg')}, xG: {h_xg}-{a_xg}. En güvenilir tercihi tek cümleyle yaz ve 2 kisa cümleyle nedenini açıkla. '🤖 ScoutAI Yorumu:' ile başla."
               
-              retries = 0
-              max_retries = 3
-              while retries < max_retries:
-                  try:
-                      res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=20)
-                      if res.status_code == 200:
-                          return res.json()['candidates'][0]['content']['parts'][0]['text']
-                      elif res.status_code == 429:
-                          print(f"Hız sınırı! {h_name} için 75 saniye bekleniyor... (Deneme {retries+1}/{max_retries})")
-                          time.sleep(75)
-                          retries += 1
-                      else:
-                          print(f"Hata ({res.status_code}): {h_name}")
-                          break
-                  except Exception as e:
-                      print(f"Bağlantı hatası: {e}")
-                      time.sleep(10)
-                      retries += 1
+              prompt = f"Analist olarak yorumla: {h} vs {a}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI Yorumu:' ile başla."
+              
+              try:
+                  # ARTIK BEKLEME YOK! Doğrudan isteği gönderiyoruz.
+                  res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=10)
+                  if res.status_code == 200:
+                      return res.json()['candidates'][0]['content']['parts'][0]['text']
+                  else:
+                      print(f"Hata Kodu: {res.status_code}")
+              except Exception as e:
+                  print(f"Hata: {e}")
               return None
 
-          # --- VERİLERİ YÜKLE ---
-          today = datetime.now(timezone.utc).date()
           try:
-              with open('data/today_main.json') as f: main = json.load(f)
-              today_data = main.get('data', [])
-          except: today_data = []
+              with open('data/today_main.json') as f: data = json.load(f).get('data', [])
+          except: data = []
 
-          today_ids = {m['id'] for m in today_data}
-          for fname in glob.glob('data/extra_*.json'):
-              try:
-                  with open(fname) as f: extra = json.load(f)
-                  for m in extra.get('data', []):
-                      ts = m.get('date_unix', 0)
-                      if ts and datetime.fromtimestamp(ts, tz=timezone.utc).date() == today and m['id'] not in today_ids:
-                          today_data.append(m); today_ids.add(m['id'])
-                  os.remove(fname)
-              except: pass
-
-          # --- CANLI SKOR GÜNCELLEME ---
-          def norm(s): return re.sub(r'[^a-z]', '', (s or '').lower())
-          try:
-              with open('data/live.json') as f: live_data = json.load(f)
-              live_map = {norm(lm.get('homeTeam',{}).get('name','')) + '_' + norm(lm.get('awayTeam',{}).get('name','')): {'h': lm.get('score',{}).get('fullTime',{}).get('home'), 'a': lm.get('score',{}).get('fullTime',{}).get('away'), 'st': lm.get('status')} for lm in live_data.get('matches', [])}
-              for m in today_data:
-                  ls = live_map.get(norm(m.get('home_name', '')) + '_' + norm(m.get('away_name', '')))
-                  if ls:
-                      m['homeGoalCount'], m['awayGoalCount'] = ls['h'], ls['a']
-                      if ls['st'] in ('IN_PLAY', 'PAUSED', 'HALFTIME'): m['status'] = 'live'
-          except: pass
-
-          # --- AI VIP ANALİZ ---
-          print("VIP Analizler Hazirlaniyor (Retry Mekanizması Aktif)...")
+          print(f"{len(data)} maç taranıyor... VIP hız devrede!")
+          
           count = 0
-          for m in today_data:
-              if count >= 20: break 
+          for m in data:
+              if count >= 30: break # Tek seferde en kaliteli 30 maçı analiz et
+              
               if str(m.get('status', '')).lower() in ('incomplete', '', 'scheduled'):
-                  try:
-                      h_xg, a_xg = float(m.get("team_a_xg_prematch") or 0), float(m.get("team_b_xg_prematch") or 0)
-                  except: h_xg, a_xg = 0, 0
-                  
-                  # Filtreyi biraz daha esnettik ki 20 maç bulabilsin
-                  if (h_xg + a_xg > 2.2) or abs(h_xg - a_xg) > 0.35:
-                      comment = get_ai_prediction_with_retry(m, api_key, active_model)
-                      if comment:
-                          m['ai_comment'] = comment
-                          count += 1
-                          print(f"Başarılı ({count}/20): {m.get('home_name')}")
-                          time.sleep(25) # Her maç arası standart 25 saniye
+                  comment = get_ai_prediction(m)
+                  if comment:
+                      m['ai_comment'] = comment
+                      count += 1
+                      print(f"Tamamlandı ({count}): {m.get('home_name')}")
+                      # Sadece 0.5 saniye mola (sistemi yormamak için, normalde hiç gerek yok)
+                      time.sleep(0.5)
 
-          main['data'] = today_data
-          with open('data/today.json', 'w') as f: json.dump(main, f)
-          print(f"Bitti. Toplam {count} VIP yorum eklendi.")
+          with open('data/today.json', 'w') as f: json.dump({"data": data}, f)
+          print(f"İşlem başarıyla bitti. Toplam {count} analiz yapıldı.")
           PYEOF
 
-      - name: Final commit
+      - name: Commit Results
         run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "Stats update + Retry AI Logic" || true
+          git commit -m "ScoutAI: VIP Fast Update" || true
           git push || true
