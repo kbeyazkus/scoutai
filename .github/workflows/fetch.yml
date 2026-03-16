@@ -1,4 +1,4 @@
-name: ScoutAI Final Vertex Edition
+name: ScoutAI 2026 Next-Gen Update
 on:
   schedule:
     - cron: '*/10 * * * *'
@@ -19,24 +19,22 @@ jobs:
 
       - name: Fetch Live Match Data
         run: |
-          # Veriyi AI'dan önce çekiyoruz
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
 
-      - name: AI Prediction (Vertex AI VIP Mode)
+      - name: AI Prediction (Vertex AI 2.5 Mode)
         run: |
           python3 << 'PYEOF'
           import json, os, requests, time
           import vertexai
-          from vertexai.generative_models import GenerativeModel, SafetySetting
+          from vertexai.generative_models import GenerativeModel
 
-          # Google Cloud Kimlik Doğrulama
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
               project_id = info['project_id']
 
-          # Bölgeyi ve Modeli en güncel haliyle set ediyoruz
+          # Senin bulduğun güncel ayarlar
           vertexai.init(project=project_id, location="us-central1")
-          model = GenerativeModel("gemini-1.5-flash-002")
+          model = GenerativeModel("gemini-2.5-flash") # 2026'nın en hızlı modeli
 
           def get_ai_prediction(m):
               h, a = m.get("home_name", "Bilinmeyen"), m.get("away_name", "Bilinmeyen")
@@ -46,40 +44,35 @@ jobs:
               prompt = f"Futbol analisti olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI:' ile başla."
               
               try:
-                  # Analiz talebi
                   response = model.generate_content(prompt)
-                  if response.text:
-                      return response.text
+                  return response.text
               except Exception as e:
                   print(f"AI Hatası ({h}): {e}")
               return None
 
           try:
               with open('data/today_main.json') as f:
-                  raw_data = json.load(f)
-                  data = raw_data.get('data', [])
+                  data = json.load(f).get('data', [])
           except:
               data = []
 
-          print(f"Toplam {len(data)} maç bulundu. Analiz başlıyor...")
+          print(f"Toplam {len(data)} maç bulundu. Gemini 2.5 Flash ile analiz başlıyor...")
           
           count = 0
           for m in data:
-              if count >= 30: break # Kota koruması
-              
-              status = str(m.get('status', '')).lower()
-              if status in ['scheduled', 'live', 'in_play', 'incomplete', '']:
+              if count >= 30: break 
+              st = str(m.get('status', '')).lower()
+              if st in ['scheduled', 'live', 'in_play', 'incomplete', '']:
                   comment = get_ai_prediction(m)
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
                       print(f"Başarılı: {m.get('home_name')}")
-                      time.sleep(0.5) # Google Cloud hız limiti için kısa bekleme
+                      time.sleep(0.3)
 
-          # Sonuçları kaydet
           with open('data/today.json', 'w') as f:
               json.dump({"data": data}, f, indent=2)
-          print(f"İşlem bitti. {count} maç analiz edildi.")
+          print(f"Bitti. {count} analiz yapıldı.")
           PYEOF
 
       - name: Commit Results
@@ -88,5 +81,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Vertex AI Stable Analysis" || true
+          git commit -m "ScoutAI: Migrated to Gemini 2.5 Flash" || true
           git push || true
