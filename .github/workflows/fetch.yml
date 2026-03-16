@@ -1,7 +1,7 @@
 name: ScoutAI Light Speed Update
 on:
   schedule:
-    - cron: '*/10 * * * *' # 10 dakikada bir jet gibi güncellenir
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 jobs:
   fetch:
@@ -23,26 +23,26 @@ jobs:
           python3 << 'PYEOF'
           import json, os, requests, time
 
-          api_key = os.environ.get("GEMINI_API_KEY")
-          # Ücretli/Kredili hesapta en hızlı model budur:
-          model_path = "models/gemini-1.5-flash" 
+          # Anahtardaki olası boşlukları temizler
+          api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+          model_path = "gemini-1.5-flash" 
 
           def get_ai_prediction(m):
-              url = f"https://generativelanguage.googleapis.com/v1beta/{model_path}:generateContent?key={api_key}"
+              url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_path}:generateContent?key={api_key}"
               h, a = m.get("home_name"), m.get("away_name")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
               
               prompt = f"Analist olarak yorumla: {h} vs {a}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI Yorumu:' ile başla."
               
               try:
-                  # ARTIK BEKLEME YOK! Doğrudan isteği gönderiyoruz.
                   res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=10)
                   if res.status_code == 200:
                       return res.json()['candidates'][0]['content']['parts'][0]['text']
                   else:
-                      print(f"Hata Kodu: {res.status_code}")
+                      # Hatayı gizleme, tam olarak ne olduğunu ekrana yazdır!
+                      print(f"Hata Kodu: {res.status_code} - Detay: {res.text}")
               except Exception as e:
-                  print(f"Hata: {e}")
+                  print(f"Sistem Hatası: {e}")
               return None
 
           try:
@@ -53,7 +53,7 @@ jobs:
           
           count = 0
           for m in data:
-              if count >= 30: break # Tek seferde en kaliteli 30 maçı analiz et
+              if count >= 30: break 
               
               if str(m.get('status', '')).lower() in ('incomplete', '', 'scheduled'):
                   comment = get_ai_prediction(m)
@@ -61,7 +61,6 @@ jobs:
                       m['ai_comment'] = comment
                       count += 1
                       print(f"Tamamlandı ({count}): {m.get('home_name')}")
-                      # Sadece 0.5 saniye mola (sistemi yormamak için, normalde hiç gerek yok)
                       time.sleep(0.5)
 
           with open('data/today.json', 'w') as f: json.dump({"data": data}, f)
