@@ -163,7 +163,7 @@ jobs:
           # Gemini AI yorumları
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
           if api_key:
-              gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + api_key
+             gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + api_key
 
               def get_ai_comment(m):
                   h = m.get('home_name', '?')
