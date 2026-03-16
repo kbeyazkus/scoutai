@@ -24,24 +24,24 @@ jobs:
           import json, os, requests, time
 
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-          # Güncel ve çalışan model adı girildi
-          model_path = "gemini-2.5-flash" 
+          model_path = "gemini-2.0-flash" 
 
           def get_ai_prediction(m):
               url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_path}:generateContent?key={api_key}"
               h, a = m.get("home_name"), m.get("away_name")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
+              status = m.get("status", "")
               
-              prompt = f"Analist olarak yorumla: {h} vs {a}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI Yorumu:' ile başla."
+              prompt = f"Analist olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI Yorumu:' ile başla."
               
               try:
                   res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=10)
                   if res.status_code == 200:
                       return res.json()['candidates'][0]['content']['parts'][0]['text']
                   else:
-                      print(f"Hata Kodu: {res.status_code} - Detay: {res.text}")
-              except Exception as e:
-                  print(f"Sistem Hatası: {e}")
+                      print(f"Hata: {res.status_code}")
+              except:
+                  pass
               return None
 
           try:
@@ -52,18 +52,20 @@ jobs:
           
           count = 0
           for m in data:
-              if count >= 30: break 
+              if count >= 35: break 
               
-              if str(m.get('status', '')).lower() in ('incomplete', '', 'scheduled'):
+              # CANLI MAÇLAR DAHİL: 'live' ve 'in-play' eklendi
+              st = str(m.get('status', '')).lower()
+              if st in ('incomplete', '', 'scheduled', 'live', 'in-play'):
                   comment = get_ai_prediction(m)
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
-                      print(f"Tamamlandı ({count}): {m.get('home_name')}")
-                      time.sleep(0.5)
+                      print(f"Analiz Edildi ({count}): {m.get('home_name')}")
+                      time.sleep(0.3)
 
           with open('data/today.json', 'w') as f: json.dump({"data": data}, f)
-          print(f"İşlem başarıyla bitti. Toplam {count} analiz yapıldı.")
+          print(f"İşlem bitti. Toplam {count} analiz yapıldı.")
           PYEOF
 
       - name: Commit Results
@@ -72,5 +74,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: VIP Fast Update" || true
+          git commit -m "ScoutAI: Live & Fast Update" || true
           git push || true
