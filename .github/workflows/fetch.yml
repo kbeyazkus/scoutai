@@ -17,6 +17,13 @@ jobs:
       - name: Install dependencies
         run: pip install requests google-cloud-aiplatform
 
+      - name: Fetch Live Match Data
+        run: |
+          # Veriyi önce çekiyoruz ki AI işleyebilsin
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
+          # Dosya boş mu kontrol et
+          ls -lh data/today_main.json
+
       - name: AI Prediction (Vertex AI VIP Mode)
         run: |
           python3 << 'PYEOF'
@@ -24,7 +31,7 @@ jobs:
           import vertexai
           from vertexai.generative_models import GenerativeModel
 
-          # Google Cloud Proje Bilgilerini JSON'dan Çekiyoruz
+          # Kimlik bilgilerini doğrula
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
               project_id = info['project_id']
@@ -33,11 +40,11 @@ jobs:
           model = GenerativeModel("gemini-1.5-flash")
 
           def get_ai_prediction(m):
-              h, a = m.get("home_name"), m.get("away_name")
+              h, a = m.get("home_name", "Bilinmeyen"), m.get("away_name", "Bilinmeyen")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
-              status = m.get("status", "")
+              status = m.get("status", "Bilinmiyor")
               
-              prompt = f"Analist olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI Yorumu:' ile başla."
+              prompt = f"Futbol analisti olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. Başına '🤖 ScoutAI:' ekle."
               
               try:
                   response = model.generate_content(prompt)
@@ -46,31 +53,35 @@ jobs:
                   print(f"AI Hatası: {e}")
               return None
 
+          # Dosyayı oku ve kontrol et
           try:
-              with open('data/today_main.json') as f: data = json.load(f).get('data', [])
-          except: data = []
+              with open('data/today_main.json') as f:
+                  raw_data = json.load(f)
+                  data = raw_data.get('data', [])
+          except Exception as e:
+              print(f"Dosya okuma hatası: {e}")
+              data = []
 
-          print(f"{len(data)} maç taranıyor (Vertex AI)...")
+          print(f"Toplam {len(data)} maç bulundu. Analiz başlıyor...")
           
           count = 0
           for m in data:
-              if count >= 35: break 
-              st = str(m.get('status', '')).lower()
-              if st in ('incomplete', '', 'scheduled', 'live', 'in-play'):
+              if count >= 20: break # Kotayı korumak için 20 maç
+              
+              # Sadece oynanmamış veya canlı maçları analiz et
+              status = str(m.get('status', '')).lower()
+              if status in ['scheduled', 'live', 'in_play', 'incomplete', '']:
                   comment = get_ai_prediction(m)
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
                       print(f"Analiz Tamam: {m.get('home_name')}")
-                      time.sleep(0.1)
+                      time.sleep(0.5) # Vertex AI için hafif bekleme
 
-          with open('data/today.json', 'w') as f: json.dump({"data": data}, f)
-          print(f"Bitti. {count} analiz yapıldı.")
+          with open('data/today.json', 'w') as f:
+              json.dump({"data": data}, f, indent=2)
+          print(f"Bitti. {count} maç analiz edildi.")
           PYEOF
-
-      - name: Fetch Live Match Data
-        run: |
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
 
       - name: Commit Results
         run: |
@@ -78,5 +89,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Vertex AI Stable Update" || true
+          git commit -m "ScoutAI: Vertex AI Fix" || true
           git push || true
