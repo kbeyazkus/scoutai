@@ -24,8 +24,8 @@ jobs:
           import json, os, requests, time
 
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-          # Model adı "gemini-1.5-flash-latest" olarak düzeltildi.
-          model_path = "gemini-1.5-flash-latest" 
+          # Güncel ve çalışan model adı girildi
+          model_path = "gemini-2.5-flash" 
 
           def get_ai_prediction(m):
               url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_path}:generateContent?key={api_key}"
