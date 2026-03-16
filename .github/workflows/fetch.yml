@@ -1,4 +1,4 @@
-name: ScoutAI Light Speed Update (Vertex AI)
+name: ScoutAI Final Vertex Edition
 on:
   schedule:
     - cron: '*/10 * * * *'
@@ -19,68 +19,67 @@ jobs:
 
       - name: Fetch Live Match Data
         run: |
-          # Veriyi önce çekiyoruz ki AI işleyebilsin
+          # Veriyi AI'dan önce çekiyoruz
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
-          # Dosya boş mu kontrol et
-          ls -lh data/today_main.json
 
       - name: AI Prediction (Vertex AI VIP Mode)
         run: |
           python3 << 'PYEOF'
           import json, os, requests, time
           import vertexai
-          from vertexai.generative_models import GenerativeModel
+          from vertexai.generative_models import GenerativeModel, SafetySetting
 
-          # Kimlik bilgilerini doğrula
+          # Google Cloud Kimlik Doğrulama
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
               project_id = info['project_id']
 
+          # Bölgeyi ve Modeli en güncel haliyle set ediyoruz
           vertexai.init(project=project_id, location="us-central1")
-          model = GenerativeModel("gemini-1.5-flash")
+          model = GenerativeModel("gemini-1.5-flash-002")
 
           def get_ai_prediction(m):
               h, a = m.get("home_name", "Bilinmeyen"), m.get("away_name", "Bilinmeyen")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
               status = m.get("status", "Bilinmiyor")
               
-              prompt = f"Futbol analisti olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. Başına '🤖 ScoutAI:' ekle."
+              prompt = f"Futbol analisti olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI:' ile başla."
               
               try:
+                  # Analiz talebi
                   response = model.generate_content(prompt)
-                  return response.text
+                  if response.text:
+                      return response.text
               except Exception as e:
-                  print(f"AI Hatası: {e}")
+                  print(f"AI Hatası ({h}): {e}")
               return None
 
-          # Dosyayı oku ve kontrol et
           try:
               with open('data/today_main.json') as f:
                   raw_data = json.load(f)
                   data = raw_data.get('data', [])
-          except Exception as e:
-              print(f"Dosya okuma hatası: {e}")
+          except:
               data = []
 
           print(f"Toplam {len(data)} maç bulundu. Analiz başlıyor...")
           
           count = 0
           for m in data:
-              if count >= 20: break # Kotayı korumak için 20 maç
+              if count >= 30: break # Kota koruması
               
-              # Sadece oynanmamış veya canlı maçları analiz et
               status = str(m.get('status', '')).lower()
               if status in ['scheduled', 'live', 'in_play', 'incomplete', '']:
                   comment = get_ai_prediction(m)
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
-                      print(f"Analiz Tamam: {m.get('home_name')}")
-                      time.sleep(0.5) # Vertex AI için hafif bekleme
+                      print(f"Başarılı: {m.get('home_name')}")
+                      time.sleep(0.5) # Google Cloud hız limiti için kısa bekleme
 
+          # Sonuçları kaydet
           with open('data/today.json', 'w') as f:
               json.dump({"data": data}, f, indent=2)
-          print(f"Bitti. {count} maç analiz edildi.")
+          print(f"İşlem bitti. {count} maç analiz edildi.")
           PYEOF
 
       - name: Commit Results
@@ -89,5 +88,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Vertex AI Fix" || true
+          git commit -m "ScoutAI: Vertex AI Stable Analysis" || true
           git push || true
