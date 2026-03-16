@@ -12,7 +12,7 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch live scores (Football-Data.org)
+      - name: Fetch live scores
         run: |
           curl -s "https://api.football-data.org/v4/matches?status=LIVE" \
             -H "X-Auth-Token: 0e77b79d4df240869858036540f1aaae" \
@@ -20,7 +20,7 @@ jobs:
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats&status=inprogress" \
             > data/live_footy.json
 
-      - name: Commit live scores hemen
+      - name: Commit live scores
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
@@ -28,207 +28,195 @@ jobs:
           git commit -m "Live scores" || true
           git push || true
 
-      - name: Fetch FootyStats (istatistikler)
+      - name: Fetch FootyStats
         run: |
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&date=$(date -d tomorrow +%Y-%m-%d)&include=stats" > data/tomorrow_main.json
 
-      - name: Fetch all selected leagues
+      - name: Fetch all leagues
         run: |
           KEY="efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
-          SEASONS="
-            16504 15000 14968 14924 15050 15115 14972 14930 14936 16572
-            14932 15068 14954 15632 14937 14931 14923 16544 16783 16576
-            16571 16789 15047 14893 15065 14956 15066 16558 15199 14973
-            15055 16627 16714 15741 15002 15015 16615 16614 15587 16213
-            15163 15544 15031 15717 16242 14904 16333 16243
-          "
+          SEASONS="16504 15000 14968 14924 15050 15115 14972 14930 14936 16572 14932 15068 14954 15632 14937 14931 14923 16544 16783 16576 16571 16789 15047 14893 15065 14956 15066 16558 15199 14973 15055 16627 16714 15741 15002 15015 16615 16614 15587 16213 15163 15544 15031 15717 16242 14904 16333 16243"
           for SID in $SEASONS; do
             curl -s "https://api.football-data-api.com/league-matches?key=$KEY&season_id=$SID&include=stats" > data/extra_$SID.json
             sleep 0.2
           done
 
-      - name: Merge all leagues + live scores + AI
+      - name: Merge + Live Scores + AI
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python3 << 'PYEOF'
-          import json, os, glob, re, requests, time
-          from datetime import datetime, timezone
+          cat > /tmp/merge.py << 'PYEOF'
+import json, os, glob, re, requests, time
+from datetime import datetime, timezone
 
-          today = datetime.now(timezone.utc).date()
+today = datetime.now(timezone.utc).date()
 
-          with open('data/today_main.json') as f:
-              main = json.load(f)
-          with open('data/tomorrow_main.json') as f:
-              tmr_main = json.load(f)
+with open('data/today_main.json') as f:
+    main = json.load(f)
+with open('data/tomorrow_main.json') as f:
+    tmr_main = json.load(f)
 
-          today_data = main.get('data', [])
-          tmr_data = tmr_main.get('data', [])
-          today_ids = {m['id'] for m in today_data}
-          tmr_ids = {m['id'] for m in tmr_data}
+today_data = main.get('data', [])
+tmr_data = tmr_main.get('data', [])
+today_ids = {m['id'] for m in today_data}
+tmr_ids = {m['id'] for m in tmr_data}
 
-          # Extra ligleri ekle
-          for fname in glob.glob('data/extra_*.json'):
-              try:
-                  with open(fname) as f:
-                      extra = json.load(f)
-                  for m in extra.get('data', []):
-                      ts = m.get('date_unix', 0)
-                      if not ts:
-                          continue
-                      d = datetime.fromtimestamp(ts, tz=timezone.utc).date()
-                      if d == today and m['id'] not in today_ids:
-                          today_data.append(m)
-                          today_ids.add(m['id'])
-                      elif d > today and m['id'] not in tmr_ids:
-                          tmr_data.append(m)
-                          tmr_ids.add(m['id'])
-                  os.remove(fname)
-              except Exception as e:
-                  print(f"Hata {fname}: {e}")
+for fname in glob.glob('data/extra_*.json'):
+    try:
+        with open(fname) as f:
+            extra = json.load(f)
+        for m in extra.get('data', []):
+            ts = m.get('date_unix', 0)
+            if not ts:
+                continue
+            d = datetime.fromtimestamp(ts, tz=timezone.utc).date()
+            if d == today and m['id'] not in today_ids:
+                today_data.append(m)
+                today_ids.add(m['id'])
+            elif d > today and m['id'] not in tmr_ids:
+                tmr_data.append(m)
+                tmr_ids.add(m['id'])
+        os.remove(fname)
+    except Exception as e:
+        print(f"Hata {fname}: {e}")
 
-          # Football-Data.org live skorları
-          def norm(s):
-              return re.sub(r'[^a-z]', '', (s or '').lower())
+def norm(s):
+    return re.sub(r'[^a-z]', '', (s or '').lower())
 
-          def match_teams(a, b):
-              na, nb = norm(a), norm(b)
-              if na == nb: return True
-              if na in nb or nb in na: return True
-              wa = [w for w in re.sub(r'[^a-z]', ' ', (a or '').lower()).split() if len(w) >= 4]
-              wb = [w for w in re.sub(r'[^a-z]', ' ', (b or '').lower()).split() if len(w) >= 4]
-              if wa and wb:
-                  for w in wa:
-                      if any(w in x or x in w for x in wb):
-                          return True
-              return False
+def match_teams(a, b):
+    na, nb = norm(a), norm(b)
+    if na == nb: return True
+    if na in nb or nb in na: return True
+    wa = [w for w in re.sub(r'[^a-z]', ' ', (a or '').lower()).split() if len(w) >= 4]
+    wb = [w for w in re.sub(r'[^a-z]', ' ', (b or '').lower()).split() if len(w) >= 4]
+    if wa and wb:
+        for w in wa:
+            if any(w in x or x in w for x in wb):
+                return True
+    return False
 
-          try:
-              with open('data/live.json') as f:
-                  live_data = json.load(f)
-              live_matches = live_data.get('matches', [])
+try:
+    with open('data/live.json') as f:
+        live_data = json.load(f)
+    live_matches = live_data.get('matches', [])
 
-              footy_live_ids = set()
-              try:
-                  with open('data/live_footy.json') as f:
-                      fl = json.load(f)
-                  for m in fl.get('data', []):
-                      footy_live_ids.add(m['id'])
-              except: pass
+    footy_live_ids = set()
+    try:
+        with open('data/live_footy.json') as f:
+            fl = json.load(f)
+        for m in fl.get('data', []):
+            footy_live_ids.add(m['id'])
+    except:
+        pass
 
-              updated = 0
-              for m in today_data:
-                  mhn = m.get('home_name', '')
-                  man = m.get('away_name', '')
-                  best = None
+    updated = 0
+    for m in today_data:
+        mhn = m.get('home_name', '')
+        man = m.get('away_name', '')
+        best = None
+        for lm in live_matches:
+            ht = lm.get('homeTeam', {})
+            at = lm.get('awayTeam', {})
+            h_names = [ht.get('name',''), ht.get('shortName',''), ht.get('tla','')]
+            a_names = [at.get('name',''), at.get('shortName',''), at.get('tla','')]
+            h_match = any(match_teams(mhn, hn) for hn in h_names if hn)
+            a_match = any(match_teams(man, an) for an in a_names if an)
+            if h_match and a_match:
+                score = lm.get('score', {})
+                ft = score.get('fullTime', {})
+                ht_s = score.get('halfTime', {})
+                h_goals = ft.get('home') if ft.get('home') is not None else ht_s.get('home')
+                a_goals = ft.get('away') if ft.get('away') is not None else ht_s.get('away')
+                if h_goals is not None:
+                    best = {'h': h_goals, 'a': a_goals, 'min': lm.get('minute'), 'status': lm.get('status','')}
+                break
+        if best:
+            m['homeGoalCount'] = best['h']
+            m['awayGoalCount'] = best['a']
+            m['totalGoalCount'] = (best['h'] or 0) + (best['a'] or 0)
+            if best['min']:
+                m['elapsed'] = best['min']
+            if best['status'] == 'PAUSED':
+                m['elapsed'] = 'HY'
+                m['status'] = 'live'
+            elif best['status'] in ('IN_PLAY', 'HALFTIME'):
+                m['status'] = 'live'
+            updated += 1
+            print(f"✅ {mhn} {best['h']}-{best['a']} {man}")
+        elif m['id'] in footy_live_ids:
+            m['status'] = 'live'
+    print(f"Live skor: {updated} mac guncellendi")
+except Exception as e:
+    print(f"Live skor hatasi: {e}")
 
-                  for lm in live_matches:
-                      ht = lm.get('homeTeam', {})
-                      at = lm.get('awayTeam', {})
-                      h_names = [ht.get('name',''), ht.get('shortName',''), ht.get('tla','')]
-                      a_names = [at.get('name',''), at.get('shortName',''), at.get('tla','')]
-                      h_match = any(match_teams(mhn, hn) for hn in h_names if hn)
-                      a_match = any(match_teams(man, an) for an in a_names if an)
-                      if h_match and a_match:
-                          score = lm.get('score', {})
-                          ft = score.get('fullTime', {})
-                          ht_s = score.get('halfTime', {})
-                          h_goals = ft.get('home') if ft.get('home') is not None else ht_s.get('home')
-                          a_goals = ft.get('away') if ft.get('away') is not None else ht_s.get('away')
-                          if h_goals is not None:
-                              best = {'h': h_goals, 'a': a_goals, 'min': lm.get('minute'), 'status': lm.get('status','')}
-                          break
+api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+if api_key:
+    gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + api_key
 
-                  if best:
-                      m['homeGoalCount'] = best['h']
-                      m['awayGoalCount'] = best['a']
-                      m['totalGoalCount'] = (best['h'] or 0) + (best['a'] or 0)
-                      if best['min']:
-                          m['elapsed'] = best['min']
-                      if best['status'] == 'PAUSED':
-                          m['elapsed'] = 'HY'
-                          m['status'] = 'live'
-                      elif best['status'] in ('IN_PLAY', 'HALFTIME'):
-                          m['status'] = 'live'
-                      updated += 1
-                      print(f"✅ {mhn} {best['h']}-{best['a']} {man} ({best['status']})")
-                  elif m['id'] in footy_live_ids:
-                      m['status'] = 'live'
+    def get_ai_comment(m):
+        h = m.get('home_name', '?')
+        a = m.get('away_name', '?')
+        h_ppg = m.get('home_ppg', 0)
+        a_ppg = m.get('away_ppg', 0)
+        h_xg = m.get('team_a_xg_prematch', 0)
+        a_xg = m.get('team_b_xg_prematch', 0)
+        btts = m.get('btts_potential', 0)
+        ov25 = m.get('o25_potential', 0)
+        h_form = m.get('home_form', '')
+        a_form = m.get('away_form', '')
+        prompt = (
+            f"Futbol analisti olarak su maci yorumla: {h} vs {a}. "
+            f"Ev PPG: {h_ppg}, Dep PPG: {a_ppg}. "
+            f"xG: {h_xg}-{a_xg}. "
+            f"BTTS: %{btts}, Ust 2.5: %{ov25}. "
+            f"Ev formu: {h_form}, Dep formu: {a_form}. "
+            f"En mantikli bahis tercihini ve gerekcesini 2 kisa cumleyle yaz. "
+            f"'ScoutAI:' ile basla. Turkce yaz."
+        )
+        try:
+            payload = {"contents": [{"parts": [{"text": prompt}]}]}
+            res = requests.post(gemini_url, json=payload, timeout=15)
+            if res.status_code == 200:
+                return res.json()['candidates'][0]['content']['parts'][0]['text']
+            else:
+                print(f"Gemini hata ({res.status_code}): {res.text[:150]}")
+        except Exception as e:
+            print(f"Gemini hatasi: {e}")
+        return None
 
-              print(f"Live skor: {updated} maç güncellendi")
-          except Exception as e:
-              print(f"Live skor hatası: {e}")
+    count = 0
+    for m in today_data:
+        if count >= 35:
+            break
+        if m.get('ai_comment'):
+            count += 1
+            continue
+        st = str(m.get('status', '')).lower()
+        if st in ('incomplete', 'live', 'scheduled', ''):
+            comment = get_ai_comment(m)
+            if comment:
+                m['ai_comment'] = comment
+                count += 1
+                print(f"AI: {m.get('home_name')} vs {m.get('away_name')}")
+                time.sleep(0.5)
+    print(f"Gemini: {count} analiz tamamlandi")
+else:
+    print("GEMINI_API_KEY bulunamadi")
 
-          # Gemini AI yorumları
-          api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-          if api_key:
-             gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + api_key
+main['data'] = today_data
+tmr_main['data'] = tmr_data
 
-              def get_ai_comment(m):
-                  h = m.get('home_name', '?')
-                  a = m.get('away_name', '?')
-                  h_ppg = m.get('home_ppg', 0)
-                  a_ppg = m.get('away_ppg', 0)
-                  h_xg = m.get('team_a_xg_prematch', 0)
-                  a_xg = m.get('team_b_xg_prematch', 0)
-                  btts = m.get('btts_potential', 0)
-                  ov25 = m.get('o25_potential', 0)
-                  h_form = m.get('home_form', '')
-                  a_form = m.get('away_form', '')
+with open('data/today.json', 'w') as f:
+    json.dump(main, f)
+with open('data/tomorrow.json', 'w') as f:
+    json.dump(tmr_main, f)
 
-                  prompt = (
-                      f"Futbol analisti olarak şu maçı yorumla: {h} vs {a}. "
-                      f"Ev PPG: {h_ppg}, Dep PPG: {a_ppg}. "
-                      f"xG: {h_xg}-{a_xg}. "
-                      f"BTTS: %{btts}, Ust 2.5: %{ov25}. "
-                      f"Ev formu: {h_form}, Dep formu: {a_form}. "
-                      f"En mantikli bahis tercihini ve gerekcesini 2 kisa cumleyle yaz. "
-                      f"'ScoutAI:' ile basla. Turkce yaz."
-                  )
-
-                  try:
-                      payload = {"contents": [{"parts": [{"text": prompt}]}]}
-                      res = requests.post(gemini_url, json=payload, timeout=15)
-                      if res.status_code == 200:
-                          return res.json()['candidates'][0]['content']['parts'][0]['text']
-                      else:
-                          print(f"Gemini hata ({res.status_code}): {res.text[:150]}")
-                  except Exception as e:
-                      print(f"Gemini baglanti hatasi: {e}")
-                  return None
-
-              count = 0
-              for m in today_data:
-                  if count >= 35: break
-                  if m.get('ai_comment'):
-                      count += 1
-                      continue
-                  st = str(m.get('status', '')).lower()
-                  if st in ('incomplete', 'live', 'scheduled', ''):
-                      comment = get_ai_comment(m)
-                      if comment:
-                          m['ai_comment'] = comment
-                          count += 1
-                          print(f"AI: {m.get('home_name')} vs {m.get('away_name')}")
-                          time.sleep(0.5)
-
-              print(f"Gemini: {count} analiz tamamlandi")
-          else:
-              print("GEMINI_API_KEY bulunamadi, AI atIandi")
-
-          main['data'] = today_data
-          tmr_main['data'] = tmr_data
-
-          with open('data/today.json', 'w') as f:
-              json.dump(main, f)
-          with open('data/tomorrow.json', 'w') as f:
-              json.dump(tmr_main, f)
-
-          os.remove('data/today_main.json')
-          os.remove('data/tomorrow_main.json')
-          print(f"Bugün: {len(today_data)}, Yarin: {len(tmr_data)}")
-          PYEOF
+os.remove('data/today_main.json')
+os.remove('data/tomorrow_main.json')
+print(f"Bugun: {len(today_data)}, Yarin: {len(tmr_data)}")
+PYEOF
+          python3 /tmp/merge.py
 
       - name: Final commit
         run: |
