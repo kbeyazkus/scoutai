@@ -24,10 +24,10 @@ jobs:
           import json, os, requests, time
 
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-          model_path = "gemini-2.0-flash" 
+          # En kararlı çalışan URL yapısı ve model ismi:
+          url_template = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + api_key
 
           def get_ai_prediction(m):
-              url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_path}:generateContent?key={api_key}"
               h, a = m.get("home_name"), m.get("away_name")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
               status = m.get("status", "")
@@ -35,37 +35,37 @@ jobs:
               prompt = f"Analist olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI Yorumu:' ile başla."
               
               try:
-                  res = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=10)
+                  res = requests.post(url_template, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=15)
                   if res.status_code == 200:
                       return res.json()['candidates'][0]['content']['parts'][0]['text']
                   else:
-                      print(f"Hata: {res.status_code}")
-              except:
-                  pass
+                      print(f"Hata ({res.status_code}): {res.text[:100]}")
+              except Exception as e:
+                  print(f"Baglanti Hatasi: {e}")
               return None
 
           try:
               with open('data/today_main.json') as f: data = json.load(f).get('data', [])
           except: data = []
 
-          print(f"{len(data)} maç taranıyor... VIP hız devrede!")
+          print(f"{len(data)} maç taranıyor...")
           
           count = 0
           for m in data:
               if count >= 35: break 
               
-              # CANLI MAÇLAR DAHİL: 'live' ve 'in-play' eklendi
+              # CANLI MAÇLAR DAHİL FİLTRE
               st = str(m.get('status', '')).lower()
               if st in ('incomplete', '', 'scheduled', 'live', 'in-play'):
                   comment = get_ai_prediction(m)
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
-                      print(f"Analiz Edildi ({count}): {m.get('home_name')}")
-                      time.sleep(0.3)
+                      print(f"Analiz Tamam: {m.get('home_name')}")
+                      time.sleep(0.2)
 
           with open('data/today.json', 'w') as f: json.dump({"data": data}, f)
-          print(f"İşlem bitti. Toplam {count} analiz yapıldı.")
+          print(f"Bitti. {count} analiz yapıldı.")
           PYEOF
 
       - name: Commit Results
@@ -74,5 +74,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Live & Fast Update" || true
+          git commit -m "ScoutAI: Live & Stable Update" || true
           git push || true
