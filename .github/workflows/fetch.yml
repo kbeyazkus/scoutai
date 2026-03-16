@@ -23,9 +23,9 @@ jobs:
           python3 << 'PYEOF'
           import json, os, requests, time
 
-          # Anahtardaki olası boşlukları temizler
           api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-          model_path = "gemini-1.5-flash" 
+          # Model adı "gemini-1.5-flash-latest" olarak düzeltildi.
+          model_path = "gemini-1.5-flash-latest" 
 
           def get_ai_prediction(m):
               url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_path}:generateContent?key={api_key}"
@@ -39,7 +39,6 @@ jobs:
                   if res.status_code == 200:
                       return res.json()['candidates'][0]['content']['parts'][0]['text']
                   else:
-                      # Hatayı gizleme, tam olarak ne olduğunu ekrana yazdır!
                       print(f"Hata Kodu: {res.status_code} - Detay: {res.text}")
               except Exception as e:
                   print(f"Sistem Hatası: {e}")
