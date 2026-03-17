@@ -1,7 +1,7 @@
-name: ScoutAI 2026 Next-Gen Update
+name: ScoutAI Multi-Agent Syndicate 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 jobs:
   fetch:
@@ -21,33 +21,49 @@ jobs:
         run: |
           curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
 
-      - name: AI Prediction (Vertex AI 2.5 Mode)
+      - name: AI Prediction (Vertex AI 2.5 Multi-Agent)
         run: |
           python3 << 'PYEOF'
-          import json, os, requests, time
+          import json, os, time
           import vertexai
           from vertexai.generative_models import GenerativeModel
 
+          # Google Cloud Kimlik Doğrulama
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
               project_id = info['project_id']
 
-          # Senin bulduğun güncel ayarlar
+          # 2026 Standartları: En güncel ve stabil model
           vertexai.init(project=project_id, location="us-central1")
-          model = GenerativeModel("gemini-2.5-flash") # 2026'nın en hızlı modeli
+          model = GenerativeModel("gemini-2.5-flash")
 
-          def get_ai_prediction(m):
+          def get_expert_panel_prediction(m):
               h, a = m.get("home_name", "Bilinmeyen"), m.get("away_name", "Bilinmeyen")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
               status = m.get("status", "Bilinmiyor")
               
-              prompt = f"Futbol analisti olarak yorumla: {h} vs {a}. Durum: {status}. xG: {h_xg}-{a_xg}. En mantıklı tercihi ve nedenini 2 kısa cümleyle yaz. '🤖 ScoutAI:' ile başla."
+              # MULTI-AGENT PROMPT SİSTEMİ
+              prompt = f"""
+              Maç: {h} vs {a} | Durum: {status} | Prematch xG: {h_xg} - {a_xg}
+
+              Sen 'ScoutAI' sendikasının baş analistisin. Amacımız sadece tahmin yapmak değil, bahis piyasasındaki açıkları (Value) bulmak. 
+              Sadece ham veriye güvenme, sürekli sorgula. Şu 3 açıyı düşünerek tek bir profesyonel analiz üret:
+              
+              1. Context AI (Motivasyon): Takımların ligdeki hedefleri ve bu maça ihtiyaçları nedir?
+              2. Smart Money AI (Değer): Halk kime oynar, bahis şirketleri kimi favori gösterir ve asıl 'Value' (Değer) nerededir?
+              3. Narrative AI (Algı): Medya bu maçı nasıl yorumlar ve halkın tersine gitmek kârlı mıdır?
+
+              Lütfen analizi kısa, net ve şu formatta ver:
+              🔍 Çapraz Sorgu: (Maçın psikolojisi ve veriler arasındaki çelişkiler)
+              🎯 Value Bet Tercihi: (En mantıklı değerli bahis seçeneği ve nedeni)
+              """
               
               try:
                   response = model.generate_content(prompt)
                   return response.text
               except Exception as e:
                   print(f"AI Hatası ({h}): {e}")
+                  print("Not: Eğer 404 veya yetki hatasıysa, GCP Organization Policy ve Model Sürümlerini kontrol et.")
               return None
 
           try:
@@ -56,23 +72,23 @@ jobs:
           except:
               data = []
 
-          print(f"Toplam {len(data)} maç bulundu. Gemini 2.5 Flash ile analiz başlıyor...")
+          print(f"Toplam {len(data)} maç bulundu. ScoutAI Uzman Paneli toplanıyor...")
           
           count = 0
           for m in data:
               if count >= 30: break 
               st = str(m.get('status', '')).lower()
               if st in ['scheduled', 'live', 'in_play', 'incomplete', '']:
-                  comment = get_ai_prediction(m)
+                  comment = get_expert_panel_prediction(m)
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
-                      print(f"Başarılı: {m.get('home_name')}")
-                      time.sleep(0.3)
+                      print(f"Panel Kararı Çıktı: {m.get('home_name')}")
+                      time.sleep(0.5)
 
           with open('data/today.json', 'w') as f:
               json.dump({"data": data}, f, indent=2)
-          print(f"Bitti. {count} analiz yapıldı.")
+          print(f"Bitti. {count} maç için sendika analizi yapıldı.")
           PYEOF
 
       - name: Commit Results
@@ -81,5 +97,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Migrated to Gemini 2.5 Flash" || true
+          git commit -m "ScoutAI: Multi-Agent Syndicate Deployed" || true
           git push || true
