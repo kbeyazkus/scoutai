@@ -782,16 +782,42 @@ async function renderLive() {
   return html;
 }
 
+// 🎯 YENİ VE HATASIZ ZAMAN FİLTRESİ
 async function renderDay(offset) {
-  const all  = await fetchDay(offset);
-  if (!all.length) return `<div class="empty">📭 Maç bulunamadı</div>`;
-  const live = all.filter(isLive);
-  const done = all.filter(isDone);
-  const upco = all.filter(isUp);
+  let all = [];
+  try {
+    all = await fetchDay(offset);
+  } catch(e) {
+    if (offset === 1) all = await fetchDay(0);
+  }
+
+  if (!all.length) return `<div class="empty">📭 Veri bulunamadı</div>`;
+
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + offset); 
+  const targetDateString = targetDate.toDateString();
+
+  const filteredMatches = all.filter(m => {
+    if (!m.date_unix) return false;
+    if (offset === 0 && isLive(m)) return true; // Canlıları her zaman Bugünde tut
+    const matchDate = new Date(m.date_unix * 1000).toDateString();
+    return matchDate === targetDateString;
+  });
+
+  if (!filteredMatches.length) {
+    const dayName = offset === 0 ? "Bugün" : "Yarın";
+    return `<div class="empty">📭 ${dayName} için planlanmış maç bulunmuyor.</div>`;
+  }
+
+  const live = filteredMatches.filter(isLive);
+  const done = filteredMatches.filter(isDone);
+  const upco = filteredMatches.filter(isUp);
+
   let h = '';
   if (live.length) h += `<div class="sh">🔴 CANLI (${live.length})</div>` + live.map(card).join('');
   if (upco.length) h += `<div class="sh">📅 YAKLAŞAN (${upco.length})</div>` + upco.map(card).join('');
   if (done.length) h += `<div class="sh">✅ BİTENLER (${done.length})</div>` + done.map(card).join('');
+  
   return h;
 }
 
