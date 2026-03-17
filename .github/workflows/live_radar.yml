@@ -22,7 +22,7 @@ jobs:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           python3 << 'PYEOF'
-          import json, os, time, requests
+          import json, os, time, requests, re
           from google import genai
 
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
@@ -30,8 +30,6 @@ jobs:
               project_id = info['project_id']
           client = genai.Client(vertexai=True, project=project_id, location="us-central1")
 
-          print("📡 HİBRİT RADAR: RapidAPI Canlı Skorlar Çekiliyor...")
-          
           url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
           querystring = {"live": "all"}
           headers = {
@@ -40,14 +38,8 @@ jobs:
           }
           
           try:
-              req = requests.get(url, headers=headers, params=querystring)
-              api_live_data = req.json().get('response', [])
+              api_live_data = requests.get(url, headers=headers, params=querystring).json().get('response', [])
           except:
-              print("❌ RapidAPI Bağlantı Hatası!")
-              exit(0)
-              
-          if not api_live_data:
-              print("Şu an RapidAPI'de canlı maç yok.")
               exit(0)
 
           try:
@@ -56,21 +48,24 @@ jobs:
           except:
               exit(0)
 
-          def clean_name(n):
-              return str(n).lower().replace(' fc', '').replace(' team', '').replace(' cf', '').replace(' united', '').replace(' city', '').strip()
+          # Gelişmiş İsim Eşleştirme Filtresi
+          def simplify(name):
+              name = re.sub(r'[^a-zA-Z]', '', str(name).lower())
+              for w in ['fc','cf','united','city','club','deportivo','sporting']: 
+                  name = name.replace(w, '')
+              return name[:6]
 
           def match_teams(fs_h, fs_a, api_h, api_a):
-              fh, fa = clean_name(fs_h), clean_name(fs_a)
-              ah, aa = clean_name(api_h), clean_name(api_a)
-              return (fh in ah or ah in fh) and (fa in aa or aa in fa)
+              sh1, sh2 = simplify(fs_h), simplify(api_h)
+              sa1, sa2 = simplify(fs_a), simplify(api_a)
+              return (sh1 in sh2 or sh2 in sh1) and (sa1 in sa2 or sa2 in sa1)
 
           matched_live_games = []
           
           for api_m in api_live_data:
-              api_h = str(api_m.get('teams', {}).get('home', {}).get('name', ''))
-              api_a = str(api_m.get('teams', {}).get('away', {}).get('name', ''))
+              api_h = api_m.get('teams', {}).get('home', {}).get('name', '')
+              api_a = api_m.get('teams', {}).get('away', {}).get('name', '')
               
-              # 🎯 Skorları güvenli çek (Null gelirse 0 yap)
               h_g = api_m.get('goals', {}).get('home')
               a_g = api_m.get('goals', {}).get('away')
               h_g = 0 if h_g is None else int(h_g)
@@ -78,34 +73,28 @@ jobs:
               elapsed = str(api_m.get('fixture', {}).get('status', {}).get('elapsed', 'Live'))
               
               for em in existing_data:
-                  fs_h = str(em.get('home_name', ''))
-                  fs_a = str(em.get('away_name', ''))
+                  fs_h = em.get('home_name', '')
+                  fs_a = em.get('away_name', '')
                   
                   if match_teams(fs_h, fs_a, api_h, api_a):
-                      # ⚡ KRİTİK DÜZELTME: Skorları Boss AI'yi beklemeden ANINDA DOSYAYA YAZ!
                       em['homeGoalCount'] = h_g
                       em['awayGoalCount'] = a_g
                       em['elapsed'] = elapsed
                       em['status'] = 'live'
-                      
                       matched_live_games.append(em)
                       break
 
           if not matched_live_games:
-              print("Canlı maç var ama veritabanımızdakilerle eşleşmedi.")
-              # Skorlar güncellendiği kadarıyla dosyayı yine de kaydet (Eşleşen varsa diye)
+              # Skorlar eşleşmediyse mevcut veriyi koru
               with open('data/today.json', 'w') as f:
                   json.dump({"data": existing_data}, f, indent=2)
               exit(0)
 
-          print(f"🎯 {len(matched_live_games)} Maçın skoru ANINDA güncellendi! Şimdi AI analizi başlıyor...")
-
           def live_boss_command(m):
-              h, a = m.get("home_name", "N/A"), m.get("away_name", "N/A")
-              dakika = m.get("elapsed", "Canlı")
+              h, a = m.get("home_name", ""), m.get("away_name", "")
+              dakika = m.get("elapsed", "")
               skor = f"{m.get('homeGoalCount', 0)} - {m.get('awayGoalCount', 0)}"
-              
-              prompt = f"""SEN 'BOSS AI' LİDERİSİN. CANLI MAÇA MÜDAHALE ET: {h} vs {a} | DAKİKA: {dakika}' | SKOR: {skor}. Maç öncesi xG: Ev {m.get('team_a_xg_prematch',0)} - Depl {m.get('team_b_xg_prematch',0)}. FORMAT: 🔴 CANLI ANALİZ | ⚡ ACİL EMİR"""
+              prompt = f"BOSS AI. CANLI MAÇ: {h} vs {a} | DAKİKA: {dakika}' | SKOR: {skor}. Ön maç xG: Ev {m.get('team_a_xg_prematch',0)} - Depl {m.get('team_b_xg_prematch',0)}. FORMAT: 🔴 CANLI ANALİZ | ⚡ ACİL EMİR"
               try:
                   return client.models.generate_content(model='gemini-2.5-flash', contents=prompt).text
               except: return None
@@ -116,16 +105,15 @@ jobs:
                   lm['boss_ai_decision'] = decision
               time.sleep(1)
 
-          # Tüm işlemleri (skorlar + AI yorumları) en son dosyaya kalıcı yaz
           with open('data/today.json', 'w') as f:
               json.dump({"data": existing_data}, f, indent=2)
           PYEOF
 
-      - name: Push Live Updates
+      - name: Push Updates
         run: |
           git config user.email "action@github.com"
-          git config user.name "ScoutAI Hybrid Agent"
+          git config user.name "ScoutAI"
           git pull --rebase || true
           git add data/
-          git commit -m "🔴 Canlı Radar: 5-0 Skor Gecikmesi Fixlendi" || true
+          git commit -m "Canlı Radar İsim Eşleştirme Düzeltildi" || true
           git push || true
