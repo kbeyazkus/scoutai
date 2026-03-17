@@ -8,16 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Authenticate to Google Cloud
+      - name: Auth
         uses: google-github-actions/auth@v1
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
-
       - name: Install dependencies
         run: pip install requests google-genai
-
-      - name: AI Prediction (Full Hybrid Intelligence)
+      - name: AI Prediction
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
@@ -25,68 +22,51 @@ jobs:
           import json, os, time, requests
           from google import genai
 
-          with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
-              info = json.load(f)
-              project_id = info['project_id']
-          client = genai.Client(vertexai=True, project=project_id, location="us-central1")
+          # 1. Mevcut Veriyi Oku (Skorları korumak için)
+          try:
+              with open('data/today.json', 'r') as f:
+                  existing_data = {m['id']: m for m in json.load(f).get('data', [])}
+          except: existing_data = {}
 
-          # 1. VERİ KAYNAĞI: FootyStats
+          # 2. Yeni Veriyi Çek
           f_url = "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats,odds"
-          f_data = requests.get(f_url).json().get('data', [])
+          new_matches = requests.get(f_url).json().get('data', [])
 
-          # 2. VERİ KAYNAĞI: RapidAPI Sakatlık Sorgusu (Basitleştirilmiş)
-          def get_injury_intel(team_name):
-              try:
-                  url = "https://api-football-v1.p.rapidapi.com/v3/injuries"
-                  headers = {"X-RapidAPI-Key": os.environ['RAPIDAPI_KEY'], "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"}
-                  # Sadece kritik bir örnek kontrolü simüle ediyoruz (Kota dostu)
-                  return "Kadroda kritik bir eksiklik rapor edilmedi (Normal)."
-              except: return "Sakatlık verisi alınamadı, temkinli ol."
-
-          def boss_final_command(m):
-              h, a = m.get("home_name", "N/A"), m.get("away_name", "N/A")
-              h_inj = get_injury_intel(h)
-              a_inj = get_injury_intel(a)
-              
-              prompt = f"""
-              SEN 'BOSS AI' LİDERİSİN. VERİLERİ SORGULA VE EMİR VER.
-              MAÇ: {h} vs {a} | LİG: {m.get('competition_name', 'N/A')}
-              
-              İSTİHBARAT:
-              - xG Verisi: Ev {m.get('team_a_xg_prematch', 0)} - Depl {m.get('team_b_xg_prematch', 0)}
-              - Oranlar: 1:{m.get('odds_ft_1')} | X:{m.get('odds_ft_x')} | 2:{m.get('odds_ft_2')}
-              - SAHA RAPORU (Sakat/Cezalı): {h_inj} vs {a_inj}
-              
-              GÖREV:
-              1. Sakatlık raporuyla xG verisini çarpıştır. Eksik varsa favoriden uzaklaş.
-              2. Kesinlikle kazandıracak kupon türünü (MS, KG, Alt/Üst) belirle.
-              3. Kasa yönetimini (%0-5) ve Risk puanını (1-10) yaz.
-              
-              FORMAT: 🔍 ANALİZ | 🎯 EMİR | 💰 KASA | ⚠️ RİSK
-              """
-              try:
-                  response = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
-                  return response.text
-              except: return None
+          with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
+              client = genai.Client(vertexai=True, project=json.load(f)['project_id'], location="us-central1")
 
           final_list = []
-          for m in f_data[:20]:
-              print(f"Boss AI (Sakatlık Dedektifi) Sorguluyor: {m.get('home_name')}")
-              decision = boss_final_command(m)
-              if decision:
-                  m['boss_ai_decision'] = decision
-                  final_list.append(m)
-              time.sleep(1)
+          for m in new_matches[:30]:
+              m_id = m['id']
+              
+              # KRITIK: Eğer maç zaten oynanıyorsa veya bitmişse mevcut skoru koru
+              if m_id in existing_data:
+                  old = existing_data[m_id]
+                  if old.get('status') == 'live' or int(old.get('homeGoalCount', 0)) > 0:
+                      m['homeGoalCount'] = old['homeGoalCount']
+                      m['awayGoalCount'] = old['awayGoalCount']
+                      m['boss_ai_decision'] = old.get('boss_ai_decision')
+                      m['status'] = old['status']
+
+              # Sadece yorumu olmayan maçlara yorum yap (Kota dostu)
+              if not m.get('boss_ai_decision'):
+                  prompt = f"BOSS AI: {m.get('home_name')} vs {m.get('away_name')}. xG: {m.get('team_a_xg_prematch')}-{m.get('team_b_xg_prematch')}. ANALİZ VE EMİR VER."
+                  try:
+                      res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
+                      m['boss_ai_decision'] = res.text
+                      time.sleep(1)
+                  except: pass
+              
+              final_list.append(m)
 
           with open('data/today.json', 'w') as f:
               json.dump({"data": final_list}, f, indent=2)
           PYEOF
-
       - name: Final Push
         run: |
           git config user.email "action@github.com"
-          git config user.name "ScoutAI Commander"
+          git config user.name "ScoutAI"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Final Boss AI with Injury Radar" || true
+          git commit -m "Fetch Update: Scores Preserved" || true
           git push || true
