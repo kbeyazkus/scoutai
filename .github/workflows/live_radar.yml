@@ -37,31 +37,40 @@ jobs:
           current_time = time.time()
           live_matches = []
           
-          # 🎯 YENİ FİLTRE: API yalan söylese de biz saate bakıyoruz!
+          # 🎯 AĞIR ZIRHLI MATEMATİK FİLTRESİ
           for m in all_matches:
-              st = str(m.get('status', '')).lower()
               date_unix = int(m.get('date_unix', 0))
+              st = str(m.get('status', '')).lower()
               
-              # Eğer maç bitmemişse (incomplete) VE saati geçmişse (şu an > date_unix) bu maç %100 CANLIDIR!
-              if st in ['live', 'in_progress'] or (st == 'incomplete' and current_time > date_unix):
+              # 1. Başlama vuruşu yapılmış mı? (current_time > date_unix)
+              # 2. Maçın üzerinden 130 dakikadan (7800 saniye) AZ mı geçmiş? (Maç hala oynanıyor demektir)
+              # 3. Zaten bitti (complete), iptal (canceled) veya ertelendi (postponed) değilse -> KESİN CANLIDIR.
+              
+              is_started = current_time >= date_unix
+              is_not_too_old = current_time <= (date_unix + 7800) 
+              is_not_finished = st not in ['complete', 'canceled', 'postponed', 'suspended']
+              
+              if is_started and is_not_too_old and is_not_finished:
                   live_matches.append(m)
           
           if not live_matches:
-              print("Şu an oynanan canlı maç yok. Radar beklemede.")
+              print("Şu an oynanan canlı maç yok. (Tüm maçlar ya başlamadı ya da çoktan bitti). Radar beklemede.")
               exit(0)
 
-          print(f"🔥 {len(live_matches)} GERÇEK CANLI maç tespit edildi! Devler sahada, Boss AI uyanıyor...")
+          print(f"🔥 {len(live_matches)} GERÇEK CANLI maç tespit edildi! API'yi atlattık, Boss AI sahaya iniyor...")
 
           def live_boss_command(m):
               h, a = m.get("home_name", "N/A"), m.get("away_name", "N/A")
+              dakika = m.get("elapsed", "Bilinmiyor")
+              skor = f"{m.get('homeGoalCount', 0)} - {m.get('awayGoalCount', 0)}"
               
               prompt = f"""
               SEN 'BOSS AI' LİDERİSİN. ŞU AN OYNANAN CANLI BİR MAÇA MÜDAHALE EDİYORSUN!
-              MAÇ: {h} vs {a} | DURUM: ŞU AN OYNANIYOR
+              MAÇ: {h} vs {a} | DURUM: ŞU AN OYNANIYOR | DAKİKA: {dakika}' | SKOR: {skor}
               Maç Öncesi Beklenti: xG Ev {m.get('team_a_xg_prematch', 0)} - xG Depl {m.get('team_b_xg_prematch', 0)}
               Oranlar: 1:{m.get('odds_ft_1')} | X:{m.get('odds_ft_x')} | 2:{m.get('odds_ft_2')}
               
-              GÖREV: Bu maç canlıda. Ön maç xG beklentisine ve oranlara bakarak mantıklı bir canlı tahmin (Sıradaki gol, 1.5 Üst vb.) yap veya PAS GEÇ.
+              GÖREV: Beklenti (xG) ile şu anki canlı skoru karşılaştır. Acil bir canlı bahis fırsatı varsa (1.5 Üst, Çifte Şans, Sıradaki Gol vb.) NET BİR EMİR VER. Tuzaksa PAS GEÇ.
               FORMAT: 🔴 CANLI ANALİZ | ⚡ ACİL EMİR | 💰 KASA | ⚠️ RİSK
               """
               try:
@@ -76,14 +85,17 @@ jobs:
               existing_data = []
 
           # Canlı analizleri mevcut verinin üzerine yaz
-          for lm in live_matches[:15]: # En önemli 15 maçı al
-              print(f"Boss AI CANLI Gözetliyor: {lm.get('home_name')} vs {lm.get('away_name')}")
+          for lm in live_matches[:15]: 
+              print(f"Boss AI CANLI Gözetliyor: {lm.get('home_name')} vs {lm.get('away_name')} (Skor: {lm.get('homeGoalCount', 0)}-{lm.get('awayGoalCount', 0)})")
               decision = live_boss_command(lm)
               if decision:
                   for existing_m in existing_data:
                       if existing_m.get('id') == lm.get('id'):
                           existing_m['boss_ai_decision'] = decision
                           existing_m['status'] = 'live'
+                          existing_m['homeGoalCount'] = lm.get('homeGoalCount', 0)
+                          existing_m['awayGoalCount'] = lm.get('awayGoalCount', 0)
+                          existing_m['elapsed'] = lm.get('elapsed', 'Canlı')
                           break
               time.sleep(1)
 
@@ -97,5 +109,5 @@ jobs:
           git config user.name "ScoutAI Live Agent"
           git pull --rebase || true
           git add data/
-          git commit -m "🔴 Canlı Radar: Saat Koruması Eklendi, Gerçek Canlı Maçlar Yakalandı" || true
+          git commit -m "🔴 Canlı Radar: API Yanıltmacası Geçildi, Boss AI Sahada" || true
           git push || true
