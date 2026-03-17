@@ -15,7 +15,7 @@ jobs:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
       - name: Install dependencies
-        run: pip install requests google-cloud-aiplatform
+        run: pip install requests google-genai
 
       - name: Fetch Live Match Data
         run: |
@@ -25,41 +25,45 @@ jobs:
         run: |
           python3 << 'PYEOF'
           import json, os, time
-          import vertexai
-          from vertexai.generative_models import GenerativeModel
+          from google import genai
 
           # Google Cloud Kimlik Doğrulama
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
               project_id = info['project_id']
 
-          # 2026 Standartları: En güncel ve stabil model
-          vertexai.init(project=project_id, location="us-central1")
-          model = GenerativeModel("gemini-2.5-flash")
+          # 2026 Standartları: Yeni Google GenAI İstemcisi
+          client = genai.Client(vertexai=True, project=project_id, location="us-central1")
 
           def get_expert_panel_prediction(m):
               h, a = m.get("home_name", "Bilinmeyen"), m.get("away_name", "Bilinmeyen")
               h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
               status = m.get("status", "Bilinmiyor")
               
-              # MULTI-AGENT PROMPT SİSTEMİ
+              # BOSS AI KİMLİĞİ: Acımasız, pesimist ve lider.
               prompt = f"""
               Maç: {h} vs {a} | Durum: {status} | Prematch xG: {h_xg} - {a_xg}
 
-              Sen 'ScoutAI' sendikasının baş analistisin. Amacımız sadece tahmin yapmak değil, bahis piyasasındaki açıkları (Value) bulmak. 
-              Sadece ham veriye güvenme, sürekli sorgula. Şu 3 açıyı düşünerek tek bir profesyonel analiz üret:
-              
-              1. Context AI (Motivasyon): Takımların ligdeki hedefleri ve bu maça ihtiyaçları nedir?
-              2. Smart Money AI (Değer): Halk kime oynar, bahis şirketleri kimi favori gösterir ve asıl 'Value' (Değer) nerededir?
-              3. Narrative AI (Algı): Medya bu maçı nasıl yorumlar ve halkın tersine gitmek kârlı mıdır?
+              Sen 'ScoutAI' sendikasının baş analisti ve acımasız 'Boss AI'sin. 
+              Amacın sadece bahis şirketlerinin açıklarını (Value) bulmak. Asla iyimser olma, kusur ara.
+              Karar vermeden önce şu 3 açıyı düşün:
+              1. Context (Motivasyon): Takımların puan durumuna göre bu maça ihtiyacı var mı?
+              2. Smart Money (Değer): Piyasa kime oynar, gerçek Value nerede?
+              3. Narrative (Algı): Medya kimi şişiriyor, tuzak nerede?
 
-              Lütfen analizi kısa, net ve şu formatta ver:
-              🔍 Çapraz Sorgu: (Maçın psikolojisi ve veriler arasındaki çelişkiler)
-              🎯 Value Bet Tercihi: (En mantıklı değerli bahis seçeneği ve nedeni)
+              Eğer risk fazlaysa, oran değmiyorsa veya asistanlar çelişiyorsa kesinlikle 'PAS GEÇ' kararı ver.
+
+              Şu formatta kısa ve net yanıt ver:
+              🔍 Çapraz Sorgu: (Bulduğun kusurlar ve gerçekler)
+              🎯 Boss AI Kararı: (Net bahis tercihi veya PAS GEÇ)
               """
               
               try:
-                  response = model.generate_content(prompt)
+                  # Yeni nesil API Çağrısı
+                  response = client.models.generate_content(
+                      model='gemini-2.5-flash',
+                      contents=prompt
+                  )
                   return response.text
               except Exception as e:
                   print(f"AI Hatası ({h}): {e}")
@@ -72,7 +76,7 @@ jobs:
           except:
               data = []
 
-          print(f"Toplam {len(data)} maç bulundu. ScoutAI Uzman Paneli toplanıyor...")
+          print(f"Toplam {len(data)} maç bulundu. Boss AI masaya oturuyor...")
           
           count = 0
           for m in data:
@@ -83,8 +87,8 @@ jobs:
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
-                      print(f"Panel Kararı Çıktı: {m.get('home_name')}")
-                      time.sleep(0.5)
+                      print(f"Boss AI Karar Verdi: {m.get('home_name')}")
+                      time.sleep(1) # API'yi yormamak için bekleme süresini 1 saniyeye çıkardık
 
           with open('data/today.json', 'w') as f:
               json.dump({"data": data}, f, indent=2)
@@ -97,5 +101,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Multi-Agent Syndicate Deployed" || true
+          git commit -m "ScoutAI: Boss AI ve 2026 GenAI Güncellemesi" || true
           git push || true
