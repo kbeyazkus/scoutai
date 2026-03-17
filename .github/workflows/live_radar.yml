@@ -1,4 +1,4 @@
-name: ScoutAI LIVE Radar (Stats Edition)
+name: ScoutAI LIVE Radar (Hybrid)
 on:
   schedule:
     - cron: '*/5 * * * *'
@@ -13,71 +13,65 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
       - name: Dependencies
-        run: pip install requests google-genai
-      - name: Live Stats Update
+        run: pip install requests google-genai unidecode
+      - name: Live Update
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           python3 << 'PYEOF'
           import json, os, requests, time, re
           from google import genai
+          from unidecode import unidecode
 
-          # 1. RapidAPI - CANLI Maçlar ve İstatistikler
+          # 1. RapidAPI Verisi
           url = "https://api-football-v1.p.rapidapi.com/v3/fixtures?live=all"
           headers = {"X-RapidAPI-Key": os.environ['RAPIDAPI_KEY'], "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"}
           try:
               rapid_res = requests.get(url, headers=headers).json().get('response', [])
           except: exit(0)
 
-          # 2. FootyStats Verilerini Oku
+          # 2. Local Veriyi Oku
           try:
               with open('data/today.json', 'r') as f:
                   fs_json = json.load(f)
                   fs_data = fs_json.get('data', [])
           except: exit(0)
 
-          def simplify(n):
-              n = re.sub(r'[^a-zA-Z]', '', str(n).lower())
-              for w in ['fc','cf','united','city','club','real','de']: n = n.replace(w, '')
+          def clean(n):
+              n = unidecode(str(n)).lower()
+              n = re.sub(r'[^a-z0-9]', '', n)
+              for w in ['fc','cf','united','city','real','atletico','de','la']: n = n.replace(w, '')
               return n[:5]
 
-          # 3. Senkronizasyon ve Veri Hazırlama
+          # 3. Skor ve Analiz Güncelleme
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
           client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
 
+          matched_any = False
           for rm in rapid_res:
-              rh, ra = simplify(rm['teams']['home']['name']), simplify(rm['teams']['away']['name'])
+              rh, ra = clean(rm['teams']['home']['name']), clean(rm['teams']['away']['name'])
               hg, ag = rm['goals']['home'], rm['goals']['away']
               el = rm['fixture']['status']['elapsed']
               
-              # Canlı İstatistikleri Al
-              stats = rm.get('statistics', [])
-              st_text = ""
-              if stats:
-                  for s_set in stats:
-                      team = s_set['team']['name']
-                      s = {item['type']: item['value'] for item in s_set['statistics']}
-                      st_text += f"{team}: Şut:{s.get('Total Shots',0)}, İS:{s.get('Shots on Goal',0)}, Korner:{s.get('Corner Kicks',0)}. "
-
               for em in fs_data:
-                  fh, fa = simplify(em.get('home_name','')), simplify(em.get('away_name',''))
+                  fh, fa = clean(em.get('home_name','')), clean(em.get('away_name',''))
                   if (rh in fh or fh in rh) and (ra in fa or fa in ra):
-                      # Skor ve Dakika Güncelle
+                      # Skoru Zorla Güncelle
                       em['homeGoalCount'] = hg if hg is not None else 0
                       em['awayGoalCount'] = ag if ag is not None else 0
                       em['elapsed'] = el
                       em['status'] = 'live'
+                      matched_any = True
                       
-                      # 4. AI'yı GERÇEK VERİYLE UYANDIR
-                      prompt = f"""SEN LİDER ANALİZCİ BOSS AI'SIN. ŞU AN MAÇI CANLI İZLİYORSUN!
+                      # AI'yı Gerçek Canlı Veriyle Çalıştır
+                      prompt = f"""SEN BOSS AI'SIN. MAÇ ŞU AN CANLI OYNANIYOR!
                       MAÇ: {em['home_name']} {em['homeGoalCount']}-{em['awayGoalCount']} {em['away_name']}
                       DAKİKA: {el}'
-                      CANLI İSTATİSTİKLER: {st_text}
-                      ÖN MAÇ BEKLENTİSİ: xG Ev {em.get('team_a_xg_prematch',0)} - Depl {em.get('team_b_xg_prematch',0)}
+                      ÖN MAÇ xG: {em.get('team_a_xg_prematch',0)} - {em.get('team_b_xg_prematch',0)}
                       
-                      GÖREV: Skor 5-0 ise 'Alt oyna' gibi saçma tavsiyeler verme! Dakika ve canlı şut sayısına bakarak sıradaki golü veya maç sonu gidişatını analiz et.
-                      Kısa, net ve agresif bir CANLI EMİR VER."""
+                      GÖREV: SADECE CANLI DURUMA ODAKLAN. Skor zaten 3 golü geçmişse sakın 'Alt biter' deme! 
+                      Maçın gidişatına göre yeni bir EMİR ver (Örn: 4.5 Üst, Sıradaki Gol, Maç Sonu Tahmini)."""
                       
                       try:
                           res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
@@ -85,8 +79,9 @@ jobs:
                       except: pass
                       break
 
-          with open('data/today.json', 'w') as f:
-              json.dump({"data": fs_data}, f, indent=2)
+          if matched_any:
+              with open('data/today.json', 'w') as f:
+                  json.dump({"data": fs_data}, f, indent=2)
           PYEOF
       - name: Push
         run: |
@@ -94,5 +89,5 @@ jobs:
           git config user.name "ScoutAI"
           git pull --rebase || true
           git add data/
-          git commit -m "🔴 Canlı İstatistikler ve AI Zekası Güncellendi" || true
+          git commit -m "Live Score Sync" || true
           git push || true
