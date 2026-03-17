@@ -1453,7 +1453,7 @@ function betA(id, pick) {
   });
 }
 
-// Analiz metnini doldur (VIP AI Destekli)
+// Analiz metnini doldur (BOSS AI DESTEKLİ)
 function buildAnaliz(m, id) {
   const hN    = m.home_name || '?';
   const aN    = m.away_name || '?';
@@ -1485,15 +1485,16 @@ function buildAnaliz(m, id) {
 
   let finalHtml = '';
 
-  // 🌟 YAPAY ZEKA VIP YORUMU (Eğer Python'dan geldiyse) 🌟
-  if (m.ai_comment) {
+  // 🌟 BOSS AI STRATEJİ ODASI (YENİ) 🌟
+  const aiText = m.boss_ai_decision || m.ai_comment;
+  if (aiText) {
     finalHtml += `
-      <div style="background: linear-gradient(135deg, rgba(124, 92, 252, 0.15), rgba(0, 229, 160, 0.15)); border: 1px solid var(--purple); border-radius: 12px; padding: 15px; margin-bottom: 15px; position: relative;">
-        <div style="position: absolute; top: -10px; left: 15px; background: var(--bg2); padding: 0 8px; font-weight: 800; font-size: 11px; color: var(--accent); letter-spacing: 1px; border-radius: 4px;">
-          ✨ SCOUT AI VIP
+      <div class="boss-ai-report" style="background: #0a0a0a; border: 1px solid #ff0000; border-left: 4px solid #ff0000; border-radius: 8px; padding: 15px; margin-bottom: 15px; position: relative; font-family: 'DM Mono', monospace;">
+        <div style="position: absolute; top: -10px; left: 15px; background: var(--bg2); padding: 0 8px; font-weight: 800; font-size: 11px; color: #ff0000; letter-spacing: 1px; border-radius: 4px;">
+          👔 BOSS AI STRATEJİ ODASI
         </div>
-        <div style="font-size: 13px; line-height: 1.6; color: var(--text); margin-top: 5px;">
-          ${m.ai_comment.replace('🤖 ScoutAI Yorumu:', '').trim()}
+        <div style="font-size: 13px; line-height: 1.6; color: #00ff00; margin-top: 8px; white-space: pre-line;">
+          ${aiText.replace('🤖 ScoutAI Yorumu:', '').trim()}
         </div>
       </div>
     `;
@@ -1533,7 +1534,7 @@ function buildAnaliz(m, id) {
 
   // 5. Basit Öneri (Eğer AI yorumu yoksa senin eski algoritman devreye girsin)
   let pickHtml = '';
-  if (!m.ai_comment) {
+  if (!aiText) {
       let pick = '', pickReason = '';
       if (ppgDiff >= 1.0 && (!hxg || hxg >= axg - 0.1) && o1 > 1.2) {
         pick = `MS 1 (${o1.toFixed(2)})`;
