@@ -18,8 +18,9 @@ jobs:
         run: pip install requests google-genai
 
       - name: Fetch Live Match Data
+        # API linkine oranları getirmesi umuduyla küçük bir ek yapıyoruz (API destekliyorsa)
         run: |
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats" > data/today_main.json
+          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats,odds" > data/today_main.json
 
       - name: AI Prediction (Vertex AI 2.5 Multi-Agent)
         run: |
@@ -32,34 +33,42 @@ jobs:
               info = json.load(f)
               project_id = info['project_id']
 
-          # 2026 Standartları: Yeni Google GenAI İstemcisi
           client = genai.Client(vertexai=True, project=project_id, location="us-central1")
 
           def get_expert_panel_prediction(m):
-              h, a = m.get("home_name", "Bilinmeyen"), m.get("away_name", "Bilinmeyen")
-              h_xg, a_xg = m.get("team_a_xg_prematch", 0), m.get("team_b_xg_prematch", 0)
+              h = m.get("home_name", "Bilinmeyen")
+              a = m.get("away_name", "Bilinmeyen")
+              h_xg = m.get("team_a_xg_prematch", "Veri Yok")
+              a_xg = m.get("team_b_xg_prematch", "Veri Yok")
               status = m.get("status", "Bilinmiyor")
               
-              # BOSS AI KİMLİĞİ: Acımasız, pesimist ve lider.
+              # YENİ EKLENEN VERİLER: Oranlar ve Sıralamalar (API veriyorsa çeker, yoksa 'Bilinmiyor' der)
+              odds_1 = m.get("odds_ft_1", "Bilinmiyor")
+              odds_x = m.get("odds_ft_x", "Bilinmiyor")
+              odds_2 = m.get("odds_ft_2", "Bilinmiyor")
+              h_pos = m.get("home_position", "Bilinmiyor")
+              a_pos = m.get("away_position", "Bilinmiyor")
+              
               prompt = f"""
-              Maç: {h} vs {a} | Durum: {status} | Prematch xG: {h_xg} - {a_xg}
+              Maç: {h} vs {a} | Durum: {status} 
+              İstatistik (xG): Ev Sahibi {h_xg} - Deplasman {a_xg}
+              Lig Sıralaması: Ev Sahibi {h_pos}. sırada | Deplasman {a_pos}. sırada
+              Bahis Şirketi Oranları (1-X-2): {odds_1} - {odds_x} - {odds_2}
 
               Sen 'ScoutAI' sendikasının baş analisti ve acımasız 'Boss AI'sin. 
-              Amacın sadece bahis şirketlerinin açıklarını (Value) bulmak. Asla iyimser olma, kusur ara.
-              Karar vermeden önce şu 3 açıyı düşün:
-              1. Context (Motivasyon): Takımların puan durumuna göre bu maça ihtiyacı var mı?
-              2. Smart Money (Değer): Piyasa kime oynar, gerçek Value nerede?
-              3. Narrative (Algı): Medya kimi şişiriyor, tuzak nerede?
+              Amacın bahis şirketlerinin açıklarını (Value) bulmak. Asla iyimser olma.
+              Şu an masanda hem xG istatistikleri, hem takımların ligdeki durumu, hem de piyasa oranları var.
 
-              Eğer risk fazlaysa, oran değmiyorsa veya asistanlar çelişiyorsa kesinlikle 'PAS GEÇ' kararı ver.
+              1. Context: Sıralamaya bak. Hangi takımın puana daha çok ihtiyacı var? Hedefsiz takım var mı?
+              2. Smart Money: Bahis şirketinin verdiği oran, xG verisiyle uyuşuyor mu? Oranlarda bir 'Değer (Value)' tuzağı veya fırsatı var mı?
+              3. Karar Aşaması: Eğer oranlar riski karşılamıyorsa veya istatistik/sıralama çelişiyorsa acımadan 'PAS GEÇ' de.
 
-              Şu formatta kısa ve net yanıt ver:
-              🔍 Çapraz Sorgu: (Bulduğun kusurlar ve gerçekler)
+              Şu formatta yanıt ver:
+              🔍 Çapraz Sorgu: (Sıralama, xG ve Oranlar arasındaki uyumsuzluklar veya fırsatlar)
               🎯 Boss AI Kararı: (Net bahis tercihi veya PAS GEÇ)
               """
               
               try:
-                  # Yeni nesil API Çağrısı
                   response = client.models.generate_content(
                       model='gemini-2.5-flash',
                       contents=prompt
@@ -67,7 +76,6 @@ jobs:
                   return response.text
               except Exception as e:
                   print(f"AI Hatası ({h}): {e}")
-                  print("Not: Eğer 404 veya yetki hatasıysa, GCP Organization Policy ve Model Sürümlerini kontrol et.")
               return None
 
           try:
@@ -76,7 +84,7 @@ jobs:
           except:
               data = []
 
-          print(f"Toplam {len(data)} maç bulundu. Boss AI masaya oturuyor...")
+          print(f"Toplam {len(data)} maç bulundu. Boss AI tam donanımlı masaya oturuyor...")
           
           count = 0
           for m in data:
@@ -87,12 +95,12 @@ jobs:
                   if comment:
                       m['ai_comment'] = comment
                       count += 1
-                      print(f"Boss AI Karar Verdi: {m.get('home_name')}")
-                      time.sleep(1) # API'yi yormamak için bekleme süresini 1 saniyeye çıkardık
+                      print(f"Boss AI (Oran Destekli) Analiz Etti: {m.get('home_name')}")
+                      time.sleep(1) 
 
           with open('data/today.json', 'w') as f:
               json.dump({"data": data}, f, indent=2)
-          print(f"Bitti. {count} maç için sendika analizi yapıldı.")
+          print(f"Bitti. {count} maç için tam teşekküllü analiz yapıldı.")
           PYEOF
 
       - name: Commit Results
@@ -101,5 +109,5 @@ jobs:
           git config user.name "GitHub Action"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Boss AI ve 2026 GenAI Güncellemesi" || true
+          git commit -m "ScoutAI: Boss AI'ye Oran ve Sıralama Radarı Eklendi" || true
           git push || true
