@@ -1,4 +1,4 @@
-name: ScoutAI LIVE Radar (Final Fix)
+name: ScoutAI LIVE Radar (Stats Edition)
 on:
   schedule:
     - cron: '*/5 * * * *'
@@ -12,9 +12,9 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
-      - name: Install dependencies
+      - name: Dependencies
         run: pip install requests google-genai
-      - name: Force Update Scores
+      - name: Live Stats Update
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
@@ -22,14 +22,14 @@ jobs:
           import json, os, requests, time, re
           from google import genai
 
-          # 1. RapidAPI'den GERÇEK CANLI Skorları Al
+          # 1. RapidAPI - CANLI Maçlar ve İstatistikler
           url = "https://api-football-v1.p.rapidapi.com/v3/fixtures?live=all"
           headers = {"X-RapidAPI-Key": os.environ['RAPIDAPI_KEY'], "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"}
           try:
               rapid_res = requests.get(url, headers=headers).json().get('response', [])
           except: exit(0)
 
-          # 2. FootyStats Dosyasını (today.json) Oku
+          # 2. FootyStats Verilerini Oku
           try:
               with open('data/today.json', 'r') as f:
                   fs_json = json.load(f)
@@ -38,44 +38,52 @@ jobs:
 
           def simplify(n):
               n = re.sub(r'[^a-zA-Z]', '', str(n).lower())
-              for w in ['fc','cf','united','city','club','real']: n = n.replace(w, '')
+              for w in ['fc','cf','united','city','club','real','de']: n = n.replace(w, '')
               return n[:5]
 
-          # 3. Skorları Zorla Güncelle (Zırhlı Eşleştirme)
-          matched_count = 0
-          for rm in rapid_res:
-              rh = simplify(rm['teams']['home']['name'])
-              ra = simplify(rm['teams']['away']['name'])
-              hg = rm['goals']['home']
-              ag = rm['goals']['away']
-              el = rm['fixture']['status']['elapsed']
-              
-              for em in fs_data:
-                  fh = simplify(em.get('home_name',''))
-                  fa = simplify(em.get('away_name',''))
-                  if (rh in fh or fh in rh) and (ra in fa or fa in ra):
-                      em['homeGoalCount'] = hg if hg is not None else 0
-                      em['awayGoalCount'] = ag if ag is not None else 0
-                      em['elapsed'] = el
-                      em['status'] = 'live'
-                      matched_count += 1
-                      break
-
-          print(f"✅ {matched_count} maçın skoru RapidAPI ile zorla güncellendi.")
-
-          # 4. Boss AI Analizi
+          # 3. Senkronizasyon ve Veri Hazırlama
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
           client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
 
-          for m in fs_data:
-              if m.get('status') == 'live' and not m.get('boss_ai_decision'):
-                  prompt = f"BOSS AI: {m['home_name']} {m['homeGoalCount']}-{m['awayGoalCount']} {m['away_name']} (Dk:{m['elapsed']}). xG:{m.get('team_a_xg_prematch',0)}-{m.get('team_b_xg_prematch',0)}. CANLI ANALİZ/EMİR VER."
-                  try:
-                      res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
-                      m['boss_ai_decision'] = res.text
-                      time.sleep(1)
-                  except: pass
+          for rm in rapid_res:
+              rh, ra = simplify(rm['teams']['home']['name']), simplify(rm['teams']['away']['name'])
+              hg, ag = rm['goals']['home'], rm['goals']['away']
+              el = rm['fixture']['status']['elapsed']
+              
+              # Canlı İstatistikleri Al
+              stats = rm.get('statistics', [])
+              st_text = ""
+              if stats:
+                  for s_set in stats:
+                      team = s_set['team']['name']
+                      s = {item['type']: item['value'] for item in s_set['statistics']}
+                      st_text += f"{team}: Şut:{s.get('Total Shots',0)}, İS:{s.get('Shots on Goal',0)}, Korner:{s.get('Corner Kicks',0)}. "
+
+              for em in fs_data:
+                  fh, fa = simplify(em.get('home_name','')), simplify(em.get('away_name',''))
+                  if (rh in fh or fh in rh) and (ra in fa or fa in ra):
+                      # Skor ve Dakika Güncelle
+                      em['homeGoalCount'] = hg if hg is not None else 0
+                      em['awayGoalCount'] = ag if ag is not None else 0
+                      em['elapsed'] = el
+                      em['status'] = 'live'
+                      
+                      # 4. AI'yı GERÇEK VERİYLE UYANDIR
+                      prompt = f"""SEN LİDER ANALİZCİ BOSS AI'SIN. ŞU AN MAÇI CANLI İZLİYORSUN!
+                      MAÇ: {em['home_name']} {em['homeGoalCount']}-{em['awayGoalCount']} {em['away_name']}
+                      DAKİKA: {el}'
+                      CANLI İSTATİSTİKLER: {st_text}
+                      ÖN MAÇ BEKLENTİSİ: xG Ev {em.get('team_a_xg_prematch',0)} - Depl {em.get('team_b_xg_prematch',0)}
+                      
+                      GÖREV: Skor 5-0 ise 'Alt oyna' gibi saçma tavsiyeler verme! Dakika ve canlı şut sayısına bakarak sıradaki golü veya maç sonu gidişatını analiz et.
+                      Kısa, net ve agresif bir CANLI EMİR VER."""
+                      
+                      try:
+                          res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
+                          em['boss_ai_decision'] = res.text
+                      except: pass
+                      break
 
           with open('data/today.json', 'w') as f:
               json.dump({"data": fs_data}, f, indent=2)
@@ -86,5 +94,5 @@ jobs:
           git config user.name "ScoutAI"
           git pull --rebase || true
           git add data/
-          git commit -m "🔴 Skorlar RapidAPI ile Senkronize Edildi" || true
+          git commit -m "🔴 Canlı İstatistikler ve AI Zekası Güncellendi" || true
           git push || true
