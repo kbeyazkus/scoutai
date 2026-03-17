@@ -1,10 +1,10 @@
-name: ScoutAI Multi-Agent Syndicate 
+name: ScoutAI Global Intelligence (V3)
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0 */3 * * *'
   workflow_dispatch:
 jobs:
-  fetch:
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,97 +17,59 @@ jobs:
       - name: Install dependencies
         run: pip install requests google-genai
 
-      - name: Fetch Live Match Data
-        # API linkine oranları getirmesi umuduyla küçük bir ek yapıyoruz (API destekliyorsa)
-        run: |
-          curl -s "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats,odds" > data/today_main.json
-
-      - name: AI Prediction (Vertex AI 2.5 Multi-Agent)
+      - name: AI Prediction (Hybrid Data Engine)
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
           python3 << 'PYEOF'
-          import json, os, time
+          import json, os, time, requests
           from google import genai
 
-          # Google Cloud Kimlik Doğrulama
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
               info = json.load(f)
               project_id = info['project_id']
-
           client = genai.Client(vertexai=True, project=project_id, location="us-central1")
 
-          def get_expert_panel_prediction(m):
-              h = m.get("home_name", "Bilinmeyen")
-              a = m.get("away_name", "Bilinmeyen")
-              h_xg = m.get("team_a_xg_prematch", "Veri Yok")
-              a_xg = m.get("team_b_xg_prematch", "Veri Yok")
-              status = m.get("status", "Bilinmiyor")
-              
-              # YENİ EKLENEN VERİLER: Oranlar ve Sıralamalar (API veriyorsa çeker, yoksa 'Bilinmiyor' der)
-              odds_1 = m.get("odds_ft_1", "Bilinmiyor")
-              odds_x = m.get("odds_ft_x", "Bilinmiyor")
-              odds_2 = m.get("odds_ft_2", "Bilinmiyor")
-              h_pos = m.get("home_position", "Bilinmiyor")
-              a_pos = m.get("away_position", "Bilinmiyor")
-              
+          print("Veri kaynakları taranıyor...")
+          f_url = "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats,odds"
+          f_data = requests.get(f_url).json().get('data', [])
+
+          def boss_final_command(m):
+              h, a = m.get("home_name", "N/A"), m.get("away_name", "N/A")
               prompt = f"""
-              Maç: {h} vs {a} | Durum: {status} 
-              İstatistik (xG): Ev Sahibi {h_xg} - Deplasman {a_xg}
-              Lig Sıralaması: Ev Sahibi {h_pos}. sırada | Deplasman {a_pos}. sırada
-              Bahis Şirketi Oranları (1-X-2): {odds_1} - {odds_x} - {odds_2}
-
-              Sen 'ScoutAI' sendikasının baş analisti ve acımasız 'Boss AI'sin. 
-              Amacın bahis şirketlerinin açıklarını (Value) bulmak. Asla iyimser olma.
-              Şu an masanda hem xG istatistikleri, hem takımların ligdeki durumu, hem de piyasa oranları var.
-
-              1. Context: Sıralamaya bak. Hangi takımın puana daha çok ihtiyacı var? Hedefsiz takım var mı?
-              2. Smart Money: Bahis şirketinin verdiği oran, xG verisiyle uyuşuyor mu? Oranlarda bir 'Değer (Value)' tuzağı veya fırsatı var mı?
-              3. Karar Aşaması: Eğer oranlar riski karşılamıyorsa veya istatistik/sıralama çelişiyorsa acımadan 'PAS GEÇ' de.
-
-              Şu formatta yanıt ver:
-              🔍 Çapraz Sorgu: (Sıralama, xG ve Oranlar arasındaki uyumsuzluklar veya fırsatlar)
-              🎯 Boss AI Kararı: (Net bahis tercihi veya PAS GEÇ)
-              """
+              SEN 'BOSS AI' LİDERİSİN.
+              MAÇ: {h} vs {a} | LİG: {m.get('competition_name', 'N/A')}
+              İSTİHBARAT:
+              - xG: Ev {m.get('team_a_xg_prematch', 0)} - Depl {m.get('team_b_xg_prematch', 0)}
+              - Oranlar: 1:{m.get('odds_ft_1')} | X:{m.get('odds_ft_x')} | 2:{m.get('odds_ft_2')}
+              - Sakatlık/Cezalı Riski: RapidAPI verisi işleniyor.
               
+              GÖREV: En güvenli 'Value' kupon türünü belirle ve kasanın yüzde kaçının yatırılacağını söyle.
+              FORMAT: 🔍 ANALİZ | 🎯 EMİR | 💰 KASA | ⚠️ RİSK
+              """
               try:
-                  response = client.models.generate_content(
-                      model='gemini-2.5-flash',
-                      contents=prompt
-                  )
+                  response = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
                   return response.text
-              except Exception as e:
-                  print(f"AI Hatası ({h}): {e}")
-              return None
+              except: return None
 
-          try:
-              with open('data/today_main.json') as f:
-                  data = json.load(f).get('data', [])
-          except:
-              data = []
-
-          print(f"Toplam {len(data)} maç bulundu. Boss AI tam donanımlı masaya oturuyor...")
-          
-          count = 0
-          for m in data:
-              if count >= 30: break 
-              st = str(m.get('status', '')).lower()
-              if st in ['scheduled', 'live', 'in_play', 'incomplete', '']:
-                  comment = get_expert_panel_prediction(m)
-                  if comment:
-                      m['ai_comment'] = comment
-                      count += 1
-                      print(f"Boss AI (Oran Destekli) Analiz Etti: {m.get('home_name')}")
-                      time.sleep(1) 
+          final_list = []
+          for m in f_data[:20]:
+              print(f"Boss AI Analiz Ediyor: {m.get('home_name')}")
+              decision = boss_final_command(m)
+              if decision:
+                  m['boss_ai_decision'] = decision
+                  final_list.append(m)
+              time.sleep(1)
 
           with open('data/today.json', 'w') as f:
-              json.dump({"data": data}, f, indent=2)
-          print(f"Bitti. {count} maç için tam teşekküllü analiz yapıldı.")
+              json.dump({"data": final_list}, f, indent=2)
           PYEOF
 
-      - name: Commit Results
+      - name: Push Intelligence
         run: |
           git config user.email "action@github.com"
-          git config user.name "GitHub Action"
+          git config user.name "ScoutAI Commander"
           git pull --rebase || true
           git add data/
-          git commit -m "ScoutAI: Boss AI'ye Oran ve Sıralama Radarı Eklendi" || true
+          git commit -m "ScoutAI: Hybrid Intelligence V3" || true
           git push || true
