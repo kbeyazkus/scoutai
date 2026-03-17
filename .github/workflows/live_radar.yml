@@ -1,7 +1,7 @@
 name: ScoutAI LIVE Radar (In-Play)
 on:
   schedule:
-    - cron: '*/2 * * * *' # 2 dakikada bir çalışır
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 jobs:
   live_analyze:
@@ -34,14 +34,21 @@ jobs:
           f_url = "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats,odds"
           all_matches = requests.get(f_url).json().get('data', [])
 
-          # SADECE CANLI MAÇLARI FİLTRELE
-          live_matches = [m for m in all_matches if str(m.get('status', '')).lower() in ['live', 'in_progress', 'incomplete']]
+          # 🎯 KESİN ÇÖZÜM: Gelecek maçları sildik. Sadece gerçekten oynananlar (elapsed > 0)
+          live_matches = []
+          for m in all_matches:
+              st = str(m.get('status', '')).lower()
+              elapsed = str(m.get('elapsed', '0'))
+              
+              # Eğer 'live' ise veya dakikası (elapsed) 0'dan büyük/HY ise CANLIDIR.
+              if st in ['live', 'in_progress'] or (elapsed.isdigit() and int(elapsed) > 0) or elapsed == 'HY':
+                  live_matches.append(m)
           
           if not live_matches:
               print("Şu an oynanan canlı maç yok. Radar beklemede.")
               exit(0)
 
-          print(f"🔥 {len(live_matches)} CANLI maç tespit edildi. Boss AI uyanıyor...")
+          print(f"🔥 {len(live_matches)} GERÇEK CANLI maç tespit edildi. Boss AI uyanıyor...")
 
           def live_boss_command(m):
               h, a = m.get("home_name", "N/A"), m.get("away_name", "N/A")
@@ -50,19 +57,10 @@ jobs:
               
               prompt = f"""
               SEN 'BOSS AI' LİDERİSİN. ŞU AN OYNANAN CANLI BİR MAÇA MÜDAHALE EDİYORSUN!
+              MAÇ: {h} vs {a} | DAKİKA: {dakika}' | SKOR: {skor}
+              Maç Öncesi Beklenti: xG Ev {m.get('team_a_xg_prematch', 0)} - xG Depl {m.get('team_b_xg_prematch', 0)}
               
-              MAÇ: {h} vs {a} 
-              DURUM: CANLI | DAKİKA: {dakika}' | GÜNCEL SKOR: {skor}
-              
-              İSTİHBARAT (Maç Öncesi Beklenti):
-              - xG: Ev {m.get('team_a_xg_prematch', 0)} - Depl {m.get('team_b_xg_prematch', 0)}
-              - Oranlar: 1:{m.get('odds_ft_1')} | X:{m.get('odds_ft_x')} | 2:{m.get('odds_ft_2')}
-
-              GÖREVİN:
-              Maçın şu anki skorunu, dakikasını ve maç öncesi xG beklentisini karşılaştır. 
-              Örnek: "Favori takım (yüksek xG) geriye düşmüşse, 'Sıradaki Golü Atar' veya '1.5 Üst' fırsatı olabilir."
-              Acil bir CANLI BAHİS emri ver veya "İzlemeye Devam Et (PAS GEÇ)" de.
-
+              GÖREV: Beklenti ile şu anki skoru karşılaştır. Acil bir kupon türü (1.5 Üst, Çifte Şans vb.) emret veya PAS GEÇ.
               FORMAT: 🔴 CANLI ANALİZ | ⚡ ACİL EMİR | 💰 KASA | ⚠️ RİSK
               """
               try:
@@ -70,26 +68,22 @@ jobs:
                   return response.text
               except: return None
 
-          # Mevcut today.json dosyasını aç (bozmamak için)
           try:
               with open('data/today.json', 'r') as f:
                   existing_data = json.load(f).get('data', [])
           except:
               existing_data = []
 
-          # Canlı analizleri mevcut verinin üzerine yaz
-          for lm in live_matches[:10]: # En önemli 10 canlı maç
-              print(f"Boss AI CANLI İzliyor: {lm.get('home_name')} (Skor: {lm.get('homeGoalCount')}-{lm.get('awayGoalCount')})")
+          for lm in live_matches[:10]:
               decision = live_boss_command(lm)
               if decision:
-                  # Eski listede bu maçı bul ve güncelle
                   for existing_m in existing_data:
                       if existing_m.get('id') == lm.get('id'):
                           existing_m['boss_ai_decision'] = decision
                           existing_m['status'] = 'live'
-                          existing_m['homeGoalCount'] = lm.get('homeGoalCount')
-                          existing_m['awayGoalCount'] = lm.get('awayGoalCount')
-                          existing_m['elapsed'] = lm.get('elapsed')
+                          existing_m['homeGoalCount'] = lm.get('homeGoalCount', 0)
+                          existing_m['awayGoalCount'] = lm.get('awayGoalCount', 0)
+                          existing_m['elapsed'] = lm.get('elapsed', '0')
                           break
               time.sleep(1)
 
@@ -103,5 +97,5 @@ jobs:
           git config user.name "ScoutAI Live Agent"
           git pull --rebase || true
           git add data/
-          git commit -m "🔴 Canlı Radar: Boss AI Güncel Skorlara Müdahale Etti" || true
+          git commit -m "🔴 Canlı Radar: Eksili Dakika Hatası Çözüldü" || true
           git push || true
