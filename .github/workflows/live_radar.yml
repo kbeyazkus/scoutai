@@ -1,7 +1,7 @@
-name: ScoutAI LIVE Radar (In-Play)
+name: ScoutAI LIVE Radar (Hybrid)
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/10 * * * *' # Kota dostu: 10 dakikada bir çalışır
   workflow_dispatch:
 jobs:
   live_analyze:
@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: pip install requests google-genai
 
-      - name: Live Boss AI Decision
+      - name: Live Hybrid Boss AI Decision
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
@@ -30,84 +30,113 @@ jobs:
               project_id = info['project_id']
           client = genai.Client(vertexai=True, project=project_id, location="us-central1")
 
-          print("📡 CANLI RADAR: X-RAY (TEŞHİS) MODU AKTİF...")
-          f_url = "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats,odds"
+          print("📡 HİBRİT RADAR: RapidAPI'den Canlı Maçlar Çekiliyor...")
+          
+          # 1. RapidAPI (API-Football) SADECE CANLI MAÇLAR
+          url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+          querystring = {"live": "all"}
+          headers = {
+              "X-RapidAPI-Key": os.environ['RAPIDAPI_KEY'],
+              "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+          }
           
           try:
-              req = requests.get(f_url)
-              response_json = req.json()
-              all_matches = response_json.get('data', [])
-              print(f"📥 API'den Toplam {len(all_matches)} maç çekildi.")
-              
-              if not all_matches:
-                  print("⚠️ DİKKAT: API'den 0 maç geldi! API Kotası dolmuş veya bağlantı reddedilmiş olabilir.")
-                  print(f"API Yanıtı: {response_json}")
-                  exit(0)
+              req = requests.get(url, headers=headers, params=querystring)
+              api_live_data = req.json().get('response', [])
           except Exception as e:
-              print(f"❌ API Bağlantı Hatası: {e}")
+              print("❌ RapidAPI Bağlantı Hatası:", e)
               exit(0)
-
-          current_time = time.time()
-          print(f"⏱️ Sistem Saati (Unix): {int(current_time)}")
-
-          live_matches = []
-          
-          for m in all_matches:
-              date_unix = int(m.get('date_unix', 0))
-              st = str(m.get('status', '')).lower()
-              h_name = str(m.get('home_name', '')).lower()
-              a_name = str(m.get('away_name', '')).lower()
               
-              # 🕵️‍♂️ ÖZEL HEDEF TAKİBİ: Eğer dev maçlar varsa durumunu loga yazdır
-              if "madrid" in h_name or "madrid" in a_name or "chelsea" in h_name or "chelsea" in a_name or "psg" in h_name or "psg" in a_name:
-                  gecen_dakika = int((current_time - date_unix)/60) if date_unix > 0 else 0
-                  print(f"🔍 X-RAY -> {m.get('home_name')} vs {m.get('away_name')} | Status: {st} | Geçen Süre: {gecen_dakika} dk")
-
-              is_started = current_time >= date_unix
-              is_not_too_old = current_time <= (date_unix + 9000) # 150 dk tolerans
-              is_not_finished = st not in ['complete', 'canceled', 'postponed', 'suspended', 'finished', 'ft', 'abandoned', 'aet', 'pen']
-              
-              if ('live' in st or 'progress' in st) or (is_started and is_not_too_old and is_not_finished):
-                  live_matches.append(m)
-          
-          if not live_matches:
-              print("Şu an oynanan canlı maç yok. Radar beklemede.")
+          if not api_live_data:
+              print("RapidAPI: Şu an dünyada oynanan canlı maç yok. Radar beklemede.")
               exit(0)
+              
+          print(f"🔥 RapidAPI {len(api_live_data)} canlı maç bildirdi. FootyStats verileriyle eşleştiriliyor...")
 
-          print(f"🔥 {len(live_matches)} GERÇEK CANLI maç tespit edildi! Boss AI uyanıyor...")
-
-          def live_boss_command(m):
-              h, a = m.get("home_name", "N/A"), m.get("away_name", "N/A")
-              prompt = f"""SEN 'BOSS AI' LİDERİSİN. CANLI MAÇA MÜDAHALE ET: {h} vs {a}. FORMAT: 🔴 CANLI ANALİZ | ⚡ ACİL EMİR"""
-              try:
-                  return client.models.generate_content(model='gemini-2.5-flash', contents=prompt).text
-              except: return None
-
+          # 2. FootyStats Verilerini (today.json) Oku
           try:
               with open('data/today.json', 'r') as f:
                   existing_data = json.load(f).get('data', [])
-          except: existing_data = []
+          except:
+              print("⚠️ today.json bulunamadı. Lütfen önce ana fetch.yml dosyasını çalıştırın.")
+              exit(0)
 
-          for lm in live_matches[:15]: 
-              print(f"Boss AI CANLI Gözetliyor: {lm.get('home_name')}")
+          # İsim eşleştirme filtresi (API'ler arası isim farklarını düzeltir)
+          def clean_name(n):
+              return str(n).lower().replace(' fc', '').replace(' team', '').replace(' cf', '').replace(' united', '').strip()
+
+          def match_teams(fs_h, fs_a, api_h, api_a):
+              fh, fa = clean_name(fs_h), clean_name(fs_a)
+              ah, aa = clean_name(api_h), clean_name(api_a)
+              if (fh in ah or ah in fh) and (fa in aa or aa in fa):
+                  return True
+              return False
+
+          matched_live_games = []
+          
+          for api_m in api_live_data:
+              api_h = api_m['teams']['home']['name']
+              api_a = api_m['teams']['away']['name']
+              
+              # existing_data (FootyStats) içinde bu maçı bul
+              for em in existing_data:
+                  fs_h = em.get('home_name', '')
+                  fs_a = em.get('away_name', '')
+                  
+                  if match_teams(fs_h, fs_a, api_h, api_a):
+                      em['live_score_h'] = api_m['goals']['home']
+                      em['live_score_a'] = api_m['goals']['away']
+                      em['live_elapsed'] = api_m['fixture']['status']['elapsed']
+                      matched_live_games.append(em)
+                      break
+
+          if not matched_live_games:
+              print("Sahada canlı maçlar var ancak bizim FootyStats (today.json) listemizle eşleşen DEV MAÇ bulunamadı.")
+              exit(0)
+
+          print(f"🎯 {len(matched_live_games)} HEDEF MAÇ Eşleşti! Boss AI Operasyona Başlıyor...")
+
+          def live_boss_command(m):
+              h, a = m.get("home_name", "N/A"), m.get("away_name", "N/A")
+              dakika = m.get("live_elapsed", "Canlı")
+              skor = f"{m.get('live_score_h', 0)} - {m.get('live_score_a', 0)}"
+              
+              prompt = f"""
+              SEN 'BOSS AI' LİDERİSİN. ŞU AN OYNANAN CANLI BİR MAÇA MÜDAHALE EDİYORSUN!
+              MAÇ: {h} vs {a} | DAKİKA: {dakika}' | GÜNCEL SKOR: {skor}
+              
+              Maç Öncesi İstihbarat (FootyStats): 
+              - xG: Ev {m.get('team_a_xg_prematch', 0)} - Depl {m.get('team_b_xg_prematch', 0)}
+              - Oranlar: 1:{m.get('odds_ft_1')} | X:{m.get('odds_ft_x')} | 2:{m.get('odds_ft_2')}
+              
+              GÖREV: FootyStats beklentisi (xG/Oran) ile şu anki canlı skoru/dakikayı çarpıştır. Acil bir canlı bahis fırsatı (Sıradaki Gol, Çifte Şans, Alt/Üst) varsa NET BİR EMİR VER. Tuzaksa PAS GEÇ.
+              FORMAT: 🔴 CANLI ANALİZ | ⚡ ACİL EMİR | 💰 KASA | ⚠️ RİSK
+              """
+              try:
+                  response = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
+                  return response.text
+              except: return None
+
+          for lm in matched_live_games[:15]: 
+              print(f"Boss AI Analiz Ediyor: {lm.get('home_name')} ({lm.get('live_score_h')}-{lm.get('live_score_a')})")
               decision = live_boss_command(lm)
               if decision:
-                  for existing_m in existing_data:
-                      if existing_m.get('id') == lm.get('id'):
-                          existing_m['boss_ai_decision'] = decision
-                          existing_m['status'] = 'live'
-                          break
+                  lm['boss_ai_decision'] = decision
+                  lm['status'] = 'live'
+                  lm['homeGoalCount'] = lm.get('live_score_h')
+                  lm['awayGoalCount'] = lm.get('live_score_a')
+                  lm['elapsed'] = lm.get('live_elapsed')
               time.sleep(1)
 
           with open('data/today.json', 'w') as f:
               json.dump({"data": existing_data}, f, indent=2)
           PYEOF
 
-      - name: Push Live Updates
+      - name: Push Hybrid Live Updates
         run: |
           git config user.email "action@github.com"
-          git config user.name "ScoutAI Live Agent"
+          git config user.name "ScoutAI Hybrid Agent"
           git pull --rebase || true
           git add data/
-          git commit -m "🔴 Canlı Radar: Teşhis Modu Aktif" || true
+          git commit -m "🔴 Canlı Hibrit Radar: RapidAPI Skoru + FootyStats Verisi Birleşti" || true
           git push || true
