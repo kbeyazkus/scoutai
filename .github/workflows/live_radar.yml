@@ -27,104 +27,104 @@ jobs:
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
         run: |
           cat > /tmp/live_radar.py << 'PYEOF'
-import json, os, requests, time
+          import json, os, requests, time
 
-SM_KEY = os.environ.get("SPORTMONKS_KEY", "")
-if not SM_KEY:
-    print("SPORTMONKS_KEY bulunamadi!")
-    exit(0)
+          SM_KEY = os.environ.get("SPORTMONKS_KEY", "")
+          if not SM_KEY:
+              print("SPORTMONKS_KEY bulunamadi!")
+              exit(0)
 
-# Mevcut today.json'u oku (FootyStats istatistiklerini koru)
-try:
-    with open('data/today.json', 'r', encoding='utf-8') as f:
-        existing = json.load(f)
-    existing_data = {str(m['id']): m for m in existing.get('data', [])}
-    print(f"Mevcut {len(existing_data)} mac yuklendi.")
-except:
-    existing_data = {}
+          # Mevcut today.json'u oku (FootyStats istatistiklerini koru)
+          try:
+              with open('data/today.json', 'r', encoding='utf-8') as f:
+                  existing = json.load(f)
+              existing_data = {str(m['id']): m for m in existing.get('data', [])}
+              print(f"Mevcut {len(existing_data)} mac yuklendi.")
+          except:
+              existing_data = {}
 
-# Sportmonks canlı maçları çek
-url = f"https://api.sportmonks.com/v3/football/fixtures/live?api_token={SM_KEY}&include=participants;scores;state"
+          # Sportmonks canlı maçları çek
+          url = f"https://api.sportmonks.com/v3/football/fixtures/live?api_token={SM_KEY}&include=participants;scores;state"
 
-try:
-    response = requests.get(url, timeout=15)
-    sm_data = response.json().get('data', [])
-    print(f"Sportmonks: {len(sm_data)} canli mac tespit edildi.")
-except Exception as e:
-    print(f"Sportmonks baglanti hatasi: {e}")
-    exit(0)
+          try:
+              response = requests.get(url, timeout=15)
+              sm_data = response.json().get('data', [])
+              print(f"Sportmonks: {len(sm_data)} canli mac tespit edildi.")
+          except Exception as e:
+              print(f"Sportmonks baglanti hatasi: {e}")
+              exit(0)
 
-if len(sm_data) == 0:
-    print("Su an canli mac yok.")
-    exit(0)
+          if len(sm_data) == 0:
+              print("Su an canli mac yok.")
+              exit(0)
 
-# Canlı maçları işle ve today.json'a yaz
-updated = 0
-for m in sm_data:
-    state_dict = m.get('state', {})
-    state = str(state_dict.get('developer_name', ''))
+          # Canlı maçları işle ve today.json'a yaz
+          updated = 0
+          for m in sm_data:
+              state_dict = m.get('state', {})
+              state = str(state_dict.get('developer_name', ''))
 
-    if 'INPLAY' not in state and state not in ['HT', 'LIVE', 'PEN_SHOOT_OUT', 'EXTRA_TIME']:
-        continue
+              if 'INPLAY' not in state and state not in ['HT', 'LIVE', 'PEN_SHOOT_OUT', 'EXTRA_TIME']:
+                  continue
 
-    participants = m.get('participants', [])
-    if len(participants) < 2:
-        continue
+              participants = m.get('participants', [])
+              if len(participants) < 2:
+                  continue
 
-    h_name = participants[0].get('name', '')
-    a_name = participants[1].get('name', '')
+              h_name = participants[0].get('name', '')
+              a_name = participants[1].get('name', '')
 
-    # Skor çıkar
-    scores = m.get('scores', [])
-    h_score = 0
-    a_score = 0
-    for s in scores:
-        if s.get('description') == 'CURRENT':
-            score_val = s.get('score', {}).get('goals', 0)
-            if s.get('score', {}).get('participant') == 'home':
-                h_score = score_val
-            elif s.get('score', {}).get('participant') == 'away':
-                a_score = score_val
+              # Skor çıkar
+              scores = m.get('scores', [])
+              h_score = 0
+              a_score = 0
+              for s in scores:
+                  if s.get('description') == 'CURRENT':
+                      score_val = s.get('score', {}).get('goals', 0)
+                      if s.get('score', {}).get('participant') == 'home':
+                          h_score = score_val
+                      elif s.get('score', {}).get('participant') == 'away':
+                          a_score = score_val
 
-    # today.json'daki maçla eşleştir (isim bazlı)
-    def norm(s):
-        import re
-        return re.sub(r'[^a-z]', '', (s or '').lower())
+              # today.json'daki maçla eşleştir (isim bazlı)
+              def norm(s):
+                  import re
+                  return re.sub(r'[^a-z]', '', (s or '').lower())
 
-    def match_name(a, b):
-        na, nb = norm(a), norm(b)
-        if na == nb: return True
-        if na in nb or nb in na: return True
-        wa = [w for w in na.split() if len(w) >= 4]
-        wb = [w for w in nb.split() if len(w) >= 4]
-        if wa and wb:
-            for w in wa:
-                if any(w in x or x in w for x in wb):
-                    return True
-        return False
+              def match_name(a, b):
+                  na, nb = norm(a), norm(b)
+                  if na == nb: return True
+                  if na in nb or nb in na: return True
+                  wa = [w for w in na.split() if len(w) >= 4]
+                  wb = [w for w in nb.split() if len(w) >= 4]
+                  if wa and wb:
+                      for w in wa:
+                          if any(w in x or x in w for x in wb):
+                              return True
+                  return False
 
-    # Eşleşen maçı bul ve skoru güncelle
-    for mid, existing_m in existing_data.items():
-        eh = existing_m.get('home_name', '')
-        ea = existing_m.get('away_name', '')
-        if match_name(h_name, eh) and match_name(a_name, ea):
-            existing_m['homeGoalCount'] = h_score
-            existing_m['awayGoalCount'] = a_score
-            existing_m['status'] = 'live'
-            if state == 'HT':
-                existing_m['elapsed'] = 'HY'
-            print(f"✅ {eh} {h_score}-{a_score} {ea} ({state})")
-            updated += 1
-            break
+              # Eşleşen maçı bul ve skoru güncelle
+              for mid, existing_m in existing_data.items():
+                  eh = existing_m.get('home_name', '')
+                  ea = existing_m.get('away_name', '')
+                  if match_name(h_name, eh) and match_name(a_name, ea):
+                      existing_m['homeGoalCount'] = h_score
+                      existing_m['awayGoalCount'] = a_score
+                      existing_m['status'] = 'live'
+                      if state == 'HT':
+                          existing_m['elapsed'] = 'HY'
+                      print(f"✅ {eh} {h_score}-{a_score} {ea} ({state})")
+                      updated += 1
+                      break
 
-print(f"Toplam {updated} mac skoru guncellendi.")
+          print(f"Toplam {updated} mac skoru guncellendi.")
 
-# Kaydet
-os.makedirs('data', exist_ok=True)
-with open('data/today.json', 'w', encoding='utf-8') as f:
-    json.dump({"data": list(existing_data.values())}, f, ensure_ascii=False)
-print("today.json kaydedildi.")
-PYEOF
+          # Kaydet
+          os.makedirs('data', exist_ok=True)
+          with open('data/today.json', 'w', encoding='utf-8') as f:
+              json.dump({"data": list(existing_data.values())}, f, ensure_ascii=False)
+          print("today.json kaydedildi.")
+          PYEOF
           python3 /tmp/live_radar.py
 
       - name: Push Updates
