@@ -1,7 +1,7 @@
-name: ScoutAI Global Intelligence (V4 - Final)
+name: ScoutAI Global Intelligence (V4 - Hybrid Pro)
 on:
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -27,106 +27,72 @@ jobs:
       - name: Install dependencies
         run: pip install requests google-genai
 
-      - name: AI Prediction (Pre-Match Boss Protocol)
+      - name: AI Prediction (Hybrid Boss Protocol)
+        env:
+          SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
         run: |
           cat > /tmp/fetch.py << 'PYEOF'
           import json, os, time, requests
           from google import genai
 
-          # 1. Mevcut Veriyi Oku
-          file_path = 'data/today.json'
-          try:
-              with open(file_path, 'r', encoding='utf-8') as f:
-                  existing_data = {str(m['id']): m for m in json.load(f).get('data', [])}
-          except FileNotFoundError:
-              existing_data = {}
-
-          # 2. FootyStats'tan Yeni Fikstürü Çek (DİNLEME CİHAZI EKLENDİ)
-          api_key = "efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
-          f_url = f"https://api.football-data-api.com/todays-matches?key={api_key}&include=stats,odds"
+          # FootyStats API Key
+          FS_KEY = "efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
           
+          file_path = 'data/today.json'
+          
+          # 1. FootyStats'tan Zengin Veriyi Çek (30 Euro'luk yatırım burada)
+          f_url = f"https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds"
           try:
               res = requests.get(f_url)
-              print(f"📡 FootyStats Bağlantı Durumu: {res.status_code}")
-              fs_json = res.json()
-              new_matches = fs_json.get('data', [])
-              print(f"🎯 FootyStats'tan gelen maç sayısı: {len(new_matches)}")
-              
-              if len(new_matches) == 0:
-                  print("⚠️ DİKKAT: FootyStats 0 maç gönderdi. API Yanıtı Şöyle:")
-                  print(fs_json)
+              new_matches = res.json().get('data', [])
+              print(f"🎯 FootyStats'tan {len(new_matches)} zengin veri çekildi.")
           except Exception as e:
               print(f"FootyStats Hatası: {e}")
               exit(0)
 
-          # Eğer gerçekten maç yoksa sistemi boş yere yorma
-          if len(new_matches) == 0:
-              print("Maç olmadığı için yapay zeka tetiklenmedi.")
-              # Dosyayı boş kaydetmek yerine eski veriyi koruyabiliriz veya boş bırakabiliriz
-              # Şimdilik boş kaydediyoruz ki logları görelim.
-              final_list = []
-          else:
-              # 3. Vertex AI Bağlantısı (Gemini 2.5 Flash)
-              with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
-                  info = json.load(f)
-              client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
+          # 2. Vertex AI Bağlantısı
+          with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
+              info = json.load(f)
+          client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
 
-              def get_injury_intel(team_name):
-                  return "Kadroda kritik bir eksiklik rapor edilmedi."
+          final_list = []
+          for m in new_matches[:30]: # Kapasiteyi artırdık
+              h_name = m.get('home_name', 'Ev Sahibi')
+              a_name = m.get('away_name', 'Deplasman')
 
-              final_list = []
-              for m in new_matches[:25]:
-                  m_id = str(m['id'])
-                  h_name = m.get('home_name', 'Ev Sahibi')
-                  a_name = m.get('away_name', 'Deplasman')
+              # FootyStats'ın meşhur xG verileri
+              xg_h = m.get('team_a_xg_prematch', 0)
+              xg_a = m.get('team_b_xg_prematch', 0)
 
-                  if m_id in existing_data:
-                      old_m = existing_data[m_id]
-                      if old_m.get('status') == 'live' or int(old_m.get('homeGoalCount', 0)) > 0:
-                          m['homeGoalCount'] = old_m.get('homeGoalCount', 0)
-                          m['awayGoalCount'] = old_m.get('awayGoalCount', 0)
-                          m['elapsed'] = old_m.get('elapsed', 0)
-                          m['status'] = old_m.get('status', 'incomplete')
-                          m['boss_ai_decision'] = old_m.get('boss_ai_decision')
-                          final_list.append(m)
-                          continue 
+              prompt = f"""SEN KATI VE SADECE SONUCA ODAKLI BİR BAHİS ANALİSTİ 'BOSS AI'SIN! 
+              MAÇ: {h_name} vs {a_name}
+              ÖN MAÇ xG: Ev {xg_h} - Depl {xg_a}
+              ORANLAR: 1: {m.get('odds_ft_1')} | X: {m.get('odds_ft_x')} | 2: {m.get('odds_ft_2')}
 
-                  h_inj = get_injury_intel(h_name)
-                  a_inj = get_injury_intel(a_name)
-
-                  prompt = f"""SEN KATI, ACIMASIZ VE SADECE SONUCA ODAKLI BİR MAÇ ÖNCESİ BAHİS ANALİSTİ 'BOSS AI'SIN! HİKAYE ANLATMAK VEYA TAKIMLARA TAKTİK VERMEK KESİNLİKLE YASAK!
-
-                  MAÇ: {h_name} vs {a_name}
-                  ÖN MAÇ xG (Beklenti): Ev {m.get('team_a_xg_prematch',0)} - Depl {m.get('team_b_xg_prematch',0)}
-                  ORANLAR: 1: {m.get('odds_ft_1')} | X: {m.get('odds_ft_x')} | 2: {m.get('odds_ft_2')}
-                  SAHA RAPORU: {h_inj} vs {a_inj}
-
-                  GÖREV VE KURALLAR:
-                  1. Teknik ekibe tebrik, kaleci övgüsü veya uzun taktiksel analiz YAPMA. Biz teknik direktör değiliz, bahisçiyiz.
-                  2. xG verilerini ve oranları çarpıştırarak MAÇ BAŞLAMADAN EN DEĞERLİ bahis tercihini bul.
-                  3. SONUÇ ÇIKAR: En mantıklı kupon türünü NET BİR ŞEKİLDE SÖYLE.
-                  4. Eğer maçta bir fırsat yoksa veya risk çok yüksekse SADECE "⚠️ PAS GEÇ" yaz ve analizi bitir.
-
-                  FORMAT (Sadece bu 3 satırı kullan):
-                  🔴 DURUM ÖZETİ: (xG ve oran uyumsuzluğu hakkında sadece 1 kısa cümle)
-                  🎯 NİHAİ KARAR: (Net kupon türü veya PAS GEÇ)
-                  💰 KASA/RİSK: (% Kasa ve 1-10 arası Risk)
-                  """
-                  
-                  try:
-                      res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
-                      m['boss_ai_decision'] = res.text
-                      print(f"[{h_name} vs {a_name}] -> Boss AI emri verildi.")
-                      time.sleep(3) 
-                  except Exception as e:
-                      print(f"AI İşlem Hatası: {e}")
-                  
-                  final_list.append(m)
+              GÖREV: En mantıklı kupon türünü NET SÖYLE.
+              FORMAT:
+              🔴 DURUM ÖZETİ: (1 kısa cümle)
+              🎯 NİHAİ KARAR: (Net kupon türü)
+              💰 KASA/RİSK: (% ve 1-10)
+              """
+              
+              try:
+                  res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
+                  m['boss_ai_decision'] = res.text
+                  print(f"[{h_name}] Analiz tamam.")
+                  time.sleep(2)
+              except:
+                  pass
+              
+              # Radarımızın okuyacağı standartları ekliyoruz
+              m['status'] = 'incomplete'
+              m['homeGoalCount'] = 0
+              m['awayGoalCount'] = 0
+              final_list.append(m)
 
           os.makedirs('data', exist_ok=True)
           with open(file_path, 'w', encoding='utf-8') as f:
               json.dump({"data": final_list}, f, indent=2, ensure_ascii=False)
-          print("✅ Ana Fikstür İşlemi Tamamlandı.")
           PYEOF
           python3 /tmp/fetch.py
 
@@ -136,4 +102,4 @@ jobs:
           git config user.name "ScoutAI Commander"
           git pull --rebase || true
           git add data/today.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Fetch: Fikstür Güncellendi" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Hybrid Fetch: Rich Data Updated" && git push)
