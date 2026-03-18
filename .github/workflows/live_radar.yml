@@ -14,130 +14,123 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Google Cloud Auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: '${{ secrets.GCP_SA_KEY }}'
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install Dependencies
-        run: pip install requests google-genai
+        run: pip install requests
 
       - name: Execute Sportmonks Live Protocol
+        env:
+          SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
         run: |
-          python3 << 'PYEOF'
-          import json, os, requests, time
-          from google import genai
+          cat > /tmp/live_radar.py << 'PYEOF'
+import json, os, requests, time
 
-          SM_KEY = "VWKKRYpq579UElUR61OQnQP6rrXescSJTnyqDQwlOW83iQ0IOHkOMMLTRGRF"
+SM_KEY = os.environ.get("SPORTMONKS_KEY", "")
+if not SM_KEY:
+    print("SPORTMONKS_KEY bulunamadi!")
+    exit(0)
 
-          # 1. DOĞRUDAN CANLI RADAR (Live Endpoint)
-          url = f"https://api.sportmonks.com/v3/football/fixtures/live?api_token={SM_KEY}&include=participants;scores;state;statistics"
-          
-          try:
-              response = requests.get(url)
-              sm_data = response.json().get('data', [])
-              print(f"📡 Sportmonks Radarı: Şu an dünya genelinde senin liglerinden {len(sm_data)} canlı maç tespit edildi.")
-          except Exception as e:
-              print(f"Sistem Uyarısı: Sportmonks bağlantısı kurulamadı. Hata: {e}")
-              exit(0)
+# Mevcut today.json'u oku (FootyStats istatistiklerini koru)
+try:
+    with open('data/today.json', 'r', encoding='utf-8') as f:
+        existing = json.load(f)
+    existing_data = {str(m['id']): m for m in existing.get('data', [])}
+    print(f"Mevcut {len(existing_data)} mac yuklendi.")
+except:
+    existing_data = {}
 
-          if len(sm_data) == 0:
-              print("⚠️ Şu an senin pakete dahil ettiğin liglerde oynanan canlı bir maç yok. Radar beklemeye geçiyor.")
-              exit(0)
+# Sportmonks canlı maçları çek
+url = f"https://api.sportmonks.com/v3/football/fixtures/live?api_token={SM_KEY}&include=participants;scores;state"
 
-          # 2. Vertex AI Bağlantısı (Gemini 2.5 Flash)
-          with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
-              info = json.load(f)
-          client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
+try:
+    response = requests.get(url, timeout=15)
+    sm_data = response.json().get('data', [])
+    print(f"Sportmonks: {len(sm_data)} canli mac tespit edildi.")
+except Exception as e:
+    print(f"Sportmonks baglanti hatasi: {e}")
+    exit(0)
 
-          final_radar_list = []
+if len(sm_data) == 0:
+    print("Su an canli mac yok.")
+    exit(0)
 
-          # 3. Analiz ve Ayıklama Operasyonu
-          for m in sm_data:
-              # Durum teşhisi (Sportmonks v3 formatına uygun genişletilmiş filtre)
-              state_dict = m.get('state', {})
-              state = str(state_dict.get('developer_name', '')) or str(state_dict.get('state', ''))
-              
-              if 'INPLAY' not in state and state not in ['HT', 'LIVE', 'PEN_SHOOT_OUT', 'EXTRA_TIME']:
-                  continue
+# Canlı maçları işle ve today.json'a yaz
+updated = 0
+for m in sm_data:
+    state_dict = m.get('state', {})
+    state = str(state_dict.get('developer_name', ''))
 
-              participants = m.get('participants', [])
-              if len(participants) < 2: continue
-              
-              h_name = participants[0].get('name', 'Ev Sahibi')
-              a_name = participants[1].get('name', 'Deplasman')
-              
-              # Skor çıkarma
-              scores = m.get('scores', [])
-              h_score = 0
-              a_score = 0
-              for s in scores:
-                  if s.get('description') == 'CURRENT':
-                      score_val = s.get('score', {}).get('goals', 0)
-                      if s.get('score', {}).get('participant') == 'home': h_score = score_val
-                      elif s.get('score', {}).get('participant') == 'away': a_score = score_val
+    if 'INPLAY' not in state and state not in ['HT', 'LIVE', 'PEN_SHOOT_OUT', 'EXTRA_TIME']:
+        continue
 
-              # İstatistik tespiti
-              stats = m.get('statistics', [])
-              if stats:
-                  st_text = f"Canlı şut, korner ve tehlikeli atak verisi aktif. (Veri seti: {len(stats)} parametre)"
-              else:
-                  st_text = "Henüz belirgin bir baskı istatistiği oluşmadı."
+    participants = m.get('participants', [])
+    if len(participants) < 2:
+        continue
 
-              # YENİ NESİL BOSS AI PROMPTU
-              prompt = f"""SEN KATI, ACIMASIZ VE SADECE SONUCA ODAKLI BİR CANLI BAHİS ANALİSTİ 'BOSS AI'SIN! HİKAYE ANLATMAK VEYA TAKIMLARA TAKTİK VERMEK KESİNLİKLE YASAK!
+    h_name = participants[0].get('name', '')
+    a_name = participants[1].get('name', '')
 
-              MAÇ: {h_name} {h_score} - {a_score} {a_name}
-              DURUM: {state}
-              CANLI İSTATİSTİK BİLGİSİ: {st_text}
+    # Skor çıkar
+    scores = m.get('scores', [])
+    h_score = 0
+    a_score = 0
+    for s in scores:
+        if s.get('description') == 'CURRENT':
+            score_val = s.get('score', {}).get('goals', 0)
+            if s.get('score', {}).get('participant') == 'home':
+                h_score = score_val
+            elif s.get('score', {}).get('participant') == 'away':
+                a_score = score_val
 
-              GÖREV VE KURALLAR:
-              1. Teknik ekibe tebrik, kaleci övgüsü veya uzun taktiksel analiz YAPMA. Biz teknik direktör değiliz, bahisçiyiz.
-              2. Sadece şu anki CANLI SKORA ve gidişata bakarak matematiksel bir karar ver. Skoru (Örn: 3-0) kesinlikle dikkate al!
-              3. SONUÇ ÇIKAR: Maçın gidişatına göre en mantıklı kupon türünü (Örn: Sıradaki Gol Ev Sahibi, 2.5 Üst, Çifte Şans) NET BİR ŞEKİLDE SÖYLE.
-              4. Eğer maçta bir fırsat yoksa, risk çok yüksekse veya gidişat belirsizse SADECE "⚠️ PAS GEÇ" yaz ve analizi bitir.
+    # today.json'daki maçla eşleştir (isim bazlı)
+    def norm(s):
+        import re
+        return re.sub(r'[^a-z]', '', (s or '').lower())
 
-              FORMAT (Sadece bu 3 satırı kullan):
-              🔴 DURUM ÖZETİ: (Skor ve baskı uyumu hakkında sadece 1 kısa cümle)
-              🎯 NİHAİ KARAR: (Net kupon türü veya PAS GEÇ)
-              💰 KASA/RİSK: (% Kasa ve 1-10 arası Risk)
-              """
-              
-              match_intel = {
-                  "match": f"{h_name} vs {a_name}",
-                  "score": f"{h_score} - {a_score}",
-                  "status": state
-              }
+    def match_name(a, b):
+        na, nb = norm(a), norm(b)
+        if na == nb: return True
+        if na in nb or nb in na: return True
+        wa = [w for w in na.split() if len(w) >= 4]
+        wb = [w for w in nb.split() if len(w) >= 4]
+        if wa and wb:
+            for w in wa:
+                if any(w in x or x in w for x in wb):
+                    return True
+        return False
 
-              try:
-                  res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
-                  match_intel['boss_ai_decision'] = res.text
-                  print(f"[{h_name} vs {a_name}] ({h_score}-{a_score}) -> Boss AI emri verildi.")
-                  time.sleep(2) # Vertex AI Kota Koruması
-              except Exception as ai_e:
-                  print(f"AI İşlem Hatası: {ai_e}")
-              
-              final_radar_list.append(match_intel)
+    # Eşleşen maçı bul ve skoru güncelle
+    for mid, existing_m in existing_data.items():
+        eh = existing_m.get('home_name', '')
+        ea = existing_m.get('away_name', '')
+        if match_name(h_name, eh) and match_name(a_name, ea):
+            existing_m['homeGoalCount'] = h_score
+            existing_m['awayGoalCount'] = a_score
+            existing_m['status'] = 'live'
+            if state == 'HT':
+                existing_m['elapsed'] = 'HY'
+            print(f"✅ {eh} {h_score}-{a_score} {ea} ({state})")
+            updated += 1
+            break
 
-          os.makedirs('data', exist_ok=True)
-          with open('data/today.json', 'w', encoding='utf-8') as f:
-              json.dump({"data": final_radar_list}, f, indent=2, ensure_ascii=False)
-          
-          if len(final_radar_list) > 0:
-              print("✅ Sportmonks Canlı Verileri ve AI Emirleri Kaydedildi.")
-          else:
-              print("ℹ️ Listelenen canlı maçlardan hiçbiri filtreden geçemedi.")
-          PYEOF
+print(f"Toplam {updated} mac skoru guncellendi.")
 
-      - name: Push Updates to Repository
+# Kaydet
+os.makedirs('data', exist_ok=True)
+with open('data/today.json', 'w', encoding='utf-8') as f:
+    json.dump({"data": list(existing_data.values())}, f, ensure_ascii=False)
+print("today.json kaydedildi.")
+PYEOF
+          python3 /tmp/live_radar.py
+
+      - name: Push Updates
         run: |
           git config user.email "action@github.com"
           git config user.name "ScoutAI Commander"
           git pull --rebase || true
           git add data/today.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Sportmonks Live: Teşhis ve Radar Aktif" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Live: Sportmonks skor guncellendi" && git push)
