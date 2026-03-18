@@ -131,4 +131,3 @@ jobs:
           git pull --rebase || true
           git add data/today.json
           git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Sportmonks Boss Radar: Aktif" && git push)
-          
