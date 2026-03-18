@@ -33,7 +33,7 @@ jobs:
           import json, os, requests, time
           from google import genai
 
-          SM_KEY = "Ba40rXrLCVBfI15vEyBaxPMV9VfUsyguwdcB6lN2uN6ssYO5mGQKP2nfTvJt"
+          SM_KEY = "VWKKRYpq579UElUR61OQnQP6rrXescSJTnyqDQwlOW83iQ0IOHkOMMLTRGRF"
 
           # 1. DOĞRUDAN CANLI RADAR (Live Endpoint)
           url = f"https://api.sportmonks.com/v3/football/fixtures/live?api_token={SM_KEY}&include=participants;scores;state;statistics"
