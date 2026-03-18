@@ -3,18 +3,31 @@ on:
   schedule:
     - cron: '0 */3 * * *'
   workflow_dispatch:
+
 jobs:
   analyze:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Auth
-        uses: google-github-actions/auth@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install dependencies
         run: pip install requests google-genai
-      - name: AI Prediction
+
+      - name: AI Prediction (Pre-Match Boss Protocol)
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
         run: |
@@ -22,51 +35,93 @@ jobs:
           import json, os, time, requests
           from google import genai
 
-          # 1. Mevcut Veriyi Oku (Skorları korumak için)
+          # 1. Mevcut Veriyi Oku (Canlı skorları ve emirleri ezmemek için)
+          file_path = 'data/today.json'
           try:
-              with open('data/today.json', 'r') as f:
-                  existing_data = {m['id']: m for m in json.load(f).get('data', [])}
-          except: existing_data = {}
+              with open(file_path, 'r', encoding='utf-8') as f:
+                  existing_data = {str(m['id']): m for m in json.load(f).get('data', [])}
+          except FileNotFoundError:
+              existing_data = {}
 
-          # 2. Yeni Veriyi Çek
+          # 2. FootyStats'tan Yeni Fikstürü Çek
           f_url = "https://api.football-data-api.com/todays-matches?key=efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e&include=stats,odds"
-          new_matches = requests.get(f_url).json().get('data', [])
+          try:
+              new_matches = requests.get(f_url).json().get('data', [])
+          except Exception as e:
+              print(f"FootyStats Hatası: {e}")
+              exit(0)
 
+          # 3. Vertex AI Bağlantısı (Gemini 2.5 Flash)
           with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
-              client = genai.Client(vertexai=True, project=json.load(f)['project_id'], location="us-central1")
+              info = json.load(f)
+          client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
+
+          def get_injury_intel(team_name):
+              # Şimdilik kota koruma amaçlı sabit/basit istihbarat
+              return "Kadroda kritik bir eksiklik rapor edilmedi."
 
           final_list = []
-          for m in new_matches[:30]:
-              m_id = m['id']
-              
-              # KRITIK: Eğer maç zaten oynanıyorsa veya bitmişse mevcut skoru koru
-              if m_id in existing_data:
-                  old = existing_data[m_id]
-                  if old.get('status') == 'live' or int(old.get('homeGoalCount', 0)) > 0:
-                      m['homeGoalCount'] = old['homeGoalCount']
-                      m['awayGoalCount'] = old['awayGoalCount']
-                      m['boss_ai_decision'] = old.get('boss_ai_decision')
-                      m['status'] = old['status']
+          for m in new_matches[:25]: # Kota koruması için limit
+              m_id = str(m['id'])
+              h_name = m.get('home_name', 'Ev Sahibi')
+              a_name = m.get('away_name', 'Deplasman')
 
-              # Sadece yorumu olmayan maçlara yorum yap (Kota dostu)
-              if not m.get('boss_ai_decision'):
-                  prompt = f"BOSS AI: {m.get('home_name')} vs {m.get('away_name')}. xG: {m.get('team_a_xg_prematch')}-{m.get('team_b_xg_prematch')}. ANALİZ VE EMİR VER."
-                  try:
-                      res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
-                      m['boss_ai_decision'] = res.text
-                      time.sleep(1)
-                  except: pass
+              # KORUMA KALKANI: EĞER MAÇ CANLIYSA VEYA ESKİDEN OYNANMIŞSA, ESKİ VERİYİ KORU
+              if m_id in existing_data:
+                  old_m = existing_data[m_id]
+                  if old_m.get('status') == 'live' or int(old_m.get('homeGoalCount', 0)) > 0 or old_m.get('boss_ai_decision'):
+                      m['homeGoalCount'] = old_m.get('homeGoalCount', 0)
+                      m['awayGoalCount'] = old_m.get('awayGoalCount', 0)
+                      m['elapsed'] = old_m.get('elapsed', 0)
+                      m['status'] = old_m.get('status', 'incomplete')
+                      m['boss_ai_decision'] = old_m.get('boss_ai_decision')
+                      final_list.append(m)
+                      continue # Bu maç için tekrar AI'yı yorma, eski kararı tut.
+
+              # YENİ MAÇ İÇİN ACIMASIZ BOSS AI PROMPTU (MAÇ ÖNCESİ)
+              h_inj = get_injury_intel(h_name)
+              a_inj = get_injury_intel(a_name)
+
+              prompt = f"""SEN KATI, ACIMASIZ VE SADECE SONUCA ODAKLI BİR MAÇ ÖNCESİ BAHİS ANALİSTİ 'BOSS AI'SIN! HİKAYE ANLATMAK VEYA TAKIMLARA TAKTİK VERMEK KESİNLİKLE YASAK!
+
+              MAÇ: {h_name} vs {a_name}
+              ÖN MAÇ xG (Beklenti): Ev {m.get('team_a_xg_prematch',0)} - Depl {m.get('team_b_xg_prematch',0)}
+              ORANLAR: 1: {m.get('odds_ft_1')} | X: {m.get('odds_ft_x')} | 2: {m.get('odds_ft_2')}
+              SAHA RAPORU: {h_inj} vs {a_inj}
+
+              GÖREV VE KURALLAR:
+              1. Teknik ekibe tebrik, kaleci övgüsü veya uzun taktiksel analiz YAPMA. Biz teknik direktör değiliz, bahisçiyiz.
+              2. xG verilerini ve oranları çarpıştırarak MAÇ BAŞLAMADAN EN DEĞERLİ bahis tercihini bul.
+              3. SONUÇ ÇIKAR: En mantıklı kupon türünü (Örn: MS 1, 2.5 Alt/Üst, Karşılıklı Gol) NET BİR ŞEKİLDE SÖYLE.
+              4. Eğer maçta bir fırsat yoksa veya risk çok yüksekse SADECE "⚠️ PAS GEÇ" yaz ve analizi bitir.
+
+              FORMAT (Sadece bu 3 satırı kullan):
+              🔴 DURUM ÖZETİ: (xG ve oran uyumsuzluğu hakkında sadece 1 kısa cümle)
+              🎯 NİHAİ KARAR: (Net kupon türü veya PAS GEÇ)
+              💰 KASA/RİSK: (% Kasa ve 1-10 arası Risk)
+              """
+              
+              try:
+                  res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
+                  m['boss_ai_decision'] = res.text
+                  print(f"[{h_name} vs {a_name}] -> Boss AI emri verildi.")
+                  time.sleep(1) # API kotası için hafif nefes alma
+              except Exception as e:
+                  print(f"AI İşlem Hatası: {e}")
               
               final_list.append(m)
 
-          with open('data/today.json', 'w') as f:
-              json.dump({"data": final_list}, f, indent=2)
+          os.makedirs('data', exist_ok=True)
+          with open(file_path, 'w', encoding='utf-8') as f:
+              json.dump({"data": final_list}, f, indent=2, ensure_ascii=False)
+          print("✅ Ana Fikstür ve Maç Öncesi Keskin Emirler Kaydedildi.")
           PYEOF
+
       - name: Final Push
         run: |
           git config user.email "action@github.com"
-          git config user.name "ScoutAI"
+          git config user.name "ScoutAI Commander"
           git pull --rebase || true
-          git add data/
-          git commit -m "Fetch Update: Scores Preserved" || true
-          git push || true
+          git add data/today.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Fetch: Fikstür Çekildi, Sert Emirler Verildi" && git push)
+          
