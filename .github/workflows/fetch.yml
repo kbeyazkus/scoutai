@@ -1,8 +1,12 @@
-name: ScoutAI Global Intelligence (Fixed Core)
+name: ScoutAI Global Intelligence (Final Core)
 on:
   schedule:
     - cron: '0 6 * * *'
   workflow_dispatch:
+
+concurrency:
+  group: scoutai-data-lock
+  cancel-in-progress: false
 
 jobs:
   analyze:
@@ -14,6 +18,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Sync latest repository state
+        run: git pull --rebase || true
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -22,67 +29,179 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: FootyStats prematch verisini çek
+      - name: FootyStats prematch verisini çek ve normalize et
         env:
           FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
         run: |
           cat > /tmp/fetch.py << 'PYEOF'
-          import json, os, requests
+          import json
+          import os
+          from datetime import datetime, timezone
           from pathlib import Path
+
+          import requests
 
           FS_KEY = os.environ.get("FOOTYSTATS_KEY", "").strip()
           if not FS_KEY:
               raise SystemExit("FOOTYSTATS_KEY secret eksik.")
 
-          today_path = Path('data/today.json')
-          tomorrow_path = Path('data/tomorrow.json')
-          os.makedirs('data', exist_ok=True)
+          DATA_DIR = Path('data')
+          DATA_DIR.mkdir(parents=True, exist_ok=True)
+          TODAY_PATH = DATA_DIR / 'today.json'
+          TOMORROW_PATH = DATA_DIR / 'tomorrow.json'
+          HEALTH_PATH = DATA_DIR / 'health.json'
+          MAP_PATH = DATA_DIR / 'match_map.json'
 
-          existing = {}
-          if today_path.exists():
+          now_iso = datetime.now(timezone.utc).isoformat()
+
+          def read_json(path, default):
+              if not path.exists():
+                  return default
               try:
-                  old = json.loads(today_path.read_text(encoding='utf-8')).get('data', [])
-                  existing = {str(x.get('id')): x for x in old if x.get('id') is not None}
+                  return json.loads(path.read_text(encoding='utf-8'))
               except Exception:
-                  existing = {}
+                  return default
+
+          def as_float(value, default=0.0):
+              try:
+                  if value in (None, '', '-', 'null'):
+                      return float(default)
+                  return float(value)
+              except Exception:
+                  return float(default)
+
+          def as_int(value, default=0):
+              try:
+                  if value in (None, '', '-', 'null'):
+                      return int(default)
+                  return int(float(value))
+              except Exception:
+                  return int(default)
+
+          old_today = read_json(TODAY_PATH, {'data': []}).get('data', [])
+          old_map = read_json(MAP_PATH, {'sportmonks_to_footystats': {}})
+          old_health = read_json(HEALTH_PATH, {})
+
+          old_by_id = {str(x.get('id')): x for x in old_today if x.get('id') is not None}
 
           url = f"https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds"
-          res = requests.get(url, timeout=30)
+          res = requests.get(url, timeout=45)
           res.raise_for_status()
           matches = res.json().get('data', [])
           print(f"📡 FootyStats'tan {len(matches)} maç çekildi.")
 
-          final_list = []
-          for m in matches:
-              mid = str(m.get('id', ''))
-              prev = existing.get(mid, {})
+          def normalize_match(raw, prev=None):
+              prev = prev or {}
+              mid = str(raw.get('id', prev.get('id', '')))
 
-              record = dict(m)
-              record['id'] = mid
-              record['home_name'] = m.get('home_name', prev.get('home_name', 'Ev Sahibi'))
-              record['away_name'] = m.get('away_name', prev.get('away_name', 'Deplasman'))
-              record['home_ppg'] = m.get('home_ppg', m.get('team_a_ppg', prev.get('home_ppg', prev.get('team_a_ppg', '0'))))
-              record['away_ppg'] = m.get('away_ppg', m.get('team_b_ppg', prev.get('away_ppg', prev.get('team_b_ppg', '0'))))
-              record['team_a_ppg'] = m.get('team_a_ppg', record['home_ppg'])
-              record['team_b_ppg'] = m.get('team_b_ppg', record['away_ppg'])
-              record['team_a_xg_prematch'] = m.get('team_a_xg_prematch', prev.get('team_a_xg_prematch', '0'))
-              record['team_b_xg_prematch'] = m.get('team_b_xg_prematch', prev.get('team_b_xg_prematch', '0'))
-              record['homeGoalCount'] = prev.get('homeGoalCount', m.get('homeGoalCount', 0))
-              record['awayGoalCount'] = prev.get('awayGoalCount', m.get('awayGoalCount', 0))
-              record['totalGoalCount'] = record['homeGoalCount'] + record['awayGoalCount']
-              record['status'] = prev.get('status', m.get('status', 'incomplete'))
-              record['elapsed'] = prev.get('elapsed', 0)
-              record['boss_ai_decision'] = prev.get('boss_ai_decision', '')
-              record['live_stats_summary'] = prev.get('live_stats_summary', '')
-              record['live_last_update'] = prev.get('live_last_update', '')
-              final_list.append(record)
+              home_name = raw.get('home_name') or prev.get('home_name') or 'Ev Sahibi'
+              away_name = raw.get('away_name') or prev.get('away_name') or 'Deplasman'
 
-          today_path.write_text(json.dumps({"data": final_list}, ensure_ascii=False, indent=2), encoding='utf-8')
+              home_ppg = as_float(raw.get('home_ppg', raw.get('team_a_ppg', prev.get('home_ppg', prev.get('team_a_ppg', 0)))))
+              away_ppg = as_float(raw.get('away_ppg', raw.get('team_b_ppg', prev.get('away_ppg', prev.get('team_b_ppg', 0)))))
+              xg_home = as_float(raw.get('team_a_xg_prematch', prev.get('team_a_xg_prematch', 0)))
+              xg_away = as_float(raw.get('team_b_xg_prematch', prev.get('team_b_xg_prematch', 0)))
 
-          if not tomorrow_path.exists() or tomorrow_path.read_text(encoding='utf-8').strip() in {'', '[]', '{}'}:
-              tomorrow_path.write_text(json.dumps({"data": []}, ensure_ascii=False, indent=2), encoding='utf-8')
+              score_home = as_int(prev.get('homeGoalCount', raw.get('homeGoalCount', 0)))
+              score_away = as_int(prev.get('awayGoalCount', raw.get('awayGoalCount', 0)))
+              elapsed = prev.get('elapsed', raw.get('elapsed', 0))
+              status = prev.get('status', raw.get('status', 'incomplete'))
 
-          print("✅ data/today.json güncellendi.")
+              source_ids = dict(prev.get('source_ids', {})) if isinstance(prev.get('source_ids'), dict) else {}
+              source_ids['footystats_match_id'] = mid
+
+              live_obj = dict(prev.get('live', {})) if isinstance(prev.get('live'), dict) else {}
+              ai_obj = dict(prev.get('ai', {})) if isinstance(prev.get('ai'), dict) else {}
+              prematch_obj = dict(prev.get('prematch', {})) if isinstance(prev.get('prematch'), dict) else {}
+
+              prematch_obj.update({
+                  'xg_home': xg_home,
+                  'xg_away': xg_away,
+                  'odds_1': raw.get('odds_ft_1', prev.get('odds_ft_1', '-')),
+                  'odds_x': raw.get('odds_ft_x', prev.get('odds_ft_x', '-')),
+                  'odds_2': raw.get('odds_ft_2', prev.get('odds_ft_2', '-')),
+                  'home_ppg': home_ppg,
+                  'away_ppg': away_ppg,
+                  'btts_potential': as_float(raw.get('btts_potential', prev.get('btts_potential', 0))),
+                  'o25_potential': as_float(raw.get('o25_potential', raw.get('over25_potential', prev.get('o25_potential', prev.get('over25_potential', 0))))),
+                  'o05HT_potential': as_float(raw.get('o05HT_potential', prev.get('o05HT_potential', 0))),
+              })
+
+              normalized = dict(raw)
+              normalized.update({
+                  'id': mid,
+                  'source_ids': source_ids,
+                  'home_name': home_name,
+                  'away_name': away_name,
+                  'competition_name': raw.get('competition_name', prev.get('competition_name', '')),
+                  'date_unix': raw.get('date_unix', prev.get('date_unix')),
+                  'status': status,
+                  'elapsed': elapsed,
+                  'homeGoalCount': score_home,
+                  'awayGoalCount': score_away,
+                  'totalGoalCount': score_home + score_away,
+                  'home_ppg': home_ppg,
+                  'away_ppg': away_ppg,
+                  'team_a_ppg': home_ppg,
+                  'team_b_ppg': away_ppg,
+                  'team_a_xg_prematch': xg_home,
+                  'team_b_xg_prematch': xg_away,
+                  'btts_potential': prematch_obj['btts_potential'],
+                  'o25_potential': prematch_obj['o25_potential'],
+                  'o05HT_potential': prematch_obj['o05HT_potential'],
+                  'prematch': prematch_obj,
+                  'live': {
+                      'state': live_obj.get('state', status),
+                      'minute': live_obj.get('minute', elapsed),
+                      'has_stats': live_obj.get('has_stats', False),
+                      'stats_summary': live_obj.get('stats_summary', prev.get('live_stats_summary', '')),
+                      'pressure_score': live_obj.get('pressure_score', 0),
+                      'data_quality': live_obj.get('data_quality', 'prematch_only'),
+                      'last_update': live_obj.get('last_update', prev.get('live_last_update', '')),
+                      'score_source': live_obj.get('score_source', 'footystats_seed'),
+                  },
+                  'ai': {
+                      'status_summary': ai_obj.get('status_summary', ''),
+                      'final_decision': ai_obj.get('final_decision', ''),
+                      'bankroll_percent': ai_obj.get('bankroll_percent', 0),
+                      'risk_score': ai_obj.get('risk_score', 0),
+                      'confidence': ai_obj.get('confidence', 0),
+                      'reason_codes': ai_obj.get('reason_codes', []),
+                      'allowed_decisions': ai_obj.get('allowed_decisions', []),
+                      'decision_text': ai_obj.get('decision_text', prev.get('boss_ai_decision', '')),
+                      'forced_no_bet': ai_obj.get('forced_no_bet', False),
+                      'last_update': ai_obj.get('last_update', ''),
+                  },
+                  'live_stats_summary': live_obj.get('stats_summary', prev.get('live_stats_summary', '')),
+                  'live_last_update': live_obj.get('last_update', prev.get('live_last_update', '')),
+                  'boss_ai_decision': ai_obj.get('decision_text', prev.get('boss_ai_decision', '')),
+                  'data_version': 2,
+              })
+              return normalized
+
+          final_list = [normalize_match(raw, old_by_id.get(str(raw.get('id', '')))) for raw in matches]
+          TODAY_PATH.write_text(json.dumps({'data': final_list}, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          if not TOMORROW_PATH.exists() or TOMORROW_PATH.read_text(encoding='utf-8').strip() in {'', '[]', '{}'}:
+              TOMORROW_PATH.write_text(json.dumps({'data': []}, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          if not MAP_PATH.exists():
+              MAP_PATH.write_text(json.dumps(old_map if old_map else {'sportmonks_to_footystats': {}}, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          health = old_health if isinstance(old_health, dict) else {}
+          health['updated_at'] = now_iso
+          health['fetch'] = {
+              'updated_at': now_iso,
+              'status': 'ok',
+              'fetched_match_count': len(matches),
+              'normalized_match_count': len(final_list),
+              'preserved_live_records': sum(1 for x in final_list if (x.get('live') or {}).get('last_update')),
+              'preserved_ai_records': sum(1 for x in final_list if (x.get('ai') or {}).get('decision_text')),
+          }
+          HEALTH_PATH.write_text(json.dumps(health, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          print('✅ data/today.json normalize edildi.')
+          print(f"ℹ️ preserved_live_records={health['fetch']['preserved_live_records']}")
           PYEOF
           python3 /tmp/fetch.py
 
@@ -91,5 +210,5 @@ jobs:
           git config user.email "action@github.com"
           git config user.name "ScoutAI Commander"
           git pull --rebase || true
-          git add data/today.json data/tomorrow.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Fetch: FootyStats prematch verisi güncellendi" && git push)
+          git add data/today.json data/tomorrow.json data/health.json data/match_map.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Fetch: normalize edilmiş prematch veri güncellendi" && git push)
