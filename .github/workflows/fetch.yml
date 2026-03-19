@@ -1,7 +1,7 @@
-name: ScoutAI Global Intelligence (V5 - FootyStats Core)
+name: ScoutAI Global Intelligence (Fixed Core)
 on:
   schedule:
-    - cron: '0 6 * * *' # Her sabah 06:00
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -22,49 +22,67 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: FootyStats İstihbarat Toplama (Ajan 1, 2, 5, 11)
+      - name: FootyStats prematch verisini çek
+        env:
+          FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
         run: |
           cat > /tmp/fetch.py << 'PYEOF'
           import json, os, requests
+          from pathlib import Path
 
-          FS_KEY = "efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
-          file_path = 'data/today.json'
-          
+          FS_KEY = os.environ.get("FOOTYSTATS_KEY", "").strip()
+          if not FS_KEY:
+              raise SystemExit("FOOTYSTATS_KEY secret eksik.")
+
+          today_path = Path('data/today.json')
+          tomorrow_path = Path('data/tomorrow.json')
+          os.makedirs('data', exist_ok=True)
+
+          existing = {}
+          if today_path.exists():
+              try:
+                  old = json.loads(today_path.read_text(encoding='utf-8')).get('data', [])
+                  existing = {str(x.get('id')): x for x in old if x.get('id') is not None}
+              except Exception:
+                  existing = {}
+
           url = f"https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds"
-          try:
-              res = requests.get(url)
-              matches = res.json().get('data', [])
-              print(f"📡 FootyStats'tan {len(matches)} macin derin istihbarati cekildi.")
-          except Exception as e:
-              print(f"FootyStats Hatasi: {e}")
-              exit(0)
+          res = requests.get(url, timeout=30)
+          res.raise_for_status()
+          matches = res.json().get('data', [])
+          print(f"📡 FootyStats'tan {len(matches)} maç çekildi.")
 
           final_list = []
           for m in matches:
-              # Radarin kullanacagi standart sablon
-              match_data = {
-                  "id": str(m.get('id', '')),
-                  "home_name": m.get('home_name', 'Ev Sahibi'),
-                  "away_name": m.get('away_name', 'Deplasman'),
-                  "team_a_xg_prematch": m.get('team_a_xg_prematch', '0'),
-                  "team_b_xg_prematch": m.get('team_b_xg_prematch', '0'),
-                  "odds_ft_1": m.get('odds_ft_1', '-'),
-                  "odds_ft_x": m.get('odds_ft_x', '-'),
-                  "odds_ft_2": m.get('odds_ft_2', '-'),
-                  "team_a_ppg": m.get('team_a_ppg', '0'), # Ev Sahibi Formu
-                  "team_b_ppg": m.get('team_b_ppg', '0'), # Deplasman Formu
-                  "homeGoalCount": 0,
-                  "awayGoalCount": 0,
-                  "status": "incomplete",
-                  "elapsed": 0,
-                  "boss_ai_decision": ""
-              }
-              final_list.append(match_data)
+              mid = str(m.get('id', ''))
+              prev = existing.get(mid, {})
 
-          os.makedirs('data', exist_ok=True)
-          with open(file_path, 'w', encoding='utf-8') as f:
-              json.dump({"data": final_list}, f, indent=2, ensure_ascii=False)
-          print("✅ Sabah İstihbarati today.json dosyasina kilitlendi.")
+              record = dict(m)
+              record['id'] = mid
+              record['home_name'] = m.get('home_name', prev.get('home_name', 'Ev Sahibi'))
+              record['away_name'] = m.get('away_name', prev.get('away_name', 'Deplasman'))
+              record['home_ppg'] = m.get('home_ppg', m.get('team_a_ppg', prev.get('home_ppg', prev.get('team_a_ppg', '0'))))
+              record['away_ppg'] = m.get('away_ppg', m.get('team_b_ppg', prev.get('away_ppg', prev.get('team_b_ppg', '0'))))
+              record['team_a_ppg'] = m.get('team_a_ppg', record['home_ppg'])
+              record['team_b_ppg'] = m.get('team_b_ppg', record['away_ppg'])
+              record['team_a_xg_prematch'] = m.get('team_a_xg_prematch', prev.get('team_a_xg_prematch', '0'))
+              record['team_b_xg_prematch'] = m.get('team_b_xg_prematch', prev.get('team_b_xg_prematch', '0'))
+              record['homeGoalCount'] = prev.get('homeGoalCount', m.get('homeGoalCount', 0))
+              record['awayGoalCount'] = prev.get('awayGoalCount', m.get('awayGoalCount', 0))
+              record['totalGoalCount'] = record['homeGoalCount'] + record['awayGoalCount']
+              record['status'] = prev.get('status', m.get('status', 'incomplete'))
+              record['elapsed'] = prev.get('elapsed', 0)
+              record['boss_ai_decision'] = prev.get('boss_ai_decision', '')
+              record['live_stats_summary'] = prev.get('live_stats_summary', '')
+              record['live_last_update'] = prev.get('live_last_update', '')
+              final_list.append(record)
+
+          today_path.write_text(json.dumps({"data": final_list}, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          if not tomorrow_path.exists() or tomorrow_path.read_text(encoding='utf-8').strip() in {'', '[]', '{}'}:
+              tomorrow_path.write_text(json.dumps({"data": []}, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          print("✅ data/today.json güncellendi.")
           PYEOF
           python3 /tmp/fetch.py
 
@@ -73,6 +91,5 @@ jobs:
           git config user.email "action@github.com"
           git config user.name "ScoutAI Commander"
           git pull --rebase || true
-          git add data/today.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Fetch: FootyStats İstihbaratı Toplandı" && git push)
-          
+          git add data/today.json data/tomorrow.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Fetch: FootyStats prematch verisi güncellendi" && git push)
