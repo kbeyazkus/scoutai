@@ -1,308 +1,440 @@
-import json, os, re, time, difflib
-from pathlib import Path
-from datetime import datetime, timezone
+#!/usr/bin/env python3
+import json
+import os
+import re
+import time
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+
 import requests
 from unidecode import unidecode
-from google import genai
 
-SM_KEY = os.environ.get("SPORTMONKS_KEY", "").strip()
-if not SM_KEY:
-    raise SystemExit("SPORTMONKS_KEY secret eksik.")
+try:
+    from google import genai
+except Exception:
+    genai = None
 
-creds_path = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-if not creds_path or not os.path.exists(creds_path):
-    raise SystemExit("GOOGLE_APPLICATION_CREDENTIALS bulunamadi.")
+DATA_DIR = "data"
+TODAY_JSON = os.path.join(DATA_DIR, "today.json")
+LIVE_JSON = os.path.join(DATA_DIR, "live.json")
+MATCH_MAP_JSON = os.path.join(DATA_DIR, "match_map.json")
+HEALTH_JSON = os.path.join(DATA_DIR, "health.json")
 
-with open(creds_path, 'r', encoding='utf-8') as f:
-    info = json.load(f)
-client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
+SM_KEY = os.getenv("SPORTMONKS_KEY", "").strip()
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
+REQUEST_TIMEOUT = 25
 
-today_path = Path('data/today.json')
-live_path = Path('data/live.json')
-
-if not today_path.exists():
-    raise SystemExit("data/today.json yok. Once fetch workflow calistirilmali.")
-
-fs_data = json.loads(today_path.read_text(encoding='utf-8')).get('data', [])
-if not isinstance(fs_data, list):
-    fs_data = []
-
-LIVE_STATES = {'INPLAY_1ST_HALF', 'INPLAY_2ND_HALF', 'HT', 'INPLAY_ET', 'INPLAY_ET_2', 'BREAK'}
-
-url = (
-    "https://api.sportmonks.com/v3/football/livescores"
-    "?api_token=" + SM_KEY +
-    "&include=participants;scores;state;statistics.type;periods"
-)
-res = requests.get(url, timeout=30)
-res.raise_for_status()
-live_matches = res.json().get('data', [])
-live_matches = [m for m in live_matches if m.get('state', {}).get('developer_name', '') in LIVE_STATES]
-print("Canli mac sayisi: " + str(len(live_matches)))
-
-if not live_matches:
-    live_path.write_text(
-        json.dumps({"matches": [], "resultSet": {"count": 0}}, ensure_ascii=False, indent=2),
-        encoding='utf-8'
-    )
-    print("Su an canli mac yok.")
-    raise SystemExit(0)
-
-
-def clean_name(name):
-    name = unidecode(str(name or '')).lower()
-    name = re.sub(r'[^a-z0-9 ]+', ' ', name)
-    words = [w for w in name.split() if w not in {'fc', 'cf', 'club', 'de', 'la', 'real', 'sk', 'fk', 'ac', 'sc', 'the'}]
-    return ''.join(words)
-
-
-def get_participant(parts, location):
-    for p in parts:
-        meta = p.get('meta', {}) or {}
-        if meta.get('location') == location:
-            return p
-    if location == 'home':
-        return parts[0] if parts else {}
-    return parts[1] if len(parts) > 1 else {}
-
-
-def get_score(scores, side):
-    for s in scores:
-        obj = s.get('score', {}) or {}
-        if obj.get('participant') == side and s.get('description') == 'CURRENT':
-            return int(obj.get('goals') or 0)
-    return 0
-
-
-def estimate_minute(match, state_name):
-    if state_name in {'HT', 'BREAK'}:
-        return 'HY'
-    for v in [
-        match.get('minute'),
-        (match.get('time') or {}).get('minute'),
-        (match.get('currentPeriod') or {}).get('minutes'),
-    ]:
-        if v is None:
-            continue
-        try:
-            v = int(v)
-            if v > 0:
-                return v
-        except Exception:
-            pass
-    ts = match.get('starting_at_timestamp')
-    if ts:
-        try:
-            total = max(1, int((time.time() - int(ts)) / 60))
-            if state_name == 'INPLAY_1ST_HALF':
-                return min(total, 45)
-            if state_name in {'INPLAY_2ND_HALF', 'INPLAY_ET', 'INPLAY_ET_2'}:
-                return min(max(46, total - 15), 120)
-        except Exception:
-            pass
-    return 0
-
-
-def find_fs_match(sm_home, sm_away, fs_list):
-    sm_h = clean_name(sm_home)
-    sm_a = clean_name(sm_away)
-    best, best_score = None, 0.0
-    for item in fs_list:
-        fh = clean_name(item.get('home_name', ''))
-        fa = clean_name(item.get('away_name', ''))
-        hr = difflib.SequenceMatcher(None, sm_h, fh).ratio()
-        ar = difflib.SequenceMatcher(None, sm_a, fa).ratio()
-        combo = (hr + ar) / 2
-        if sm_h == fh and sm_a == fa:
-            return item, 1.0
-        if ((sm_h in fh or fh in sm_h) and (sm_a in fa or fa in sm_a)) and combo >= 0.55:
-            if combo > best_score:
-                best, best_score = item, combo
-        elif hr >= 0.72 and ar >= 0.72 and combo > best_score:
-            best, best_score = item, combo
-    return best, best_score
-
-
-ALL_DECISIONS = [
-    'MS1', 'MSX', 'MS2', '1X', 'X2', '12',
-    'Ust 0.5', 'Ust 1.5', 'Ust 2.5', 'Ust 3.5', 'Alt 2.5', 'Alt 1.5',
-    'KG Var', 'KG Yok',
-    'Ev -0.5', 'Ev -1', 'Ev -1.5', 'Ev +0.5', 'Ev +1', 'Ev +1.5',
-    'Depl -0.5', 'Depl -1', 'Depl -1.5', 'Depl +0.5', 'Depl +1', 'Depl +1.5',
-    'IY MS1', 'IY MSX', 'IY MS2', 'IY Ust 0.5', 'IY Ust 1.5',
-    'Siradaki gol ev', 'Siradaki gol deplasman', 'Sonraki korner', 'Kalan sure gol cikar',
-    'PAS GEC'
-]
-
-schema = {
-    "type": "object",
-    "properties": {
-        "status_summary": {"type": "string"},
-        "final_decision": {"type": "string", "enum": ALL_DECISIONS},
-        "bankroll_percent": {"type": "integer", "minimum": 0, "maximum": 10},
-        "risk_score": {"type": "integer", "minimum": 1, "maximum": 10},
-        "confidence": {"type": "integer", "minimum": 0, "maximum": 100},
-        "reason_codes": {
-            "type": "array",
-            "items": {
-                "type": "string",
-                "enum": [
-                    "PREMATCH_EDGE", "LIVE_PRESSURE", "LOW_DATA", "CONFLICT",
-                    "SCORE_STATE", "ODDS_SIGNAL", "SECOND_HALF", "FIRST_HALF", "NO_VALUE"
-                ]
-            }
-        }
-    },
-    "required": ["status_summary", "final_decision", "bankroll_percent", "risk_score", "confidence", "reason_codes"]
+LIVE_STATES = {
+    "INPLAY_1ST_HALF", "INPLAY_2ND_HALF", "HT", "HALF_TIME",
+    "INPLAY_ET", "INPLAY_ET_2", "BREAK", "PEN_LIVE",
 }
 
 
-def build_allowed(state_name, h_score, a_score, has_stats):
-    allowed = set(ALL_DECISIONS)
-    if state_name not in {'INPLAY_1ST_HALF'}:
-        allowed -= {'IY MS1', 'IY MSX', 'IY MS2', 'IY Ust 0.5', 'IY Ust 1.5'}
-    if not has_stats:
-        allowed -= {'Siradaki gol ev', 'Siradaki gol deplasman', 'Sonraki korner', 'Kalan sure gol cikar'}
-    if h_score + a_score >= 4:
-        allowed -= {'Alt 2.5', 'Alt 1.5'}
-    return sorted(allowed)
+def log(msg: str) -> None:
+    print(msg, flush=True)
 
 
-live_payload = {"matches": [], "resultSet": {"count": len(live_matches)}}
-log = {"total": len(live_matches), "matched": 0, "scored": 0, "ai_ok": 0, "pas_gec": 0, "errors": 0}
+def load_json(path: str, default: Any) -> Any:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
 
-for lm in live_matches:
-    parts = lm.get('participants', []) or []
-    if len(parts) < 2:
-        continue
 
-    home_p = get_participant(parts, 'home')
-    away_p = get_participant(parts, 'away')
-    sm_home = home_p.get('name', '')
-    sm_away = away_p.get('name', '')
-    state_name = lm.get('state', {}).get('developer_name', '')
-    scores = lm.get('scores', []) or []
-    h_score = get_score(scores, 'home')
-    a_score = get_score(scores, 'away')
-    minute = estimate_minute(lm, state_name)
+def save_json(path: str, data: Any) -> None:
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
-    live_payload['matches'].append({
-        "homeTeam": {"name": sm_home},
-        "awayTeam": {"name": sm_away},
-        "score": {"fullTime": {"home": h_score, "away": a_score}},
-        "minute": None if minute == 'HY' else minute,
-        "state": state_name,
-    })
 
-    matched, ratio = find_fs_match(sm_home, sm_away, fs_data)
-    if not matched:
-        print("Eslesmedi: " + sm_home + " vs " + sm_away)
-        continue
+def safe_float(v: Any, default: float = 0.0) -> float:
+    try:
+        if v is None or v == "":
+            return default
+        return float(v)
+    except Exception:
+        return default
 
-    log['matched'] += 1
-    matched['homeGoalCount'] = h_score
-    matched['awayGoalCount'] = a_score
-    matched['totalGoalCount'] = h_score + a_score
-    matched['status'] = 'live'
-    matched['elapsed'] = minute
-    matched['live_last_update'] = datetime.now(timezone.utc).isoformat()
-    log['scored'] += 1
 
-    stats = lm.get('statistics', []) or []
-    stat_names = []
-    for s in stats[:8]:
-        typ = s.get('type') or {}
-        n = typ.get('developer_name') or typ.get('name')
-        if n:
-            stat_names.append(str(n))
-    has_stats = len(stats) > 0
-    matched['live_stats_summary'] = (
-        "Istatistik: " + str(len(stats)) + " | " + ', '.join(stat_names[:5])
-        if has_stats else "Canli istatistik yok"
+def safe_int(v: Any, default: int = 0) -> int:
+    try:
+        if v is None or v == "":
+            return default
+        return int(float(v))
+    except Exception:
+        return default
+
+
+def fetch_json(url: str) -> Dict[str, Any]:
+    r = requests.get(url, timeout=REQUEST_TIMEOUT)
+    r.raise_for_status()
+    return r.json()
+
+
+def clean_name(name: str) -> str:
+    n = unidecode(str(name or "")).lower()
+    n = re.sub(r"[\W_]+", "", n)
+    for token in [
+        "footballclub", "futebolclube", "clubdefutbol", "clubdeportivo",
+        "women", "ladies", "reserves", "reserve", "ii", "iii", "u21", "u23",
+        "fc", "cf", "ac", "afc", "sc", "sk", "if", "fk", "bk", "nk", "cd",
+        "de", "la", "the"
+    ]:
+        n = n.replace(token, "")
+    return n
+
+
+def ratio(a: str, b: str) -> float:
+    if not a or not b:
+        return 0.0
+    if a == b:
+        return 1.0
+    if a in b or b in a:
+        shorter = min(len(a), len(b))
+        longer = max(len(a), len(b))
+        return shorter / max(longer, 1)
+    same = sum(1 for x, y in zip(a, b) if x == y)
+    return same / max(len(a), len(b), 1)
+
+
+def init_vertex_client():
+    if genai is None:
+        return None
+    gac = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "").strip()
+    if not gac or not os.path.exists(gac):
+        return None
+    try:
+        with open(gac, "r", encoding="utf-8") as f:
+            info = json.load(f)
+        return genai.Client(vertexai=True, project=info["project_id"], location="us-central1")
+    except Exception as e:
+        log(f"⚠️ Gemini istemcisi başlatılamadı: {e}")
+        return None
+
+
+def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    home = None
+    away = None
+    for p in parts:
+        loc = (
+            p.get("meta", {}).get("location")
+            or p.get("location")
+            or p.get("participant", {}).get("meta", {}).get("location")
+            or ""
+        ).lower()
+        if loc == "home":
+            home = p
+        elif loc == "away":
+            away = p
+    if home is None and parts:
+        home = parts[0]
+    if away is None and len(parts) > 1:
+        away = parts[1]
+    return home or {}, away or {}
+
+
+def current_score(scores: List[Dict[str, Any]]) -> Tuple[int, int]:
+    home = 0
+    away = 0
+    for s in scores or []:
+        desc = (s.get("description") or "").upper()
+        participant = (s.get("score") or {}).get("participant")
+        goals = safe_int((s.get("score") or {}).get("goals"), 0)
+        if desc == "CURRENT":
+            if participant == "home":
+                home = goals
+            elif participant == "away":
+                away = goals
+    return home, away
+
+
+def extract_minute(live_row: Dict[str, Any]) -> int:
+    for key in ["minute", "timer", "time"]:
+        v = live_row.get(key)
+        if isinstance(v, (int, float)):
+            return int(v)
+        if isinstance(v, dict):
+            for sub in ["minute", "minutes"]:
+                if sub in v:
+                    return safe_int(v[sub], 0)
+    return 0
+
+
+def extract_stats(live_row: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
+    stats = live_row.get("statistics") or []
+    out = {"home": {}, "away": {}}
+
+    for st in stats:
+        raw_name = (
+            st.get("type", {}).get("developer_name")
+            or st.get("type", {}).get("name")
+            or st.get("name")
+            or ""
+        )
+        key = clean_name(raw_name)
+        if not key:
+            continue
+
+        side = (
+            st.get("participant", {}).get("meta", {}).get("location")
+            or st.get("location")
+            or ""
+        ).lower()
+        if side not in ("home", "away"):
+            participant = st.get("participant") or {}
+            side = (participant.get("location") or "").lower()
+        if side not in ("home", "away"):
+            continue
+
+        value = st.get("data")
+        if isinstance(value, dict):
+            value = value.get("value") or value.get("count") or value.get("all") or 0
+        val = safe_float(value, 0)
+        out[side][key] = val
+
+    return out
+
+
+def pressure_score(stats: Dict[str, Dict[str, float]]) -> float:
+    h = stats.get("home", {})
+    a = stats.get("away", {})
+
+    def stat(d: Dict[str, float], *keys: str) -> float:
+        for k in keys:
+            if k in d:
+                return safe_float(d[k], 0)
+        return 0.0
+
+    home_pressure = (
+        stat(h, "shotsontarget", "shotontarget") * 2.5
+        + stat(h, "shots", "totalshots") * 1.0
+        + stat(h, "corners", "cornerkicks") * 1.1
+        + stat(h, "dangerousattacks", "dangerousattack") * 0.08
+        + stat(h, "attacks", "attacksrecorded") * 0.03
+        + stat(h, "possessionpercentage", "ballpossession", "possession") * 0.04
+    )
+    away_pressure = (
+        stat(a, "shotsontarget", "shotontarget") * 2.5
+        + stat(a, "shots", "totalshots") * 1.0
+        + stat(a, "corners", "cornerkicks") * 1.1
+        + stat(a, "dangerousattacks", "dangerousattack") * 0.08
+        + stat(a, "attacks", "attacksrecorded") * 0.03
+        + stat(a, "possessionpercentage", "ballpossession", "possession") * 0.04
+    )
+    return round(home_pressure - away_pressure, 2)
+
+
+def summarize_stats(stats: Dict[str, Dict[str, float]]) -> str:
+    h = stats.get("home", {})
+    a = stats.get("away", {})
+
+    def stat(d: Dict[str, float], *keys: str) -> float:
+        for k in keys:
+            if k in d:
+                return d[k]
+        return 0.0
+
+    return (
+        f"Şut isabet {stat(h,'shotsontarget','shotontarget')}-{stat(a,'shotsontarget','shotontarget')}, "
+        f"Şut {stat(h,'shots','totalshots')}-{stat(a,'shots','totalshots')}, "
+        f"Korner {stat(h,'corners','cornerkicks')}-{stat(a,'corners','cornerkicks')}, "
+        f"Topla oynama {stat(h,'possessionpercentage','ballpossession','possession')}-{stat(a,'possessionpercentage','ballpossession','possession')}"
     )
 
-    xg_h = matched.get('team_a_xg_prematch', 0)
-    xg_a = matched.get('team_b_xg_prematch', 0)
-    odds_1 = matched.get('odds_ft_1', '-')
-    odds_x = matched.get('odds_ft_x', '-')
-    odds_2 = matched.get('odds_ft_2', '-')
-    ppg_h = matched.get('home_ppg', matched.get('team_a_ppg', 0))
-    ppg_a = matched.get('away_ppg', matched.get('team_b_ppg', 0))
-    btts = matched.get('btts_potential', 0)
-    over25 = matched.get('o25_potential', matched.get('over25_potential', 0))
-    allowed = build_allowed(state_name, h_score, a_score, has_stats)
-    live_weight = 90 if state_name in {'INPLAY_2ND_HALF', 'INPLAY_ET', 'INPLAY_ET_2'} else 55
-    prematch_weight = 10 if live_weight == 90 else 45
+
+def ai_comment_live(client, match: Dict[str, Any]) -> str:
+    if client is None:
+        return ""
+
+    minute = safe_int(match.get("elapsed"), 0)
+    score_h = safe_int(match.get("homeGoalCount"), 0)
+    score_a = safe_int(match.get("awayGoalCount"), 0)
+    pressure = safe_float(match.get("pressure_score"), 0)
+    payload = {
+        "home": match.get("home_name"),
+        "away": match.get("away_name"),
+        "league": match.get("competition_name"),
+        "minute": minute,
+        "score_home": score_h,
+        "score_away": score_a,
+        "pressure_score": pressure,
+        "live_stats_summary": match.get("live_stats_summary", ""),
+        "prematch_xg_home": safe_float(match.get("team_a_xg_prematch")),
+        "prematch_xg_away": safe_float(match.get("team_b_xg_prematch")),
+        "home_ppg": safe_float(match.get("home_ppg") or match.get("team_a_ppg")),
+        "away_ppg": safe_float(match.get("away_ppg") or match.get("team_b_ppg")),
+        "btts": safe_float(match.get("btts_potential")),
+        "over25": safe_float(match.get("o25_potential")),
+        "odds_1": safe_float(match.get("odds_ft_1")),
+        "odds_x": safe_float(match.get("odds_ft_x")),
+        "odds_2": safe_float(match.get("odds_ft_2")),
+    }
 
     prompt = "\n".join([
-        "Sen disiplinli bir canli bahis karar motorusun.",
+        "Sen kısa ve teknik canlı bahis analiz motorusun.",
         "Kurallar:",
-        "- Sadece ALLOWED_DECISIONS listesinden BIR secim yap veya PAS GEC sec.",
-        "- Enum disinda hicbir deger uretme.",
-        "- Veriler celiskiliyse PAS GEC.",
-        "- Ikinci yarida live_weight yuksektir, canli sinyalleri daha fazla oemse.",
-        "- Canli istatistik yoksa canli aksiyon marketlerini zorlama.",
+        "- En fazla 85 kelime yaz.",
+        "- Övgü, hitap, komutan, boss, tiyatro, emoji kullanma.",
+        "- 3 satır yaz:",
+        "1) DURUM:",
+        "2) NEDEN:",
+        "3) SONUÇ:",
+        "- Veri yetersizse tam olarak 'AI yorumu henüz yok.' yaz.",
+        "- Dakika 65+ ise canlı baskıyı prematch veriden daha önemli say.",
         "",
-        "MAC: " + sm_home + " vs " + sm_away,
-        "PREMATCH:",
-        "- xG ev/dep: " + str(xg_h) + " / " + str(xg_a),
-        "- odds 1/X/2: " + str(odds_1) + " / " + str(odds_x) + " / " + str(odds_2),
-        "- home_ppg: " + str(ppg_h) + " | away_ppg: " + str(ppg_a),
-        "- btts: " + str(btts) + " | over25: " + str(over25),
-        "LIVE:",
-        "- state: " + state_name + " | minute: " + str(minute) + " | score: " + str(h_score) + "-" + str(a_score),
-        "- stats: " + matched['live_stats_summary'],
-        "- prematch_weight: " + str(prematch_weight) + " | live_weight: " + str(live_weight),
-        "ALLOWED_DECISIONS:",
-        json.dumps(allowed, ensure_ascii=False),
+        json.dumps(payload, ensure_ascii=False)
     ])
 
-    default_payload = {
-        "status_summary": "Veri eksik veya celiskili, pas gecildi.",
-        "final_decision": "PAS GEC",
-        "bankroll_percent": 0,
-        "risk_score": 9,
-        "confidence": 20,
-        "reason_codes": ["LOW_DATA"]
-    }
-    ai_payload = default_payload
     try:
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model=GEMINI_MODEL,
             contents=prompt,
-            config={"response_mime_type": "application/json", "response_json_schema": schema},
         )
-        parsed = json.loads(response.text)
-        if parsed.get('final_decision') not in allowed:
-            parsed['status_summary'] = 'Model menu disina cikti, karar reddedildi.'
-            parsed['final_decision'] = 'PAS GEC'
-            parsed['reason_codes'] = ['CONFLICT']
-        ai_payload = parsed
-        log['ai_ok'] += 1
-        if ai_payload['final_decision'] == 'PAS GEC':
-            log['pas_gec'] += 1
+        text = (getattr(response, "text", "") or "").strip()
+        if not text:
+            return ""
+        if len(text) > 520:
+            text = text[:520].rsplit(" ", 1)[0]
+        return text
     except Exception as e:
-        print("AI hatasi: " + str(e))
-        log['errors'] += 1
+        log(f"⚠️ Live AI hatası ({match.get('home_name')} - {match.get('away_name')}): {e}")
+        return ""
 
-    matched['boss_ai_decision'] = (
-        "DURUM: " + ai_payload['status_summary'] + "\n" +
-        "KARAR: " + ai_payload['final_decision'] + "\n" +
-        "KASA: %" + str(ai_payload['bankroll_percent']) +
-        " | Risk: " + str(ai_payload['risk_score']) +
-        "/10 | Guven: " + str(ai_payload['confidence']) + "/100"
+
+def find_match(today_rows: List[Dict[str, Any]], fixture: Dict[str, Any], match_map: Dict[str, str]) -> Optional[Dict[str, Any]]:
+    fixture_id = str(fixture.get("id") or "")
+    if fixture_id and fixture_id in match_map:
+        fs_id = match_map[fixture_id]
+        for row in today_rows:
+            if str(row.get("id")) == fs_id:
+                return row
+
+    parts = fixture.get("participants") or []
+    home_p, away_p = get_side_participants(parts)
+    h = clean_name(home_p.get("name", ""))
+    a = clean_name(away_p.get("name", ""))
+    best = None
+    best_score = 0.0
+    for row in today_rows:
+        rh = clean_name(row.get("home_name", ""))
+        ra = clean_name(row.get("away_name", ""))
+        score = (ratio(h, rh) + ratio(a, ra)) / 2.0
+        if score > best_score:
+            best = row
+            best_score = score
+    if best is not None and best_score >= 0.68:
+        if fixture_id:
+            match_map[fixture_id] = str(best.get("id"))
+        return best
+    return None
+
+
+def main() -> None:
+    if not SM_KEY:
+        raise RuntimeError("SPORTMONKS_KEY eksik")
+
+    today_data = load_json(TODAY_JSON, {}).get("data", [])
+    match_map_full = load_json(MATCH_MAP_JSON, {"sportmonks_to_footystats": {}})
+    match_map = match_map_full.get("sportmonks_to_footystats", {})
+    health = load_json(HEALTH_JSON, {})
+    health.update({
+        "live_runner": "live_radar",
+        "live_started_at": datetime.utcnow().isoformat() + "Z",
+        "live_fixtures_seen": 0,
+        "live_fixtures_matched": 0,
+        "live_ai_written": 0,
+        "live_errors": [],
+    })
+
+    client = init_vertex_client()
+
+    url = (
+        f"https://api.sportmonks.com/v3/football/livescores"
+        f"?api_token={SM_KEY}&include=participants;scores;state;statistics;events;inplayOdds"
     )
-    print("OK: " + sm_home + " " + str(h_score) + "-" + str(a_score) + " " + sm_away + " -> " + ai_payload['final_decision'])
-    time.sleep(1)
+    try:
+        sm_rows = fetch_json(url).get("data", [])
+    except Exception as e:
+        raise RuntimeError(f"Sportmonks livescores alınamadı: {e}")
 
-today_path.write_text(json.dumps({"data": fs_data}, ensure_ascii=False, indent=2), encoding='utf-8')
-live_path.write_text(json.dumps(live_payload, ensure_ascii=False, indent=2), encoding='utf-8')
+    health["live_fixtures_seen"] = len(sm_rows)
 
-print("=== LOG ===")
-print("Toplam: " + str(log['total']))
-print("Eslesen: " + str(log['matched']))
-print("Skor yazilan: " + str(log['scored']))
-print("AI karar: " + str(log['ai_ok']))
-print("PAS GEC: " + str(log['pas_gec']))
-print("Hata: " + str(log['errors']))
-print("Tamamlandi.")
+    live_json_rows = []
+
+    for fixture in sm_rows:
+        state_name = (fixture.get("state") or {}).get("developer_name", "")
+        if state_name and state_name not in LIVE_STATES and "INPLAY" not in state_name and state_name != "HT":
+            continue
+
+        parts = fixture.get("participants") or []
+        if len(parts) < 2:
+            continue
+
+        row = find_match(today_data, fixture, match_map)
+        if row is None:
+            continue
+
+        health["live_fixtures_matched"] += 1
+
+        home_p, away_p = get_side_participants(parts)
+        home_score, away_score = current_score(fixture.get("scores") or [])
+        minute = extract_minute(fixture)
+        stats = extract_stats(fixture)
+        summary = summarize_stats(stats)
+        pscore = pressure_score(stats)
+
+        row["source_ids"] = row.get("source_ids") or {}
+        row["source_ids"]["sportmonks"] = str(fixture.get("id") or "")
+        row["status"] = "live" if state_name != "HT" else "paused"
+        row["elapsed"] = "HY" if state_name == "HT" else minute
+        row["homeGoalCount"] = home_score
+        row["awayGoalCount"] = away_score
+        row["totalGoalCount"] = home_score + away_score
+        row["live_stats_summary"] = summary
+        row["pressure_score"] = pscore
+        row["live"] = row.get("live") or {}
+        row["live"].update({
+            "status": row["status"],
+            "elapsed": row["elapsed"],
+            "homeGoalCount": home_score,
+            "awayGoalCount": away_score,
+            "totalGoalCount": home_score + away_score,
+            "stats_summary": summary,
+            "pressure_score": pscore,
+            "events": fixture.get("events") or [],
+            "inplayOdds": fixture.get("inplayOdds") or {},
+        })
+
+        live_comment = ai_comment_live(client, row)
+        if live_comment:
+            row["live_comment"] = live_comment
+            row["boss_ai_decision"] = live_comment
+            row["ai_comment"] = live_comment
+            row["ai"] = row.get("ai") or {}
+            row["ai"]["live_comment"] = live_comment
+            row["ai"]["active_comment"] = live_comment
+            health["live_ai_written"] += 1
+
+        live_json_rows.append({
+            "id": fixture.get("id"),
+            "minute": minute,
+            "state": state_name,
+            "homeTeam": {"name": row.get("home_name")},
+            "awayTeam": {"name": row.get("away_name")},
+            "score": {"fullTime": {"home": home_score, "away": away_score}},
+        })
+
+    save_json(TODAY_JSON, {"data": today_data})
+    save_json(MATCH_MAP_JSON, {"sportmonks_to_footystats": match_map})
+    save_json(LIVE_JSON, {"matches": live_json_rows, "resultSet": {"count": len(live_json_rows)}})
+
+    health["live_finished_at"] = datetime.utcnow().isoformat() + "Z"
+    save_json(HEALTH_JSON, health)
+
+    log(f"✅ Live eşleşen maç: {health['live_fixtures_matched']}")
+    log(f"✅ Live AI yorum: {health['live_ai_written']}")
+    log(f"✅ live.json maç sayısı: {len(live_json_rows)}")
+
+
+if __name__ == "__main__":
+    main()
