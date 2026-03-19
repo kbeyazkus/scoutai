@@ -65,11 +65,7 @@ def safe_int(v: Any, default: int = 0) -> int:
 
 
 def fetch_json(url: str) -> Dict[str, Any]:
-    r = requests.get(
-        url,
-        timeout=REQUEST_TIMEOUT,
-        headers={"Accept": "application/json", "User-Agent": "ScoutAI/1.0"},
-    )
+    r = requests.get(url, timeout=REQUEST_TIMEOUT)
     r.raise_for_status()
     return r.json()
 
@@ -332,35 +328,28 @@ def find_match(today_rows: List[Dict[str, Any]], fixture: Dict[str, Any], match_
     return None
 
 
-def fetch_livescores_safely(sm_key: str) -> List[Dict[str, Any]]:
-    include_options = [
+def fetch_live_rows() -> List[Dict[str, Any]]:
+    include_sets = [
         "participants;scores;state;statistics;events",
         "participants;scores;state;statistics",
         "participants;scores;state",
-        "",
     ]
 
-    last_error = None
-
-    for include in include_options:
+    last_err = None
+    for include in include_sets:
         try:
-            if include:
-                url = (
-                    f"https://api.sportmonks.com/v3/football/livescores"
-                    f"?api_token={sm_key}&include={include}"
-                )
-            else:
-                url = f"https://api.sportmonks.com/v3/football/livescores?api_token={sm_key}"
-
-            log(f"🔎 Sportmonks deneniyor: include={include or 'none'}")
+            url = (
+                "https://api.sportmonks.com/v3/football/livescores"
+                f"?api_token={SM_KEY}&include={include}"
+            )
             data = fetch_json(url).get("data", [])
-            log(f"✅ Sportmonks livescores başarılı: include={include or 'none'}")
+            log(f"✅ Sportmonks livescores OK | include={include} | rows={len(data)}")
             return data
         except Exception as e:
-            last_error = e
-            log(f"⚠️ Sportmonks include başarısız: {include or 'none'} -> {e}")
+            log(f"⚠️ Include başarısız: {include} | {e}")
+            last_err = e
 
-    raise RuntimeError(f"Sportmonks livescores alınamadı: {last_error}")
+    raise RuntimeError(f"Sportmonks livescores alınamadı: {last_err}")
 
 
 def main() -> None:
@@ -382,7 +371,7 @@ def main() -> None:
 
     client = init_vertex_client()
 
-    sm_rows = fetch_livescores_safely(SM_KEY)
+    sm_rows = fetch_live_rows()
     health["live_fixtures_seen"] = len(sm_rows)
 
     live_json_rows = []
@@ -402,7 +391,6 @@ def main() -> None:
 
         health["live_fixtures_matched"] += 1
 
-        home_p, away_p = get_side_participants(parts)
         home_score, away_score = current_score(fixture.get("scores") or [])
         minute = extract_minute(fixture)
         stats = extract_stats(fixture)
@@ -428,7 +416,7 @@ def main() -> None:
             "stats_summary": summary,
             "pressure_score": pscore,
             "events": fixture.get("events") or [],
-            "inplayOdds": fixture.get("inplayOdds") or {},
+            "inplayOdds": {},
         })
 
         live_comment = ai_comment_live(client, row)
