@@ -286,42 +286,42 @@ jobs:
               live_weight = 90 if state_name in {'INPLAY_2ND_HALF', 'INPLAY_ET', 'INPLAY_ET_2'} else 55
               prematch_weight = 10 if live_weight == 90 else 45
 
-              prompt = f"""
-Sen disiplinli bir canlı bahis karar motorusun.
-Kurallar:
-- Sadece ALLOWED_DECISIONS listesinden BİR seçim yap veya PAS GEÇ seç.
-- Enum dışında hiçbir değer üretme.
-- Veriler çelişkiliyse PAS GEÇ.
-- İkinci yarıda live_weight yüksek olduğu için canlı sinyalleri daha fazla önemse.
-- Canlı istatistik yoksa canlı aksiyon marketlerini zorlama.
-
-MATCH:
-{sm_home} vs {sm_away}
-
-PREMATCH:
-- xG ev: {xg_h}
-- xG deplasman: {xg_a}
-- odds 1: {odds_1}
-- odds X: {odds_x}
-- odds 2: {odds_2}
-- home_ppg: {ppg_h}
-- away_ppg: {ppg_a}
-- btts_potential: {btts}
-- over25_potential: {over25}
-
-LIVE:
-- state: {state_name}
-- minute: {minute}
-- score: {h_score}-{a_score}
-- stats_summary: {matched['live_stats_summary']}
-
-WEIGHTS:
-- prematch_weight: {prematch_weight}
-- live_weight: {live_weight}
-
-ALLOWED_DECISIONS:
-{json.dumps(allowed, ensure_ascii=False)}
-"""
+              prompt = "\n".join([
+                  "Sen disiplinli bir canlı bahis karar motorusun.",
+                  "Kurallar:",
+                  "- Sadece ALLOWED_DECISIONS listesinden BİR seçim yap veya PAS GEÇ seç.",
+                  "- Enum dışında hiçbir değer üretme.",
+                  "- Veriler çelişkiliyse PAS GEÇ.",
+                  "- İkinci yarıda live_weight yüksek olduğu için canlı sinyalleri daha fazla önemse.",
+                  "- Canlı istatistik yoksa canlı aksiyon marketlerini zorlama.",
+                  "",
+                  "MATCH:",
+                  f"{sm_home} vs {sm_away}",
+                  "",
+                  "PREMATCH:",
+                  f"- xG ev: {xg_h}",
+                  f"- xG deplasman: {xg_a}",
+                  f"- odds 1: {odds_1}",
+                  f"- odds X: {odds_x}",
+                  f"- odds 2: {odds_2}",
+                  f"- home_ppg: {ppg_h}",
+                  f"- away_ppg: {ppg_a}",
+                  f"- btts_potential: {btts}",
+                  f"- over25_potential: {over25}",
+                  "",
+                  "LIVE:",
+                  f"- state: {state_name}",
+                  f"- minute: {minute}",
+                  f"- score: {h_score}-{a_score}",
+                  f"- stats_summary: {matched['live_stats_summary']}",
+                  "",
+                  "WEIGHTS:",
+                  f"- prematch_weight: {prematch_weight}",
+                  f"- live_weight: {live_weight}",
+                  "",
+                  "ALLOWED_DECISIONS:",
+                  json.dumps(allowed, ensure_ascii=False)
+              ])
 
               default_payload = {
                   "status_summary": "Veri çelişkili veya eksik olduğu için pas geçildi.",
