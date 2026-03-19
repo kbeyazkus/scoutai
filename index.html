@@ -274,7 +274,7 @@ let kupon   = {};
 let saved   = JSON.parse(localStorage.getItem('sc_kup')||'[]');
 let tab     = 'live';
 let subTab  = 'iy';
-let cdVal   = 10;
+let cdVal   = 30;
 let cdTmr   = null;
 const MM    = {}; // id → maç objesi
 
@@ -332,9 +332,16 @@ function formPills(str) {
 // ══════════════════════════════════════════════
 function logoImg(url, name, size=34) {
   if (!url) return `<div class="tlogo-ph" style="width:${size}px;height:${size}px">⚽</div>`;
-  const src = url.startsWith('http') ? url : `https://footystats.org/images/${url}`;
+
+  let src = url;
+  if (!url.startsWith('http')) {
+    src = url.startsWith('teams/')
+      ? `https://footystats.org/images/${url}`
+      : `https://footystats.org/${url}`;
+  }
+
   return `<img class="tlogo" style="width:${size}px;height:${size}px" src="${src}" alt="${name}"
-    onerror="this.outerHTML='<div class=tlogo-ph style=\\'width:${size}px;height:${size}px\\'>⚽</div>'">`;
+    onerror="this.outerHTML='<div class=tlogo-ph style=\'width:${size}px;height:${size}px\'>⚽</div>'">`;
 }
 
 // ══════════════════════════════════════════════
@@ -342,18 +349,37 @@ function logoImg(url, name, size=34) {
 // ══════════════════════════════════════════════
 function fmtTime(ts) {
   if (!ts) return '--:--';
-  const d = new Date(ts*1000);
+  const d = new Date(ts * 1000);
   const now = new Date();
-  const isToday = d.toDateString() === now.toDateString();
-  const time = d.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit', timeZone:'Europe/Istanbul'});
+
+  const tz = 'Europe/Berlin';
+  const localDate = d.toLocaleDateString('tr-TR', { timeZone: tz });
+  const nowDate = now.toLocaleDateString('tr-TR', { timeZone: tz });
+  const isToday = localDate === nowDate;
+
+  const time = d.toLocaleTimeString('tr-TR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: tz,
+  });
+
   if (isToday) return time;
-  const date = d.toLocaleDateString('tr-TR', {day:'2-digit', month:'2-digit', timeZone:'Europe/Istanbul'});
+
+  const date = d.toLocaleDateString('tr-TR', {
+    day: '2-digit',
+    month: '2-digit',
+    timeZone: tz,
+  });
+
   return `${date} ${time}`;
 }
 function fmtDate(ts) {
   if (!ts) return '';
-  return new Date(ts*1000).toLocaleDateString('tr-TR', {
-    day:'2-digit', month:'2-digit', year:'numeric', timeZone:'Europe/Istanbul'
+  return new Date(ts * 1000).toLocaleDateString('tr-TR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'Europe/Berlin'
   });
 }
 
@@ -361,8 +387,8 @@ function fmtDate(ts) {
 //  ANALİZ (SİSTEM ETİKETLERİ + SKOR)
 // ══════════════════════════════════════════════
 function analyze(m) {
-  const hPPG  = parseFloat(m.home_ppg) || 0;
-  const aPPG  = parseFloat(m.away_ppg) || 0;
+  const hPPG  = parseFloat(m.home_ppg ?? m.team_a_ppg) || 0;
+  const aPPG  = parseFloat(m.away_ppg ?? m.team_b_ppg) || 0;
   const hXG   = parseFloat(m.team_a_xg_prematch) || parseFloat(m.team_a_xg) || 0;
   const aXG   = parseFloat(m.team_b_xg_prematch) || parseFloat(m.team_b_xg) || 0;
   const ov25  = parseFloat(m.o25_potential) || parseFloat(m.over25_potential) || 0;
@@ -403,8 +429,8 @@ function analyze(m) {
   const aF = formScore2(m.away_form);
 
   // Sezon geneli PPG (pre_match = tüm sezon)
-  const hSeasonPPG = parseFloat(m.pre_match_home_ppg) || hPPG;
-  const aSeasonPPG = parseFloat(m.pre_match_away_ppg) || aPPG;
+  const hSeasonPPG = parseFloat(m.pre_match_home_ppg ?? m.home_ppg ?? m.team_a_ppg) || hPPG;
+  const aSeasonPPG = parseFloat(m.pre_match_away_ppg ?? m.away_ppg ?? m.team_b_ppg) || aPPG;
 
   // Temiz kale %
   const hCS = parseFloat(m.team_a_cs_potential) || 0;
@@ -529,36 +555,33 @@ function card(m) {
   const lv = isLive(m);
   const dn = isDone(m);
 
+  const liveHome = m._h ?? m.homeGoalCount ?? 0;
+  const liveAway = m._a ?? m.awayGoalCount ?? 0;
+
   let hG, aG;
   if (lv) {
-    hG = m.homeGoalCount ?? 0;
-    aG = m.awayGoalCount ?? 0;
+    hG = liveHome;
+    aG = liveAway;
   } else {
     hG = m.homeGoalCount ?? '-';
     aG = m.awayGoalCount ?? '-';
   }
   const score = (lv || dn) ? `${hG}–${aG}` : '–';
 
-  // Zaman etiketi - dakika hesabı
   let liveMin = '';
   if (lv) {
     if (m.elapsed === 'HY' || String(m.status).toLowerCase() === 'paused') {
       liveMin = 'HY';
-    } else if (m.elapsed) {
+    } else if (m._min) {
+      liveMin = `${m._min}'`;
+    } else if (m.elapsed && /^\d+$/.test(String(m.elapsed))) {
       liveMin = `${m.elapsed}'`;
-    } else if (m._liveMin) {
-      liveMin = `${m._liveMin}'`;
+    } else if (m.elapsed && String(m.elapsed).startsWith('INPLAY_')) {
+      const rawMin = Math.floor((Date.now()/1000 - (m.date_unix || 0)) / 60);
+      if (rawMin > 0) liveMin = rawMin > 90 ? "90+'" : `${rawMin}'`;
     } else if (m.date_unix) {
       const totalMin = Math.floor((Date.now()/1000 - m.date_unix) / 60);
-      const htDone = parseInt(m.HTGoalCount) >= 0 && totalMin > 45;
-      if (totalMin <= 45) {
-        liveMin = `${totalMin}'`;
-      } else if (htDone && totalMin <= 60) {
-        liveMin = `HY`;
-      } else if (totalMin > 60) {
-        const min2 = totalMin - 15;
-        liveMin = min2 <= 90 ? `${min2}'` : `90+'`;
-      }
+      if (totalMin > 0) liveMin = totalMin > 90 ? "90+'" : `${totalMin}'`;
     }
   }
   const timeEl = lv
@@ -567,11 +590,10 @@ function card(m) {
       ? `<div class="mc-time">BİTTİ</div>`
       : `<div class="mc-time">${fmtTime(m.date_unix)}</div>`;
 
-  // İstatistik değerleri
-  const hPPGv = parseFloat(m.home_ppg) || 0;
-  const aPPGv = parseFloat(m.away_ppg) || 0;
+  const hPPGv = parseFloat(m.home_ppg ?? m.team_a_ppg) || 0;
+  const aPPGv = parseFloat(m.away_ppg ?? m.team_b_ppg) || 0;
   const bttsV = parseFloat(m.btts_potential) || 0;
-  const ov25V = parseFloat(m.o25_potential) || parseFloat(m.over25_potential) || 0;
+  const ov25V = parseFloat(m.o25_potential ?? m.over25_potential) || 0;
   const o05HTV= parseFloat(m.o05HT_potential) || 0;
 
   const hPPGd = hPPGv > 0 ? hPPGv.toFixed(2) : '-';
@@ -592,7 +614,7 @@ function card(m) {
   const sx = k?.pick === 'X' ? ' sx' : '';
   const s2 = k?.pick === '2' ? ' s2' : '';
 
-  return `<div class="mc">
+  return `<div class="mc${lv?' lv-mc':''}">
   <div class="mc-top"><div class="lg-badge">${lg}</div>${timeEl}</div>
   <div class="mc-teams">
     <div class="team-col h">${logoImg(m.home_image,hN)}<div class="tname h">${hN}</div></div>
@@ -643,40 +665,46 @@ function dedupe(arr) {
 async function renderLive() {
   let liveMatches = [];
   try {
-    const r = await fetch('data/today.json?t=' + Date.now());
+    const r = await fetch('data/today.json?t=' + Date.now(), { cache: 'no-store' });
     if (r.ok) {
       const j = await r.json();
       const all = Array.isArray(j.data) ? j.data : [];
       cache.today = all;
       liveMatches = all.filter(isLive);
     }
-  } catch(e) {}
+  } catch(e) {
+    return `<div class="err">Canlı veriler okunamadı.</div>`;
+  }
 
   if (!liveMatches.length)
     return `<div class="empty">🔴 Şu an canlı maç yok</div>`;
 
-  // Football-Data.org live skorları
   let liveScores = {};
   try {
-    const r = await fetch('data/live.json?t=' + Date.now());
+    const r = await fetch('data/live.json?t=' + Date.now(), { cache: 'no-store' });
     if (r.ok) {
       const j = await r.json();
       for (const m of (j.matches||[])) {
-        const k = (m.homeTeam?.name||'').toLowerCase().replace(/[^a-z]/g,'')+'_'+(m.awayTeam?.name||'').toLowerCase().replace(/[^a-z]/g,'');
-        liveScores[k] = {home: m.score?.fullTime?.home ?? m.score?.halfTime?.home ?? null, away: m.score?.fullTime?.away ?? m.score?.halfTime?.away ?? null, minute: m.minute||null};
+        const k = (m.homeTeam?.name||'').toLowerCase().replace(/[^a-z0-9]/g,'')+'_'+(m.awayTeam?.name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+        liveScores[k] = {
+          home: m.score?.fullTime?.home ?? m.score?.halfTime?.home ?? null,
+          away: m.score?.fullTime?.away ?? m.score?.halfTime?.away ?? null,
+          minute: m.minute ?? null
+        };
       }
     }
   } catch(e) {}
 
-  const normT = s => (s||'').toLowerCase().replace(/[^a-z]/g,'');
+  const normT = s => (s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
 
-  // Enrich
   const enriched = liveMatches.map(m => {
     const ls = liveScores[normT(m.home_name)+'_'+normT(m.away_name)];
-    return ls?.home !== null && ls?.home !== undefined ? {...m, _h: ls.home, _a: ls.away, _min: ls.minute} : m;
+    if (ls && ls.home !== null && ls.away !== null) {
+      return {...m, _h: ls.home, _a: ls.away, _min: ls.minute ?? m.elapsed ?? null};
+    }
+    return {...m, _h: m.homeGoalCount ?? 0, _a: m.awayGoalCount ?? 0, _min: m.elapsed ?? null};
   });
 
-  // Lig bazında grupla
   const groups = {};
   for (const m of enriched) {
     const lg = m.competition_name || 'Diğer';
@@ -684,7 +712,6 @@ async function renderLive() {
     groups[lg].push(m);
   }
 
-  // Lig bayrağı tahmini
   const flagMap = {
     'Premier League':'🏴', 'Championship':'🏴', 'League One':'🏴',
     'La Liga':'🇪🇸', 'Segunda':'🇪🇸',
@@ -718,8 +745,8 @@ async function renderLive() {
 
   const getMin = (m) => {
     if (m.elapsed === 'HY' || String(m.status).toLowerCase() === 'paused') return {txt: 'HY', hy: true};
-    if (m.elapsed) return {txt: m.elapsed+"'", hy: false};
-    if (m._min) return {txt: m._min+"'", hy: false};
+    if (m._min && /^\d+$/.test(String(m._min))) return {txt: m._min+"'", hy: false};
+    if (m.elapsed && /^\d+$/.test(String(m.elapsed))) return {txt: m.elapsed+"'", hy: false};
     if (!m.date_unix) return {txt: 'CANLI', hy: false};
     const total = Math.floor((Date.now()/1000 - m.date_unix) / 60);
     if (total <= 45) return {txt: total+"'", hy: false};
@@ -730,7 +757,9 @@ async function renderLive() {
 
   const logo = (url, name) => {
     if (url) {
-      const src = url.startsWith('http') ? url : `https://footystats.org/${url}`;
+      const src = url.startsWith('http')
+        ? url
+        : (url.startsWith('teams/') ? `https://footystats.org/images/${url}` : `https://footystats.org/${url}`);
       return `<img class="fm-logo" src="${src}" alt="" onerror="this.outerHTML='<div class=fm-logo-ph>${(name||'?')[0]}</div>'">`;
     }
     return `<div class="fm-logo-ph">${(name||'?')[0]}</div>`;
