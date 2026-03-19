@@ -2,7 +2,6 @@
 import json
 import os
 import re
-import time
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -66,7 +65,11 @@ def safe_int(v: Any, default: int = 0) -> int:
 
 
 def fetch_json(url: str) -> Dict[str, Any]:
-    r = requests.get(url, timeout=REQUEST_TIMEOUT)
+    r = requests.get(
+        url,
+        timeout=REQUEST_TIMEOUT,
+        headers={"Accept": "application/json", "User-Agent": "ScoutAI/1.0"},
+    )
     r.raise_for_status()
     return r.json()
 
@@ -329,6 +332,37 @@ def find_match(today_rows: List[Dict[str, Any]], fixture: Dict[str, Any], match_
     return None
 
 
+def fetch_livescores_safely(sm_key: str) -> List[Dict[str, Any]]:
+    include_options = [
+        "participants;scores;state;statistics;events",
+        "participants;scores;state;statistics",
+        "participants;scores;state",
+        "",
+    ]
+
+    last_error = None
+
+    for include in include_options:
+        try:
+            if include:
+                url = (
+                    f"https://api.sportmonks.com/v3/football/livescores"
+                    f"?api_token={sm_key}&include={include}"
+                )
+            else:
+                url = f"https://api.sportmonks.com/v3/football/livescores?api_token={sm_key}"
+
+            log(f"🔎 Sportmonks deneniyor: include={include or 'none'}")
+            data = fetch_json(url).get("data", [])
+            log(f"✅ Sportmonks livescores başarılı: include={include or 'none'}")
+            return data
+        except Exception as e:
+            last_error = e
+            log(f"⚠️ Sportmonks include başarısız: {include or 'none'} -> {e}")
+
+    raise RuntimeError(f"Sportmonks livescores alınamadı: {last_error}")
+
+
 def main() -> None:
     if not SM_KEY:
         raise RuntimeError("SPORTMONKS_KEY eksik")
@@ -348,15 +382,7 @@ def main() -> None:
 
     client = init_vertex_client()
 
-    url = (
-        f"https://api.sportmonks.com/v3/football/livescores"
-        f"?api_token={SM_KEY}&include=participants;scores;state;statistics;events;inplayOdds"
-    )
-    try:
-        sm_rows = fetch_json(url).get("data", [])
-    except Exception as e:
-        raise RuntimeError(f"Sportmonks livescores alınamadı: {e}")
-
+    sm_rows = fetch_livescores_safely(SM_KEY)
     health["live_fixtures_seen"] = len(sm_rows)
 
     live_json_rows = []
