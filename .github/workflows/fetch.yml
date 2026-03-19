@@ -1,7 +1,7 @@
-name: ScoutAI Global Intelligence (V4 - Hybrid Pro)
+name: ScoutAI Global Intelligence (V5 - FootyStats Core)
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 6 * * *' # Her sabah 06:00
   workflow_dispatch:
 
 jobs:
@@ -14,85 +14,57 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: '${{ secrets.GCP_SA_KEY }}'
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests google-genai
+        run: pip install requests
 
-      - name: AI Prediction (Hybrid Boss Protocol)
-        env:
-          SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
+      - name: FootyStats İstihbarat Toplama (Ajan 1, 2, 5, 11)
         run: |
           cat > /tmp/fetch.py << 'PYEOF'
-          import json, os, time, requests
-          from google import genai
+          import json, os, requests
 
-          # FootyStats API Key
           FS_KEY = "efd2daca876472203f17e188a3c0ff47ac218829ddc1be362903d96d68205a3e"
-          
           file_path = 'data/today.json'
           
-          # 1. FootyStats'tan Zengin Veriyi Çek (30 Euro'luk yatırım burada)
-          f_url = f"https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds"
+          url = f"https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds"
           try:
-              res = requests.get(f_url)
-              new_matches = res.json().get('data', [])
-              print(f"🎯 FootyStats'tan {len(new_matches)} zengin veri çekildi.")
+              res = requests.get(url)
+              matches = res.json().get('data', [])
+              print(f"📡 FootyStats'tan {len(matches)} macin derin istihbarati cekildi.")
           except Exception as e:
-              print(f"FootyStats Hatası: {e}")
+              print(f"FootyStats Hatasi: {e}")
               exit(0)
 
-          # 2. Vertex AI Bağlantısı
-          with open(os.environ['GOOGLE_APPLICATION_CREDENTIALS']) as f:
-              info = json.load(f)
-          client = genai.Client(vertexai=True, project=info['project_id'], location="us-central1")
-
           final_list = []
-          for m in new_matches[:30]: # Kapasiteyi artırdık
-              h_name = m.get('home_name', 'Ev Sahibi')
-              a_name = m.get('away_name', 'Deplasman')
-
-              # FootyStats'ın meşhur xG verileri
-              xg_h = m.get('team_a_xg_prematch', 0)
-              xg_a = m.get('team_b_xg_prematch', 0)
-
-              prompt = f"""SEN KATI VE SADECE SONUCA ODAKLI BİR BAHİS ANALİSTİ 'BOSS AI'SIN! 
-              MAÇ: {h_name} vs {a_name}
-              ÖN MAÇ xG: Ev {xg_h} - Depl {xg_a}
-              ORANLAR: 1: {m.get('odds_ft_1')} | X: {m.get('odds_ft_x')} | 2: {m.get('odds_ft_2')}
-
-              GÖREV: En mantıklı kupon türünü NET SÖYLE.
-              FORMAT:
-              🔴 DURUM ÖZETİ: (1 kısa cümle)
-              🎯 NİHAİ KARAR: (Net kupon türü)
-              💰 KASA/RİSK: (% ve 1-10)
-              """
-              
-              try:
-                  res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
-                  m['boss_ai_decision'] = res.text
-                  print(f"[{h_name}] Analiz tamam.")
-                  time.sleep(2)
-              except:
-                  pass
-              
-              # Radarımızın okuyacağı standartları ekliyoruz
-              m['status'] = 'incomplete'
-              m['homeGoalCount'] = 0
-              m['awayGoalCount'] = 0
-              final_list.append(m)
+          for m in matches:
+              # Radarin kullanacagi standart sablon
+              match_data = {
+                  "id": str(m.get('id', '')),
+                  "home_name": m.get('home_name', 'Ev Sahibi'),
+                  "away_name": m.get('away_name', 'Deplasman'),
+                  "team_a_xg_prematch": m.get('team_a_xg_prematch', '0'),
+                  "team_b_xg_prematch": m.get('team_b_xg_prematch', '0'),
+                  "odds_ft_1": m.get('odds_ft_1', '-'),
+                  "odds_ft_x": m.get('odds_ft_x', '-'),
+                  "odds_ft_2": m.get('odds_ft_2', '-'),
+                  "team_a_ppg": m.get('team_a_ppg', '0'), # Ev Sahibi Formu
+                  "team_b_ppg": m.get('team_b_ppg', '0'), # Deplasman Formu
+                  "homeGoalCount": 0,
+                  "awayGoalCount": 0,
+                  "status": "incomplete",
+                  "elapsed": 0,
+                  "boss_ai_decision": ""
+              }
+              final_list.append(match_data)
 
           os.makedirs('data', exist_ok=True)
           with open(file_path, 'w', encoding='utf-8') as f:
               json.dump({"data": final_list}, f, indent=2, ensure_ascii=False)
+          print("✅ Sabah İstihbarati today.json dosyasina kilitlendi.")
           PYEOF
           python3 /tmp/fetch.py
 
@@ -102,4 +74,5 @@ jobs:
           git config user.name "ScoutAI Commander"
           git pull --rebase || true
           git add data/today.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Hybrid Fetch: Rich Data Updated" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🔴 Fetch: FootyStats İstihbaratı Toplandı" && git push)
+          
