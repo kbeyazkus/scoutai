@@ -133,65 +133,92 @@ def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], 
     return home or {}, away or {}
 
 
-def current_score(fixture: Dict[str, Any]) -> Tuple[int, int]:
-    scores = fixture.get("scores") or []
-
-    # 1) Önce CURRENT skorunu dene
-    home = None
-    away = None
-    for s in scores:
-        desc = (s.get("description") or "").upper()
-        score_obj = s.get("score") or {}
-        if desc == "CURRENT":
-            participant = score_obj.get("participant")
-            goals = safe_int(score_obj.get("goals"), 0)
-            if participant == "home":
-                home = goals
-            elif participant == "away":
-                away = goals
-
-    if home is not None and away is not None:
-        return home, away
-
-    # 2) Fallback: events.result içinden en güncel skoru çek
-    events = fixture.get("events") or []
-    latest_result = None
-    latest_sort = -1
-
-    for ev in events:
-        result = ev.get("result")
-        minute = safe_int(ev.get("minute"), -1)
-        extra = safe_int(ev.get("extra_minute"), 0)
-        sort_val = minute * 100 + extra
-        if result and sort_val >= latest_sort:
-            latest_sort = sort_val
-            latest_result = result
-
-    if latest_result:
-        m = re.match(r"^\s*(\d+)\s*-\s*(\d+)\s*$", str(latest_result))
-        if m:
-            return int(m.group(1)), int(m.group(2))
-
-    return 0, 0
-
-
-def extract_minute(live_row: Dict[str, Any]) -> int:
+def extract_minute(fixture: Dict[str, Any]) -> int:
     for key in ["minute", "timer", "time"]:
-        v = live_row.get(key)
+        v = fixture.get(key)
         if isinstance(v, (int, float)):
             return int(v)
         if isinstance(v, dict):
             for sub in ["minute", "minutes"]:
                 if sub in v:
                     return safe_int(v[sub], 0)
-    state = (live_row.get("state") or {}).get("developer_name") or ""
-    if state in ("HT", "HALF_TIME"):
+    # fallback from events
+    best = 0
+    for ev in fixture.get("events") or []:
+        m = safe_int(ev.get("minute"), 0)
+        ex = safe_int(ev.get("extra_minute"), 0)
+        total = m if ex == 0 else m + 1
+        if total > best:
+            best = total
+    state_name = (fixture.get("state") or {}).get("developer_name", "")
+    if state_name in ("HT", "HALF_TIME") and best < 45:
         return 45
-    return 0
+    return best
 
 
-def extract_stats(live_row: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
-    stats = live_row.get("statistics") or []
+def parse_score_from_scores(fixture: Dict[str, Any]) -> Optional[Tuple[int, int]]:
+    scores = fixture.get("scores") or []
+    home = None
+    away = None
+    for s in scores:
+        desc = (s.get("description") or "").upper()
+        score_obj = s.get("score") or {}
+        participant = score_obj.get("participant")
+        goals = safe_int(score_obj.get("goals"), None)
+        if desc == "CURRENT" and goals is not None:
+            if participant == "home":
+                home = goals
+            elif participant == "away":
+                away = goals
+    if home is not None and away is not None:
+        return home, away
+    return None
+
+
+def parse_score_from_events(fixture: Dict[str, Any]) -> Optional[Tuple[int, int]]:
+    latest_result = None
+    latest_key = -1
+    for ev in fixture.get("events") or []:
+        result = ev.get("result")
+        if not result:
+            continue
+        minute = safe_int(ev.get("minute"), -1)
+        extra = safe_int(ev.get("extra_minute"), 0)
+        event_id = safe_int(ev.get("id"), 0)
+        k = minute * 100000 + extra * 100 + event_id
+        if k >= latest_key:
+            latest_key = k
+            latest_result = str(result)
+    if latest_result:
+        m = re.match(r"^\s*(\d+)\s*-\s*(\d+)\s*$", latest_result)
+        if m:
+            return int(m.group(1)), int(m.group(2))
+    return None
+
+
+def choose_score(fixture: Dict[str, Any], old_home: int, old_away: int, old_minute: int, new_minute: int) -> Tuple[int, int]:
+    candidates: List[Tuple[int, int]] = []
+    s1 = parse_score_from_scores(fixture)
+    if s1 is not None:
+        candidates.append(s1)
+    s2 = parse_score_from_events(fixture)
+    if s2 is not None:
+        candidates.append(s2)
+    candidates.append((old_home, old_away))
+
+    # Prefer the candidate with the highest total goals.
+    chosen = max(candidates, key=lambda x: (x[0] + x[1], x[0], x[1]))
+
+    # Never let score go backwards when minute only moves forward.
+    old_total = old_home + old_away
+    chosen_total = chosen[0] + chosen[1]
+    if new_minute >= old_minute and chosen_total < old_total:
+        return old_home, old_away
+    return chosen
+
+
+def extract_stats(fixture: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
+    stats = fixture.get("statistics") or []
     out = {"home": {}, "away": {}}
 
     for st in stats:
@@ -212,7 +239,7 @@ def extract_stats(live_row: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
         ).lower()
         if side not in ("home", "away"):
             participant = st.get("participant") or {}
-            side = (participant.get("location") or "").lower()
+            side = (participant.get("location") or participant.get("meta", {}).get("location") or "").lower()
         if side not in ("home", "away"):
             continue
 
@@ -363,8 +390,9 @@ def build_unmatched_live_row(fixture: Dict[str, Any]) -> Dict[str, Any]:
     parts = fixture.get("participants") or []
     home_p, away_p = get_side_participants(parts)
 
-    home_score, away_score = current_score(fixture)
     minute = extract_minute(fixture)
+    scores = choose_score(fixture, 0, 0, 0, minute)
+    home_score, away_score = scores
     stats = extract_stats(fixture)
     summary = summarize_stats(stats)
     pscore = pressure_score(stats)
@@ -383,27 +411,22 @@ def build_unmatched_live_row(fixture: Dict[str, Any]) -> Dict[str, Any]:
         or "Canlı Maç"
     )
 
-    start_ts = safe_int(
-        fixture.get("starting_at_timestamp")
-        or fixture.get("starting_at", {}).get("timestamp")
-        or 0,
-        0,
-    )
-
     return {
         "id": f"sm_{fid}",
         "source_ids": {"sportmonks": fid},
         "home_name": home_name,
         "away_name": away_name,
         "competition_name": league_name,
-        "date_unix": start_ts,
+        "date_unix": safe_int(fixture.get("starting_at_timestamp"), 0),
+        "home_image": home_p.get("image_path") or home_p.get("image") or "",
+        "away_image": away_p.get("image_path") or away_p.get("image") or "",
+        "home_country": home_p.get("country", {}).get("name") or "",
+        "away_country": away_p.get("country", {}).get("name") or "",
         "status": status,
         "elapsed": elapsed,
         "homeGoalCount": home_score,
         "awayGoalCount": away_score,
         "totalGoalCount": home_score + away_score,
-        "home_image": home_p.get("image_path") or "",
-        "away_image": away_p.get("image_path") or "",
         "team_a_xg_prematch": 0,
         "team_b_xg_prematch": 0,
         "home_ppg": 0,
@@ -438,26 +461,39 @@ def build_unmatched_live_row(fixture: Dict[str, Any]) -> Dict[str, Any]:
 
 def fetch_live_rows() -> List[Dict[str, Any]]:
     include_sets = [
-        "participants;scores;state;statistics;events",
-        "participants;scores;state;statistics",
-        "participants;scores;state",
+        "participants;league;scores;state;statistics;events",
+        "participants;league;scores;state;statistics",
+        "participants;league;scores;state",
     ]
 
     last_err = None
     for include in include_sets:
         try:
-            url = (
-                "https://api.sportmonks.com/v3/football/livescores/inplay"
-                f"?api_token={SM_KEY}&include={include}"
-            )
-            data = fetch_json(url).get("data", [])
-            log(f"✅ Sportmonks inplay livescores OK | include={include} | rows={len(data)}")
-            return data
+            all_rows: List[Dict[str, Any]] = []
+            page = 1
+            while True:
+                url = (
+                    "https://api.sportmonks.com/v3/football/livescores/inplay"
+                    f"?api_token={SM_KEY}&include={include}&page={page}"
+                )
+                payload = fetch_json(url)
+                rows = payload.get("data", [])
+                all_rows.extend(rows)
+                pagination = payload.get("pagination") or {}
+                has_more = bool(pagination.get("has_more") or pagination.get("next_page"))
+                current_page = safe_int(pagination.get("current_page"), page)
+                total_pages = safe_int(pagination.get("total_pages"), current_page)
+                if has_more or current_page < total_pages:
+                    page += 1
+                    continue
+                break
+            log(f"✅ Sportmonks inplay OK | include={include} | rows={len(all_rows)}")
+            return all_rows
         except Exception as e:
             log(f"⚠️ Include başarısız: {include} | {e}")
             last_err = e
 
-    raise RuntimeError(f"Sportmonks inplay livescores alınamadı: {last_err}")
+    raise RuntimeError(f"Sportmonks inplay alınamadı: {last_err}")
 
 
 def main() -> None:
@@ -479,6 +515,7 @@ def main() -> None:
     })
 
     client = init_vertex_client()
+
     sm_rows = fetch_live_rows()
     health["live_fixtures_seen"] = len(sm_rows)
     log(f"RAW live rows count = {len(sm_rows)}")
@@ -495,6 +532,7 @@ def main() -> None:
             continue
 
         row = find_match(today_data, fixture, match_map)
+
         if row is None:
             row = build_unmatched_live_row(fixture)
             today_data.append(row)
@@ -504,8 +542,12 @@ def main() -> None:
             health["live_fixtures_matched"] += 1
             log(f"✅ Eşleşen canlı maç: {row.get('home_name')} - {row.get('away_name')}")
 
-        home_score, away_score = current_score(fixture)
+        old_home = safe_int(row.get("homeGoalCount"), 0)
+        old_away = safe_int(row.get("awayGoalCount"), 0)
+        old_minute = safe_int(row.get("elapsed"), 0)
+
         minute = extract_minute(fixture)
+        home_score, away_score = choose_score(fixture, old_home, old_away, old_minute, minute)
         stats = extract_stats(fixture)
         summary = summarize_stats(stats)
         pscore = pressure_score(stats)
@@ -566,4 +608,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    
