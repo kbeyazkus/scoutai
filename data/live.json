@@ -1,9 +1,26 @@
 {
   "matches": [
     {
-      "id": 19425492,
-      "minute": 7,
+      "id": 19425173,
+      "minute": 17,
       "state": "INPLAY_1ST_HALF",
+      "homeTeam": {
+        "name": "Cagliari"
+      },
+      "awayTeam": {
+        "name": "Napoli"
+      },
+      "score": {
+        "fullTime": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": 19425492,
+      "minute": 45,
+      "state": "HT",
       "homeTeam": {
         "name": "Piast Gliwice"
       },
@@ -16,9 +33,43 @@
           "away": 0
         }
       }
+    },
+    {
+      "id": 19434179,
+      "minute": 5,
+      "state": "INPLAY_1ST_HALF",
+      "homeTeam": {
+        "name": "Karlsruher SC"
+      },
+      "awayTeam": {
+        "name": "Greuther Fürth"
+      },
+      "score": {
+        "fullTime": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": 19434178,
+      "minute": 19,
+      "state": "INPLAY_1ST_HALF",
+      "homeTeam": {
+        "name": "Hannover 96"
+      },
+      "awayTeam": {
+        "name": "Eintracht Braunschweig"
+      },
+      "score": {
+        "fullTime": {
+          "home": 0,
+          "away": 0
+        }
+      }
     }
   ],
   "resultSet": {
-    "count": 1
+    "count": 4
   }
 }
