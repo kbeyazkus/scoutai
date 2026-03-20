@@ -1,26 +1,9 @@
 {
   "matches": [
     {
-      "id": 19425173,
-      "minute": 17,
-      "state": "INPLAY_1ST_HALF",
-      "homeTeam": {
-        "name": "Cagliari"
-      },
-      "awayTeam": {
-        "name": "Napoli"
-      },
-      "score": {
-        "fullTime": {
-          "home": 0,
-          "away": 1
-        }
-      }
-    },
-    {
       "id": 19425492,
-      "minute": 45,
-      "state": "HT",
+      "minute": 66,
+      "state": "INPLAY_2ND_HALF",
       "homeTeam": {
         "name": "Piast Gliwice"
       },
@@ -29,15 +12,15 @@
       },
       "score": {
         "fullTime": {
-          "home": 1,
-          "away": 0
+          "home": 2,
+          "away": 1
         }
       }
     },
     {
       "id": 19434179,
-      "minute": 5,
-      "state": "INPLAY_1ST_HALF",
+      "minute": 45,
+      "state": "HT",
       "homeTeam": {
         "name": "Karlsruher SC"
       },
@@ -52,9 +35,26 @@
       }
     },
     {
+      "id": 19425173,
+      "minute": 45,
+      "state": "HT",
+      "homeTeam": {
+        "name": "Cagliari"
+      },
+      "awayTeam": {
+        "name": "Napoli"
+      },
+      "score": {
+        "fullTime": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
       "id": 19434178,
-      "minute": 19,
-      "state": "INPLAY_1ST_HALF",
+      "minute": 46,
+      "state": "HT",
       "homeTeam": {
         "name": "Hannover 96"
       },
@@ -63,13 +63,30 @@
       },
       "score": {
         "fullTime": {
-          "home": 0,
+          "home": 1,
           "away": 0
+        }
+      }
+    },
+    {
+      "id": 19686615,
+      "minute": 25,
+      "state": "INPLAY_1ST_HALF",
+      "homeTeam": {
+        "name": "Vejle Boldklub"
+      },
+      "awayTeam": {
+        "name": "Odense BK"
+      },
+      "score": {
+        "fullTime": {
+          "home": 0,
+          "away": 1
         }
       }
     }
   ],
   "resultSet": {
-    "count": 4
+    "count": 5
   }
 }
