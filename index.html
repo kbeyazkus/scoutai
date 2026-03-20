@@ -192,8 +192,29 @@ function saveKupon(){localStorage.setItem('scoutai_vnext_kupon',JSON.stringify(s
 function updateKuponPanel(){ $('kuponCount').textContent = `${Object.keys(state.kupon).length} maç`; }
 function dm(v){return Number.isFinite(Number(v))?Number(v):0;}
 function fmtTime(ts){ if(!ts) return '--:--'; return new Date(ts*1000).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit',timeZone:'Europe/Berlin'}); }
-function fmtMinute(row){ const e=row.elapsed; if(e==='HY'||e==='HT') return ['HT',true]; if(dm(e)>0) return [dm(e)+"'", false]; if(row.status==='live') return ['CANLI',false]; return [fmtTime(row.date_unix), false]; }
-function flagEmoji(country){ const map={Turkey:'🇹🇷',Türkiye:'🇹🇷',England:'🏴',Germany:'🇩🇪',Spain:'🇪🇸',Italy:'🇮🇹',France:'🇫🇷',Netherlands:'🇳🇱',Portugal:'🇵🇹',Belgium:'🇧🇪',Brazil:'🇧🇷',Argentina:'🇦🇷',Romania:'🇷🇴',Colombia:'🇨🇴',Saudi:'🇸🇦',Saudi Arabia:'🇸🇦',USA:'🇺🇸',United States:'🇺🇸'}; return map[country]||'⚽'; }
+function fmtMinute(row){ const e=row.elapsed; if(e==='HY'||e==='HT') return ['HT',true]; if(dm(e)>0) return [dm(e)+"'", false]; if(row.status==='live') return ['CANLI',false]; return [fmtTime(row.date_unix), false]; }function flagEmoji(country){
+  const map = {
+    Turkey: '🇹🇷',
+    'Türkiye': '🇹🇷',
+    England: '🏴',
+    Germany: '🇩🇪',
+    Spain: '🇪🇸',
+    Italy: '🇮🇹',
+    France: '🇫🇷',
+    Netherlands: '🇳🇱',
+    Portugal: '🇵🇹',
+    Belgium: '🇧🇪',
+    Brazil: '🇧🇷',
+    Argentina: '🇦🇷',
+    Romania: '🇷🇴',
+    Colombia: '🇨🇴',
+    Saudi: '🇸🇦',
+    'Saudi Arabia': '🇸🇦',
+    USA: '🇺🇸',
+    'United States': '🇺🇸'
+  };
+  return map[country] || '⚽';
+}
 function imgOrPh(url,text,size=22){ if(url) return `<img src="${url}" alt="">`; return `<div class="ph" style="width:${size}px;height:${size}px;display:grid;place-items:center">${(text||'?')[0]}</div>`; }
 function aiText(row){ return (row.live_comment||row.boss_ai_decision||row.prematch_comment||row.ai_comment||'AI yorumu henüz yok.').trim(); }
 function analyzeRow(row){ const score=[]; const o25=dm(row.o25_potential), btts=dm(row.btts_potential), iy=dm(row.o05HT_potential), press=dm(row.pressure_score); const tags=[];
