@@ -42,6 +42,7 @@ def load_json(path: str, default: Any) -> Any:
 
 
 def save_json(path: str, data: Any) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
@@ -132,19 +133,46 @@ def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], 
     return home or {}, away or {}
 
 
-def current_score(scores: List[Dict[str, Any]]) -> Tuple[int, int]:
-    home = 0
-    away = 0
-    for s in scores or []:
+def current_score(fixture: Dict[str, Any]) -> Tuple[int, int]:
+    scores = fixture.get("scores") or []
+
+    # 1) Önce CURRENT skorunu dene
+    home = None
+    away = None
+    for s in scores:
         desc = (s.get("description") or "").upper()
-        participant = (s.get("score") or {}).get("participant")
-        goals = safe_int((s.get("score") or {}).get("goals"), 0)
+        score_obj = s.get("score") or {}
         if desc == "CURRENT":
+            participant = score_obj.get("participant")
+            goals = safe_int(score_obj.get("goals"), 0)
             if participant == "home":
                 home = goals
             elif participant == "away":
                 away = goals
-    return home, away
+
+    if home is not None and away is not None:
+        return home, away
+
+    # 2) Fallback: events.result içinden en güncel skoru çek
+    events = fixture.get("events") or []
+    latest_result = None
+    latest_sort = -1
+
+    for ev in events:
+        result = ev.get("result")
+        minute = safe_int(ev.get("minute"), -1)
+        extra = safe_int(ev.get("extra_minute"), 0)
+        sort_val = minute * 100 + extra
+        if result and sort_val >= latest_sort:
+            latest_sort = sort_val
+            latest_result = result
+
+    if latest_result:
+        m = re.match(r"^\s*(\d+)\s*-\s*(\d+)\s*$", str(latest_result))
+        if m:
+            return int(m.group(1)), int(m.group(2))
+
+    return 0, 0
 
 
 def extract_minute(live_row: Dict[str, Any]) -> int:
@@ -156,6 +184,9 @@ def extract_minute(live_row: Dict[str, Any]) -> int:
             for sub in ["minute", "minutes"]:
                 if sub in v:
                     return safe_int(v[sub], 0)
+    state = (live_row.get("state") or {}).get("developer_name") or ""
+    if state in ("HT", "HALF_TIME"):
+        return 45
     return 0
 
 
@@ -328,6 +359,83 @@ def find_match(today_rows: List[Dict[str, Any]], fixture: Dict[str, Any], match_
     return None
 
 
+def build_unmatched_live_row(fixture: Dict[str, Any]) -> Dict[str, Any]:
+    parts = fixture.get("participants") or []
+    home_p, away_p = get_side_participants(parts)
+
+    home_score, away_score = current_score(fixture)
+    minute = extract_minute(fixture)
+    stats = extract_stats(fixture)
+    summary = summarize_stats(stats)
+    pscore = pressure_score(stats)
+
+    state_name = (fixture.get("state") or {}).get("developer_name", "")
+    status = "live" if state_name not in ("HT", "HALF_TIME") else "paused"
+    elapsed = "HY" if state_name in ("HT", "HALF_TIME") else minute
+
+    fid = str(fixture.get("id") or "")
+    home_name = home_p.get("name") or "Home"
+    away_name = away_p.get("name") or "Away"
+    league_name = (
+        fixture.get("league", {}).get("name")
+        or fixture.get("league_name")
+        or fixture.get("name")
+        or "Canlı Maç"
+    )
+
+    start_ts = safe_int(
+        fixture.get("starting_at_timestamp")
+        or fixture.get("starting_at", {}).get("timestamp")
+        or 0,
+        0,
+    )
+
+    return {
+        "id": f"sm_{fid}",
+        "source_ids": {"sportmonks": fid},
+        "home_name": home_name,
+        "away_name": away_name,
+        "competition_name": league_name,
+        "date_unix": start_ts,
+        "status": status,
+        "elapsed": elapsed,
+        "homeGoalCount": home_score,
+        "awayGoalCount": away_score,
+        "totalGoalCount": home_score + away_score,
+        "home_image": home_p.get("image_path") or "",
+        "away_image": away_p.get("image_path") or "",
+        "team_a_xg_prematch": 0,
+        "team_b_xg_prematch": 0,
+        "home_ppg": 0,
+        "away_ppg": 0,
+        "team_a_ppg": 0,
+        "team_b_ppg": 0,
+        "btts_potential": 0,
+        "o25_potential": 0,
+        "o05HT_potential": 0,
+        "odds_ft_1": 0,
+        "odds_ft_x": 0,
+        "odds_ft_2": 0,
+        "live_stats_summary": summary,
+        "pressure_score": pscore,
+        "live": {
+            "status": status,
+            "elapsed": elapsed,
+            "homeGoalCount": home_score,
+            "awayGoalCount": away_score,
+            "totalGoalCount": home_score + away_score,
+            "stats_summary": summary,
+            "pressure_score": pscore,
+            "events": fixture.get("events") or [],
+            "inplayOdds": {},
+        },
+        "boss_ai_decision": "",
+        "ai_comment": "",
+        "live_comment": "",
+        "ai": {},
+    }
+
+
 def fetch_live_rows() -> List[Dict[str, Any]]:
     include_sets = [
         "participants;scores;state;statistics;events",
@@ -339,17 +447,17 @@ def fetch_live_rows() -> List[Dict[str, Any]]:
     for include in include_sets:
         try:
             url = (
-                "https://api.sportmonks.com/v3/football/livescores"
+                "https://api.sportmonks.com/v3/football/livescores/inplay"
                 f"?api_token={SM_KEY}&include={include}"
             )
             data = fetch_json(url).get("data", [])
-            log(f"✅ Sportmonks livescores OK | include={include} | rows={len(data)}")
+            log(f"✅ Sportmonks inplay livescores OK | include={include} | rows={len(data)}")
             return data
         except Exception as e:
             log(f"⚠️ Include başarısız: {include} | {e}")
             last_err = e
 
-    raise RuntimeError(f"Sportmonks livescores alınamadı: {last_err}")
+    raise RuntimeError(f"Sportmonks inplay livescores alınamadı: {last_err}")
 
 
 def main() -> None:
@@ -365,20 +473,21 @@ def main() -> None:
         "live_started_at": datetime.utcnow().isoformat() + "Z",
         "live_fixtures_seen": 0,
         "live_fixtures_matched": 0,
+        "live_unmatched_added": 0,
         "live_ai_written": 0,
         "live_errors": [],
     })
 
     client = init_vertex_client()
-
     sm_rows = fetch_live_rows()
     health["live_fixtures_seen"] = len(sm_rows)
+    log(f"RAW live rows count = {len(sm_rows)}")
 
     live_json_rows = []
 
     for fixture in sm_rows:
         state_name = (fixture.get("state") or {}).get("developer_name", "")
-        if state_name and state_name not in LIVE_STATES and "INPLAY" not in state_name and state_name != "HT":
+        if state_name and state_name not in LIVE_STATES and "INPLAY" not in state_name and state_name not in ("HT", "HALF_TIME"):
             continue
 
         parts = fixture.get("participants") or []
@@ -387,11 +496,15 @@ def main() -> None:
 
         row = find_match(today_data, fixture, match_map)
         if row is None:
-            continue
+            row = build_unmatched_live_row(fixture)
+            today_data.append(row)
+            health["live_unmatched_added"] += 1
+            log(f"➕ Eşleşmeyen canlı maç eklendi: {row['home_name']} - {row['away_name']}")
+        else:
+            health["live_fixtures_matched"] += 1
+            log(f"✅ Eşleşen canlı maç: {row.get('home_name')} - {row.get('away_name')}")
 
-        health["live_fixtures_matched"] += 1
-
-        home_score, away_score = current_score(fixture.get("scores") or [])
+        home_score, away_score = current_score(fixture)
         minute = extract_minute(fixture)
         stats = extract_stats(fixture)
         summary = summarize_stats(stats)
@@ -399,8 +512,8 @@ def main() -> None:
 
         row["source_ids"] = row.get("source_ids") or {}
         row["source_ids"]["sportmonks"] = str(fixture.get("id") or "")
-        row["status"] = "live" if state_name != "HT" else "paused"
-        row["elapsed"] = "HY" if state_name == "HT" else minute
+        row["status"] = "live" if state_name not in ("HT", "HALF_TIME") else "paused"
+        row["elapsed"] = "HY" if state_name in ("HT", "HALF_TIME") else minute
         row["homeGoalCount"] = home_score
         row["awayGoalCount"] = away_score
         row["totalGoalCount"] = home_score + away_score
@@ -446,9 +559,11 @@ def main() -> None:
     save_json(HEALTH_JSON, health)
 
     log(f"✅ Live eşleşen maç: {health['live_fixtures_matched']}")
+    log(f"✅ Live eşleşmeyen ama eklenen maç: {health['live_unmatched_added']}")
     log(f"✅ Live AI yorum: {health['live_ai_written']}")
     log(f"✅ live.json maç sayısı: {len(live_json_rows)}")
 
 
 if __name__ == "__main__":
     main()
+    
