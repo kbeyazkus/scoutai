@@ -23,7 +23,7 @@ SOURCE_TABS_JSON = os.path.join(DATA_DIR, 'source_tabs.json')
 
 FS_KEY = os.getenv('FOOTYSTATS_KEY', '').strip()
 SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
-GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash').strip()
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', '').strip() or 'gemini-2.5-flash'
 REQUEST_TIMEOUT = 25
 
 FIXTURE_BASIC_INCLUDE = 'participants;league.country;venue;referees;weatherReport;state;scores;round'
@@ -681,40 +681,4 @@ def main():
             row['prematch_comment'] = ai_comment_prematch(client, row, detail, odds)
             if row.get('prematch_comment'):
                 row['boss_ai_decision'] = row.get('boss_ai_decision') or row['prematch_comment']
-                health['sportmonks_ai_written'] += 1
-                
-        health['sportmonks_bundle_details_written'] += 1
-
-    cutoff = time.time() - 48 * 3600
-    for bundle_obj in (fs_bundle, sm_bundle):
-        old_count = len(bundle_obj.get('fixtures', {}))
-        bundle_obj['fixtures'] = {
-            k: v for k, v in bundle_obj.get('fixtures', {}).items()
-            if safe_int(
-                (v.get('detail') or {}).get('starting_at_timestamp') or
-                (v.get('raw') or {}).get('date_unix') or
-                cutoff + 1
-            ) > cutoff
-        }
-        removed = old_count - len(bundle_obj['fixtures'])
-        if removed:
-            log(f'🗑️ Bundle temizlendi: {removed} eski fixture silindi')
-
-    save_json(FS_TODAY_JSON, {'source': 'footystats', 'day': 'today', 'updated_at': now_iso(), 'data': fs_today})
-    save_json(FS_TOMORROW_JSON, {'source': 'footystats', 'day': 'tomorrow', 'updated_at': now_iso(), 'data': fs_tomorrow})
-    save_json(SM_TODAY_JSON, {'source': 'sportmonks', 'day': 'today', 'updated_at': now_iso(), 'data': sm_today})
-    save_json(SM_TOMORROW_JSON, {'source': 'sportmonks', 'day': 'tomorrow', 'updated_at': now_iso(), 'data': sm_tomorrow})
-    save_json(FS_BUNDLE_JSON, fs_bundle)
-    save_json(SM_BUNDLE_JSON, sm_bundle)
-    save_source_tabs()
-
-    health['split_finished_at'] = now_iso()
-    health['split_duration_sec'] = round(time.time() - started, 2)
-    save_json(HEALTH_JSON, health)
-    log(f'✅ footystats_today.json {len(fs_today)}')
-    log(f'✅ footystats_tomorrow.json {len(fs_tomorrow)}')
-    log(f'✅ sportmonks_today.json {len(sm_today)}')
-    log(f'✅ sportmonks_tomorrow.json {len(sm_tomorrow)}')
-
-if __name__ == '__main__':
-    main()
+                health['sportmonks_ai_written']
