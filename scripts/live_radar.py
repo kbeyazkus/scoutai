@@ -43,7 +43,7 @@ def log(msg: str):
 
 
 def now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.utcnow().isoformat() + 'Z'
 
 
 def safe_int(v: Any, default: int = 0) -> int:
@@ -112,10 +112,10 @@ def init_vertex_client():
 
 def clean_name(name: str) -> str:
     n = unidecode(str(name or '')).lower()
-    n = re.sub(r'[\W_]+', ' ', n).strip()
-    tokens_to_remove = {'footballclub', 'futebolclube', 'clubdefutbol', 'clubdeportivo', 'women', 'ladies', 'reserves', 'reserve', 'ii', 'iii', 'u21', 'u23', 'fc', 'cf', 'ac', 'afc', 'sc', 'sk', 'if', 'fk', 'bk', 'nk', 'cd', 'de', 'la', 'the'}
-    words = [w for w in n.split() if w not in tokens_to_remove]
-    return ''.join(words)
+    n = re.sub(r'[\W_]+', '', n)
+    for token in ['footballclub', 'futebolclube', 'clubdefutbol', 'clubdeportivo', 'women', 'ladies', 'reserves', 'reserve', 'ii', 'iii', 'u21', 'u23', 'fc', 'cf', 'ac', 'afc', 'sc', 'sk', 'if', 'fk', 'bk', 'nk', 'cd', 'de', 'la', 'the']:
+        n = n.replace(token, '')
+    return n
 
 
 def ratio(a: str, b: str) -> float:
@@ -231,11 +231,11 @@ def summarize_predictions(predictions: List[Dict[str, Any]]) -> Dict[str, float]
     return out
 
 
-def heur_live_comment(row: Dict[str, Any], detail: Dict[str, Any]) -> str:
-    h = safe_int(row.get('homeGoalCount'), 0)
-    a = safe_int(row.get('awayGoalCount'), 0)
-    minute = safe_int(row.get('elapsed'), 0)
-    pressure = safe_float(row.get('pressure_score'), 0)
+def heur_live_comment(row:Dict[str,Any], detail:Dict[str,Any])->str:
+    h = safe_int(row.get('homeGoalCount'),0)
+    a = safe_int(row.get('awayGoalCount'),0)
+    minute = safe_int(row.get('elapsed'),0)
+    pressure = safe_float(row.get('pressure_score'),0)
     preds = summarize_predictions(detail.get('predictions') or [])
     shots_home = shots_away = 0
     for st in detail.get('statistics') or []:
@@ -249,40 +249,40 @@ def heur_live_comment(row: Dict[str, Any], detail: Dict[str, Any]) -> str:
         return f"DURUM: Maç canlı izleniyor.\nNEDEN: Detay veri sınırlı ama skor {h}-{a}.\nSONUÇ: Şimdilik pas daha sağlıklı."
     if h == a:
         if pressure >= 8 or shots_home >= shots_away + 2:
-            return "DURUM: Skor dengede ama ev sahibi baskı kuruyor.\nNEDEN: Baskı ve şut üstünlüğü ev tarafında.\nSONUÇ: Ev yönlü gol veya üst izlenebilir."
+            return f"DURUM: Skor dengede ama ev sahibi baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü ev tarafında.\nSONUÇ: Ev yönlü gol veya üst tarafı izlenebilir."
         if pressure <= -8 or shots_away >= shots_home + 2:
-            return "DURUM: Skor dengede ama deplasman baskı kuruyor.\nNEDEN: Baskı ve şut üstünlüğü deplasmanda.\nSONUÇ: Deplasman yönlü gol veya üst izlenebilir."
+            return f"DURUM: Skor dengede ama deplasman baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü deplasman tarafında.\nSONUÇ: Deplasman yönlü gol veya üst tarafı izlenebilir."
         if preds.get('over25') >= 60 or preds.get('btts') >= 60:
-            return "DURUM: Skor dengede.\nNEDEN: Model gollü maç eğilimini koruyor.\nSONUÇ: Üst veya KG tarafı izlenebilir."
-        return "DURUM: Maç dengede gidiyor.\nNEDEN: Net baskı üstünlüğü yok.\nSONUÇ: Şimdilik pas daha sağlıklı."
+            return f"DURUM: Skor dengede.\nNEDEN: Modelde gollü maç eğilimi korunuyor.\nSONUÇ: Üst veya KG tarafı izlenebilir."
+        return "DURUM: Maç dengede gidiyor.\nNEDEN: Net baskı üstünlüğü oluşmadı.\nSONUÇ: Şimdilik pas daha sağlıklı."
     leader = row.get('home_name') if h > a else row.get('away_name')
     trailer = row.get('away_name') if h > a else row.get('home_name')
     if abs(pressure) >= 8:
         side = 'ev sahibi' if pressure > 0 else 'deplasman'
-        return f"DURUM: {leader} önde, baskı ise {side} tarafında.\nNEDEN: Tempo maçın açık kaldığını gösteriyor.\nSONUÇ: Ek gol ihtimali takip edilebilir."
-    return f"DURUM: {leader} skor üstünlüğünü aldı.\nNEDEN: Maç {minute}. dakikada ve {trailer} net tepki üretmedi.\nSONUÇ: Önde olan taraf senaryosu korunuyor."
+        return f"DURUM: {leader} önde, baskı ise {side} tarafında.\nNEDEN: Oyun temposu ve baskı verisi maçın hâlâ açık olduğunu gösteriyor.\nSONUÇ: Ek gol ihtimali canlı takip için uygun."
+    return f"DURUM: {leader} skor üstünlüğünü aldı.\nNEDEN: Maç {minute}. dakikada ve {trailer} tarafı net tepki üretmedi.\nSONUÇ: Şu aşamada önde olan taraf lehine senaryo korunuyor."
 
 
-def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
+def ai_comment_live(client, row:Dict[str,Any], detail:Dict[str,Any])->str:
     heuristic = heur_live_comment(row, detail)
     if client is None:
         return heuristic
-    payload = {
-        'home': row.get('home_name'), 'away': row.get('away_name'), 'league': row.get('competition_name'), 'minute': safe_int(row.get('elapsed'), 0),
-        'score_home': safe_int(row.get('homeGoalCount'), 0), 'score_away': safe_int(row.get('awayGoalCount'), 0),
-        'pressure': safe_float(row.get('pressure_score'), 0),
-        'shots': [s for s in detail.get('statistics', []) if (s.get('type') or {}).get('developer_name') in ('SHOTS_TOTAL', 'SHOTS_ON_TARGET')],
-        'prediction': detail.get('predictions', [])[:4],
+    payload={
+        'home':row.get('home_name'),'away':row.get('away_name'),'league':row.get('competition_name'),'minute':safe_int(row.get('elapsed'),0),
+        'score_home':safe_int(row.get('homeGoalCount'),0),'score_away':safe_int(row.get('awayGoalCount'),0),
+        'pressure': safe_float(row.get('pressure_score'),0),
+        'shots': [s for s in detail.get('statistics',[]) if (s.get('type') or {}).get('developer_name') in ('SHOTS_TOTAL','SHOTS_ON_TARGET')],
+        'prediction': detail.get('predictions',[])[:4],
     }
-    prompt = '\n'.join([
+    prompt='\n'.join([
         'Sen kısa ve teknik canlı bahis analiz motorusun.',
-        'En fazla 85 kelime. 3 satır yaz: DURUM, NEDEN, SONUÇ. Veri yetersizse "AI yorumu henüz yok." yaz.',
+        'Kurallar: en fazla 85 kelime. 3 satır yaz: DURUM, NEDEN, SONUÇ. Veri yetersizse "AI yorumu henüz yok." yaz.',
         json.dumps(payload, ensure_ascii=False)
     ])
     try:
         time.sleep(1.5)
-        response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
-        text = (getattr(response, 'text', '') or '').strip()
+        response=client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
+        text=(getattr(response,'text','') or '').strip()
         return text or heuristic
     except Exception as e:
         if '429' in str(e) or 'quota' in str(e).lower() or 'rate' in str(e).lower():
@@ -408,11 +408,8 @@ def main():
         row = infer_fs_live(raw, fs_today_existing.get(str(raw.get('id'))))
         if row is None:
             continue
-        # FootyStats tarafında live AI'yı mevcut alanlarla yapıyoruz
-        row['live_comment'] = row.get('live_comment') or (
-            f"DURUM: Maç canlı.\nNEDEN: Skor {row['homeGoalCount']}-{row['awayGoalCount']} ve dakika {row['elapsed']}.\nSONUÇ: Canlı akış takip edilmeli."
-        )
-        row['boss_ai_decision'] = row['live_comment']
+        row['live_comment'] = row.get('live_comment') or ''
+        row['boss_ai_decision'] = row.get('boss_ai_decision') or row.get('live_comment') or ''
         fs_live_rows.append(row)
         fs_bundle.setdefault('fixtures', {})[str(row.get('id'))] = {'raw': raw, 'fetched_at': now_iso()}
 
@@ -489,6 +486,7 @@ def main():
             row['events'] = detail.get('events') or []
             row['statistics'] = detail.get('statistics') or []
             sm_bundle.setdefault('fixtures', {})[sid] = {**cached, 'detail': detail, 'fetched_at': now_iso()}
+        
         live_comment = ai_comment_live(client, row, detail or {})
         if live_comment and live_comment != 'AI yorumu henüz yok.':
             row['live_comment'] = live_comment
@@ -515,9 +513,6 @@ def main():
                 cutoff + 1
             ) > cutoff
         }
-        removed = old_count - len(bundle_obj['fixtures'])
-        if removed:
-            log(f'🗑️ Bundle temizlendi: {removed} eski fixture silindi')
 
     save_json(FS_LIVE_JSON, {'source': 'footystats', 'updated_at': now_iso(), 'matches': fs_live_rows})
     save_json(SM_LIVE_JSON, {'source': 'sportmonks', 'updated_at': now_iso(), 'matches': sm_live_rows, 'cards': sm_cards})
@@ -534,9 +529,6 @@ def main():
         'split_live_duration_sec': round(time.time() - started, 2),
     })
     save_json(HEALTH_JSON, health)
-    log(f'✅ footystats_live.json {len(fs_live_rows)}')
-    log(f'✅ sportmonks_live.json {len(sm_live_rows)}')
-
 
 if __name__ == '__main__':
     main()
