@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import json, os, re
-from datetime import datetime
+import json, os, re, time
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Tuple, Optional
 
 import requests
@@ -61,10 +61,19 @@ def safe_float(v:Any, default:float=0.0)->float:
     except Exception:
         return default
 
-def fetch_json(url:str)->Dict[str,Any]:
-    r=requests.get(url,timeout=REQUEST_TIMEOUT)
-    r.raise_for_status()
-    return r.json()
+def fetch_json(url:str, retries:int=3)->Dict[str,Any]:
+    for attempt in range(retries):
+        try:
+            r=requests.get(url,timeout=REQUEST_TIMEOUT)
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            if attempt == retries - 1:
+                raise
+            wait = 2 ** attempt
+            log(f'⚠️ fetch_json retry {attempt+1}/{retries} ({wait}s): {e}')
+            time.sleep(wait)
+    return {}
 
 def init_vertex_client():
     if genai is None:
@@ -82,10 +91,10 @@ def init_vertex_client():
 
 def clean_name(name:str)->str:
     n=unidecode(str(name or '')).lower()
-    n=re.sub(r'[\W_]+','',n)
-    for token in ['footballclub','futebolclube','clubdefutbol','clubdeportivo','women','ladies','reserves','reserve','ii','iii','u21','u23','fc','cf','ac','afc','sc','sk','if','fk','bk','nk','cd','de','la','the']:
-        n=n.replace(token,'')
-    return n
+    n=re.sub(r'[\W_]+',' ',n).strip()
+    tokens_to_remove={'footballclub','futebolclube','clubdefutbol','clubdeportivo','women','ladies','reserves','reserve','ii','iii','u21','u23','fc','cf','ac','afc','sc','sk','if','fk','bk','nk','cd','de','la','the'}
+    words=[w for w in n.split() if w not in tokens_to_remove]
+    return ''.join(words)
 
 def ratio(a:str,b:str)->float:
     if not a or not b: return 0.0
@@ -270,8 +279,14 @@ def ai_comment_live(client, row:Dict[str,Any], detail:Dict[str,Any])->str:
         return heuristic
 
 def fetch_live_rows()->List[Dict[str,Any]]:
-    url=f'https://api.sportmonks.com/v3/football/livescores/inplay?api_token={SM_KEY}&include={LIVE_INCLUDE}'
-    return fetch_json(url).get('data',[]) or []
+    if not SM_KEY:
+        return []
+    try:
+        url=f'https://api.sportmonks.com/v3/football/livescores/inplay?api_token={SM_KEY}&include={LIVE_INCLUDE}'
+        return fetch_json(url).get('data',[]) or []
+    except Exception as e:
+        log(f'⚠️ Live rows alınamadı: {e}')
+        return []
 
 def fetch_fixture_detail(fid:int)->Dict[str,Any]:
     merged = {}
@@ -286,7 +301,8 @@ def fetch_fixture_detail(fid:int)->Dict[str,Any]:
 
 def main():
     if not SM_KEY:
-        raise RuntimeError('SPORTMONKS_KEY eksik')
+        log('⚠️ SPORTMONKS_KEY eksik, live_radar çalışmıyor.')
+        return
     today = load_json(TODAY_JSON,{}).get('data',[])
     bundle = load_json(BUNDLE_JSON, {'fixtures':{}})
     health = load_json(HEALTH_JSON,{})
@@ -295,7 +311,15 @@ def main():
 
     rows = fetch_live_rows()
     live_out=[]
-    health.update({'live_runner':'live_radar_vnext_fix','live_started_at':datetime.utcnow().isoformat()+'Z','live_fixtures_seen':len(rows),'live_fixtures_matched':0,'live_unmatched_added':0,'live_ai_written':0,'live_errors':[]})
+    health.update({
+        'live_runner':'live_radar_vnext_fix',
+        'live_started_at': datetime.now(timezone.utc).isoformat(),
+        'live_fixtures_seen':len(rows),
+        'live_fixtures_matched':0,
+        'live_unmatched_added':0,
+        'live_ai_written':0,
+        'live_errors':[]
+    })
     log(f'RAW live rows count = {len(rows)}')
 
     for fixture in rows:
@@ -322,7 +346,7 @@ def main():
                 loc = str((p.get('participant') or {}).get('meta',{}).get('location') or p.get('location') or '').lower()
                 vals['home' if loc=='home' else 'away'] += safe_float(p.get('value') or p.get('amount'))
             row['pressure_score']=round(vals.get('home',0)-vals.get('away',0),2)
-            bundle.setdefault('fixtures',{})[str(fixture.get('id'))] = {**bundle.get('fixtures',{}).get(str(fixture.get('id')),{}), 'detail':detail, 'fetched_at':datetime.utcnow().isoformat()+'Z'}
+            bundle.setdefault('fixtures',{})[str(fixture.get('id'))] = {**bundle.get('fixtures',{}).get(str(fixture.get('id')),{}), 'detail':detail, 'fetched_at': datetime.now(timezone.utc).isoformat()}
         live_comment=ai_comment_live(client,row,detail or {})
         if live_comment:
             row['live_comment']=live_comment
@@ -341,9 +365,9 @@ def main():
         })
 
     save_json(TODAY_JSON, {'data': today})
-    save_json(LIVE_JSON, {'matches': live_out, 'updated_at': datetime.utcnow().isoformat()+'Z'})
+    save_json(LIVE_JSON, {'matches': live_out, 'updated_at': datetime.now(timezone.utc).isoformat()})
     save_json(BUNDLE_JSON, bundle)
-    health['live_finished_at']=datetime.utcnow().isoformat()+'Z'
+    health['live_finished_at']=datetime.now(timezone.utc).isoformat()
     save_json(HEALTH_JSON, health)
     log(f'✅ live.json maç sayısı: {len(live_out)}')
 
