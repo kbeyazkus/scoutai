@@ -80,10 +80,10 @@ def save_json(path: str, data: Any):
 
 def clean_name(name: str) -> str:
     n = unidecode(str(name or '')).lower()
-    n = re.sub(r'[\W_]+', '', n)
-    for token in ['footballclub', 'futebolclube', 'clubdefutbol', 'clubdeportivo', 'women', 'ladies', 'reserves', 'reserve', 'ii', 'iii', 'u21', 'u23', 'fc', 'cf', 'ac', 'afc', 'sc', 'sk', 'if', 'fk', 'bk', 'nk', 'cd', 'de', 'la', 'the']:
-        n = n.replace(token, '')
-    return n
+    n = re.sub(r'[\W_]+', ' ', n).strip()
+    tokens_to_remove = {'footballclub', 'futebolclube', 'clubdefutbol', 'clubdeportivo', 'women', 'ladies', 'reserves', 'reserve', 'ii', 'iii', 'u21', 'u23', 'fc', 'cf', 'ac', 'afc', 'sc', 'sk', 'if', 'fk', 'bk', 'nk', 'cd', 'de', 'la', 'the'}
+    words = [w for w in n.split() if w not in tokens_to_remove]
+    return ''.join(words)
 
 
 def ratio(a: str, b: str) -> float:
@@ -112,10 +112,19 @@ def country_from_image_path(path: str) -> str:
     return last.split('-')[0].replace('_', ' ').strip().title()
 
 
-def fetch_json(url: str, timeout: int = REQUEST_TIMEOUT) -> Dict[str, Any]:
-    r = requests.get(url, timeout=timeout)
-    r.raise_for_status()
-    return r.json()
+def fetch_json(url: str, timeout: int = REQUEST_TIMEOUT, retries: int = 3) -> Dict[str, Any]:
+    for attempt in range(retries):
+        try:
+            r = requests.get(url, timeout=timeout)
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            if attempt == retries - 1:
+                raise
+            wait = 2 ** attempt
+            log(f'⚠️ fetch_json retry {attempt+1}/{retries} ({wait}s): {e}')
+            time.sleep(wait)
+    return {}
 
 
 def init_vertex_client():
@@ -543,7 +552,7 @@ def main():
     started = time.time()
     health = {
         'runner': 'fetch_vnext_fix',
-        'started_at': datetime.utcnow().isoformat() + 'Z',
+        'started_at': datetime.now(timezone.utc).isoformat(),
         'footystats_matches': 0,
         'sportmonks_today': 0,
         'sportmonks_tomorrow': 0,
@@ -558,17 +567,21 @@ def main():
     existing_tomorrow = load_json(TOMORROW_JSON, {}).get('data', [])
     existing_tomorrow_by_sm = {str((x.get('source_ids') or {}).get('sportmonks') or ''): x for x in existing_tomorrow if (x.get('source_ids') or {}).get('sportmonks')}
     bundle_old = load_json(BUNDLE_JSON, {'fixtures': {}})
-    bundle = {'generated_at': datetime.utcnow().isoformat() + 'Z', 'fixtures': bundle_old.get('fixtures', {})}
+    bundle = {'generated_at': datetime.now(timezone.utc).isoformat(), 'fixtures': bundle_old.get('fixtures', {})}
     match_map = load_json(MATCH_MAP_JSON, {'sportmonks_to_footystats': {}})
     sm_to_fs = match_map.get('sportmonks_to_footystats', {})
 
     fs_rows = []
     if FS_KEY:
-        fs_url = f'https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds'
-        fs_json = fetch_json(fs_url)
-        fs_rows = fs_json.get('data', [])
-        health['footystats_matches'] = len(fs_rows)
-        save_json(TODAY_MAIN_JSON, {'data': fs_rows})
+        try:
+            fs_url = f'https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds'
+            fs_json = fetch_json(fs_url)
+            fs_rows = fs_json.get('data', [])
+            health['footystats_matches'] = len(fs_rows)
+            save_json(TODAY_MAIN_JSON, {'data': fs_rows})
+        except Exception as e:
+            health['errors'].append(f'footystats: {e}')
+            log(f'⚠️ FootyStats alınamadı: {e}')
 
     sm_today_rows, sm_tomorrow_rows = [], []
     if SM_KEY:
@@ -636,7 +649,7 @@ def main():
         live_standings = fetch_live_standings(round_id, live_standings_cache) if round_id else []
         h2h = fetch_h2h(safe_int(home.get('id'), 0), safe_int(away.get('id'), 0), h2h_cache) if home and away else []
         bundle['fixtures'][str(sid)] = {
-            'fetched_at': datetime.utcnow().isoformat() + 'Z',
+            'fetched_at': datetime.now(timezone.utc).isoformat(),
             'detail': detail,
             'odds': odds,
             'standings': standings,
@@ -652,17 +665,19 @@ def main():
         if bundle_fixture:
             enrich_row_from_bundle(row, bundle_fixture)
         if not row.get('prematch_comment'):
-            row['prematch_comment'] = ai_comment_prematch(vertex, row, bundle_fixture)
+            comment = ai_comment_prematch(vertex, row, bundle_fixture)
+            if comment:
+                row['prematch_comment'] = comment
+                health['prematch_ai_written'] += 1
         if row.get('prematch_comment'):
             row['boss_ai_decision'] = row.get('boss_ai_decision') or row['prematch_comment']
-            health['prematch_ai_written'] += 1
 
     save_json(TODAY_JSON, {'data': out_today})
     save_json(TOMORROW_JSON, {'data': out_tomorrow})
     save_json(BUNDLE_JSON, bundle)
     save_json(MATCH_MAP_JSON, {'sportmonks_to_footystats': sm_to_fs})
 
-    health['finished_at'] = datetime.utcnow().isoformat() + 'Z'
+    health['finished_at'] = datetime.now(timezone.utc).isoformat()
     health['duration_sec'] = round(time.time() - started, 2)
     save_json(HEALTH_JSON, health)
     log(f"✅ today.json {len(out_today)}")
