@@ -40,22 +40,17 @@ STANDINGS_INCLUDE = 'participant;rule.type;details.type;form;stage;league;group'
 LIVE_STANDINGS_INCLUDE = 'stage;league;details.type;participant'
 H2H_INCLUDE = 'participants;league;scores;state;venue;events'
 
-
 def log(msg: str):
     print(msg, flush=True)
-
 
 def ensure_dir():
     os.makedirs(DATA_DIR, exist_ok=True)
 
-
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
-
 def iso_date(offset: int = 0) -> str:
     return (datetime.now(timezone.utc) + timedelta(days=offset)).strftime('%Y-%m-%d')
-
 
 def safe_float(v: Any, default: float = 0.0) -> float:
     try:
@@ -65,7 +60,6 @@ def safe_float(v: Any, default: float = 0.0) -> float:
     except Exception:
         return default
 
-
 def safe_int(v: Any, default: int = 0) -> int:
     try:
         if v in (None, ''):
@@ -74,7 +68,6 @@ def safe_int(v: Any, default: int = 0) -> int:
     except Exception:
         return default
 
-
 def load_json(path: str, default: Any):
     try:
         with open(path, 'r', encoding='utf-8') as f:
@@ -82,11 +75,9 @@ def load_json(path: str, default: Any):
     except Exception:
         return default
 
-
 def save_json(path: str, data: Any):
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-
 
 def fetch_json(url: str, timeout: int = REQUEST_TIMEOUT, retries: int = 3) -> Dict[str, Any]:
     for attempt in range(retries):
@@ -105,7 +96,6 @@ def fetch_json(url: str, timeout: int = REQUEST_TIMEOUT, retries: int = 3) -> Di
             time.sleep(wait)
     return {}
 
-
 def init_vertex_client():
     if genai is None:
         return None
@@ -120,14 +110,12 @@ def init_vertex_client():
         log(f'⚠️ Gemini başlatılamadı: {e}')
         return None
 
-
 def clean_name(name: str) -> str:
     n = unidecode(str(name or '')).lower()
     n = re.sub(r'[\W_]+', ' ', n).strip()
     tokens_to_remove = {'footballclub', 'futebolclube', 'clubdefutbol', 'clubdeportivo', 'women', 'ladies', 'reserves', 'reserve', 'ii', 'iii', 'u21', 'u23', 'fc', 'cf', 'ac', 'afc', 'sc', 'sk', 'if', 'fk', 'bk', 'nk', 'cd', 'de', 'la', 'the'}
     words = [w for w in n.split() if w not in tokens_to_remove]
     return ''.join(words)
-
 
 def merge_value(a: Any, b: Any) -> Any:
     if b in (None, '', [], {}):
@@ -138,7 +126,6 @@ def merge_value(a: Any, b: Any) -> Any:
             out[k] = merge_value(out.get(k), v) if k in out else v
         return out
     return b
-
 
 def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     home, away = {}, {}
@@ -154,7 +141,6 @@ def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], 
         away = parts[1]
     return home, away
 
-
 def country_from_image_path(path: str) -> str:
     if not path:
         return ''
@@ -163,7 +149,6 @@ def country_from_image_path(path: str) -> str:
         return ''
     return last.split('-')[0].replace('_', ' ').strip().title()
 
-
 def normalize_status(v: Any) -> str:
     s = str(v or '').strip().lower()
     if not s:
@@ -171,7 +156,6 @@ def normalize_status(v: Any) -> str:
     if s in ('not started', 'ns', 'scheduled', 'pre-match', 'prematch'):
         return 'incomplete'
     return s
-
 
 def summarize_predictions(predictions: List[Dict[str, Any]]) -> Dict[str, float]:
     out = {'home': 0.0, 'away': 0.0, 'draw': 0.0, 'over25': 0.0, 'btts': 0.0, 'firsthalf': 0.0}
@@ -190,7 +174,6 @@ def summarize_predictions(predictions: List[Dict[str, Any]]) -> Dict[str, float]
             out['firsthalf'] = max(out['firsthalf'], safe_float(vals.get('yes')), safe_float(vals.get('home')), safe_float(vals.get('away')))
     return out
 
-
 def odds_value(odds: List[Dict[str, Any]], market_dev: str, label_match: str) -> float:
     for o in odds or []:
         market = str((o.get('market') or {}).get('developer_name') or '').upper()
@@ -200,7 +183,6 @@ def odds_value(odds: List[Dict[str, Any]], market_dev: str, label_match: str) ->
         if label_match.lower() in label:
             return safe_float(o.get('value') or o.get('odds'))
     return 0.0
-
 
 def heur_ai_prematch(row: Dict[str, Any], detail: Optional[Dict[str, Any]] = None, odds: Optional[List[Dict[str, Any]]] = None) -> str:
     detail = detail or {}
@@ -236,7 +218,6 @@ def heur_ai_prematch(row: Dict[str, Any], detail: Optional[Dict[str, Any]] = Non
             return f"DURUM: {row.get('away_name')} oran avantajına sahip.\nNEDEN: Piyasa deplasmanı önde fiyatlıyor.\nSONUÇ: X2 daha güvenli."
     return 'AI yorumu henüz yok.'
 
-
 def ai_comment_prematch(client, match: Dict[str, Any], detail: Optional[Dict[str, Any]] = None, odds: Optional[List[Dict[str, Any]]] = None) -> str:
     heuristic = heur_ai_prematch(match, detail, odds)
     if client is None:
@@ -260,6 +241,7 @@ def ai_comment_prematch(client, match: Dict[str, Any], detail: Optional[Dict[str
         json.dumps(payload, ensure_ascii=False)
     ])
     try:
+        # ZIRH: Vertex AI limitlerine takılmamak için nefes al
         time.sleep(1.5)
         response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
         text = (getattr(response, 'text', '') or '').strip()
@@ -271,12 +253,10 @@ def ai_comment_prematch(client, match: Dict[str, Any], detail: Optional[Dict[str
             log(f'⚠️ Prematch AI hatası: {e}')
         return heuristic
 
-
 def current_score_from_fs(fs: Dict[str, Any]) -> Tuple[int, int]:
     home = safe_int(fs.get('homeGoalCount') or fs.get('team_a_goals') or fs.get('home_goals'), 0)
     away = safe_int(fs.get('awayGoalCount') or fs.get('team_b_goals') or fs.get('away_goals'), 0)
     return home, away
-
 
 def build_fs_row(fs: Dict[str, Any], old: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     old = old or {}
@@ -332,7 +312,6 @@ def build_fs_row(fs: Dict[str, Any], old: Optional[Dict[str, Any]] = None) -> Di
     }
     return row
 
-
 def extract_sm_basic(sm: Dict[str, Any]) -> Dict[str, Any]:
     if not sm:
         return {}
@@ -362,7 +341,6 @@ def extract_sm_basic(sm: Dict[str, Any]) -> Dict[str, Any]:
         'weather': weather,
         'state': sm.get('state') or {},
     }
-
 
 def build_sm_row(sm: Dict[str, Any], old: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     old = old or {}
@@ -417,7 +395,6 @@ def build_sm_row(sm: Dict[str, Any], old: Optional[Dict[str, Any]] = None) -> Di
         'statistics': old.get('statistics') or [],
     }
 
-
 def fetch_round_odds(round_id: int, cache: Dict[int, Any]) -> Dict[str, Any]:
     if not SM_KEY or not round_id:
         return {}
@@ -432,13 +409,11 @@ def fetch_round_odds(round_id: int, cache: Dict[int, Any]) -> Dict[str, Any]:
     cache[round_id] = data
     return data
 
-
 def odds_for_fixture(round_data: Dict[str, Any], fixture_id: int) -> List[Dict[str, Any]]:
     for f in round_data.get('fixtures') or []:
         if safe_int(f.get('id')) == fixture_id:
             return f.get('odds') or []
     return []
-
 
 def fetch_standings(season_id: int, cache: Dict[int, Any]) -> Any:
     if not SM_KEY or not season_id:
@@ -454,7 +429,6 @@ def fetch_standings(season_id: int, cache: Dict[int, Any]) -> Any:
     cache[season_id] = data
     return data
 
-
 def fetch_live_standings(round_id: int, cache: Dict[int, Any]) -> Any:
     if not SM_KEY or not round_id:
         return []
@@ -468,7 +442,6 @@ def fetch_live_standings(round_id: int, cache: Dict[int, Any]) -> Any:
         data = []
     cache[round_id] = data
     return data
-
 
 def fetch_h2h(home_id: int, away_id: int, cache: Dict[str, Any]) -> Any:
     if not SM_KEY or not home_id or not away_id:
@@ -485,7 +458,6 @@ def fetch_h2h(home_id: int, away_id: int, cache: Dict[str, Any]) -> Any:
     cache[key] = data
     return data
 
-
 def fetch_fixture_detail(fid: int) -> Dict[str, Any]:
     if not SM_KEY or not fid:
         return {}
@@ -498,7 +470,6 @@ def fetch_fixture_detail(fid: int) -> Dict[str, Any]:
         except Exception as e:
             log(f'⚠️ Fixture detail blok alınamadı fixture={fid} include={include}: {e}')
     return merged
-
 
 def enrich_sm_row(row: Dict[str, Any], bundle_fixture: Dict[str, Any]):
     detail = bundle_fixture.get('detail') or {}
@@ -544,7 +515,6 @@ def enrich_sm_row(row: Dict[str, Any], bundle_fixture: Dict[str, Any]):
     if row.get('prematch_comment'):
         row['boss_ai_decision'] = row.get('prematch_comment')
 
-
 def fetch_footystats_for_date(date_str: str) -> List[Dict[str, Any]]:
     if not FS_KEY:
         return []
@@ -554,7 +524,6 @@ def fetch_footystats_for_date(date_str: str) -> List[Dict[str, Any]]:
     except Exception as e:
         log(f'⚠️ FootyStats alınamadı date={date_str}: {e}')
         return []
-
 
 def save_source_tabs():
     save_json(SOURCE_TABS_JSON, {
@@ -576,7 +545,6 @@ def save_source_tabs():
             },
         ],
     })
-
 
 def main():
     ensure_dir()
@@ -612,14 +580,21 @@ def main():
     fs_today, fs_tomorrow = [], []
     for raw, old_map, out in ((fs_today_raw, fs_old_today, fs_today), (fs_tomorrow_raw, fs_old_tomorrow, fs_tomorrow)):
         for fs in raw:
-            row = build_fs_row(fs, old_map.get(str(fs.get('id'))))
-            if not row.get('prematch_comment') or row.get('prematch_comment') == 'AI yorumu henüz yok.':
+            old = old_map.get(str(fs.get('id')))
+            row = build_fs_row(fs, old)
+            
+            # HAFIZA MODÜLÜ: Eski AI yorumunu koru, Gemini'yi yorma
+            old_comment = (old or {}).get('prematch_comment', '')
+            if old_comment and old_comment != 'AI yorumu henüz yok.':
+                row['prematch_comment'] = old_comment
+                row['boss_ai_decision'] = (old or {}).get('boss_ai_decision') or old_comment
+            elif not row.get('prematch_comment') or row.get('prematch_comment') == 'AI yorumu henüz yok.':
                 comment = ai_comment_prematch(client, row, {}, [])
                 if comment:
                     row['prematch_comment'] = comment
+                    row['boss_ai_decision'] = comment
                     health['footystats_ai_written'] += 1
-            if row.get('prematch_comment'):
-                row['boss_ai_decision'] = row['prematch_comment']
+            
             out.append(row)
             fs_bundle.setdefault('fixtures', {})[str(row.get('id'))] = {'raw': fs, 'fetched_at': now_iso()}
 
@@ -656,6 +631,7 @@ def main():
         standings = cached.get('standings') or (fetch_standings(season_id, standings_cache) if season_id else [])
         live_standings = cached.get('live_standings') or (fetch_live_standings(round_id, live_standings_cache) if round_id else [])
         h2h = cached.get('h2h') or (fetch_h2h(safe_int(home.get('id'), 0), safe_int(away.get('id'), 0), h2h_cache) if home and away else [])
+        
         sm_bundle.setdefault('fixtures', {})[str(sid)] = {
             'fetched_at': now_iso(),
             'detail': detail,
@@ -665,14 +641,21 @@ def main():
             'h2h': h2h,
         }
         enrich_sm_row(row, sm_bundle['fixtures'][str(sid)])
-        if not row.get('prematch_comment') or row.get('prematch_comment') == 'AI yorumu henüz yok.':
+        
+        # HAFIZA MODÜLÜ: Sportmonks tarafı için eski yorumu koru
+        old_sm_comment = (sm_old_today.get(str(sid)) or sm_old_tomorrow.get(str(sid)) or {}).get('prematch_comment', '')
+        if old_sm_comment and old_sm_comment != 'AI yorumu henüz yok.':
+            row['prematch_comment'] = old_sm_comment
+            row['boss_ai_decision'] = old_sm_comment
+        elif not row.get('prematch_comment') or row.get('prematch_comment') == 'AI yorumu henüz yok.':
             row['prematch_comment'] = ai_comment_prematch(client, row, detail, odds)
-        if row.get('prematch_comment'):
-            row['boss_ai_decision'] = row['prematch_comment']
-            health['sportmonks_ai_written'] += 1
+            if row.get('prematch_comment'):
+                row['boss_ai_decision'] = row.get('boss_ai_decision') or row['prematch_comment']
+                health['sportmonks_ai_written'] += 1
+                
         health['sportmonks_bundle_details_written'] += 1
 
-    # Çöpçü: 48 saatten eski fixture'ları bundle'dan temizle
+    # ÇÖPÇÜ MODÜLÜ: 48 saatten eski fixture'ları bundle'dan acımasızca temizle
     cutoff = time.time() - 48 * 3600
     for bundle_obj in (fs_bundle, sm_bundle):
         old_count = len(bundle_obj.get('fixtures', {}))
@@ -703,7 +686,6 @@ def main():
     log(f'✅ footystats_tomorrow.json {len(fs_tomorrow)}')
     log(f'✅ sportmonks_today.json {len(sm_today)}')
     log(f'✅ sportmonks_tomorrow.json {len(sm_tomorrow)}')
-
 
 if __name__ == '__main__':
     main()
