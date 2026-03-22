@@ -181,7 +181,10 @@ a{text-decoration:none;color:inherit}
 </div>
 <script>
 const state = {
-  tab:'live', filter:'all', detailTab:'overview', today:[], tomorrow:[], live:{matches:[]}, bundle:{fixtures:{}}, kupon:JSON.parse(localStorage.getItem('scoutai_vnext_kupon')||'{}'), current:null
+  tab:'live', filter:'all', detailTab:'overview',
+  today:[], tomorrow:[], bundle:{fixtures:{}},
+  source:'footystats',
+  kupon:JSON.parse(localStorage.getItem('scoutai_vnext_kupon')||'{}'), current:null
 };
 const TABS=[
   {key:'live',label:'🔴 Canlı'},
@@ -265,25 +268,17 @@ function aiText(row){
   const arow = analyzeRow(row);
   if(isLive(row) || minute>0){
     if(h===a){
-      if(arow.recommendation !== 'PAS') return `DURUM: Maç ${minute||'canlı'} dakikada dengede.
-NEDEN: Temel sinyal ${arow.recommendation} yönünü destekliyor.
-SONUÇ: ${arow.recommendation} tarafı izlenebilir.`;
-      return `DURUM: Maç ${minute||'canlı'} dakikada dengede.
-NEDEN: Skor eşit ve veri sınırlı.
-SONUÇ: Şimdilik pas geçmek daha sağlıklı.`;
+      if(arow.recommendation !== 'No Bet / Skip') return `STATUS: Match at minute ${minute||'live'}, score level.\nREASON: Core signal supports ${arow.recommendation}.\nCONCLUSION: ${arow.recommendation} side worth monitoring.`;
+      return `STATUS: Match at minute ${minute||'live'}, score level.\nREASON: Score equal and data limited.\nCONCLUSION: No Bet / Skip for now.`;
     }
-    const leader = h>a ? (row.home_name||'Ev Sahibi') : (row.away_name||'Deplasman');
-    const trailer = h>a ? (row.away_name||'Deplasman') : (row.home_name||'Ev Sahibi');
-    return `DURUM: ${leader} ${h}-${a} önde.
-NEDEN: Maç ${minute||'canlı'} dakikada ve skor üstünlüğü ${leader} tarafında.
-SONUÇ: ${trailer} tepki vermezse mevcut maç yönü korunabilir.`;
+    const leader = h>a ? (row.home_name||'Home') : (row.away_name||'Away');
+    const trailer = h>a ? (row.away_name||'Away') : (row.home_name||'Home');
+    return `STATUS: ${leader} leads ${h}-${a}.\nREASON: Match at minute ${minute||'live'}, score advantage on ${leader} side.\nCONCLUSION: If ${trailer} produces no response, current direction holds.`;
   }
-  if(arow.recommendation !== 'PAS'){
-    return `DURUM: Bu maç için tam AI yorumu henüz yok.
-NEDEN: Veri kısmen mevcut, ana sinyal ${arow.recommendation} yönünde.
-SONUÇ: ${arow.recommendation} tarafı izlenebilir.`;
+  if(arow.recommendation !== 'No Bet / Skip'){
+    return `STATUS: Full AI comment not yet available.\nREASON: Data partially available, main signal points to ${arow.recommendation}.\nCONCLUSION: ${arow.recommendation} side worth monitoring.`;
   }
-  return 'AI yorumu henüz yok.';
+  return 'AI comment not yet available.';
 }
 function analyzeRow(row){
   const bundle = getBundle(row) || {};
@@ -304,14 +299,14 @@ function analyzeRow(row){
   let iy = pIY || dm(predMap.OVER_UNDER_0_5_1ST_HALF_PROBABILITY?.yes) || dm(predMap.OVER_UNDER_1ST_HALF_0_5_PROBABILITY?.yes);
   const press = pPress;
   const tags=[];
-  if(press>=8) tags.push(['Baskı Ev','green']); else if(press<=-8) tags.push(['Baskı Dep','blue']);
-  if(o25>=62) tags.push(['Üst 2.5','gold']);
-  if(btts>=60) tags.push(['KG Var','purple']);
-  if(iy>=70) tags.push(['İY Gol','green']);
-  let rec='PAS';
-  if(o25>=65) rec='Üst 2.5';
-  else if(btts>=62) rec='KG Var';
-  else if(iy>=72) rec='İY 0.5 Üst';
+  if(press>=8) tags.push(['Home Pressure','green']); else if(press<=-8) tags.push(['Away Pressure','blue']);
+  if(o25>=62) tags.push(['Over 2.5','gold']);
+  if(btts>=60) tags.push(['Both Teams Score','purple']);
+  if(iy>=70) tags.push(['1H Goal','green']);
+  let rec='No Bet / Skip';
+  if(o25>=65) rec='Over 2.5';
+  else if(btts>=62) rec='Both Teams Score';
+  else if(iy>=72) rec='First Half Over 0.5';
   let conf=Math.round((o25+btts+iy)/3 || 0);
   if(!conf && pred.length) conf=58;
   conf=Math.min(95, Math.max(conf, rec==='PAS'?28:55));
@@ -319,7 +314,7 @@ function analyzeRow(row){
 }
 function groupByLeague(rows){ const out={}; rows.forEach(r=>{ const key=(r.competition_name||'Diğer'); (out[key]=out[key]||[]).push(r); }); return out; }
 function isLive(row){ const s=String(row.status||'').toLowerCase(); return ['live','inplay','paused'].includes(s)|| row.elapsed==='HY' || row.elapsed==='HT'; }
-function applyFilter(rows){ if(state.filter==='all') return rows; return rows.filter(r=>{ const a=analyzeRow(r); if(state.filter==='goals') return dm(r.o25_potential)>=55 || dm(r.btts_potential)>=55; if(state.filter==='pressure') return Math.abs(dm(r.pressure_score))>=6; if(state.filter==='value') return ['Üst 2.5','KG Var'].includes(a.recommendation); if(state.filter==='safe') return a.confidence>=65; return true; }); }
+function applyFilter(rows){ if(state.filter==='all') return rows; return rows.filter(r=>{ const a=analyzeRow(r); if(state.filter==='goals') return dm(r.o25_potential)>=55 || dm(r.btts_potential)>=55; if(state.filter==='pressure') return Math.abs(dm(r.pressure_score))>=6; if(state.filter==='value') return ['Over 2.5','Both Teams Score'].includes(a.recommendation); if(state.filter==='safe') return a.confidence>=65; return true; }); }
 function renderTabs(){ $('mainTabs').innerHTML=TABS.map(t=>`<button class="tab ${state.tab===t.key?'active':''}" data-tab="${t.key}">${t.label}</button>`).join(''); $('filterChips').innerHTML=FILTERS.map(f=>`<button class="chip ${state.filter===f.key?'active':''}" data-filter="${f.key}">${f.label}</button>`).join(''); }
 function rowScore(row){ const h = row._h ?? row.homeGoalCount ?? 0; const a = row._a ?? row.awayGoalCount ?? 0; return [dm(h),dm(a)]; }
 function renderMatchRow(row){ const [min,ht]=fmtMinute(row); const [h,a]=rowScore(row); const analysis=analyzeRow(row); const homeWin=h>a, awayWin=a>h; const key=row.id; const selected=!!state.kupon[key]; return `<div class="match-row" data-open="${key}">
@@ -508,20 +503,64 @@ function toggleKupon(id,pick=null){ const row=getRowById(id)||state.current; if(
  else if(current) delete state.kupon[row.id];
  else state.kupon[row.id]={home_name:row.home_name,away_name:row.away_name,pick:analyzeRow(row).recommendation};
  saveKupon(); renderMain(); if(state.current) renderDetailBody(); }
-async function loadData(){ const bust='?t='+Date.now(); const [today,tomorrow,live,bundle] = await Promise.allSettled([
-  fetch('data/today.json'+bust).then(r=>r.json()),
-  fetch('data/tomorrow.json'+bust).then(r=>r.json()),
-  fetch('data/live.json'+bust).then(r=>r.json()),
+async function loadData(){ const bust='?t='+Date.now(); const [fsTodayRes,fsTomorrowRes,smTodayRes,smTomorrowRes,fsLiveRes,smLiveRes,bundleRes] = await Promise.allSettled([
+  fetch('data/footystats_today.json'+bust).then(r=>r.json()),
+  fetch('data/footystats_tomorrow.json'+bust).then(r=>r.json()),
+  fetch('data/sportmonks_today.json'+bust).then(r=>r.json()),
+  fetch('data/sportmonks_tomorrow.json'+bust).then(r=>r.json()),
+  fetch('data/footystats_live.json'+bust).then(r=>r.json()),
+  fetch('data/sportmonks_live.json'+bust).then(r=>r.json()),
   fetch('data/sportmonks_bundle.json'+bust).then(r=>r.json())
  ]);
- state.today=(today.status==='fulfilled'?(today.value.data||[]):[]);
- state.tomorrow=(tomorrow.status==='fulfilled'?(tomorrow.value.data||[]):[]);
- state.live=(live.status==='fulfilled'?live.value:{matches:[]});
- state.bundle=(bundle.status==='fulfilled'?bundle.value:{fixtures:{}});
- // overlay live score onto today rows
- const scoreMap={}; const idMap={}; (state.live.matches||[]).forEach(m=>{ const k=((m.homeTeam?.name||'')+'_'+(m.awayTeam?.name||'')).toLowerCase(); scoreMap[k]=m; idMap[String(m.id||'')]=m; });
- state.today=state.today.map(r=>{ const smid = String(r?.source_ids?.sportmonks || r?.sportmonks_id || ''); const key=((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase(); const lm=idMap[smid] || scoreMap[key]; if(!lm) return r; return {...r,_h:lm.score?.fullTime?.home ?? r.homeGoalCount,_a:lm.score?.fullTime?.away ?? r.awayGoalCount,_min:lm.minute ?? r.elapsed,status:'live',elapsed:lm.minute ?? r.elapsed, live_comment: r.live_comment || lm.live_comment || ''}; });
- renderMain(); }
+
+ // Merge FootyStats + Sportmonks rows, dedupe by id
+ const fsToday   = fsTodayRes.status==='fulfilled'  ? (fsTodayRes.value.data||[])   : [];
+ const smToday   = smTodayRes.status==='fulfilled'  ? (smTodayRes.value.data||[])   : [];
+ const fsTomorrow= fsTomorrowRes.status==='fulfilled'? (fsTomorrowRes.value.data||[]): [];
+ const smTomorrow= smTomorrowRes.status==='fulfilled'? (smTomorrowRes.value.data||[]): [];
+ const fsLive    = fsLiveRes.status==='fulfilled'   ? (fsLiveRes.value.data||[])    : [];
+ const smLive    = smLiveRes.status==='fulfilled'   ? (smLiveRes.value.matches||[]) : [];
+
+ function dedupeById(arr){ const seen=new Set(); return arr.filter(r=>{ const k=String(r.id||''); if(seen.has(k)) return false; seen.add(k); return true; }); }
+
+ state.today    = dedupeById([...fsToday,   ...smToday]);
+ state.tomorrow = dedupeById([...fsTomorrow,...smTomorrow]);
+ state.bundle   = bundleRes.status==='fulfilled' ? bundleRes.value : {fixtures:{}};
+
+ // Build live score map from both live sources
+ const scoreMap={}, idMap={};
+ // FootyStats live — already enriched rows
+ for(const r of fsLive){
+   const k=((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase();
+   scoreMap[k]=r; idMap[String(r.id||'')]=r;
+ }
+ // Sportmonks live — minimal score objects
+ for(const m of smLive){
+   const k=((m.homeTeam?.name||'')+'_'+(m.awayTeam?.name||'')).toLowerCase();
+   const entry={_h:m.score?.fullTime?.home??0,_a:m.score?.fullTime?.away??0,_min:m.minute??0,status:'live',elapsed:m.minute??0};
+   if(!scoreMap[k]) scoreMap[k]=entry;
+   if(m.id) idMap[String(m.id)]=entry;
+ }
+
+ // Overlay live scores onto today rows
+ state.today = state.today.map(r=>{
+   const smid = String(r?.source_ids?.sportmonks || r?.sportmonks_id || '');
+   const key  = ((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase();
+   const lm   = idMap[smid] || scoreMap[key];
+   if(!lm) return r;
+   return {...r,
+     _h: lm._h ?? lm.score?.fullTime?.home ?? lm.homeGoalCount ?? r.homeGoalCount,
+     _a: lm._a ?? lm.score?.fullTime?.away ?? lm.awayGoalCount ?? r.awayGoalCount,
+     _min: lm._min ?? lm.minute ?? r.elapsed,
+     status:'live',
+     elapsed: lm._min ?? lm.minute ?? r.elapsed,
+     live_comment: r.live_comment || lm.live_comment || lm.boss_ai_decision || '',
+     boss_ai_decision: r.boss_ai_decision || lm.boss_ai_decision || '',
+   };
+ });
+
+ renderMain();
+}
 document.addEventListener('click',e=>{
   const tab=e.target.closest('[data-tab]'); if(tab){ state.tab=tab.dataset.tab; renderMain(); return; }
   const chip=e.target.closest('[data-filter]'); if(chip){ state.filter=chip.dataset.filter; renderMain(); return; }
