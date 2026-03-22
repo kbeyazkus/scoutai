@@ -4,7 +4,6 @@ import os
 import re
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Tuple
-
 import requests
 from unidecode import unidecode
 
@@ -26,101 +25,70 @@ FS_KEY = os.getenv('FOOTYSTATS_KEY', '').strip()
 SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
 GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 REQUEST_TIMEOUT = 25
-SM_BASE_INCLUDE = 'participants;league.country;venue;referees;weatherReport;state;scores;periods;round'
-PER_PAGE = 50
+SM_BASE_INCLUDE = 'participants;league.country;venue;referees;weatherReport;state;scores;periods;round;stats;predictions'
 
+def log(msg: str): print(msg, flush=True)
 
-def log(msg: str):
-    print(msg, flush=True)
-
-
-def ensure_dir():
-    os.makedirs(DATA_DIR, exist_ok=True)
-
+def ensure_dir(): os.makedirs(DATA_DIR, exist_ok=True)
 
 def safe_float(v: Any, default: float = 0.0) -> float:
-    try:
-        if v in (None, ''):
-            return default
-        return float(v)
-    except Exception:
-        return default
-
+    try: return float(v) if v not in (None, '') else default
+    except Exception: return default
 
 def safe_int(v: Any, default: int = 0) -> int:
-    try:
-        if v in (None, ''):
-            return default
-        return int(float(v))
-    except Exception:
-        return default
-
+    try: return int(float(v)) if v not in (None, '') else default
+    except Exception: return default
 
 def load_json(path: str, default: Any):
     try:
-        with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
-        return default
-
+        with open(path, 'r', encoding='utf-8') as f: return json.load(f)
+    except Exception: return default
 
 def save_json(path: str, data: Any):
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
+    with open(path, 'w', encoding='utf-8') as f: json.dump(data, f, indent=2, ensure_ascii=False)
 
 def fetch_json(url: str) -> Dict[str, Any]:
-    r = requests.get(url, timeout=REQUEST_TIMEOUT)
-    r.raise_for_status()
-    return r.json()
+    try:
+        r = requests.get(url, timeout=REQUEST_TIMEOUT)
+        r.raise_for_status()
+        return r.json()
+    except Exception as e:
+        log(f'⚠️ API Hatası: {e}')
+        return {}
 
-
-def fetch_all_pages(url: str) -> List[Dict[str, Any]]:
-    page = 1
-    out: List[Dict[str, Any]] = []
+def fetch_all_pages(url: str) -> list:
+    all_data, page = [], 1
     while True:
-        sep = '&' if '?' in url else '?'
-        data = fetch_json(f'{url}{sep}page={page}&per_page={PER_PAGE}')
-        out.extend(data.get('data', []) or [])
-        pagination = data.get('pagination') or data.get('meta', {}).get('pagination') or {}
-        has_more = bool(pagination.get('has_more'))
-        current_page = safe_int(pagination.get('current_page') or page, page)
-        total_pages = safe_int(pagination.get('total_pages') or current_page, current_page)
-        if not has_more and current_page >= total_pages:
+        try:
+            r = requests.get(f"{url}&page={page}", timeout=REQUEST_TIMEOUT)
+            res = r.json()
+            all_data.extend(res.get('data', []))
+            if not res.get('pagination', {}).get('has_more'): break
+            page += 1
+        except Exception as e:
+            log(f'⚠️ Sayfalama Hatası: {e}')
             break
-        page += 1
-        if page > 100:
-            break
-    return out
-
+    return all_data
 
 def init_vertex_client():
-    if genai is None:
-        return None
-    gac = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
-    if not gac or not os.path.exists(gac):
-        return None
+    if genai is None: return None
+    project = os.getenv('GCP_PROJECT_ID')
+    location = os.getenv('GCP_LOCATION', 'us-central1')
+    if not project: return None
     try:
-        with open(gac, 'r', encoding='utf-8') as f:
-            info = json.load(f)
-        return genai.Client(vertexai=True, project=info['project_id'], location='us-central1')
+        return genai.Client(vertexai=True, project=project, location=location)
     except Exception as e:
         log(f'⚠️ Gemini başlatılamadı: {e}')
         return None
 
-
 def iso_date(offset: int = 0) -> str:
     return (datetime.now(timezone.utc) + timedelta(days=offset)).strftime('%Y-%m-%d')
 
-
 def country_from_image_path(path: str) -> str:
-    if not path:
-        return ''
+    if not path: return ''
     last = path.split('/')[-1]
-    if '-' not in last:
-        return ''
+    if '-' not in last: return ''
     return last.split('-')[0].replace('_', ' ').strip().title()
-
 
 def clean_name(name: str) -> str:
     n = unidecode(str(name or '')).lower()
@@ -129,36 +97,26 @@ def clean_name(name: str) -> str:
         n = n.replace(token, '')
     return n
 
-
 def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     home, away = {}, {}
     for p in parts:
         loc = str((p.get('meta') or {}).get('location') or '').lower()
-        if loc == 'home':
-            home = p
-        elif loc == 'away':
-            away = p
-    if not home and parts:
-        home = parts[0]
-    if not away and len(parts) > 1:
-        away = parts[1]
+        if loc == 'home': home = p
+        elif loc == 'away': away = p
+    if not home and parts: home = parts[0]
+    if not away and len(parts) > 1: away = parts[1]
     return home, away
-
 
 def current_score(fixture: Dict[str, Any]) -> Tuple[int, int]:
     scores = fixture.get('scores') or []
     home, away = 0, 0
     for s in scores:
-        if str(s.get('description') or '').upper() != 'CURRENT':
-            continue
+        if str(s.get('description') or '').upper() != 'CURRENT': continue
         participant = (s.get('score') or {}).get('participant')
         goals = safe_int((s.get('score') or {}).get('goals'), 0)
-        if participant == 'home':
-            home = goals
-        elif participant == 'away':
-            away = goals
+        if participant == 'home': home = goals
+        elif participant == 'away': away = goals
     return home, away
-
 
 def extract_sm_basic(sm: Dict[str, Any]) -> Dict[str, Any]:
     parts = sm.get('participants') or []
@@ -191,7 +149,6 @@ def extract_sm_basic(sm: Dict[str, Any]) -> Dict[str, Any]:
         'awayGoalCount': a,
     }
 
-
 def heur_ai_prematch(row: Dict[str, Any]) -> str:
     hppg = safe_float(row.get('home_ppg'))
     appg = safe_float(row.get('away_ppg'))
@@ -208,20 +165,15 @@ def heur_ai_prematch(row: Dict[str, Any]) -> str:
 
     if home_edge <= 0 and away_edge <= 0 and not o25 and not btts and not iy:
         if oh and oa:
-            if oh < oa:
-                return f"DURUM: {row.get('home_name')} oran avantajına sahip.\nNEDEN: Piyasa ev sahibini hafif önde fiyatlıyor.\nSONUÇ: Ev sahibi kaybetmez tarafı daha güvenli duruyor."
-            if oa < oh:
-                return f"DURUM: {row.get('away_name')} oran avantajına sahip.\nNEDEN: Piyasa deplasman tarafını hafif önde fiyatlıyor.\nSONUÇ: Deplasman kaybetmez tarafı daha güvenli duruyor."
+            if oh < oa: return f"DURUM: {row.get('home_name')} oran avantajına sahip.\nNEDEN: Piyasa ev sahibini hafif önde fiyatlıyor.\nSONUÇ: Ev sahibi kaybetmez tarafı daha güvenli duruyor."
+            if oa < oh: return f"DURUM: {row.get('away_name')} oran avantajına sahip.\nNEDEN: Piyasa deplasman tarafını hafif önde fiyatlıyor.\nSONUÇ: Deplasman kaybetmez tarafı daha güvenli duruyor."
         return f"DURUM: {row.get('home_name')} - {row.get('away_name')} maçı için veri sınırlı.\nNEDEN: Güçlü model sinyali oluşmadı.\nSONUÇ: Şimdilik pas geçmek daha sağlıklı."
 
     if o25 >= 62 or btts >= 60:
         neden = []
-        if o25 >= 62:
-            neden.append(f"Üst 2.5 %{round(o25)}")
-        if btts >= 60:
-            neden.append(f"KG %{round(btts)}")
-        if iy >= 68:
-            neden.append(f"İY gol %{round(iy)}")
+        if o25 >= 62: neden.append(f"Üst 2.5 %{round(o25)}")
+        if btts >= 60: neden.append(f"KG %{round(btts)}")
+        if iy >= 68: neden.append(f"İY gol %{round(iy)}")
         sonuc = 'Üst 2.5' if o25 >= btts else 'KG Var'
         return f"DURUM: Maç gollü profile yakın.\nNEDEN: {', '.join(neden)} destek veriyor.\nSONUÇ: {sonuc} tarafı öncelikli."
     if home_edge > 0.28:
@@ -232,11 +184,9 @@ def heur_ai_prematch(row: Dict[str, Any]) -> str:
         return f"DURUM: İlk yarıda tempo bekleniyor.\nNEDEN: İlk yarı gol olasılığı %{round(iy)} seviyesinde.\nSONUÇ: İY 0.5 üst tarafı izlenebilir."
     return 'AI yorumu henüz yok.'
 
-
 def ai_comment_prematch(client, match: Dict[str, Any]) -> str:
     heuristic = heur_ai_prematch(match)
-    if client is None:
-        return heuristic
+    if client is None: return heuristic
     payload = {
         'home': match.get('home_name'),
         'away': match.get('away_name'),
@@ -266,7 +216,6 @@ def ai_comment_prematch(client, match: Dict[str, Any]) -> str:
     except Exception as e:
         log(f'⚠️ Prematch AI hatası: {e}')
         return heuristic
-
 
 def normalize_fs_row(fs: Dict[str, Any], client=None) -> Dict[str, Any]:
     row = {
@@ -317,9 +266,10 @@ def normalize_fs_row(fs: Dict[str, Any], client=None) -> Dict[str, Any]:
     row['boss_ai_decision'] = row['prematch_comment']
     return row
 
-
 def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
     base = extract_sm_basic(sm)
+    stats = sm.get('stats', [])
+    predictions = sm.get('predictions', {})
     row = {
         'id': f"sm-{base['sportmonks_id']}",
         'source_ids': {'footystats': '', 'sportmonks': str(base['sportmonks_id'])},
@@ -338,16 +288,16 @@ def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
         'stadium_location': base['stadium_location'],
         'referee_name': base['referee_name'],
         'weather': base['weather'],
-        'home_ppg': 0.0,
-        'away_ppg': 0.0,
+        'home_ppg': safe_float(predictions.get('home_ppg', 0.0)),
+        'away_ppg': safe_float(predictions.get('away_ppg', 0.0)),
         'team_a_ppg': '0',
         'team_b_ppg': '0',
         'pre_match_home_ppg': 0.0,
         'pre_match_away_ppg': 0.0,
-        'team_a_xg_prematch': 0.0,
-        'team_b_xg_prematch': 0.0,
-        'btts_potential': 0.0,
-        'o25_potential': 0.0,
+        'team_a_xg_prematch': safe_float(next((s.get('value') for s in stats if s.get('type_id') == 80), 0.0)),
+        'team_b_xg_prematch': safe_float(next((s.get('value') for s in stats if s.get('type_id') == 81), 0.0)),
+        'btts_potential': safe_float(predictions.get('btts_probability', 0.0)),
+        'o25_potential': safe_float(predictions.get('over_25_probability', 0.0)),
         'o05HT_potential': 0.0,
         'pressure_score': 0.0,
         'odds_ft_1': 0.0,
@@ -368,20 +318,15 @@ def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
     row['boss_ai_decision'] = row['prematch_comment']
     return row
 
-
 def fetch_footystats_for_date(date_str: str) -> List[Dict[str, Any]]:
-    if not FS_KEY:
-        return []
+    if not FS_KEY: return []
     url = f'https://api.football-data-api.com/todays-matches?key={FS_KEY}&date={date_str}&include=stats,odds'
     return fetch_json(url).get('data', []) or []
 
-
 def fetch_sportmonks_for_date(date_str: str) -> List[Dict[str, Any]]:
-    if not SM_KEY:
-        return []
+    if not SM_KEY: return []
     url = f'https://api.sportmonks.com/v3/football/fixtures/date/{date_str}?api_token={SM_KEY}&include={SM_BASE_INCLUDE}'
     return fetch_all_pages(url)
-
 
 def main():
     ensure_dir()
@@ -422,7 +367,6 @@ def main():
     sm_today = [normalize_sm_row(x, client) for x in sm_today_raw]
     sm_tomorrow = [normalize_sm_row(x, client) for x in sm_tomorrow_raw]
 
-    # FootyStats live: bugün feed içinden canlı filtre
     fs_live = [x for x in fs_today if str(x.get('status', '')).lower() in ('live', 'inplay', 'ht') or safe_int(x.get('elapsed'), 0) > 0]
 
     save_json(FOOTYSTATS_TODAY_JSON, {'data': fs_today, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
@@ -464,7 +408,6 @@ def main():
     log(f'✅ footystats_live {len(fs_live)}')
     log(f'✅ sportmonks_today {len(sm_today)}')
     log(f'✅ sportmonks_tomorrow {len(sm_tomorrow)}')
-
 
 if __name__ == '__main__':
     main()
