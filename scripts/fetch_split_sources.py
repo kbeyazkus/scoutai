@@ -18,6 +18,7 @@ FOOTYSTATS_TOMORROW_JSON = os.path.join(DATA_DIR, 'footystats_tomorrow.json')
 FOOTYSTATS_LIVE_JSON = os.path.join(DATA_DIR, 'footystats_live.json')
 SPORTMONKS_TODAY_JSON = os.path.join(DATA_DIR, 'sportmonks_today.json')
 SPORTMONKS_TOMORROW_JSON = os.path.join(DATA_DIR, 'sportmonks_tomorrow.json')
+SPORTMONKS_LIVE_JSON = os.path.join(DATA_DIR, 'sportmonks_live.json')
 SOURCE_TABS_JSON = os.path.join(DATA_DIR, 'source_tabs.json')
 HEALTH_JSON = os.path.join(DATA_DIR, 'health.json')
 
@@ -368,12 +369,15 @@ def main():
     sm_tomorrow = [normalize_sm_row(x, client) for x in sm_tomorrow_raw]
 
     fs_live = [x for x in fs_today if str(x.get('status', '')).lower() in ('live', 'inplay', 'ht') or safe_int(x.get('elapsed'), 0) > 0]
+    sm_live = [x for x in sm_today if str(x.get('status', '')).lower() in ('live', 'inplay', 'ht') or safe_int(x.get('elapsed'), 0) > 0]
 
     save_json(FOOTYSTATS_TODAY_JSON, {'data': fs_today, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
     save_json(FOOTYSTATS_TOMORROW_JSON, {'data': fs_tomorrow, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
     save_json(FOOTYSTATS_LIVE_JSON, {'data': fs_live, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
     save_json(SPORTMONKS_TODAY_JSON, {'data': sm_today, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
     save_json(SPORTMONKS_TOMORROW_JSON, {'data': sm_tomorrow, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
+    save_json(SPORTMONKS_LIVE_JSON, {'data': sm_live, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
+    
     save_json(SOURCE_TABS_JSON, {
         'tabs': [
             {
@@ -401,6 +405,7 @@ def main():
         'footystats_live': len(fs_live),
         'sportmonks_today': len(sm_today),
         'sportmonks_tomorrow': len(sm_tomorrow),
+        'sportmonks_live': len(sm_live),
     })
     save_json(HEALTH_JSON, health)
     log(f'✅ footystats_today {len(fs_today)}')
@@ -408,6 +413,7 @@ def main():
     log(f'✅ footystats_live {len(fs_live)}')
     log(f'✅ sportmonks_today {len(sm_today)}')
     log(f'✅ sportmonks_tomorrow {len(sm_tomorrow)}')
+    log(f'✅ sportmonks_live {len(sm_live)}')
 
 if __name__ == '__main__':
     main()
