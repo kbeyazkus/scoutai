@@ -22,7 +22,7 @@ BUNDLE_JSON = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
 HEALTH_JSON = os.path.join(DATA_DIR, 'health.json')
 
 SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-3-flash').strip()
 REQUEST_TIMEOUT = 25
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport;comments;pressure.participant;trends.type;trends.participant'
@@ -196,13 +196,15 @@ def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
         'prediction': detail.get('predictions', [])[:4],
     }
     prompt = '\n'.join([
-        'Sen kısa ve teknik canlı bahis analiz motorusun.',
+        'Sen çapraz veri sorgulayan teknik bahis motorusun.',
+        'Metrikleri (baskı, şut, xG, PPG) çarpıştır. Zıtlık varsa (örn: yüksek baskı ama 0 isabetli şut) riskli kabul et ve ele.',
+        'Sadece şu türlerden en risksiz TEK kuponu öner: MS1/MS2, Üst 2.5, KG Var, İlk Yarı Üst 0.5, Asya Handikap, Ev Sahibi/Deplasman 1.5 Üst.',
+        'Eğer tüm veriler birbiriyle tutarlı değilse ve mantıklı bir eşleşme yoksa kesinlikle "Oynama / Pas" kararı ver.',
         'Kurallar:',
         '- Maksimum 80 kelime.',
-        '- 3 satır yaz: DURUM, NEDEN, SONUÇ.',
-        '- Asla övgü, hitap, emoji, teatral ifade kullanma.',
+        '- 3 bölüm yaz: DURUM, NEDEN, SONUÇ.',
         '- Kesin olmayan şeyi kesinmiş gibi yazma.',
-        '- Veri yetersizse tam olarak "AI yorumu henüz yok." yaz.',
+        '- Asla övgü, hitap, emoji kullanma.',
         json.dumps(payload, ensure_ascii=False)
     ])
     try:
@@ -310,7 +312,6 @@ def main():
             detail = fetch_fixture_detail(safe_int(fid))
             if detail:
                 bundle.setdefault('fixtures', {})[fid] = {
-                    **((bundle.get('fixtures') or {}).get(fid) or {}),
                     'detail': detail,
                     'fetched_at': datetime.utcnow().isoformat() + 'Z',
                 }
@@ -328,7 +329,11 @@ def main():
             row['events'] = detail.get('events') or []
             row['statistics'] = detail.get('statistics') or []
 
-        live_comment = ai_comment_live(client, row, detail or {})
+        if row.get('elapsed', 0) > 0:
+            live_comment = ai_comment_live(client, row, detail or {})
+        else:
+            live_comment = heur_live_comment(row, detail or {})
+
         if live_comment:
             row['live_comment'] = live_comment
             row['boss_ai_decision'] = live_comment
