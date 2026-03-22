@@ -35,7 +35,9 @@ jobs:
       - name: Run live radar
         env:
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
-          GEMINI_MODEL: gemini-2.5-flash
+          GEMINI_MODEL: "gemini-2.5-flash"
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_LOCATION: "us-central1"
         run: python scripts/live_radar.py
 
       - name: Commit changes
@@ -43,5 +45,5 @@ jobs:
           git config user.email "action@github.com"
           git config user.name "ScoutAI Bot"
           git pull --rebase || true
-          git add data/today.json data/live.json data/match_map.json data/health.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update live radar" && git push)
+          git add data/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update live radar [skip ci]" && git push)
