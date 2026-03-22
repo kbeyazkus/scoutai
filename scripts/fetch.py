@@ -19,6 +19,8 @@ FOOTYSTATS_TODAY_JSON     = os.path.join(DATA_DIR, 'footystats_today.json')
 FOOTYSTATS_TOMORROW_JSON  = os.path.join(DATA_DIR, 'footystats_tomorrow.json')
 SPORTMONKS_TODAY_JSON     = os.path.join(DATA_DIR, 'sportmonks_today.json')
 SPORTMONKS_TOMORROW_JSON  = os.path.join(DATA_DIR, 'sportmonks_tomorrow.json')
+# FIX 1: Bundle must exist before live_radar runs
+BUNDLE_JSON               = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
 MATCH_MAP_JSON            = os.path.join(DATA_DIR, 'match_map.json')
 SOURCE_TABS_JSON          = os.path.join(DATA_DIR, 'source_tabs.json')
 HEALTH_JSON               = os.path.join(DATA_DIR, 'health.json')
@@ -154,7 +156,8 @@ def match_sm_to_fs(sm_row: Dict[str, Any],
                  name_ratio(sm_a, clean_name(fs.get('away_name', '')))) / 2.0
         if score > best_score:
             best, best_score = fs, score
-    if best is not None and best_score >= 0.68:
+    # FIX 5: Raised threshold to 0.75 to prevent wrong team score overlay
+    if best is not None and best_score >= 0.75:
         if sm_id:
             match_map[sm_id] = str(best.get('id', ''))
         return best
@@ -257,15 +260,17 @@ def ai_comment_prematch(client, match: Dict[str, Any]) -> str:
 
 def fetch_footystats_for_date(date_str: str) -> List[Dict[str, Any]]:
     if not FS_KEY:
-        log('⚠️ FOOTYSTATS_KEY eksik, atlanıyor.')
+        log('⚠️ FOOTYSTATS_KEY missing, skipping.')
         return []
-    url = (
-        f'https://api.football-data-api.com/todays-matches'
-        f'?key={FS_KEY}&include=stats,odds&date={date_str}'
-    )
+    today_str = iso_date(0)
+    # FIX 2: todays-matches only works for today — use date-specific endpoint for tomorrow
+    if date_str == today_str:
+        url = f'https://api.football-data-api.com/todays-matches?key={FS_KEY}&include=stats,odds'
+    else:
+        url = f'https://api.football-data-api.com/matches-by-date?key={FS_KEY}&include=stats,odds&date={date_str}'
     result = fetch_json(url)
     rows = result.get('data', [])
-    log(f'✅ FootyStats {date_str}: {len(rows)} maç')
+    log(f'✅ FootyStats {date_str}: {len(rows)} matches')
     return rows
 
 
@@ -329,7 +334,29 @@ def normalize_fs_row(fs: Dict[str, Any], client=None,
 
 def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
     base = extract_sm_basic(sm)
-    predictions = sm.get('predictions') or {}
+
+    # HOTFIX: predictions can be list, dict, or None — handle all cases safely
+    raw_predictions = sm.get('predictions')
+    btts_potential = 0.0
+    o25_potential  = 0.0
+    home_ppg       = 0.0
+    away_ppg       = 0.0
+
+    if isinstance(raw_predictions, list):
+        for p in raw_predictions:
+            if not isinstance(p, dict): continue
+            dev  = str((p.get('type') or {}).get('developer_name') or '').upper()
+            vals = p.get('predictions') or {}
+            if not isinstance(vals, dict): continue
+            if dev == 'BTTS_PROBABILITY':
+                btts_potential = safe_float(vals.get('yes'))
+            elif 'OVER_UNDER_2_5' in dev:
+                o25_potential  = safe_float(vals.get('yes'))
+    elif isinstance(raw_predictions, dict):
+        btts_potential = safe_float(raw_predictions.get('btts_probability'))
+        o25_potential  = safe_float(raw_predictions.get('over_25_probability'))
+        home_ppg       = safe_float(raw_predictions.get('home_ppg'))
+        away_ppg       = safe_float(raw_predictions.get('away_ppg'))
     row = {
         'id':               f"sm-{base['sportmonks_id']}",
         'source_ids':       {'footystats': '', 'sportmonks': str(base['sportmonks_id'])},
@@ -348,12 +375,12 @@ def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
         'venue_city':       base['stadium_location'],
         'referee_name':     base['referee_name'],
         'weather':          base['weather'],
-        'home_ppg':         safe_float(predictions.get('home_ppg')),
-        'away_ppg':         safe_float(predictions.get('away_ppg')),
+        'home_ppg':         home_ppg,
+        'away_ppg':         away_ppg,
         'team_a_xg_prematch': 0.0,
         'team_b_xg_prematch': 0.0,
-        'btts_potential':   safe_float(predictions.get('btts_probability')),
-        'o25_potential':    safe_float(predictions.get('over_25_probability')),
+        'btts_potential':   btts_potential,
+        'o25_potential':    o25_potential,
         'o05HT_potential':  0.0,
         'odds_ft_1':        0.0,
         'odds_ft_x':        0.0,
@@ -378,9 +405,11 @@ def main():
     today_str    = iso_date(0)
     tomorrow_str = iso_date(1)
 
-    # FIX 6: match_map yükle
+    # FIX 4: Prune match_map — only keep SM IDs seen today/tomorrow to prevent bloat
     match_map_full = load_json(MATCH_MAP_JSON, {'sportmonks_to_footystats': {}})
     match_map = match_map_full.get('sportmonks_to_footystats', {})
+    active_sm_ids = {str(s.get('id', '')) for s in sm_today_raw + sm_tomorrow_raw if s.get('id')}
+    match_map = {k: v for k, v in match_map.items() if k in active_sm_ids}
 
     # ── FootyStats verileri ──────────────────────────────────────────────────
     fs_today_raw    = fetch_footystats_for_date(today_str)
@@ -432,6 +461,9 @@ def main():
     save_json(SPORTMONKS_TODAY_JSON,    {'data': sm_today,    'updated_at': now_str})
     save_json(SPORTMONKS_TOMORROW_JSON, {'data': sm_tomorrow, 'updated_at': now_str})
     save_json(MATCH_MAP_JSON,           {'sportmonks_to_footystats': match_map})
+    # FIX 1: Initialize bundle if it doesn't exist — live_radar depends on it
+    if not os.path.exists(BUNDLE_JSON):
+        save_json(BUNDLE_JSON, {'fixtures': {}, 'updated_at': now_str})
     save_json(SOURCE_TABS_JSON, {
         'tabs': [
             {'key': 'footystats', 'label': 'FootyStats'},
