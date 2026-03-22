@@ -339,7 +339,22 @@ function renderMain(){ renderTabs(); updateKuponPanel(); let rows=[]; if(state.t
  if(state.tab==='kupon'){ $('content').innerHTML = renderKupon(); return; }
 }
 function getRowById(id){ return [...state.today,...state.tomorrow].find(r=>String(r.id)===String(id)); }
-function getBundle(row){ const smid = row?.source_ids?.sportmonks || row?.sportmonks_id || ''; return state.bundle.fixtures?.[String(smid)] || null; }
+function getBundle(row){
+  // FIX 9: try sportmonks id first, then fallback to name-based key
+  const smid = String(row?.source_ids?.sportmonks || row?.sportmonks_id || '');
+  if(smid && state.bundle.fixtures?.[smid]) return state.bundle.fixtures[smid];
+  // fallback: search by home+away name match
+  for(const [fid, bdata] of Object.entries(state.bundle.fixtures || {})){
+    const d = bdata?.detail || {};
+    const parts = d?.participants || [];
+    const names = parts.map(p => (p.name||'').toLowerCase());
+    if(names.some(n => n.includes((row.home_name||'').toLowerCase().slice(0,5))) &&
+       names.some(n => n.includes((row.away_name||'').toLowerCase().slice(0,5)))){
+      return bdata;
+    }
+  }
+  return null;
+}
 function teamFromDetail(detail,side){ const arr=detail?.participants||[]; return arr.find(p=>String(p?.meta?.location||'').toLowerCase()===side) || (side==='home'?arr[0]:arr[1]) || null; }
 function currentScoreFromDetail(detail,row){ const useScores=(detail?.scores||[]); let home=null, away=null; for(const s of useScores){ if((s.description||'').toUpperCase()==='CURRENT'){ const p=s.score?.participant, g=dm(s.score?.goals); if(p==='home') home=g; if(p==='away') away=g; } } if(home!=null && away!=null) return [home,away]; return rowScore(row); }
 function getMinuteFromDetail(detail,row){
@@ -474,7 +489,7 @@ function buildNews(detail){ const pre=detail?.prematchnews||detail?.prematchNews
 function buildH2H(bundle){ const rows=bundle?.h2h||[]; if(!rows.length) return '<div class="empty">H2H bulunamadı.</div>'; return `<div class="panel"><h3>Head to Head</h3>${rows.slice(0,10).map(m=>`<div class="kv"><span>${m.name||((m.participants||[]).map(p=>p.name).join(' - '))}</span><span>${scoreFromFixture(m)}</span></div>`).join('')}</div>`; }
 function scoreFromFixture(f){ let h='-',a='-'; for(const s of (f.scores||[])){ if((s.description||'').toUpperCase()==='CURRENT'){ if(s.score?.participant==='home') h=s.score?.goals; if(s.score?.participant==='away') a=s.score?.goals; } } return `${h}-${a}`; }
 function buildScoutAI(row,bundle){ const detail=bundle?.detail||{}; const pressure=(detail.pressure||[]).slice(-8); const pressText=pressure.length?pressure.map(p=>`${p.minute||''}' ${p.participant?.name||''}: ${p.value ?? p.amount ?? '-'}`).join('\n'):'Baskı verisi bulunamadı.'; return `<div class="panel"><h3>ScoutAI</h3><div class="ai-box">${aiText(row)}\n\nBaskı Akışı:\n${pressText}</div></div>`; }
-function buildKuponTab(row){ const picks=['MS1','MSX','MS2','Üst 2.5','KG Var','İY 0.5 Üst','Pas Geç']; return `<div class="panel"><h3>Kupon Seçimi</h3><div style="display:flex;flex-wrap:wrap;gap:8px">${picks.map(p=>`<button class="quick-add ${state.kupon[row.id]?.pick===p?'active':''}" style="padding:12px 14px" data-pick="${p}">${p}</button>`).join('')}</div></div>`; }
+function buildKuponTab(row){ const picks=['Home Win','Away Win','Over 2.5','Both Teams Score','First Half Over 0.5','Asian Handicap','No Bet / Skip']; return `<div class="panel"><h3>Kupon Seçimi</h3><div style="display:flex;flex-wrap:wrap;gap:8px">${picks.map(p=>`<button class="quick-add ${state.kupon[row.id]?.pick===p?'active':''}" style="padding:12px 14px" data-pick="${p}">${p}</button>`).join('')}</div></div>`; }
 function renderDetailBody(){ const row=state.current; if(!row) return; const bundle=getBundle(row) || {}; const detail=bundle.detail || {};
  const tab=state.detailTab;
  let html='';
