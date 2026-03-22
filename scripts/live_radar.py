@@ -22,7 +22,7 @@ BUNDLE_JSON = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
 HEALTH_JSON = os.path.join(DATA_DIR, 'health.json')
 
 SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
-GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-3-flash').strip()
+GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 REQUEST_TIMEOUT = 25
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport'
@@ -66,14 +66,24 @@ def fetch_json(url: str) -> Dict[str, Any]:
 def init_vertex_client():
     if genai is None:
         return None
-    project = os.getenv('GCP_PROJECT_ID')
-    location = os.getenv('GCP_LOCATION', 'us-central1')
+    gac = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
+    if gac and os.path.exists(gac):
+        try:
+            with open(gac, 'r', encoding='utf-8') as f:
+                info = json.load(f)
+            project = info.get('project_id')
+            if project:
+                return genai.Client(vertexai=True, project=project, location='us-central1')
+        except Exception as e:
+            log(f'Credentials read error: {e}')
+    project = os.getenv('GCP_PROJECT_ID', '').strip()
+    location = os.getenv('GCP_LOCATION', 'us-central1').strip()
     if not project:
         return None
     try:
         return genai.Client(vertexai=True, project=project, location=location)
     except Exception as e:
-        log(f'Vertex AI Hatasi: {e}')
+        log(f'Vertex AI init error: {e}')
         return None
 
 def clean_name(name: str) -> str:
@@ -164,22 +174,22 @@ def heur_live_comment(row: Dict[str, Any], detail: Dict[str, Any]) -> str:
             elif st.get('location') == 'away': shots_away = safe_int((st.get('data') or {}).get('value'))
             
     if minute <= 0 and not pressure and not shots_home and not shots_away:
-        return f"DURUM: Maç canlı izleniyor.\nNEDEN: Detay veri sınırlı ama skor {h}-{a}.\nSONUÇ: Şimdilik pas daha sağlıklı."
+        return f"STATUS: Match is live, score {h}-{a}.\nREASON: Limited live data available.\nCONCLUSION: No Bet / Skip for now."
     if h == a:
         if pressure >= 8 or shots_home >= shots_away + 2:
-            return "DURUM: Skor dengede ama ev sahibi baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü ev tarafında.\nSONUÇ: Ev yönlü gol veya üst tarafı izlenebilir."
+            return "STATUS: Score level but home team applying pressure.\nREASON: Pressure gap and shot advantage on home side.\nCONCLUSION: Home goal or Over side worth monitoring."
         if pressure <= -8 or shots_away >= shots_home + 2:
-            return "DURUM: Skor dengede ama deplasman baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü deplasman tarafında.\nSONUÇ: Deplasman yönlü gol veya üst tarafı izlenebilir."
+            return "STATUS: Score level but away team applying pressure.\nREASON: Pressure gap and shot advantage on away side.\nCONCLUSION: Away goal or Over side worth monitoring."
         if preds.get('over25') >= 60 or preds.get('btts') >= 60:
-            return "DURUM: Skor dengede.\nNEDEN: Modelde gollü maç eğilimi korunuyor.\nSONUÇ: Üst veya KG tarafı izlenebilir."
-        return "DURUM: Maç dengede gidiyor.\nNEDEN: Net baskı üstünlüğü oluşmadı.\nSONUÇ: Şimdilik pas daha sağlıklı."
+            return "STATUS: Score level.\nREASON: Model maintains high-scoring match tendency.\nCONCLUSION: Over 2.5 or Both Teams Score worth monitoring."
+        return "STATUS: Match evenly contested.\nREASON: No clear pressure dominance established.\nCONCLUSION: No Bet / Skip for now."
         
     leader = row.get('home_name') if h > a else row.get('away_name')
     trailer = row.get('away_name') if h > a else row.get('home_name')
     if abs(pressure) >= 8:
-        side = 'ev sahibi' if pressure > 0 else 'deplasman'
-        return f"DURUM: {leader} önde, baskı ise {side} tarafında.\nNEDEN: Oyun temposu ve baskı verisi maçın hâlâ açık olduğunu gösteriyor.\nSONUÇ: Ek gol ihtimali canlı takip için uygun."
-    return f"DURUM: {leader} skor üstünlüğünü aldı.\nNEDEN: Maç {minute}. dakikada ve {trailer} tarafı net tepki üretmedi.\nSONUÇ: Şu aşamada önde olan taraf lehine senaryo korunuyor."
+        side = 'home' if pressure > 0 else 'away'
+        return f"STATUS: {leader} leads but pressure on {side} side.\nREASON: Tempo and pressure data indicate match still open.\nCONCLUSION: Additional goal probability warrants live monitoring."
+    return f"STATUS: {leader} holds score advantage.\nREASON: Match at minute {minute}, {trailer} produced no clear response.\nCONCLUSION: Leading team scenario maintained at this stage."
 
 def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
     heuristic = heur_live_comment(row, detail)
@@ -196,15 +206,13 @@ def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
         'prediction': detail.get('predictions', [])[:4],
     }
     prompt = '\n'.join([
-        'Sen çapraz veri sorgulayan teknik bahis motorusun.',
-        'Metrikleri (baskı, şut, xG, PPG) çarpıştır. Zıtlık varsa (örn: yüksek baskı ama 0 isabetli şut) riskli kabul et ve ele.',
-        'Sadece şu türlerden en risksiz TEK kuponu öner: MS1/MS2, Üst 2.5, KG Var, İlk Yarı Üst 0.5, Asya Handikap, Ev Sahibi/Deplasman 1.5 Üst.',
-        'Eğer tüm veriler birbiriyle tutarlı değilse ve mantıklı bir eşleşme yoksa kesinlikle "Oynama / Pas" kararı ver.',
-        'Kurallar:',
-        '- Maksimum 80 kelime.',
-        '- 3 bölüm yaz: DURUM, NEDEN, SONUÇ.',
-        '- Kesin olmayan şeyi kesinmiş gibi yazma.',
-        '- Asla övgü, hitap, emoji kullanma.',
+        'You are a technical live betting analysis engine that cross-checks data.',
+        'Cross-check all metrics (pressure, shots, xG, PPG). If data conflicts flag as RISKY.',
+        'Recommend only ONE lowest-risk bet from: Home Win, Away Win, Over 2.5, Both Teams Score, First Half Over 0.5, Asian Handicap, Home Team +1.5 Over Goals, Away Team +1.5 Over Goals.',
+        'If confidence is low output exactly: "No Bet / Skip".',
+        'Rules: Max 80 words. 3 sections only: STATUS, REASON, CONCLUSION. Be sharp and technical.',
+        '- Live match 65+ min: weight live pressure over prematch stats.',
+        '- Never use emojis, flattery or drama.',
         json.dumps(payload, ensure_ascii=False)
     ])
     try:
@@ -244,9 +252,9 @@ def build_sm_row_from_live(fixture: Dict[str, Any]) -> Dict[str, Any]:
     return {
         'id': f"sm-{fixture.get('id')}",
         'source_ids': {'footystats': '', 'sportmonks': str(fixture.get('id') or '')},
-        'home_name': home.get('name') or 'Ev Sahibi',
-        'away_name': away.get('name') or 'Deplasman',
-        'competition_name': league.get('name') or fixture.get('name') or 'Canlı Maç',
+        'home_name': home.get('name') or 'Home',
+        'away_name': away.get('name') or 'Away',
+        'competition_name': league.get('name') or fixture.get('name') or 'Live Match',
         'competition_id': safe_int(league.get('id'), 0),
         'league_country': (league.get('country') or {}).get('name', ''),
         'league_country_image': (league.get('country') or {}).get('image_path', ''),
