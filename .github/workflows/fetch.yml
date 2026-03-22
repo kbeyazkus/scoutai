@@ -1,16 +1,12 @@
-name: ScoutAI Live Radar
+name: Fetch Data
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
-concurrency:
-  group: scoutai-data
-  cancel-in-progress: false
-
 jobs:
-  live-radar:
+  fetch:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,22 +15,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Auth Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: '${{ secrets.GCP_SA_KEY }}'
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Install dependencies
         run: pip install requests unidecode google-genai
 
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Run fetch
+        env:
+          FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
+          SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
+          GEMINI_MODEL: "gemini-2.5-flash"
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_LOCATION: "us-central1"
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+        run: python scripts/fetch.py
+
       - name: Run live radar
         env:
+          FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
           GEMINI_MODEL: "gemini-2.5-flash"
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -42,10 +49,10 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: python scripts/live_radar.py
 
-      - name: Commit changes
+      - name: Commit and push data
         run: |
-          git config user.email "action@github.com"
-          git config user.name "ScoutAI Bot"
-          git pull --rebase || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update live radar [skip ci]" && git push)
+          git diff --staged --quiet || git commit -m "chore: update data [skip ci]"
+          git push
