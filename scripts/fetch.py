@@ -28,7 +28,7 @@ HEALTH_JSON               = os.path.join(DATA_DIR, 'health.json')
 FS_KEY       = os.getenv('FOOTYSTATS_KEY', '').strip()
 SM_KEY       = os.getenv('SPORTMONKS_KEY', '').strip()
 # FIX 4: Doğru model adı
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
+GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.0-flash').strip()
 REQUEST_TIMEOUT  = 25
 SM_BASE_INCLUDE  = 'participants;league.country;venue;referees;weatherReport;state;scores;periods;round;predictions'
 
