@@ -26,7 +26,8 @@ GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 REQUEST_TIMEOUT = 25
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport'
-DETAIL_TTL_SEC = 120
+# FIX 6: Raised from 120 to 300 sec — prevents rate limit with 10+ live matches
+DETAIL_TTL_SEC = 300
 
 def log(msg: str):
     print(msg, flush=True)
@@ -261,8 +262,9 @@ def build_sm_row_from_live(fixture: Dict[str, Any]) -> Dict[str, Any]:
         'date_unix': safe_int(fixture.get('starting_at_timestamp'), 0),
         'home_image': home.get('image_path', ''),
         'away_image': away.get('image_path', ''),
-        'home_country': '',
-        'away_country': '',
+        # FIX 8: derive country from image path so flag emojis work in frontend
+        'home_country': (league.get('country') or {}).get('name', '') or home.get('image_path', '').split('/')[-1].split('-')[0].replace('_',' ').strip().title(),
+        'away_country': (league.get('country') or {}).get('name', '') or away.get('image_path', '').split('/')[-1].split('-')[0].replace('_',' ').strip().title(),
         'stadium_name': '',
         'stadium_location': '',
         'referee_name': '',
