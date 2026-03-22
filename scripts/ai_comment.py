@@ -23,7 +23,7 @@ SPORTMONKS_TODAY_JSON    = os.path.join(DATA_DIR, 'sportmonks_today.json')
 SPORTMONKS_TOMORROW_JSON = os.path.join(DATA_DIR, 'sportmonks_tomorrow.json')
 HEALTH_JSON              = os.path.join(DATA_DIR, 'health.json')
 
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.0-flash').strip()
+GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 # Max matches to write AI comments per run — prevents timeout
 MAX_AI_PER_RUN = int(os.getenv('AI_MAX_PER_RUN', '40'))
 
@@ -53,11 +53,11 @@ def init_vertex_client():
                 info = json.load(f)
             project = info.get('project_id')
             if project:
-                return genai.Client(vertexai=True, project=project, location='us-central1')
+                return genai.Client(vertexai=True, project=project, location='global')
         except Exception as e:
             log(f'Credentials read error: {e}')
     project  = os.getenv('GCP_PROJECT_ID', '').strip()
-    location = os.getenv('GCP_LOCATION', 'us-central1').strip()
+    location = os.getenv('GCP_LOCATION', 'global').strip()
     if not project: return None
     try:
         return genai.Client(vertexai=True, project=project, location=location)
