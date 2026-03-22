@@ -5,7 +5,6 @@ on:
     - cron: '*/15 * * * *'
   workflow_dispatch:
 
-# FIX 7: Same concurrency group as live_radar — prevents simultaneous data/ writes
 concurrency:
   group: scoutai-data
   cancel-in-progress: false
@@ -34,19 +33,19 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      # STEP 1: Veri çek — hızlı, AI yok (~1-2 dk)
       - name: Run fetch
         env:
           FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
-          GEMINI_MODEL: "gemini-2.5-flash"
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_LOCATION: "us-central1"
           GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: python scripts/fetch.py
 
+      # STEP 2: Canlı maç güncelle (~1 dk)
       - name: Run live radar
         env:
-          FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
           GEMINI_MODEL: "gemini-2.5-flash"
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -54,6 +53,17 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
         run: python scripts/live_radar.py
 
+      # STEP 3: AI prematch yorumları yaz (~3-5 dk, max 40 maç/run)
+      - name: Run AI comments
+        env:
+          GEMINI_MODEL: "gemini-2.5-flash"
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_LOCATION: "us-central1"
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          AI_MAX_PER_RUN: "40"
+        run: python scripts/ai_comment.py
+
+      # STEP 4: Commit all data
       - name: Commit and push data
         run: |
           git config user.name "github-actions[bot]"
