@@ -222,38 +222,10 @@ def extract_sm_basic(sm: Dict[str, Any]) -> Dict[str, Any]:
 # ─── AI yorum ────────────────────────────────────────────────────────────────
 
 def ai_comment_prematch(client, match: Dict[str, Any]) -> str:
-    if client is None: return ''
-    payload = {
-        'home':     match.get('home_name'),
-        'away':     match.get('away_name'),
-        'league':   match.get('competition_name'),
-        'xg_home':  safe_float(match.get('team_a_xg_prematch')),
-        'xg_away':  safe_float(match.get('team_b_xg_prematch')),
-        'home_ppg': safe_float(match.get('home_ppg')),
-        'away_ppg': safe_float(match.get('away_ppg')),
-        'btts':     safe_float(match.get('btts_potential')),
-        'over25':   safe_float(match.get('o25_potential')),
-        'odds':     {
-            '1': safe_float(match.get('odds_ft_1')),
-            'x': safe_float(match.get('odds_ft_x')),
-            '2': safe_float(match.get('odds_ft_2')),
-        },
-    }
-    prompt = '\n'.join([
-        'You are a technical betting analysis engine that cross-checks data.',
-        'Cross-check all metrics (xG, PPG, Odds). If data conflicts, flag as RISKY.',
-        'Recommend only ONE lowest-risk bet from: Home Win, Away Win, Over 2.5, Both Teams Score, First Half Over 0.5, Asian Handicap, Home Team +1.5 Over Goals, Away Team +1.5 Over Goals.',
-        'If confidence is low, output exactly: "No Bet / Skip".',
-        'Rules: Max 80 words. 3 sections only: STATUS, REASON, CONCLUSION. Be sharp and technical.',
-        json.dumps(payload, ensure_ascii=False),
-    ])
-    try:
-        response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
-        text = (getattr(response, 'text', '') or '').strip()
-        return text if text else ''
-    except Exception as e:
-        log(f'⚠️ AI hatası: {e}')
-        return ''
+    # NOTE: fetch.py does NOT call AI — client is always None here.
+    # AI comments are written by ai_comment.py (rich bundle payload).
+    # This stub exists only for compatibility — do not add AI calls here.
+    return ''
 
 
 # ─── FIX 1: FootyStats veri çekme fonksiyonları ──────────────────────────────
