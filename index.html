@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0c10">
-<title>ScoutAI VNext</title>
+<title>ScoutAI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -27,6 +27,20 @@ a{text-decoration:none;color:inherit}
 .tabs::-webkit-scrollbar{display:none}
 .tab{border:1px solid var(--border);background:transparent;color:var(--muted);padding:10px 14px;border-radius:14px;white-space:nowrap;font-weight:700;cursor:pointer}
 .tab.active{background:linear-gradient(135deg,rgba(0,209,143,.15),rgba(108,124,255,.16));border-color:rgba(108,124,255,.45);color:var(--text)}
+.source-tabs{display:flex;padding:0 12px;gap:6px;margin-top:2px}
+.stab{flex:1;border:1px solid var(--border);background:transparent;color:var(--muted);padding:11px 10px;border-radius:14px;font-weight:800;font-size:13px;cursor:pointer;text-align:center;transition:.15s}
+.stab.active{border-color:rgba(108,124,255,.55);color:var(--text);background:linear-gradient(135deg,rgba(0,209,143,.12),rgba(108,124,255,.18))}
+.stab .badge{display:inline-block;background:var(--soft);border-radius:999px;font-size:10px;padding:2px 6px;margin-left:5px;color:var(--muted)}
+.stab.active .badge{background:rgba(108,124,255,.25);color:var(--accent2)}
+.updated{font-size:11px;color:var(--muted);font-weight:600}
+.chip.live-chip.active{background:rgba(255,93,115,.18);color:var(--red)}
+.src-badge{font-size:9px;font-weight:800;padding:2px 6px;border-radius:999px;letter-spacing:.04em}
+.src-badge.fs{background:rgba(247,198,92,.14);color:var(--gold)}
+.src-badge.sm{background:rgba(108,124,255,.14);color:var(--accent2)}
+.toast-wrap{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:rgba(17,19,24,.97);border:1px solid var(--border);border-radius:16px;padding:12px 18px;font-size:13px;font-weight:700;color:var(--text);box-shadow:var(--shadow);animation:toastIn .3s ease;white-space:nowrap}
+.toast.goal{border-color:rgba(247,198,92,.6);color:var(--gold)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 .subbar{padding:0 12px 12px;display:flex;gap:8px;overflow:auto;scrollbar-width:none}
 .subbar::-webkit-scrollbar{display:none}
 .chip{border:none;background:var(--chip);color:var(--muted);padding:8px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
@@ -147,11 +161,11 @@ a{text-decoration:none;color:inherit}
 <div id="app">
   <div class="header">
     <div class="topbar">
-      <div class="brand"><span>ScoutAI</span> VNext</div>
-      <div class="meta"><button class="refresh" id="refreshBtn">Yenile</button></div>
+      <div class="brand"><span>ScoutAI</span></div>
+      <div class="meta"><span class="updated" id="updatedAt"></span><button class="refresh" id="refreshBtn">↺</button></div>
     </div>
-    <div class="tabs" id="mainTabs"></div>
-    <div class="subbar" id="filterChips"></div>
+    <div class="source-tabs" id="sourceTabs"></div>
+    <div class="subbar" id="subChips"></div>
   </div>
   <div class="content" id="content"><div class="loading">Yükleniyor…</div></div>
 </div>
@@ -170,427 +184,259 @@ a{text-decoration:none;color:inherit}
     <div class="detail-tabs" id="detailTabs"></div>
     <div class="sheet-body" id="sheetBody"></div>
     <div class="bottom-bar">
-      <button class="btn-secondary" id="detailAdd">Kupona Ekle</button>
+      <button class="btn-secondary" id="closeSheet2">Kapat</button>
       <button class="btn-primary" id="detailAi">AI Önerisi</button>
     </div>
   </div>
 </div>
-<div class="kpanel" id="kuponPanel">
-  <div><small>Aktif kupon</small><strong id="kuponCount">0 maç</strong></div>
-  <button class="btn-primary" id="openKuponBtn" style="padding:10px 16px">Kupon</button>
-</div>
 <script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
 const state = {
-  tab:'live', filter:'all', detailTab:'overview',
-  today:[], tomorrow:[], bundle:{fixtures:{}},
-  source:'footystats',
-  kupon:JSON.parse(localStorage.getItem('scoutai_vnext_kupon')||'{}'), current:null
+  source: 'footystats',
+  sub:    'live',
+  detailTab: 'overview',
+  fs:  { today:[], tomorrow:[], live:[] },
+  sm:  { today:[], tomorrow:[], live:[] },
+  bundle: { fixtures:{} },
+  current: null,
+  prevScores: {},
 };
-const TABS=[
-  {key:'live',label:'🔴 Canlı'},
-  {key:'today',label:'📅 Bugün'},
-  {key:'tomorrow',label:'📆 Yarın'},
-  {key:'ai',label:'🧠 ScoutAI'},
-  {key:'kupon',label:'🎫 Kupon'}
-];
-const FILTERS=[
-  {key:'all',label:'Tümü'},
-  {key:'goals',label:'Gol'},
-  {key:'pressure',label:'Baskı'},
-  {key:'value',label:'Value'},
-  {key:'safe',label:'Düşük Risk'}
-];
+const SOURCE_TABS=[{key:'footystats',label:'FootyStats'},{key:'sportmonks',label:'Sportmonks'}];
+const SUB_FILTERS=[{key:'live',label:'🔴 Canlı',cls:'live-chip'},{key:'today',label:'📅 Bugün'},{key:'tomorrow',label:'📆 Yarın'}];
 const DETAIL_TABS=[
-  {key:'overview',label:'Genel'},
-  {key:'stats',label:'İstatistik'},
-  {key:'timeline',label:'Olaylar'},
-  {key:'lineups',label:'Kadrolar'},
-  {key:'xg',label:'xG'},
-  {key:'odds',label:'Oranlar'},
-  {key:'prediction',label:'Prediction'},
-  {key:'h2h',label:'H2H'},
-  {key:'news',label:'Haber'},
-  {key:'ai',label:'ScoutAI'},
-  {key:'kupon',label:'Kupon'},
-  {key:'sidelined',label:'Sakatlık'},
-  {key:'trends',label:'Trends'},
-  {key:'pressure',label:'Baskı'},
-  {key:'coaches',label:'Teknik Ekip'},
-  {key:'comments',label:'Yorumlar'},
+  {key:'overview',label:'Genel'},{key:'stats',label:'İstatistik'},{key:'timeline',label:'Olaylar'},
+  {key:'lineups',label:'Kadrolar'},{key:'xg',label:'xG'},{key:'odds',label:'Oranlar'},
+  {key:'prediction',label:'Prediction'},{key:'h2h',label:'H2H'},{key:'news',label:'Haber'},
+  {key:'ai',label:'ScoutAI'},{key:'sidelined',label:'Sakatlık'},{key:'trends',label:'Trends'},
+  {key:'pressure',label:'Baskı'},{key:'coaches',label:'Teknik Ekip'},{key:'comments',label:'Yorumlar'},
 ];
-function $(id){return document.getElementById(id)}
-function saveKupon(){localStorage.setItem('scoutai_vnext_kupon',JSON.stringify(state.kupon)); updateKuponPanel();}
-function updateKuponPanel(){ $('kuponCount').textContent = `${Object.keys(state.kupon).length} maç`; }
-function dm(v){return Number.isFinite(Number(v))?Number(v):0;}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+const dm=v=>Number.isFinite(Number(v))?Number(v):0;
 function fmtTime(ts){ if(!ts) return '--:--'; return new Date(ts*1000).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit',timeZone:'Europe/Berlin'}); }
-function fmtMinute(row){ const e=row.elapsed; if(e==='HY'||e==='HT') return ['HT',true]; if(dm(e)>0) return [dm(e)+"'", false]; if(row.status==='live') return ['CANLI',false]; return [fmtTime(row.date_unix), false]; }
-function flagEmoji(country){
-  const map = {
-    Turkey:'🇹🇷','Türkiye':'🇹🇷',England:'🏴',Germany:'🇩🇪',Spain:'🇪🇸',Italy:'🇮🇹',France:'🇫🇷',
-    Netherlands:'🇳🇱',Portugal:'🇵🇹',Belgium:'🇧🇪',Brazil:'🇧🇷',Argentina:'🇦🇷',Romania:'🇷🇴',
-    Colombia:'🇨🇴',Saudi:'🇸🇦','Saudi Arabia':'🇸🇦',USA:'🇺🇸','United States':'🇺🇸',
-    Denmark:'🇩🇰',Austria:'🇦🇹',Scotland:'🏴',Wales:'🏴'
-  };
-  return map[country]||'⚽';
+function fmtMinute(row){ const e=row.elapsed; if(e==='HY'||e==='HT') return ['HT',true]; if(dm(e)>0) return [dm(e)+"'",false]; if(row.status==='live') return ['CANLI',false]; return [fmtTime(row.date_unix),false]; }
+function flagEmoji(country){ const map={Turkey:'🇹🇷','Türkiye':'🇹🇷',England:'🏴',Germany:'🇩🇪',Spain:'🇪🇸',Italy:'🇮🇹',France:'🇫🇷',Netherlands:'🇳🇱',Portugal:'🇵🇹',Belgium:'🇧🇪',Brazil:'🇧🇷',Argentina:'🇦🇷',Denmark:'🇩🇰',Poland:'🇵🇱'}; return map[country]||'⚽'; }
+function normalizeImg(url){ if(!url) return ''; const u=String(url).trim(); if(!u) return ''; if(u.startsWith('http')||u.startsWith('//')) return u.startsWith('//')?'https:'+u:u; if(u.startsWith('teams/')||u.startsWith('leagues/')||u.startsWith('countries/')) return 'https://footystats.org/images/'+u; return 'https://footystats.org/'+u.replace(/^\/+/,''); }
+function imgOrPh(url,text,size=22){ const src=normalizeImg(url); const init=(text||'?')[0].replace(/'/g,"\'"); if(src) return `<img src="${src}" alt="" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:10px" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph',innerText:'${init}',style:'width:${size}px;height:${size}px;display:grid;place-items:center'}))">`; return `<div class="ph" style="width:${size}px;height:${size}px;display:grid;place-items:center">${(text||'?')[0]}</div>`; }
+function rowScore(row){ return [dm(row._h??row.homeGoalCount??0),dm(row._a??row.awayGoalCount??0)]; }
+function isLive(row){ const s=String(row.status||'').toLowerCase(); return ['live','inplay','paused'].includes(s)||row.elapsed==='HY'||row.elapsed==='HT'; }
+function dedupeById(arr){ const seen=new Set(); return arr.filter(r=>{ const k=String(r.id||''); if(seen.has(k)) return false; seen.add(k); return true; }); }
+
+// ─── TOAST / GOAL DETECTION ──────────────────────────────────────────────────
+function showToast(msg,type=''){
+  const wrap=$('toastWrap'); const el=document.createElement('div');
+  el.className='toast'+(type?' '+type:''); el.textContent=msg; wrap.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .4s'; setTimeout(()=>el.remove(),400); },4000);
 }
-function normalizeImg(url){
-  if(!url) return '';
-  const u = String(url).trim();
-  if(!u) return '';
-  if(u.startsWith('http://') || u.startsWith('https://')) return u;
-  if(u.startsWith('//')) return 'https:' + u;
-  if(u.startsWith('teams/')) return 'https://footystats.org/images/' + u;
-  if(u.startsWith('leagues/')) return 'https://footystats.org/images/' + u;
-  if(u.startsWith('countries/')) return 'https://footystats.org/images/' + u;
-  return 'https://footystats.org/' + u.replace(/^\/+/, '');
-}
-function imgOrPh(url,text,size=22){
-  const src = normalizeImg(url);
-  const initial = (text||'?')[0].replace(/'/g,"\\'");
-  if(src){
-    return `<img src="${src}" alt="" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:10px"
-      onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph',innerText:'${initial}',style:'width:${size}px;height:${size}px;display:grid;place-items:center'}))">`;
-  }
-  return `<div class="ph" style="width:${size}px;height:${size}px;display:grid;place-items:center">${(text||'?')[0]}</div>`;
-}
-function aiText(row){
-  const bundle = getBundle(row) || {};
-  const detail = bundle.detail || {};
-  const candidates = [
-    row.live_comment,row.boss_ai_decision,row.prematch_comment,row.ai_comment,
-    row?.ai?.active_comment,row?.ai?.live_comment,
-    detail.live_comment,detail.boss_ai_decision,detail.ai_comment,detail?.ai?.active_comment,
-    bundle.live_comment,bundle.ai_comment
-  ].filter(Boolean);
-  if(candidates.length) return String(candidates[0]).trim();
-  const [h,a] = rowScore(row);
-  const minute = dm(row._min ?? row.elapsed);
-  const arow = analyzeRow(row);
-  if(isLive(row) || minute>0){
-    if(h===a){
-      if(arow.recommendation !== 'No Bet / Skip') return `STATUS: Match at minute ${minute||'live'}, score level.\nREASON: Core signal supports ${arow.recommendation}.\nCONCLUSION: ${arow.recommendation} side worth monitoring.`;
-      return `STATUS: Match at minute ${minute||'live'}, score level.\nREASON: Score equal and data limited.\nCONCLUSION: No Bet / Skip for now.`;
+function checkGoals(rows){
+  for(const r of rows){
+    const key=String(r.id); const [h,a]=rowScore(r); const prev=state.prevScores[key];
+    if(prev&&(h>prev.h||a>prev.a)){
+      const scorer=h>prev.h?r.home_name:r.away_name;
+      showToast(`⚽ GOL! ${r.home_name} ${h}-${a} ${r.away_name} (${scorer})`,'goal');
     }
-    const leader = h>a ? (row.home_name||'Home') : (row.away_name||'Away');
-    const trailer = h>a ? (row.away_name||'Away') : (row.home_name||'Home');
-    return `STATUS: ${leader} leads ${h}-${a}.\nREASON: Match at minute ${minute||'live'}, score advantage on ${leader} side.\nCONCLUSION: If ${trailer} produces no response, current direction holds.`;
+    state.prevScores[key]={h,a};
   }
-  if(arow.recommendation !== 'No Bet / Skip'){
-    return `STATUS: Full AI comment not yet available.\nREASON: Data partially available, main signal points to ${arow.recommendation}.\nCONCLUSION: ${arow.recommendation} side worth monitoring.`;
-  }
-  return 'AI comment not yet available.';
 }
-function analyzeRow(row){
-  const bundle = getBundle(row) || {};
-  const detail = bundle.detail || {};
-  const pO25 = dm(row.o25_potential || row?.prematch?.o25_potential);
-  const pBTTS = dm(row.btts_potential || row?.prematch?.btts_potential);
-  const pIY = dm(row.o05HT_potential || row?.prematch?.o05HT_potential);
-  const pPress = dm(row.pressure_score || row?.live?.pressure_score);
-  const pred = detail.predictions || [];
-  const predMap = {};
-  pred.forEach(x=>{
-    const dev = String(x.type?.developer_name || '').toUpperCase();
-    const vals = x.predictions || {};
-    predMap[dev] = vals;
-  });
-  let o25 = pO25 || dm(predMap.OVER_UNDER_2_5_PROBABILITY?.yes);
-  let btts = pBTTS || dm(predMap.BTTS_PROBABILITY?.yes);
-  let iy = pIY || dm(predMap.OVER_UNDER_0_5_1ST_HALF_PROBABILITY?.yes) || dm(predMap.OVER_UNDER_1ST_HALF_0_5_PROBABILITY?.yes);
-  const press = pPress;
-  const tags=[];
-  if(press>=8) tags.push(['Home Pressure','green']); else if(press<=-8) tags.push(['Away Pressure','blue']);
-  if(o25>=62) tags.push(['Over 2.5','gold']);
-  if(btts>=60) tags.push(['Both Teams Score','purple']);
-  if(iy>=70) tags.push(['1H Goal','green']);
-  let rec='No Bet / Skip';
-  if(o25>=65) rec='Over 2.5';
-  else if(btts>=62) rec='Both Teams Score';
-  else if(iy>=72) rec='First Half Over 0.5';
-  let conf=Math.round((o25+btts+iy)/3 || 0);
-  if(!conf && pred.length) conf=58;
-  conf=Math.min(95, Math.max(conf, rec==='PAS'?28:55));
-  return {tags, recommendation:rec, confidence:conf};
+
+// ─── CURRENT DATA ─────────────────────────────────────────────────────────────
+function currentRows(){
+  const src=state.source==='footystats'?state.fs:state.sm;
+  if(state.sub==='live')     return src.live;
+  if(state.sub==='today')    return src.today.filter(r=>!isLive(r));
+  if(state.sub==='tomorrow') return src.tomorrow;
+  return [];
 }
-function groupByLeague(rows){ const out={}; rows.forEach(r=>{ const key=(r.competition_name||'Diğer'); (out[key]=out[key]||[]).push(r); }); return out; }
-function isLive(row){ const s=String(row.status||'').toLowerCase(); return ['live','inplay','paused'].includes(s)|| row.elapsed==='HY' || row.elapsed==='HT'; }
-function applyFilter(rows){ if(state.filter==='all') return rows; return rows.filter(r=>{ const a=analyzeRow(r); if(state.filter==='goals') return dm(r.o25_potential)>=55 || dm(r.btts_potential)>=55; if(state.filter==='pressure') return Math.abs(dm(r.pressure_score))>=6; if(state.filter==='value') return ['Over 2.5','Both Teams Score'].includes(a.recommendation); if(state.filter==='safe') return a.confidence>=65; return true; }); }
-function renderTabs(){ $('mainTabs').innerHTML=TABS.map(t=>`<button class="tab ${state.tab===t.key?'active':''}" data-tab="${t.key}">${t.label}</button>`).join(''); $('filterChips').innerHTML=FILTERS.map(f=>`<button class="chip ${state.filter===f.key?'active':''}" data-filter="${f.key}">${f.label}</button>`).join(''); }
-function rowScore(row){ const h = row._h ?? row.homeGoalCount ?? 0; const a = row._a ?? row.awayGoalCount ?? 0; return [dm(h),dm(a)]; }
-function renderMatchRow(row){ const [min,ht]=fmtMinute(row); const [h,a]=rowScore(row); const analysis=analyzeRow(row); const homeWin=h>a, awayWin=a>h; const key=row.id; const selected=!!state.kupon[key]; return `<div class="match-row" data-open="${key}">
-    <div class="minute ${ht?'ht':''}">${min}${ht?'':'<div class="dot"></div>'}</div>
-    <div class="match-main">
-      <div class="team-line">${imgOrPh(row.home_image,row.home_name)}<div class="team-name ${homeWin?'win':awayWin?'lose':''}">${flagEmoji(row.home_country)} ${row.home_name||'?'}</div></div>
-      <div class="team-line">${imgOrPh(row.away_image,row.away_name)}<div class="team-name ${awayWin?'win':homeWin?'lose':''}">${flagEmoji(row.away_country)} ${row.away_name||'?'}</div></div>
-      <div class="row-footer">${analysis.tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join('')}</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
-      <div class="team-score"><span class="${homeWin?'win':awayWin?'lose':''}">${h}</span><span class="${awayWin?'win':homeWin?'lose':''}">${a}</span></div>
-      <button class="quick-add ${selected?'active':''}" data-add="${key}">${selected?'Eklendi':'Kupon'}</button>
-    </div>
-  </div>`; }
-function renderLeagueSections(rows){ const grouped=groupByLeague(rows); return Object.entries(grouped).map(([league,list])=>{ const first=list[0]; const lsrc=normalizeImg(first?.league_country_image); return `<section class="league-card"><div class="league-head"><div class="league-flag">${lsrc?`<img src="${lsrc}">`:flagEmoji(first?.league_country||'')}</div><div><div class="league-title">${league}</div><div class="league-sub">${list.length} maç</div></div></div>${list.map(renderMatchRow).join('')}</section>`; }).join(''); }
-function renderScoutAI(){ const rows=[...state.today].filter(r=>!isLive(r)).sort((a,b)=>analyzeRow(b).confidence-analyzeRow(a).confidence).slice(0,12); return rows.length?renderLeagueSections(applyFilter(rows)):'<div class="empty">Bugün için öneri bulunamadı.</div>'; }
-function renderKupon(){ const picks=Object.values(state.kupon); if(!picks.length) return '<div class="empty">Aktif kupon boş.</div>'; return `<div class="panel"><h3>Aktif Kupon</h3>${picks.map(p=>`<div class="kv"><span>${p.home_name} - ${p.away_name}</span><span>${p.pick}</span></div>`).join('')}</div>`; }
-function renderMain(){ renderTabs(); updateKuponPanel(); let rows=[]; if(state.tab==='live'){ rows=applyFilter(state.today.filter(isLive)); $('content').innerHTML = rows.length?renderLeagueSections(rows):'<div class="empty">Şu an canlı maç yok.</div>'; return; }
- if(state.tab==='today'){ rows=applyFilter(state.today.filter(r=>!isLive(r))); $('content').innerHTML = rows.length?renderLeagueSections(rows):'<div class="empty">Bugün için maç bulunamadı.</div>'; return; }
- if(state.tab==='tomorrow'){ rows=applyFilter(state.tomorrow); $('content').innerHTML = rows.length?renderLeagueSections(rows):'<div class="empty">Yarın için maç bulunamadı.</div>'; return; }
- if(state.tab==='ai'){ $('content').innerHTML = renderScoutAI(); return; }
- if(state.tab==='kupon'){ $('content').innerHTML = renderKupon(); return; }
-}
-function getRowById(id){ return [...state.today,...state.tomorrow].find(r=>String(r.id)===String(id)); }
+
+// ─── BUNDLE / ANALYZE ────────────────────────────────────────────────────────
 function getBundle(row){
-  // FIX 9: try sportmonks id first, then fallback to name-based key
-  const smid = String(row?.source_ids?.sportmonks || row?.sportmonks_id || '');
-  if(smid && state.bundle.fixtures?.[smid]) return state.bundle.fixtures[smid];
-  // fallback: search by home+away name match
-  for(const [fid, bdata] of Object.entries(state.bundle.fixtures || {})){
-    const d = bdata?.detail || {};
-    const parts = d?.participants || [];
-    const names = parts.map(p => (p.name||'').toLowerCase());
-    if(names.some(n => n.includes((row.home_name||'').toLowerCase().slice(0,5))) &&
-       names.some(n => n.includes((row.away_name||'').toLowerCase().slice(0,5)))){
-      return bdata;
-    }
+  const smid=String(row?.source_ids?.sportmonks||row?.sportmonks_id||'');
+  if(smid&&state.bundle.fixtures?.[smid]) return state.bundle.fixtures[smid];
+  for(const[,bdata] of Object.entries(state.bundle.fixtures||{})){
+    const parts=(bdata?.detail?.participants||[]).map(p=>(p.name||'').toLowerCase());
+    if(parts.some(n=>n.includes((row.home_name||'').toLowerCase().slice(0,5)))&&parts.some(n=>n.includes((row.away_name||'').toLowerCase().slice(0,5)))) return bdata;
   }
   return null;
 }
-function teamFromDetail(detail,side){ const arr=detail?.participants||[]; return arr.find(p=>String(p?.meta?.location||'').toLowerCase()===side) || (side==='home'?arr[0]:arr[1]) || null; }
-function currentScoreFromDetail(detail,row){ const useScores=(detail?.scores||[]); let home=null, away=null; for(const s of useScores){ if((s.description||'').toUpperCase()==='CURRENT'){ const p=s.score?.participant, g=dm(s.score?.goals); if(p==='home') home=g; if(p==='away') away=g; } } if(home!=null && away!=null) return [home,away]; return rowScore(row); }
-function getMinuteFromDetail(detail,row){
-  const periods=detail?.periods||[]; let max=0;
-  for(const p of periods){ max=Math.max(max, dm(p.minutes), dm(p.minute)); }
-  for(const ev of (detail?.events||[])){ max=Math.max(max, dm(ev.minute)); }
-  if(max) return `${max}'`;
-  const liveMin = dm(row._min ?? row.elapsed);
-  if(liveMin) return `${liveMin}'`;
-  const [m]=fmtMinute(row); return m;
+function analyzeRow(row){
+  const bundle=getBundle(row)||{}; const detail=bundle.detail||{};
+  const o25=dm(row.o25_potential); const btts=dm(row.btts_potential); const iy=dm(row.o05HT_potential); const press=dm(row.pressure_score);
+  const pred=detail.predictions||[]; const predMap={};
+  pred.forEach(x=>{ const dev=String(x.type?.developer_name||'').toUpperCase(); predMap[dev]=x.predictions||{}; });
+  const o25f=o25||dm(predMap.OVER_UNDER_2_5_PROBABILITY?.yes);
+  const bttsf=btts||dm(predMap.BTTS_PROBABILITY?.yes);
+  const iyf=iy||dm(predMap.OVER_UNDER_0_5_1ST_HALF_PROBABILITY?.yes);
+  const tags=[];
+  if(press>=8) tags.push(['Home Pressure','green']); else if(press<=-8) tags.push(['Away Pressure','blue']);
+  if(o25f>=62) tags.push(['Over 2.5','gold']); if(bttsf>=60) tags.push(['Both Teams Score','purple']); if(iyf>=70) tags.push(['1H Goal','green']);
+  let rec='No Bet / Skip';
+  if(o25f>=65) rec='Over 2.5'; else if(bttsf>=62) rec='Both Teams Score'; else if(iyf>=72) rec='First Half Over 0.5';
+  let conf=Math.round((o25f+bttsf+iyf)/3||0); if(!conf&&pred.length) conf=58; conf=Math.min(95,Math.max(conf,55));
+  return {tags,recommendation:rec,confidence:conf};
 }
-function renderScorePanel(row,detail){ const home=teamFromDetail(detail,'home') || {name:row.home_name,image_path:row.home_image}; const away=teamFromDetail(detail,'away') || {name:row.away_name,image_path:row.away_image}; const [h,a]=currentScoreFromDetail(detail,row); const minute=getMinuteFromDetail(detail,row); $('scorePanel').innerHTML = `<div class="club">${imgOrPh(home.image_path,home.name,52)}<div class="club-name">${home.name}</div></div><div class="center-score"><div class="num">${h} - ${a}</div><span class="meta">${minute}</span></div><div class="club">${imgOrPh(away.image_path,away.name,52)}<div class="club-name">${away.name}</div></div>`; }
-function buildStatRows(stats){ if(!stats?.length) return '<div class="empty">İstatistik bulunamadı.</div>'; const map={}; for(const st of stats){ const key=(st.type?.name||st.type?.developer_name||'İstatistik'); map[key]=map[key]||{}; map[key][st.location||''] = dm(st.data?.value); }
- return Object.entries(map).map(([label,v])=>{ const home=dm(v.home), away=dm(v.away), total=Math.max(home+away,1); return `<div class="stat-row"><div class="stat-val">${home||'-'}</div><div><div class="stat-label">${label}</div><div class="bar"><i style="width:${(home/total)*100}%"></i></div></div><div class="stat-val" style="text-align:right">${away||'-'}</div></div>`; }).join(''); }
-function buildTimeline(events){ if(!events?.length) return '<div class="empty">Olay bulunamadı.</div>'; const sorted=[...events].sort((a,b)=>((a.minute||0)*100+(a.extra_minute||0))-((b.minute||0)*100+(b.extra_minute||0))); return `<div class="timeline">${sorted.map(ev=>`<div class="event"><div class="event-time">${ev.minute||0}${ev.extra_minute?`+${ev.extra_minute}`:''}'</div><div class="event-card"><div class="event-type">${ev.type?.name||ev.type?.developer_name||'Olay'}</div><div class="event-line">${ev.player_name||ev.player?.display_name||''}${ev.related_player_name?` → ${ev.related_player_name}`:''}${ev.info?` · ${ev.info}`:''}${ev.result?` · Skor ${ev.result}`:''}</div></div></div>`).join('')}</div>`; }
-function buildCoaches(detail){
-  const coaches=detail?.coaches||[];
-  if(!coaches.length) return '<div class="empty">Teknik ekip verisi bulunamadı.</div>';
-  const home=coaches.filter(c=>String(c?.meta?.location||c?.location||'').toLowerCase()==='home');
-  const away=coaches.filter(c=>String(c?.meta?.location||c?.location||'').toLowerCase()==='away');
-  function clist(arr,title){ if(!arr.length) return ''; return `<div class="panel"><h3>${title}</h3>${arr.map(c=>`<div class="coach-row">${imgOrPh(c.coach?.image_path||c.image_path,c.coach?.display_name||c.name,36)}<div><div class="coach-name">${c.coach?.display_name||c.coach?.name||c.name||'Bilinmiyor'}</div><div class="coach-role">${c.coach?.nationality||c.type?.name||'Teknik Direktör'}</div></div></div>`).join('')}</div>`; }
-  return clist(home,'Ev Sahibi Teknik Ekip') + clist(away,'Deplasman Teknik Ekip') + ((!home.length&&!away.length)?`<div class="panel"><h3>Teknik Ekip</h3>${coaches.map(c=>`<div class="coach-row">${imgOrPh(c.coach?.image_path||c.image_path,c.coach?.display_name||c.name,36)}<div><div class="coach-name">${c.coach?.display_name||c.coach?.name||c.name||'Bilinmiyor'}</div><div class="coach-role">${c.coach?.nationality||c.type?.name||'Teknik Direktör'}</div></div></div>`).join('')}</div>`:'');
-}
-function buildSidelined(detail){
-  const arr=detail?.sidelined||[];
-  if(!arr.length) return '<div class="empty">Sakatlık/ceza verisi bulunamadı.</div>';
-  const home=arr.filter(s=>String(s?.team?.meta?.location||s?.location||'').toLowerCase()==='home');
-  const away=arr.filter(s=>String(s?.team?.meta?.location||s?.location||'').toLowerCase()==='away');
-  function slist(items,title){
-    if(!items.length) return '';
-    return `<div class="panel"><h3>${title}</h3>${items.map(s=>{
-      const player=s.player||s.sideline?.player||{};
-      const type=String(s.sideline?.type?.name||s.type?.name||s.reason||'').toLowerCase();
-      const isSusp=type.includes('suspend')||type.includes('ceza');
-      const desc=s.sideline?.type?.name||s.type?.name||s.reason||'Sakat';
-      const until=s.end_date||s.until||'';
-      return `<div class="sidelined-row">${imgOrPh(player.image_path,player.display_name||player.name,32)}<div style="flex:1"><div style="font-size:13px;font-weight:700">${player.display_name||player.name||'Oyuncu'}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${until?`Dönüş: ${until}`:''}</div></div><span class="sidelined-badge ${isSusp?'suspension':'injury'}">${desc}</span></div>`;
-    }).join('')}</div>`;
+function aiText(row){
+  const bundle=getBundle(row)||{}; const detail=bundle.detail||{};
+  const candidates=[row.live_comment,row.boss_ai_decision,row.prematch_comment,row.ai_comment,row?.ai?.active_comment,detail.live_comment,detail.boss_ai_decision,detail.ai_comment,bundle.live_comment,bundle.ai_comment].filter(Boolean);
+  if(candidates.length) return String(candidates[0]).trim();
+  const [h,a]=rowScore(row); const minute=dm(row._min??row.elapsed); const ar=analyzeRow(row);
+  if(isLive(row)||minute>0){
+    if(h===a){ if(ar.recommendation!=='No Bet / Skip') return `STATUS: Score level at ${minute||'live'}'.\nREASON: Signal supports ${ar.recommendation}.\nCONCLUSION: ${ar.recommendation} worth monitoring.`; return `STATUS: Score level.\nREASON: No clear signal.\nCONCLUSION: No Bet / Skip.`; }
+    const leader=h>a?row.home_name:row.away_name; return `STATUS: ${leader} leads ${h}-${a} at ${minute}'.\nREASON: Score advantage maintained.\nCONCLUSION: Current direction holds.`;
   }
-  return slist(home,'Ev Sahibi Sakatlık/Ceza') + slist(away,'Deplasman Sakatlık/Ceza') + ((!home.length&&!away.length)?slist(arr,'Sakatlık / Ceza'):'');
+  if(ar.recommendation!=='No Bet / Skip') return `STATUS: Prematch analysis.\nREASON: Data supports ${ar.recommendation}.\nCONCLUSION: ${ar.recommendation} worth monitoring.`;
+  return 'AI comment not yet available.';
 }
-function buildTrends(detail){
-  const trends=detail?.trends||[];
-  if(!trends.length) return '<div class="empty">Trend verisi bulunamadı.</div>';
-  const grouped={};
-  for(const t of trends){
-    const key=t.type?.name||t.type?.developer_name||'Trend';
-    grouped[key]=grouped[key]||{home:null,away:null};
-    const loc=String(t.participant?.meta?.location||t.location||'').toLowerCase();
-    if(loc==='home') grouped[key].home=t;
-    else if(loc==='away') grouped[key].away=t;
-  }
-  return `<div class="panel"><h3>Trend Analizi</h3>${Object.entries(grouped).map(([label,v])=>{
-    const hv=dm(v.home?.value??v.home?.data?.value);
-    const av=dm(v.away?.value??v.away?.data?.value);
-    const total=Math.max(hv+av,1);
-    return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px"><span>${hv}</span><span>${label}</span><span>${av}</span></div><div style="display:flex;gap:4px;height:8px"><div style="flex:${hv/total};background:var(--accent);border-radius:999px 0 0 999px"></div><div style="flex:${av/total};background:var(--accent2);border-radius:0 999px 999px 0"></div></div></div>`;
-  }).join('')}</div>`;
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function groupByLeague(rows){
+  const out={}; const sorted=[...rows].sort((a,b)=>dm(a.date_unix)-dm(b.date_unix));
+  sorted.forEach(r=>{ const k=r.competition_name||'Diğer'; (out[k]=out[k]||[]).push(r); }); return out;
 }
-function buildPressureTab(detail,row){
-  const pressure=detail?.pressure||[];
-  if(!pressure.length) return '<div class="empty">Baskı verisi bulunamadı.</div>';
-  const sorted=[...pressure].sort((a,b)=>dm(a.minute)-dm(b.minute));
-  const maxVal=Math.max(...sorted.map(p=>Math.abs(dm(p.value??p.amount))),1);
-  const homeColor='var(--accent)'; const awayColor='var(--accent2)';
-  const bars=sorted.map(p=>{
-    const loc=String((p.participant||{}).meta?.location||p.location||'').toLowerCase();
-    const val=dm(p.value??p.amount);
-    const h=(val/maxVal)*100;
-    return `<div title="${p.minute||''}' ${(p.participant||{}).name||''}: ${val}" class="pressure-bar ${loc==='home'?'home':'away'}" style="height:${Math.max(h,8)}%"></div>`;
-  }).join('');
-  const homeTotal=sorted.filter(p=>String((p.participant||{}).meta?.location||p.location||'').toLowerCase()==='home').reduce((s,p)=>s+dm(p.value??p.amount),0);
-  const awayTotal=sorted.filter(p=>String((p.participant||{}).meta?.location||p.location||'').toLowerCase()!=='home').reduce((s,p)=>s+dm(p.value??p.amount),0);
-  return `<div class="panel"><h3>Baskı Grafiği</h3>
-    <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px">
-      <span style="color:var(--accent);font-weight:700">⬤ ${row.home_name||'Ev'} ${homeTotal.toFixed(1)}</span>
-      <span style="color:var(--accent2);font-weight:700">⬤ ${row.away_name||'Dep'} ${awayTotal.toFixed(1)}</span>
+function renderMatchRow(row){
+  const [min,ht]=fmtMinute(row); const [h,a]=rowScore(row); const analysis=analyzeRow(row);
+  const homeWin=h>a,awayWin=a>h; const src=row._source||'';
+  return `<div class="match-row" data-open="${row.id}">
+    <div class="minute ${ht?'ht':''}">${min}${isLive(row)&&!ht?'<div class="dot"></div>':''}</div>
+    <div class="match-main">
+      <div class="team-line">${imgOrPh(row.home_image,row.home_name)}<div class="team-name ${homeWin?'win':awayWin?'lose':''}">${flagEmoji(row.home_country)} ${row.home_name||'?'}</div></div>
+      <div class="team-line">${imgOrPh(row.away_image,row.away_name)}<div class="team-name ${awayWin?'win':homeWin?'lose':''}">${flagEmoji(row.away_country)} ${row.away_name||'?'}</div></div>
+      <div class="row-footer">${analysis.tags.map(([t,c])=>`<span class="tag ${c}">${t}</span>`).join('')}<span class="src-badge ${src==='footystats'?'fs':'sm'}">${src==='footystats'?'FS':'SM'}</span></div>
     </div>
-    <div class="pressure-chart">${bars}</div>
-  </div>
-  <div class="panel"><h3>Baskı Akışı</h3>${sorted.slice(-20).reverse().map(p=>{
-    const loc=String((p.participant||{}).meta?.location||p.location||'').toLowerCase();
-    const val=dm(p.value??p.amount);
-    return `<div class="kv"><span>${p.minute||'?'}' · ${(p.participant||{}).name||loc||'-'}</span><span style="color:${loc==='home'?'var(--accent)':'var(--accent2)'}">${val}</span></div>`;
-  }).join('')}</div>`;
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+      <div class="team-score"><span class="${homeWin?'win':awayWin?'lose':''}">${h}</span><span class="${awayWin?'win':homeWin?'lose':''}">${a}</span></div>
+    </div>
+  </div>`;
 }
-function buildComments(detail){
-  const comments=detail?.comments||[];
-  if(!comments.length) return '<div class="empty">Yorum bulunamadı.</div>';
-  return '<div class="panel"><h3>Maç Yorumları</h3>' + comments.map(function(c){
-    const min = c.minute ? '<strong>'+c.minute+"'</strong> · " : '';
-    return '<div class="comment-line">' + min + (c.comment||c.text||c.line||'') + '</div>';
-  }).join('') + '</div>';
+function renderLeagueSections(rows){
+  const grouped=groupByLeague(rows);
+  return Object.entries(grouped).map(([league,list])=>{
+    const first=list[0]; const lsrc=normalizeImg(first?.league_country_image);
+    return `<section class="league-card"><div class="league-head"><div class="league-flag">${lsrc?`<img src="${lsrc}">`:flagEmoji(first?.league_country||'')}</div><div><div class="league-title">${league}</div><div class="league-sub">${list.length} maç</div></div></div>${list.map(renderMatchRow).join('')}</section>`;
+  }).join('');
+}
+function renderSourceTabs(){
+  $('sourceTabs').innerHTML=SOURCE_TABS.map(t=>{
+    const s=t.key==='footystats'?state.fs:state.sm;
+    const count=s.today.length+s.tomorrow.length+s.live.length;
+    return `<button class="stab ${state.source===t.key?'active':''}" data-source="${t.key}">${t.label}<span class="badge">${count}</span></button>`;
+  }).join('');
+}
+function renderSubChips(){
+  const src=state.source==='footystats'?state.fs:state.sm;
+  $('subChips').innerHTML=SUB_FILTERS.map(f=>{
+    let count=0;
+    if(f.key==='live') count=src.live.length;
+    if(f.key==='today') count=src.today.filter(r=>!isLive(r)).length;
+    if(f.key==='tomorrow') count=src.tomorrow.length;
+    return `<button class="chip ${f.cls||''} ${state.sub===f.key?'active':''}" data-sub="${f.key}">${f.label} ${count>0?`<span style="opacity:.6;font-size:10px">(${count})</span>`:''}`;
+  }).join('');
+}
+function renderMain(){
+  renderSourceTabs(); renderSubChips();
+  const rows=currentRows();
+  if(!rows.length){ const msgs={live:'Şu an canlı maç yok.',today:'Bugün için maç bulunamadı.',tomorrow:'Yarın için maç bulunamadı.'}; $('content').innerHTML=`<div class="empty">${msgs[state.sub]||'Veri bulunamadı.'}</div>`; return; }
+  if(state.sub==='live') checkGoals(rows);
+  $('content').innerHTML=renderLeagueSections(rows);
 }
 
-function buildLineups(detail){ const lineups=detail?.lineups||[]; if(!lineups.length) return '<div class="empty">Kadro bilgisi bulunamadı.</div>'; const starters=lineups.filter(x=>String(x.type?.developer_name||x.type?.name||'').toUpperCase().includes('START'));
- const bench=lineups.filter(x=>String(x.type?.developer_name||x.type?.name||'').toUpperCase().includes('BENCH'));
- const homeStar=starters.filter(x=>String(x?.team?.meta?.location||x?.participant?.meta?.location||x?.location||'').toLowerCase()==='home');
- const awayStar=starters.filter(x=>String(x?.team?.meta?.location||x?.participant?.meta?.location||x?.location||'').toLowerCase()==='away');
- const ifUnknownHome = starters.slice(0,Math.ceil(starters.length/2)); const ifUnknownAway = starters.slice(Math.ceil(starters.length/2));
- function plist(arr){ return arr.map(p=>`<div class="player">${imgOrPh(p.player?.image_path,p.player?.display_name,28)}<div><div>${p.player?.display_name||p.player?.name||'Oyuncu'}</div><div class="meta">#${p.shirt_number||'-'} · ${p.position?.name||p.player?.position?.name||''}</div></div></div>`).join('')||'<div class="empty">Yok</div>'; }
- return `<div class="lineup-grid"><div class="panel"><h3>Ev Sahibi İlk 11</h3>${plist(homeStar.length?homeStar:ifUnknownHome)}</div><div class="panel"><h3>Deplasman İlk 11</h3>${plist(awayStar.length?awayStar:ifUnknownAway)}</div></div><div class="panel"><h3>Yedekler</h3>${plist(bench)}</div>`; }
-function buildOverview(row,bundle){ const detail=bundle?.detail||{}; const weather=detail.weatherreport||detail.weatherReport||{}; const venue=detail.venue||{}; const standings=bundle?.standings||[]; const liveStandings=bundle?.live_standings||[];
- const referee = row.referee_name || (detail.referees||[])[0]?.name || '-';
- const windSpeed = weather.wind?.speed ? `${weather.wind.speed} km/h` : '';
- const humidity = weather.humidity ? `%${weather.humidity}` : '';
- const weatherStr = [weather.description||weather.current?.description, windSpeed, humidity].filter(Boolean).join(' · ') || '-';
- const hppg = row.home_ppg||row.pre_match_home_ppg||0;
- const appg = row.away_ppg||row.pre_match_away_ppg||0;
- const hxg = row.team_a_xg_prematch||0;
- const axg = row.team_b_xg_prematch||0;
- return `<div class="panel"><h3>Maç Bilgisi</h3><div class="kv"><span>Stadyum</span><span>${venue.name||row.stadium_name||'-'}</span></div><div class="kv"><span>Şehir</span><span>${venue.city_name||row.stadium_location||'-'}</span></div><div class="kv"><span>Durum</span><span>${detail.state?.name||row.status||'-'}</span></div><div class="kv"><span>Hakem</span><span>${referee}</span></div><div class="kv"><span>Hava</span><span>${weatherStr}</span></div></div>
- <div class="panel"><h3>Maç Öncesi İstatistik</h3><div class="ppg-grid"><div class="ppg-card"><div class="val">${hppg.toFixed?.(2)||hppg}</div><div class="lbl">${row.home_name||'Ev'} PPG</div></div><div class="ppg-card"><div class="val">${appg.toFixed?.(2)||appg}</div><div class="lbl">${row.away_name||'Dep'} PPG</div></div></div><div class="kv"><span>Ev xG (prematch)</span><span>${hxg||'-'}</span></div><div class="kv"><span>Dep xG (prematch)</span><span>${axg||'-'}</span></div><div class="kv"><span>BTTS Potansiyel</span><span>${row.btts_potential||'-'}</span></div><div class="kv"><span>Üst 2.5 Potansiyel</span><span>${row.o25_potential||'-'}</span></div><div class="kv"><span>İY 0.5 Üst Potansiyel</span><span>${row.o05HT_potential||'-'}</span></div></div>
- <div class="panel"><h3>ScoutAI Özeti</h3><div class="ai-box">${aiText(row)}</div></div>
- ${row.boss_ai_decision && row.boss_ai_decision !== row.live_comment && row.boss_ai_decision !== row.prematch_comment ? `<div class="panel"><h3>Boss AI Kararı</h3><div class="ai-box">${row.boss_ai_decision}</div></div>` : ''}
- ${buildPrediction(detail,row)}
- ${liveStandings.length?`<div class="panel"><h3>Canlı Sıralama</h3>${buildStandingsMini(liveStandings)}</div>`:''}
- ${standings.length?`<div class="panel"><h3>Lig Tablosu</h3>${buildStandingsMini(standings)}</div>`:''}`; }
-function buildStandingsMini(rows){ const top=rows.slice(0,6); return top.map(r=>`<div class="kv"><span>${r.position||r.rank||'-'}. ${r.participant?.name||r.team_name||''}</span><span>${r.points ?? r.total ?? '-'}</span></div>`).join(''); }
-function buildXG(detail){ const xgs=detail?.xGFixture||detail?.xgfixture||[]; if(!xgs.length) return '<div class="empty">xG verisi bulunamadı.</div>'; return xgs.map(x=>`<div class="kv"><span>${x.type?.name||x.type?.developer_name||'xG'}</span><span>${x.data?.value ?? x.value ?? '-'}</span></div>`).join(''); }
-function buildOdds(bundle,row){ const odds=bundle?.odds||[]; if(!odds.length){ return `<div class="panel"><h3>Prematch Oranlar</h3><div class="kv"><span>MS1</span><span>${row.odds_ft_1||'-'}</span></div><div class="kv"><span>MSX</span><span>${row.odds_ft_x||'-'}</span></div><div class="kv"><span>MS2</span><span>${row.odds_ft_2||'-'}</span></div><div class="kv"><span>Üst 2.5</span><span>${row.odds_ft_over25||'-'}</span></div><div class="kv"><span>KG Var</span><span>${row.odds_btts_yes||'-'}</span></div></div>`; }
- return `<div class="panel"><h3>Bookmaker Oranları</h3>${odds.slice(0,12).map(o=>`<div class="kv"><span>${o.market?.name||o.market_name||'Odds'} · ${o.label||o.name||''}</span><span>${o.value ?? o.odds ?? '-'}</span></div>`).join('')}</div>`; }
-function buildPrediction(detail,row){
-  const prediction=detail?.predictions||[];
-  if(prediction.length){
-    return `<div class="panel"><h3>Model Çıktısı</h3>${prediction.map(p=>`<div class="kv"><span>${p.type?.name||p.type?.developer_name||'Prediction'}</span><span>${typeof p.prediction!=='undefined' ? p.prediction : (p.value ?? (p.predictions ? JSON.stringify(p.predictions) : '-'))}</span></div>`).join('')}</div>`;
-  }
-  const a = analyzeRow(row);
-  return `<div class="panel"><h3>Model Çıktısı</h3><div class="kv"><span>ScoutAI fallback</span><span>${a.recommendation}</span></div><div class="kv"><span>Güven</span><span>%${a.confidence}</span></div></div>`;
+// ─── DETAIL ───────────────────────────────────────────────────────────────────
+function getAllRows(){ return [...state.fs.today,...state.fs.tomorrow,...state.fs.live,...state.sm.today,...state.sm.tomorrow,...state.sm.live]; }
+function getRowById(id){ return getAllRows().find(r=>String(r.id)===String(id)); }
+function teamFromDetail(detail,side){ const arr=detail?.participants||[]; return arr.find(p=>String(p?.meta?.location||'').toLowerCase()===side)||(side==='home'?arr[0]:arr[1])||null; }
+function currentScoreFromDetail(detail,row){ let home=null,away=null; for(const s of (detail?.scores||[])){ if((s.description||'').toUpperCase()==='CURRENT'){ const p=s.score?.participant,g=dm(s.score?.goals); if(p==='home') home=g; if(p==='away') away=g; } } if(home!=null&&away!=null) return [home,away]; return rowScore(row); }
+function getMinuteFromDetail(detail,row){ let max=0; for(const p of (detail?.periods||[])){ max=Math.max(max,dm(p.minutes),dm(p.minute)); } for(const ev of (detail?.events||[])){ max=Math.max(max,dm(ev.minute)); } if(max) return `${max}'`; const lm=dm(row._min??row.elapsed); if(lm) return `${lm}'`; const[m]=fmtMinute(row); return m; }
+function renderScorePanel(row,detail){ const home=teamFromDetail(detail,'home')||{name:row.home_name,image_path:row.home_image}; const away=teamFromDetail(detail,'away')||{name:row.away_name,image_path:row.away_image}; const[h,a]=currentScoreFromDetail(detail,row); const minute=getMinuteFromDetail(detail,row); $('scorePanel').innerHTML=`<div class="club">${imgOrPh(home.image_path,home.name,52)}<div class="club-name">${home.name}</div></div><div class="center-score"><div class="num">${h} - ${a}</div><span class="meta">${minute}</span></div><div class="club">${imgOrPh(away.image_path,away.name,52)}<div class="club-name">${away.name}</div></div>`; }
+function buildStatRows(stats){ if(!stats?.length) return '<div class="empty">İstatistik bulunamadı.</div>'; const map={}; for(const st of stats){ const key=st.type?.name||st.type?.developer_name||'İstatistik'; map[key]=map[key]||{}; map[key][st.location||'']=dm(st.data?.value); } return Object.entries(map).map(([label,v])=>{ const home=dm(v.home),away=dm(v.away),total=Math.max(home+away,1); return `<div class="stat-row"><div class="stat-val">${home||'-'}</div><div><div class="stat-label">${label}</div><div class="bar"><i style="width:${(home/total)*100}%"></i></div></div><div class="stat-val" style="text-align:right">${away||'-'}</div></div>`; }).join(''); }
+function buildTimeline(events){ if(!events?.length) return '<div class="empty">Olay bulunamadı.</div>'; const sorted=[...events].sort((a,b)=>(a.minute||0)*100+(a.extra_minute||0)-(b.minute||0)*100-(b.extra_minute||0)); return `<div class="timeline">${sorted.map(ev=>`<div class="event"><div class="event-time">${ev.minute||0}${ev.extra_minute?`+${ev.extra_minute}`:''}'</div><div class="event-card"><div class="event-type">${ev.type?.name||ev.type?.developer_name||'Olay'}</div><div class="event-line">${ev.player_name||ev.player?.display_name||''}${ev.related_player_name?` → ${ev.related_player_name}`:''}${ev.result?` · ${ev.result}`:''}</div></div></div>`).join('')}</div>`; }
+function buildLineups(detail){ const lineups=detail?.lineups||[]; if(!lineups.length) return '<div class="empty">Kadro bilgisi bulunamadı.</div>'; const starters=lineups.filter(x=>String(x.type?.developer_name||x.type?.name||'').toUpperCase().includes('START')); const bench=lineups.filter(x=>String(x.type?.developer_name||x.type?.name||'').toUpperCase().includes('BENCH')); const homeStar=starters.filter(x=>String(x?.team?.meta?.location||x?.location||'').toLowerCase()==='home'); const awayStar=starters.filter(x=>String(x?.team?.meta?.location||x?.location||'').toLowerCase()==='away'); const iuH=starters.slice(0,Math.ceil(starters.length/2)); const iuA=starters.slice(Math.ceil(starters.length/2)); function plist(arr){ return arr.map(p=>`<div class="player">${imgOrPh(p.player?.image_path,p.player?.display_name,28)}<div><div>${p.player?.display_name||p.player?.name||'Oyuncu'}</div><div class="meta">#${p.shirt_number||'-'} · ${p.position?.name||''}</div></div></div>`).join('')||'<div class="empty">Yok</div>'; } return `<div class="lineup-grid"><div class="panel"><h3>Ev Sahibi İlk 11</h3>${plist(homeStar.length?homeStar:iuH)}</div><div class="panel"><h3>Deplasman İlk 11</h3>${plist(awayStar.length?awayStar:iuA)}</div></div><div class="panel"><h3>Yedekler</h3>${plist(bench)}</div>`; }
+function buildOverview(row,bundle){ const detail=bundle?.detail||{}; const weather=detail.weatherreport||detail.weatherReport||{}; const venue=detail.venue||{}; const standings=bundle?.standings||[]; const weatherStr=[weather.description,weather.wind?.speed?`${weather.wind.speed}km/h`:'',weather.humidity?`%${weather.humidity}`:''].filter(Boolean).join(' · ')||'-'; const hppg=row.home_ppg||row.pre_match_home_ppg||0; const appg=row.away_ppg||row.pre_match_away_ppg||0; const hxg=row.team_a_xg_prematch||0; const axg=row.team_b_xg_prematch||0; const referee=row.referee_name||(detail.referees||[])[0]?.name||'-'; return `<div class="panel"><h3>Maç Bilgisi</h3><div class="kv"><span>Stadyum</span><span>${venue.name||row.stadium_name||'-'}</span></div><div class="kv"><span>Durum</span><span>${detail.state?.name||row.status||'-'}</span></div><div class="kv"><span>Hakem</span><span>${referee}</span></div><div class="kv"><span>Hava</span><span>${weatherStr}</span></div><div class="kv"><span>Kaynak</span><span>${row._source==='footystats'?'FootyStats':'Sportmonks'}</span></div></div><div class="panel"><h3>Maç Öncesi İstatistik</h3><div class="ppg-grid"><div class="ppg-card"><div class="val">${(+hppg).toFixed(2)}</div><div class="lbl">${row.home_name||'Ev'} PPG</div></div><div class="ppg-card"><div class="val">${(+appg).toFixed(2)}</div><div class="lbl">${row.away_name||'Dep'} PPG</div></div></div><div class="kv"><span>Ev xG</span><span>${hxg||'-'}</span></div><div class="kv"><span>Dep xG</span><span>${axg||'-'}</span></div><div class="kv"><span>BTTS Potansiyel</span><span>${row.btts_potential||'-'}</span></div><div class="kv"><span>Üst 2.5 Potansiyel</span><span>${row.o25_potential||'-'}</span></div><div class="kv"><span>İY 0.5 Üst</span><span>${row.o05HT_potential||'-'}</span></div></div><div class="panel"><h3>ScoutAI Özeti</h3><div class="ai-box">${aiText(row)}</div></div>${standings.length?`<div class="panel"><h3>Lig Tablosu</h3>${standings.slice(0,6).map(r=>`<div class="kv"><span>${r.position||'-'}. ${r.participant?.name||''}</span><span>${r.points??'-'}</span></div>`).join('')}</div>`:''}` }
+function buildXG(detail){ const xgs=detail?.xGFixture||detail?.xgfixture||[]; if(!xgs.length) return '<div class="empty">xG verisi bulunamadı.</div>'; return xgs.map(x=>`<div class="kv"><span>${x.type?.name||'xG'}</span><span>${x.data?.value??x.value??'-'}</span></div>`).join(''); }
+function buildOdds(bundle,row){ const odds=bundle?.odds||[]; if(!odds.length) return `<div class="panel"><h3>Prematch Oranlar</h3><div class="kv"><span>MS1</span><span>${row.odds_ft_1||'-'}</span></div><div class="kv"><span>MSX</span><span>${row.odds_ft_x||'-'}</span></div><div class="kv"><span>MS2</span><span>${row.odds_ft_2||'-'}</span></div><div class="kv"><span>Üst 2.5</span><span>${row.odds_ft_over25||'-'}</span></div><div class="kv"><span>KG Var</span><span>${row.odds_btts_yes||'-'}</span></div></div>`; return `<div class="panel"><h3>Bookmaker Oranları</h3>${odds.slice(0,15).map(o=>`<div class="kv"><span>${o.market?.name||'Odds'} · ${o.label||o.name||''}</span><span>${o.value??o.odds??'-'}</span></div>`).join('')}</div>`; }
+function buildPrediction(detail,row){ const pred=detail?.predictions||[]; if(pred.length) return `<div class="panel"><h3>Model Çıktısı</h3>${pred.map(p=>`<div class="kv"><span>${p.type?.name||p.type?.developer_name||'Prediction'}</span><span>${p.prediction??p.value??(p.predictions?JSON.stringify(p.predictions):'-')}</span></div>`).join('')}</div>`; const a=analyzeRow(row); return `<div class="panel"><h3>Model Çıktısı</h3><div class="kv"><span>ScoutAI</span><span>${a.recommendation}</span></div><div class="kv"><span>Güven</span><span>%${a.confidence}</span></div></div>`; }
+function buildH2H(bundle){ const rows=bundle?.h2h||[]; if(!rows.length) return '<div class="empty">H2H bulunamadı.</div>'; return `<div class="panel"><h3>Head to Head</h3>${rows.slice(0,10).map(m=>{ let h='-',a='-'; for(const s of (m.scores||[])){ if((s.description||'').toUpperCase()==='CURRENT'){ if(s.score?.participant==='home') h=s.score?.goals; if(s.score?.participant==='away') a=s.score?.goals; } } return `<div class="kv"><span>${(m.participants||[]).map(p=>p.name).join(' - ')}</span><span>${h}-${a}</span></div>`; }).join('')}</div>`; }
+function buildNews(detail){ const lines=[...(detail?.prematchnews||detail?.prematchNews||[]),...(detail?.postmatchnews||detail?.postmatchNews||[])]; if(!lines.length) return '<div class="empty">Haber bulunamadı.</div>'; return `<div class="panel"><h3>Haber Akışı</h3>${lines.map(n=>`<div class="news-line">${n.title?`<strong>${n.title}</strong><br>`:''}${n.line||n.text||n.content||''}</div>`).join('')}</div>`; }
+function buildSidelined(detail){ const arr=detail?.sidelined||[]; if(!arr.length) return '<div class="empty">Sakatlık/ceza verisi bulunamadı.</div>'; return `<div class="panel"><h3>Sakatlık / Ceza</h3>${arr.slice(0,12).map(s=>{ const player=s.player||s.sideline?.player||{}; const type=String(s.sideline?.type?.name||s.type?.name||s.reason||'').toLowerCase(); const isSusp=type.includes('suspend'); return `<div class="sidelined-row">${imgOrPh(player.image_path,player.display_name||player.name,32)}<div style="flex:1"><div style="font-size:13px;font-weight:700">${player.display_name||player.name||'Oyuncu'}</div><div style="font-size:11px;color:var(--muted)">${s.end_date||s.until||''}</div></div><span class="sidelined-badge ${isSusp?'suspension':'injury'}">${s.sideline?.type?.name||s.type?.name||'Sakat'}</span></div>`; }).join('')}</div>`; }
+function buildTrends(detail){ const trends=detail?.trends||[]; if(!trends.length) return '<div class="empty">Trend verisi bulunamadı.</div>'; const grouped={}; for(const t of trends){ const key=t.type?.name||t.type?.developer_name||'Trend'; grouped[key]=grouped[key]||{home:null,away:null}; const loc=String(t.participant?.meta?.location||t.location||'').toLowerCase(); if(loc==='home') grouped[key].home=t; else if(loc==='away') grouped[key].away=t; } return `<div class="panel"><h3>Trend Analizi</h3>${Object.entries(grouped).map(([label,v])=>{ const hv=dm(v.home?.value??v.home?.data?.value),av=dm(v.away?.value??v.away?.data?.value),total=Math.max(hv+av,1); return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px"><span>${hv}</span><span>${label}</span><span>${av}</span></div><div style="display:flex;gap:4px;height:8px"><div style="flex:${hv/total};background:var(--accent);border-radius:999px 0 0 999px"></div><div style="flex:${av/total};background:var(--accent2);border-radius:0 999px 999px 0"></div></div></div>`; }).join('')}</div>`; }
+function buildPressureTab(detail,row){ const pressure=detail?.pressure||[]; if(!pressure.length) return '<div class="empty">Baskı verisi bulunamadı.</div>'; const sorted=[...pressure].sort((a,b)=>dm(a.minute)-dm(b.minute)); const maxVal=Math.max(...sorted.map(p=>Math.abs(dm(p.value??p.amount))),1); const bars=sorted.map(p=>{ const loc=String((p.participant||{}).meta?.location||p.location||'').toLowerCase(); const h=(dm(p.value??p.amount)/maxVal)*100; return `<div class="pressure-bar ${loc==='home'?'home':'away'}" style="height:${Math.max(h,8)}%"></div>`; }).join(''); const hT=sorted.filter(p=>String((p.participant||{}).meta?.location||p.location||'').toLowerCase()==='home').reduce((s,p)=>s+dm(p.value??p.amount),0); const aT=sorted.filter(p=>String((p.participant||{}).meta?.location||p.location||'').toLowerCase()!=='home').reduce((s,p)=>s+dm(p.value??p.amount),0); return `<div class="panel"><h3>Baskı Grafiği</h3><div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px"><span style="color:var(--accent);font-weight:700">⬤ ${row.home_name||'Ev'} ${hT.toFixed(1)}</span><span style="color:var(--accent2);font-weight:700">⬤ ${row.away_name||'Dep'} ${aT.toFixed(1)}</span></div><div class="pressure-chart">${bars}</div></div>`; }
+function buildCoaches(detail){ const coaches=detail?.coaches||[]; if(!coaches.length) return '<div class="empty">Teknik ekip verisi bulunamadı.</div>'; return `<div class="panel"><h3>Teknik Ekip</h3>${coaches.map(c=>`<div class="coach-row">${imgOrPh(c.coach?.image_path||c.image_path,c.coach?.display_name||c.name,36)}<div><div class="coach-name">${c.coach?.display_name||c.coach?.name||c.name||'Bilinmiyor'}</div><div class="coach-role">${c.coach?.nationality||c.type?.name||'Teknik Direktör'}</div></div></div>`).join('')}</div>`; }
+function buildComments(detail){ const comments=detail?.comments||[]; if(!comments.length) return '<div class="empty">Yorum bulunamadı.</div>'; return `<div class="panel"><h3>Maç Yorumları</h3>${comments.map(c=>`<div class="comment-line">${c.minute?`<strong>${c.minute}'</strong> · `:''}${c.comment||c.text||c.line||''}</div>`).join('')}</div>`; }
+function buildScoutAI(row){ return `<div class="panel"><h3>ScoutAI</h3><div class="ai-box">${aiText(row)}</div></div>`; }
+function renderDetailBody(){
+  const row=state.current; if(!row) return;
+  const bundle=getBundle(row)||{}; const detail=bundle.detail||{}; const tab=state.detailTab;
+  let html='';
+  if(tab==='overview') html=buildOverview(row,bundle);
+  else if(tab==='stats') html=`<div class="panel"><h3>İstatistik</h3>${buildStatRows(detail.statistics)}</div>`;
+  else if(tab==='timeline') html=`<div class="panel"><h3>Olay Akışı</h3>${buildTimeline(detail.events)}</div>`;
+  else if(tab==='lineups') html=buildLineups(detail);
+  else if(tab==='xg') html=`<div class="panel"><h3>xG Merkezi</h3>${buildXG(detail)}</div>`;
+  else if(tab==='odds') html=buildOdds(bundle,row);
+  else if(tab==='prediction') html=buildPrediction(detail,row);
+  else if(tab==='h2h') html=buildH2H(bundle);
+  else if(tab==='news') html=buildNews(detail);
+  else if(tab==='ai') html=buildScoutAI(row);
+  else if(tab==='sidelined') html=buildSidelined(detail);
+  else if(tab==='trends') html=buildTrends(detail);
+  else if(tab==='pressure') html=buildPressureTab(detail,row);
+  else if(tab==='coaches') html=buildCoaches(detail);
+  else if(tab==='comments') html=buildComments(detail);
+  $('sheetBody').innerHTML=html;
+  $('detailTabs').innerHTML=DETAIL_TABS.map(t=>`<button class="dtab ${state.detailTab===t.key?'active':''}" data-dtab="${t.key}">${t.label}</button>`).join('');
 }
-function buildNews(detail){ const pre=detail?.prematchnews||detail?.prematchNews||[]; const post=detail?.postmatchnews||detail?.postmatchNews||[]; const lines=[...pre,...post]; if(!lines.length) return '<div class="empty">Haber bulunamadı.</div>'; return `<div class="panel"><h3>Haber Akışı</h3>${lines.map(n=>`<div class="news-line">${n.title?`<strong>${n.title}</strong><br>`:''}${n.line||n.text||n.content||''}</div>`).join('')}</div>`; }
-function buildH2H(bundle){ const rows=bundle?.h2h||[]; if(!rows.length) return '<div class="empty">H2H bulunamadı.</div>'; return `<div class="panel"><h3>Head to Head</h3>${rows.slice(0,10).map(m=>`<div class="kv"><span>${m.name||((m.participants||[]).map(p=>p.name).join(' - '))}</span><span>${scoreFromFixture(m)}</span></div>`).join('')}</div>`; }
-function scoreFromFixture(f){ let h='-',a='-'; for(const s of (f.scores||[])){ if((s.description||'').toUpperCase()==='CURRENT'){ if(s.score?.participant==='home') h=s.score?.goals; if(s.score?.participant==='away') a=s.score?.goals; } } return `${h}-${a}`; }
-function buildScoutAI(row,bundle){ const detail=bundle?.detail||{}; const pressure=(detail.pressure||[]).slice(-8); const pressText=pressure.length?pressure.map(p=>`${p.minute||''}' ${p.participant?.name||''}: ${p.value ?? p.amount ?? '-'}`).join('\n'):'Baskı verisi bulunamadı.'; return `<div class="panel"><h3>ScoutAI</h3><div class="ai-box">${aiText(row)}\n\nBaskı Akışı:\n${pressText}</div></div>`; }
-function buildKuponTab(row){ const picks=['Home Win','Away Win','Over 2.5','Both Teams Score','First Half Over 0.5','Asian Handicap','No Bet / Skip']; return `<div class="panel"><h3>Kupon Seçimi</h3><div style="display:flex;flex-wrap:wrap;gap:8px">${picks.map(p=>`<button class="quick-add ${state.kupon[row.id]?.pick===p?'active':''}" style="padding:12px 14px" data-pick="${p}">${p}</button>`).join('')}</div></div>`; }
-function renderDetailBody(){ const row=state.current; if(!row) return; const bundle=getBundle(row) || {}; const detail=bundle.detail || {};
- const tab=state.detailTab;
- let html='';
- if(tab==='overview') html=buildOverview(row,bundle);
- else if(tab==='stats') html=`<div class="panel"><h3>İstatistik</h3>${buildStatRows(detail.statistics)}</div>`;
- else if(tab==='timeline') html=`<div class="panel"><h3>Olay Akışı</h3>${buildTimeline(detail.events)}</div>`;
- else if(tab==='lineups') html=buildLineups(detail);
- else if(tab==='xg') html=`<div class="panel"><h3>xG Merkezi</h3>${buildXG(detail)}</div>`;
- else if(tab==='odds') html=buildOdds(bundle,row);
- else if(tab==='prediction') html=buildPrediction(detail,row);
- else if(tab==='h2h') html=buildH2H(bundle);
- else if(tab==='news') html=buildNews(detail);
- else if(tab==='ai') html=buildScoutAI(row,bundle);
- else if(tab==='kupon') html=buildKuponTab(row);
- else if(tab==='sidelined') html=buildSidelined(detail);
- else if(tab==='trends') html=buildTrends(detail);
- else if(tab==='pressure') html=buildPressureTab(detail,row);
- else if(tab==='coaches') html=buildCoaches(detail);
- else if(tab==='comments') html=buildComments(detail);
- $('sheetBody').innerHTML=html;
- $('detailTabs').innerHTML=DETAIL_TABS.map(t=>`<button class="dtab ${state.detailTab===t.key?'active':''}" data-dtab="${t.key}">${t.label}</button>`).join('');
-}
-function openDetail(id){ const row=getRowById(id); if(!row) return; state.current=row; state.detailTab='overview'; $('sheetTitle').textContent=`${row.home_name} vs ${row.away_name}`; $('sheetSub').textContent=row.competition_name || ''; renderScorePanel(row,getBundle(row)?.detail); renderDetailBody(); $('overlay').classList.add('open'); }
+function openDetail(id){ const row=getRowById(id); if(!row) return; state.current=row; state.detailTab='overview'; $('sheetTitle').textContent=`${row.home_name} vs ${row.away_name}`; $('sheetSub').textContent=row.competition_name||''; renderScorePanel(row,getBundle(row)?.detail||{}); renderDetailBody(); $('overlay').classList.add('open'); }
 function closeDetail(){ $('overlay').classList.remove('open'); }
-function toggleKupon(id,pick=null){ const row=getRowById(id)||state.current; if(!row) return; const current=state.kupon[row.id]; if(pick){ state.kupon[row.id]={home_name:row.home_name,away_name:row.away_name,pick}; }
- else if(current) delete state.kupon[row.id];
- else state.kupon[row.id]={home_name:row.home_name,away_name:row.away_name,pick:analyzeRow(row).recommendation};
- saveKupon(); renderMain(); if(state.current) renderDetailBody(); }
-async function loadData(){ const bust='?t='+Date.now(); const [fsTodayRes,fsTomorrowRes,smTodayRes,smTomorrowRes,fsLiveRes,smLiveRes,bundleRes] = await Promise.allSettled([
-  fetch('data/footystats_today.json'+bust).then(r=>r.json()),
-  fetch('data/footystats_tomorrow.json'+bust).then(r=>r.json()),
-  fetch('data/sportmonks_today.json'+bust).then(r=>r.json()),
-  fetch('data/sportmonks_tomorrow.json'+bust).then(r=>r.json()),
-  fetch('data/footystats_live.json'+bust).then(r=>r.json()),
-  fetch('data/sportmonks_live.json'+bust).then(r=>r.json()),
-  fetch('data/sportmonks_bundle.json'+bust).then(r=>r.json())
- ]);
 
- // Merge FootyStats + Sportmonks rows, dedupe by id
- const fsToday   = fsTodayRes.status==='fulfilled'  ? (fsTodayRes.value.data||[])   : [];
- const smToday   = smTodayRes.status==='fulfilled'  ? (smTodayRes.value.data||[])   : [];
- const fsTomorrow= fsTomorrowRes.status==='fulfilled'? (fsTomorrowRes.value.data||[]): [];
- const smTomorrow= smTomorrowRes.status==='fulfilled'? (smTomorrowRes.value.data||[]): [];
- const fsLive    = fsLiveRes.status==='fulfilled'   ? (fsLiveRes.value.data||[])    : [];
- const smLive    = smLiveRes.status==='fulfilled'   ? (smLiveRes.value.matches||[]) : [];
-
- function dedupeById(arr){ const seen=new Set(); return arr.filter(r=>{ const k=String(r.id||''); if(seen.has(k)) return false; seen.add(k); return true; }); }
-
- state.today    = dedupeById([...fsToday,   ...smToday]);
- state.tomorrow = dedupeById([...fsTomorrow,...smTomorrow]);
- state.bundle   = bundleRes.status==='fulfilled' ? bundleRes.value : {fixtures:{}};
-
- // Build live score map from both live sources
- const scoreMap={}, idMap={};
- // FootyStats live — already enriched rows
- for(const r of fsLive){
-   const k=((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase();
-   scoreMap[k]=r; idMap[String(r.id||'')]=r;
- }
- // Sportmonks live — minimal score objects
- for(const m of smLive){
-   const k=((m.homeTeam?.name||'')+'_'+(m.awayTeam?.name||'')).toLowerCase();
-   const entry={_h:m.score?.fullTime?.home??0,_a:m.score?.fullTime?.away??0,_min:m.minute??0,status:'live',elapsed:m.minute??0};
-   if(!scoreMap[k]) scoreMap[k]=entry;
-   if(m.id) idMap[String(m.id)]=entry;
- }
-
- // Overlay live scores onto today rows
- state.today = state.today.map(r=>{
-   const smid = String(r?.source_ids?.sportmonks || r?.sportmonks_id || '');
-   const key  = ((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase();
-   const lm   = idMap[smid] || scoreMap[key];
-   if(!lm) return r;
-   return {...r,
-     _h: lm._h ?? lm.score?.fullTime?.home ?? lm.homeGoalCount ?? r.homeGoalCount,
-     _a: lm._a ?? lm.score?.fullTime?.away ?? lm.awayGoalCount ?? r.awayGoalCount,
-     _min: lm._min ?? lm.minute ?? r.elapsed,
-     status:'live',
-     elapsed: lm._min ?? lm.minute ?? r.elapsed,
-     live_comment: r.live_comment || lm.live_comment || lm.boss_ai_decision || '',
-     boss_ai_decision: r.boss_ai_decision || lm.boss_ai_decision || '',
-   };
- });
-
- renderMain();
+// ─── DATA LOAD ────────────────────────────────────────────────────────────────
+async function loadData(){
+  const bust='?t='+Date.now();
+  const [fsTodayR,fsTomorrowR,smTodayR,smTomorrowR,fsLiveR,smLiveR,bundleR]=await Promise.allSettled([
+    fetch('data/footystats_today.json'+bust).then(r=>r.json()),
+    fetch('data/footystats_tomorrow.json'+bust).then(r=>r.json()),
+    fetch('data/sportmonks_today.json'+bust).then(r=>r.json()),
+    fetch('data/sportmonks_tomorrow.json'+bust).then(r=>r.json()),
+    fetch('data/footystats_live.json'+bust).then(r=>r.json()),
+    fetch('data/sportmonks_live.json'+bust).then(r=>r.json()),
+    fetch('data/sportmonks_bundle.json'+bust).then(r=>r.json()),
+  ]);
+  function tag(rows,src){ return (rows||[]).map(r=>({...r,_source:src})); }
+  const fsToday   =tag(fsTodayR.status==='fulfilled'   ?(fsTodayR.value.data||[])   :[],'footystats');
+  const fsTomorrow=tag(fsTomorrowR.status==='fulfilled' ?(fsTomorrowR.value.data||[])  :[],'footystats');
+  const fsLive    =tag(fsLiveR.status==='fulfilled'    ?(fsLiveR.value.data||[])    :[],'footystats');
+  const smToday   =tag(smTodayR.status==='fulfilled'   ?(smTodayR.value.data||[])   :[],'sportmonks');
+  const smTomorrow=tag(smTomorrowR.status==='fulfilled' ?(smTomorrowR.value.data||[])  :[],'sportmonks');
+  const smLiveRaw =smLiveR.status==='fulfilled'?smLiveR.value:{};
+  const smLive    =tag(smLiveRaw.matches||smLiveRaw.data||[],'sportmonks');
+  state.bundle=bundleR.status==='fulfilled'?bundleR.value:{fixtures:{}};
+  const scoreMap={};
+  for(const m of smLive){ const k=((m.home_name||'')+'_'+(m.away_name||'')).toLowerCase(); scoreMap[k]=m; }
+  function overlayLive(rows){ return rows.map(r=>{ const k=((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase(); const lm=scoreMap[k]; if(!lm) return r; return {...r,_h:lm.homeGoalCount??r.homeGoalCount,_a:lm.awayGoalCount??r.awayGoalCount,_min:lm.elapsed??r.elapsed,status:'live',elapsed:lm.elapsed??r.elapsed,live_comment:r.live_comment||lm.live_comment||lm.boss_ai_decision||'',boss_ai_decision:r.boss_ai_decision||lm.boss_ai_decision||''}; }); }
+  state.fs.today   =dedupeById(overlayLive(fsToday));
+  state.fs.tomorrow=dedupeById(fsTomorrow);
+  state.fs.live    =dedupeById([...fsLive.filter(isLive),...overlayLive(fsToday).filter(isLive)]);
+  state.sm.today   =dedupeById(overlayLive(smToday));
+  state.sm.tomorrow=dedupeById(smTomorrow);
+  state.sm.live    =dedupeById(smLive.filter(isLive));
+  const now=new Date().toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Berlin'});
+  $('updatedAt').textContent=`${now}`;
+  renderMain();
 }
+
+// ─── EVENTS ───────────────────────────────────────────────────────────────────
 document.addEventListener('click',e=>{
-  const tab=e.target.closest('[data-tab]'); if(tab){ state.tab=tab.dataset.tab; renderMain(); return; }
-  const chip=e.target.closest('[data-filter]'); if(chip){ state.filter=chip.dataset.filter; renderMain(); return; }
+  const src=e.target.closest('[data-source]'); if(src){ state.source=src.dataset.source; state.sub='live'; renderMain(); return; }
+  const sub=e.target.closest('[data-sub]'); if(sub){ state.sub=sub.dataset.sub; renderMain(); return; }
   const open=e.target.closest('[data-open]'); if(open){ openDetail(open.dataset.open); return; }
-  const add=e.target.closest('[data-add]'); if(add){ e.stopPropagation(); toggleKupon(add.dataset.add); return; }
   const dtab=e.target.closest('[data-dtab]'); if(dtab){ state.detailTab=dtab.dataset.dtab; renderDetailBody(); return; }
-  const pick=e.target.closest('[data-pick]'); if(pick && state.current){ toggleKupon(state.current.id,pick.dataset.pick); return; }
 });
 $('refreshBtn').addEventListener('click',loadData);
 $('closeSheet').addEventListener('click',closeDetail);
+$('closeSheet2').addEventListener('click',closeDetail);
 $('overlay').addEventListener('click',e=>{ if(e.target.id==='overlay') closeDetail(); });
-$('detailAdd').addEventListener('click',()=> state.current && toggleKupon(state.current.id));
-$('detailAi').addEventListener('click',()=> { state.detailTab='ai'; renderDetailBody(); });
-$('openKuponBtn').addEventListener('click',()=> { state.tab='kupon'; renderMain(); });
-updateKuponPanel(); loadData();
+$('detailAi').addEventListener('click',()=>{ state.detailTab='ai'; renderDetailBody(); });
+setInterval(()=>{ if(state.sub==='live') loadData(); },60000);
+loadData();
 </script>
+<div class="toast-wrap" id="toastWrap"></div>
 </body>
 </html>
