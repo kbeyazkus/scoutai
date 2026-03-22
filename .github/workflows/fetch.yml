@@ -24,27 +24,30 @@ jobs:
         run: pip install requests unidecode google-genai
 
       - name: Authenticate to Google Cloud
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Run split fetch
+      - name: Run fetch
         env:
           FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
           GEMINI_MODEL: "gemini-2.5-flash"
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_LOCATION: "us-central1"
-        run: python scripts/fetch_split_sources.py
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+        run: python scripts/fetch.py
 
-      - name: Run split live
+      - name: Run live radar
         env:
           FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
           GEMINI_MODEL: "gemini-2.5-flash"
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_LOCATION: "us-central1"
-        run: python scripts/live_split_sources.py
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+        run: python scripts/live_radar.py
 
       - name: Commit and push data
         run: |
