@@ -23,7 +23,7 @@ SPORTMONKS_TODAY_JSON    = os.path.join(DATA_DIR, 'sportmonks_today.json')
 SPORTMONKS_TOMORROW_JSON = os.path.join(DATA_DIR, 'sportmonks_tomorrow.json')
 HEALTH_JSON              = os.path.join(DATA_DIR, 'health.json')
 
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
+GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.0-flash').strip()
 # Max matches to write AI comments per run — prevents timeout
 MAX_AI_PER_RUN = int(os.getenv('AI_MAX_PER_RUN', '40'))
 
@@ -101,15 +101,26 @@ def ai_comment_prematch(client, match: Dict[str, Any]) -> str:
         'No emojis, no flattery, sharp and technical.',
         json.dumps(payload, ensure_ascii=False),
     ])
-    try:
-        response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
-        text = (getattr(response, 'text', '') or '').strip()
-        if len(text) > 500:
-            text = text[:500].rsplit(' ', 1)[0]
-        return text
-    except Exception as e:
-        log(f'AI error ({match.get("home_name")} - {match.get("away_name")}): {e}')
-        return ''
+    # Retry with exponential backoff on 429
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
+            text = (getattr(response, 'text', '') or '').strip()
+            if len(text) > 500:
+                text = text[:500].rsplit(' ', 1)[0]
+            return text
+        except Exception as e:
+            err = str(e)
+            if '429' in err or 'RESOURCE_EXHAUSTED' in err:
+                wait = 15 * (2 ** attempt)  # 15s, 30s, 60s
+                log(f'⚠️  429 rate limit — waiting {wait}s (attempt {attempt+1}/{max_retries})')
+                time.sleep(wait)
+            else:
+                log(f'AI error ({match.get("home_name")} - {match.get("away_name")}): {e}')
+                return ''
+    log(f'⚠️  AI skipped after {max_retries} retries')
+    return ''
 
 def process_file(path: str, client, counter: dict) -> int:
     """Process one JSON file, write AI comments for matches missing them."""
