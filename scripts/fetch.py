@@ -237,11 +237,11 @@ def ai_comment_prematch(client, match: Dict[str, Any]) -> str:
         },
     }
     prompt = '\n'.join([
-        'Sen çapraz veri sorgulayan teknik bahis motorusun.',
-        'Metrikleri (xG, PPG, Oranlar) çarpıştır. Zıtlık varsa riskli kabul et.',
-        'Sadece şu türlerden en risksiz TEK kuponu öner veya riskliyse "Oynama / Pas" de:',
-        'MS1/MS2, Üst 2.5, KG Var, İY Üst 0.5, Asya Handikap, Takım 1.5 Üst.',
-        'Kurallar: Max 80 kelime. 3 bölüm: DURUM, NEDEN, SONUÇ. Sert ve teknik ol.',
+        'You are a technical betting analysis engine that cross-checks data.',
+        'Cross-check all metrics (xG, PPG, Odds). If data conflicts, flag as RISKY.',
+        'Recommend only ONE lowest-risk bet from: Home Win, Away Win, Over 2.5, Both Teams Score, First Half Over 0.5, Asian Handicap, Home Team +1.5 Over Goals, Away Team +1.5 Over Goals.',
+        'If confidence is low, output exactly: "No Bet / Skip".',
+        'Rules: Max 80 words. 3 sections only: STATUS, REASON, CONCLUSION. Be sharp and technical.',
         json.dumps(payload, ensure_ascii=False),
     ])
     try:
@@ -293,8 +293,8 @@ def normalize_fs_row(fs: Dict[str, Any], client=None,
         'id':               str(fs.get('id', '')),
         'source_ids':       {'footystats': str(fs.get('id', '')),
                              'sportmonks': str(sm_base.get('sportmonks_id', ''))},
-        'home_name':        fs.get('home_name') or sm_base.get('home_name') or 'Ev Sahibi',
-        'away_name':        fs.get('away_name') or sm_base.get('away_name') or 'Deplasman',
+        'home_name':        fs.get('home_name') or sm_base.get('home_name') or 'Home',
+        'away_name':        fs.get('away_name') or sm_base.get('away_name') or 'Away',
         'competition_name': fs.get('competition_name') or sm_base.get('competition_name') or '',
         'competition_id':   safe_int(fs.get('competition_id'), 0),
         'league_country':   sm_base.get('league_country', ''),
