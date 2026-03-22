@@ -35,10 +35,9 @@ LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = (
     'participants;league.country;venue;state;scores;periods;'
     'events.type;events.period;events.player;'
-    'statistics.type;'
-    'lineups.player.position;lineups.player.detailedPosition;lineups.type;lineups.details.type;'
+    'statistics.type;lineups.player;lineups.type;'
     'coaches;sidelined.sideline.player;sidelined.sideline.type;'
-    'weatherReport;predictions.type;pressure'
+    'weatherReport;predictions.type'
 )
 
 def log(msg): print(msg, flush=True)
