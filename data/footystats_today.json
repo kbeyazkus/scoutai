@@ -1,140 +1,6 @@
 {
   "data": [
     {
-      "id": "8227610",
-      "source_ids": {
-        "footystats": "8227610",
-        "sportmonks": "19433715"
-      },
-      "home_name": "St. Pauli",
-      "away_name": "Freiburg",
-      "competition_name": "Bundesliga",
-      "competition_id": 14968,
-      "league_country": "Germany",
-      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/de.png",
-      "date_unix": 1774197000,
-      "home_image": "teams/germany-fc-st-pauli.png",
-      "away_image": "teams/germany-sc-freiburg.png",
-      "home_country": "Germany",
-      "away_country": "Germany",
-      "venue_name": "Millerntor-Stadion",
-      "venue_city": "Hamburg",
-      "referee_name": "",
-      "weather": {
-        "id": 721517,
-        "fixture_id": 19433715,
-        "venue_id": 2110,
-        "temperature": {
-          "day": 10.87,
-          "morning": 1.81,
-          "evening": 9.33,
-          "night": 5.17
-        },
-        "feels_like": {
-          "day": 9.21,
-          "morning": -0.61,
-          "evening": 8.18,
-          "night": 3.81
-        },
-        "wind": {
-          "speed": 3.92,
-          "direction": 114
-        },
-        "humidity": "46%",
-        "pressure": 1021,
-        "clouds": "0%",
-        "description": "sky is clear",
-        "icon": "https://cdn.sportmonks.com/images/weather/01d.png",
-        "type": "forecast",
-        "metric": "celcius",
-        "current": null
-      },
-      "home_ppg": 1.33,
-      "away_ppg": 0.69,
-      "team_a_xg_prematch": 1.33,
-      "team_b_xg_prematch": 1.17,
-      "btts_potential": 48.0,
-      "o25_potential": 61.0,
-      "o05HT_potential": 52.0,
-      "odds_ft_1": 2.7,
-      "odds_ft_x": 3.0,
-      "odds_ft_2": 2.82,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: No Bet / Skip\nREASON: xG (St. Pauli 1.33, Freiburg 1.17) indicates marginal home offensive advantage, while PPG (St. Pauli 1.33, Freiburg 0.69) shows significant home superiority. This conflict in core performance metrics, combined with close odds (2.7 vs 2.82), lowers confidence. Critical odds for Over 2.5/BTTS are also missing.\nCONCLUSION: Data ambiguity prevents a low-risk recommendation.",
-      "prematch_comment": "STATUS: No Bet / Skip\nREASON: xG (St. Pauli 1.33, Freiburg 1.17) indicates marginal home offensive advantage, while PPG (St. Pauli 1.33, Freiburg 0.69) shows significant home superiority. This conflict in core performance metrics, combined with close odds (2.7 vs 2.82), lowers confidence. Critical odds for Over 2.5/BTTS are also missing.\nCONCLUSION: Data ambiguity prevents a low-risk recommendation.",
-      "ai_comment": "STATUS: No Bet / Skip\nREASON: xG (St. Pauli 1.33, Freiburg 1.17) indicates marginal home offensive advantage, while PPG (St. Pauli 1.33, Freiburg 0.69) shows significant home superiority. This conflict in core performance metrics, combined with close odds (2.7 vs 2.82), lowers confidence. Critical odds for Over 2.5/BTTS are also missing.\nCONCLUSION: Data ambiguity prevents a low-risk recommendation."
-    },
-    {
-      "id": "8231633",
-      "source_ids": {
-        "footystats": "8231633",
-        "sportmonks": "19425493"
-      },
-      "home_name": "Widzew Łódź",
-      "away_name": "Górnik Zabrze",
-      "competition_name": "Ekstraklasa",
-      "competition_id": 15031,
-      "league_country": "Poland",
-      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/pl.png",
-      "date_unix": 1774197000,
-      "home_image": "teams/poland-rts-widzew-lodz.png",
-      "away_image": "teams/poland-ks-gornik-zabrze.png",
-      "home_country": "Poland",
-      "away_country": "Poland",
-      "venue_name": "Stadion Miejski Widzewa Łódź",
-      "venue_city": "Łódź",
-      "referee_name": "",
-      "weather": {
-        "id": 721595,
-        "fixture_id": 19425493,
-        "venue_id": 195951,
-        "temperature": {
-          "day": 9.83,
-          "morning": 2.61,
-          "evening": 8.85,
-          "night": 4.99
-        },
-        "feels_like": {
-          "day": 7.19,
-          "morning": -0.27,
-          "evening": 6.22,
-          "night": 2.11
-        },
-        "wind": {
-          "speed": 6.2,
-          "direction": 114
-        },
-        "humidity": "42%",
-        "pressure": 1023,
-        "clouds": "25%",
-        "description": "scattered clouds",
-        "icon": "https://cdn.sportmonks.com/images/weather/03d.png",
-        "type": "forecast",
-        "metric": "celcius",
-        "current": null
-      },
-      "home_ppg": 1.12,
-      "away_ppg": 1.52,
-      "team_a_xg_prematch": 1.51,
-      "team_b_xg_prematch": 1.84,
-      "btts_potential": 54.0,
-      "o25_potential": 52.0,
-      "o05HT_potential": 70.0,
-      "odds_ft_1": 2.39,
-      "odds_ft_x": 3.25,
-      "odds_ft_2": 3.0,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Górnik Zabrze's superior xG (1.84) and PPG (1.52) conflict with market odds (3.00 away win vs 2.39 home win), which favor the statistically weaker home team.\nCONCLUSION: Away Win.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Górnik Zabrze's superior xG (1.84) and PPG (1.52) conflict with market odds (3.00 away win vs 2.39 home win), which favor the statistically weaker home team.\nCONCLUSION: Away Win.",
-      "ai_comment": "STATUS: RISKY\nREASON: Górnik Zabrze's superior xG (1.84) and PPG (1.52) conflict with market odds (3.00 away win vs 2.39 home win), which favor the statistically weaker home team.\nCONCLUSION: Away Win."
-    },
-    {
       "id": "8238595",
       "source_ids": {
         "footystats": "8238595",
@@ -197,9 +63,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Consistent\nREASON: Roma's superior xG (1.79 vs 0.99) and PPG (2.07 vs 0.79) are strongly supported by the low odds (1.44) for a home win. No conflicting data points.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: Consistent\nREASON: Roma's superior xG (1.79 vs 0.99) and PPG (2.07 vs 0.79) are strongly supported by the low odds (1.44) for a home win. No conflicting data points.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: Consistent\nREASON: Roma's superior xG (1.79 vs 0.99) and PPG (2.07 vs 0.79) are strongly supported by the low odds (1.44) for a home win. No conflicting data points.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: CLEAR\nREASON: Roma's xG (1.79) and PPG (2.07) significantly outweigh Lecce's (xG 0.99, PPG 0.79). Odds (1.44) reflect this strong statistical advantage, indicating a high probability home win.\nCONCLUSION: Recommend Home Win.",
+      "prematch_comment": "STATUS: CLEAR\nREASON: Roma's xG (1.79) and PPG (2.07) significantly outweigh Lecce's (xG 0.99, PPG 0.79). Odds (1.44) reflect this strong statistical advantage, indicating a high probability home win.\nCONCLUSION: Recommend Home Win.",
+      "ai_comment": "STATUS: CLEAR\nREASON: Roma's xG (1.79) and PPG (2.07) significantly outweigh Lecce's (xG 0.99, PPG 0.79). Odds (1.44) reflect this strong statistical advantage, indicating a high probability home win.\nCONCLUSION: Recommend Home Win."
     },
     {
       "id": "8280443",
@@ -236,9 +102,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: CONGRUENT.\nREASON: Aris xG (1.54) and PPG (1.25) significantly exceed OFI's (0.9 xG, 0.92 PPG). Odds of 1.6 confirm Aris as strong favourites, aligning with performance metrics.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: CONGRUENT.\nREASON: Aris xG (1.54) and PPG (1.25) significantly exceed OFI's (0.9 xG, 0.92 PPG). Odds of 1.6 confirm Aris as strong favourites, aligning with performance metrics.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: CONGRUENT.\nREASON: Aris xG (1.54) and PPG (1.25) significantly exceed OFI's (0.9 xG, 0.92 PPG). Odds of 1.6 confirm Aris as strong favourites, aligning with performance metrics.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: Consistent.\nREASON: Aris xG (1.54) and PPG (1.25) significantly exceed OFI's (0.9, 0.92). Odds of 1.6 for Home Win align with this statistical advantage. No conflicting data points.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Consistent.\nREASON: Aris xG (1.54) and PPG (1.25) significantly exceed OFI's (0.9, 0.92). Odds of 1.6 for Home Win align with this statistical advantage. No conflicting data points.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Consistent.\nREASON: Aris xG (1.54) and PPG (1.25) significantly exceed OFI's (0.9, 0.92). Odds of 1.6 for Home Win align with this statistical advantage. No conflicting data points.\nCONCLUSION: Home Win."
     },
     {
       "id": "8280445",
@@ -275,9 +141,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: CLEAR\nREASON: AEK Athens home PPG (2.58) and xG (1.86) significantly exceed Kifisia away PPG (0.92) and xG (1.45). Odds (1.14) align with strong home favoritism.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: CLEAR\nREASON: AEK Athens home PPG (2.58) and xG (1.86) significantly exceed Kifisia away PPG (0.92) and xG (1.45). Odds (1.14) align with strong home favoritism.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: CLEAR\nREASON: AEK Athens home PPG (2.58) and xG (1.86) significantly exceed Kifisia away PPG (0.92) and xG (1.45). Odds (1.14) align with strong home favoritism.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: Clear\nREASON: AEK Athens displays significant statistical dominance with 2.58 PPG and 1.86 xG against Kifisia's 0.92 PPG and 1.45 xG. The odds of 1.14 for a home win are fully consistent with these strong performance metrics.\nCONCLUSION: Home Win",
+      "prematch_comment": "STATUS: Clear\nREASON: AEK Athens displays significant statistical dominance with 2.58 PPG and 1.86 xG against Kifisia's 0.92 PPG and 1.45 xG. The odds of 1.14 for a home win are fully consistent with these strong performance metrics.\nCONCLUSION: Home Win",
+      "ai_comment": "STATUS: Clear\nREASON: AEK Athens displays significant statistical dominance with 2.58 PPG and 1.86 xG against Kifisia's 0.92 PPG and 1.45 xG. The odds of 1.14 for a home win are fully consistent with these strong performance metrics.\nCONCLUSION: Home Win"
     },
     {
       "id": "8280446",
@@ -314,9 +180,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Confirmed\nREASON: Panaitolikos demonstrates superior xG (0.98 vs 0.73) and significantly higher PPG (1.0 vs 0.42). Home win odds of 1.83 align with the statistical advantage. No conflicting data points.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: Confirmed\nREASON: Panaitolikos demonstrates superior xG (0.98 vs 0.73) and significantly higher PPG (1.0 vs 0.42). Home win odds of 1.83 align with the statistical advantage. No conflicting data points.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: Confirmed\nREASON: Panaitolikos demonstrates superior xG (0.98 vs 0.73) and significantly higher PPG (1.0 vs 0.42). Home win odds of 1.83 align with the statistical advantage. No conflicting data points.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: Clear. Over 2.5 bet identified as RISKY due to xG data conflict (1.71 combined xG vs 71% probability).\nREASON: First Half Over 0.5 presents the highest given probability (79.0%) and lacks conflicting data. Home Win also shows strong support from xG, PPG, and consistent odds.\nCONCLUSION: First Half Over 0.5.",
+      "prematch_comment": "STATUS: Clear. Over 2.5 bet identified as RISKY due to xG data conflict (1.71 combined xG vs 71% probability).\nREASON: First Half Over 0.5 presents the highest given probability (79.0%) and lacks conflicting data. Home Win also shows strong support from xG, PPG, and consistent odds.\nCONCLUSION: First Half Over 0.5.",
+      "ai_comment": "STATUS: Clear. Over 2.5 bet identified as RISKY due to xG data conflict (1.71 combined xG vs 71% probability).\nREASON: First Half Over 0.5 presents the highest given probability (79.0%) and lacks conflicting data. Home Win also shows strong support from xG, PPG, and consistent odds.\nCONCLUSION: First Half Over 0.5."
     },
     {
       "id": "8280447",
@@ -353,9 +219,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Confirmed\nREASON: Home xG (1.5) significantly exceeds Away (0.95). Home PPG (1.92) is superior to Away (1.5). Odds align, favoring the home side.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: Confirmed\nREASON: Home xG (1.5) significantly exceeds Away (0.95). Home PPG (1.92) is superior to Away (1.5). Odds align, favoring the home side.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: Confirmed\nREASON: Home xG (1.5) significantly exceeds Away (0.95). Home PPG (1.92) is superior to Away (1.5). Odds align, favoring the home side.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: Clear.\nREASON: Home xG (1.5) significantly exceeds Away xG (0.95). Home PPG (1.92) is superior to Away PPG (1.5). Odds align with these metrics.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Clear.\nREASON: Home xG (1.5) significantly exceeds Away xG (0.95). Home PPG (1.92) is superior to Away PPG (1.5). Odds align with these metrics.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Clear.\nREASON: Home xG (1.5) significantly exceeds Away xG (0.95). Home PPG (1.92) is superior to Away PPG (1.5). Odds align with these metrics.\nCONCLUSION: Home Win."
     },
     {
       "id": "8280448",
@@ -392,9 +258,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Clear.\nREASON: PAOK's superior PPG (1.83) over Volos (1.33) aligns with higher xG (1.43 vs 1.29) and low odds (1.22). Data consistently supports an away victory. Missing odds for other markets prevent comprehensive comparison.\nCONCLUSION: Away Win.",
-      "prematch_comment": "STATUS: Clear.\nREASON: PAOK's superior PPG (1.83) over Volos (1.33) aligns with higher xG (1.43 vs 1.29) and low odds (1.22). Data consistently supports an away victory. Missing odds for other markets prevent comprehensive comparison.\nCONCLUSION: Away Win.",
-      "ai_comment": "STATUS: Clear.\nREASON: PAOK's superior PPG (1.83) over Volos (1.33) aligns with higher xG (1.43 vs 1.29) and low odds (1.22). Data consistently supports an away victory. Missing odds for other markets prevent comprehensive comparison.\nCONCLUSION: Away Win."
+      "boss_ai_decision": "STATUS: Clear.\nREASON: PAOK's superior xG (1.43 vs 1.29) and PPG (1.83 vs 1.33) align with low away win odds (1.22). Insufficient odds data for Over 2.5 and BTTS prevents cross-checking these markets.\nCONCLUSION: Away Win.",
+      "prematch_comment": "STATUS: Clear.\nREASON: PAOK's superior xG (1.43 vs 1.29) and PPG (1.83 vs 1.33) align with low away win odds (1.22). Insufficient odds data for Over 2.5 and BTTS prevents cross-checking these markets.\nCONCLUSION: Away Win.",
+      "ai_comment": "STATUS: Clear.\nREASON: PAOK's superior xG (1.43 vs 1.29) and PPG (1.83 vs 1.33) align with low away win odds (1.22). Insufficient odds data for Over 2.5 and BTTS prevents cross-checking these markets.\nCONCLUSION: Away Win."
     },
     {
       "id": "8280449",
@@ -431,9 +297,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Confirmed.\nREASON: Home xG (2.32) and PPG (2.42) significantly outweigh away values (xG 1.17, PPG 0.83). Odds (1.13) reflect this strong home dominance. No data conflicts.\nCONCLUSION: Recommend: Home Win.",
-      "prematch_comment": "STATUS: Confirmed.\nREASON: Home xG (2.32) and PPG (2.42) significantly outweigh away values (xG 1.17, PPG 0.83). Odds (1.13) reflect this strong home dominance. No data conflicts.\nCONCLUSION: Recommend: Home Win.",
-      "ai_comment": "STATUS: Confirmed.\nREASON: Home xG (2.32) and PPG (2.42) significantly outweigh away values (xG 1.17, PPG 0.83). Odds (1.13) reflect this strong home dominance. No data conflicts.\nCONCLUSION: Recommend: Home Win."
+      "boss_ai_decision": "STATUS: All metrics align for a home victory.\nREASON: Home xG (2.32) and PPG (2.42) significantly exceed away (xG 1.17, PPG 0.83). Odds (1.13) reflect this strong statistical advantage, showing no conflicting data.\nCONCLUSION: Recommend Home Win.",
+      "prematch_comment": "STATUS: All metrics align for a home victory.\nREASON: Home xG (2.32) and PPG (2.42) significantly exceed away (xG 1.17, PPG 0.83). Odds (1.13) reflect this strong statistical advantage, showing no conflicting data.\nCONCLUSION: Recommend Home Win.",
+      "ai_comment": "STATUS: All metrics align for a home victory.\nREASON: Home xG (2.32) and PPG (2.42) significantly exceed away (xG 1.17, PPG 0.83). Odds (1.13) reflect this strong statistical advantage, showing no conflicting data.\nCONCLUSION: Recommend Home Win."
     },
     {
       "id": "8280524",
@@ -470,9 +336,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Data Aligned.\nREASON: Panathinaikos shows superior xG (1.43 vs 1.17) and significantly higher PPG (1.5 vs 0.92). Odds (1.7) correctly identify them as favorites, aligning perfectly with performance metrics.\nCONCLUSION: Away Win.",
-      "prematch_comment": "STATUS: Data Aligned.\nREASON: Panathinaikos shows superior xG (1.43 vs 1.17) and significantly higher PPG (1.5 vs 0.92). Odds (1.7) correctly identify them as favorites, aligning perfectly with performance metrics.\nCONCLUSION: Away Win.",
-      "ai_comment": "STATUS: Data Aligned.\nREASON: Panathinaikos shows superior xG (1.43 vs 1.17) and significantly higher PPG (1.5 vs 0.92). Odds (1.7) correctly identify them as favorites, aligning perfectly with performance metrics.\nCONCLUSION: Away Win."
+      "boss_ai_decision": "STATUS: Data alignment is strong. No conflicting indicators identified.\nREASON: Panathinaikos demonstrates superior xG (1.43 vs 1.17) and PPG (1.5 vs 0.92). Market odds of 1.7 for an away win accurately reflect these statistical advantages, indicating the highest probability outcome.\nCONCLUSION: Away Win.",
+      "prematch_comment": "STATUS: Data alignment is strong. No conflicting indicators identified.\nREASON: Panathinaikos demonstrates superior xG (1.43 vs 1.17) and PPG (1.5 vs 0.92). Market odds of 1.7 for an away win accurately reflect these statistical advantages, indicating the highest probability outcome.\nCONCLUSION: Away Win.",
+      "ai_comment": "STATUS: Data alignment is strong. No conflicting indicators identified.\nREASON: Panathinaikos demonstrates superior xG (1.43 vs 1.17) and PPG (1.5 vs 0.92). Market odds of 1.7 for an away win accurately reflect these statistical advantages, indicating the highest probability outcome.\nCONCLUSION: Away Win."
     },
     {
       "id": "8390701",
@@ -509,9 +375,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Confirmed\nREASON: Home xG (1.46) exceeds Away xG (1.25). Home PPG (3.0) is significantly superior to Away PPG (1.75). Odds (2.14) align with the probability suggested by these metrics. No data conflicts identified.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: Confirmed\nREASON: Home xG (1.46) exceeds Away xG (1.25). Home PPG (3.0) is significantly superior to Away PPG (1.75). Odds (2.14) align with the probability suggested by these metrics. No data conflicts identified.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: Confirmed\nREASON: Home xG (1.46) exceeds Away xG (1.25). Home PPG (3.0) is significantly superior to Away PPG (1.75). Odds (2.14) align with the probability suggested by these metrics. No data conflicts identified.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: Normal.\nREASON: New York City demonstrates superior xG (1.46 vs 1.25) and significantly higher PPG (3.0 vs 1.75). Odds (2.14) align with this statistical advantage. Other potential markets lack valid odds data for proper risk assessment.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Normal.\nREASON: New York City demonstrates superior xG (1.46 vs 1.25) and significantly higher PPG (3.0 vs 1.75). Odds (2.14) align with this statistical advantage. Other potential markets lack valid odds data for proper risk assessment.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Normal.\nREASON: New York City demonstrates superior xG (1.46 vs 1.25) and significantly higher PPG (3.0 vs 1.75). Odds (2.14) align with this statistical advantage. Other potential markets lack valid odds data for proper risk assessment.\nCONCLUSION: Home Win."
     },
     {
       "id": "8390962",
@@ -548,9 +414,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Home Win.\nREASON: FC Cincinnati's PPG (1.5) and xG (1.2) are superior to Montreal Impact's (0.75 PPG, 1.0 xG). Odds of 1.58 align with this home favoritism. Other market odds are missing, limiting comprehensive analysis.\nCONCLUSION: Recommend Home Win.",
-      "prematch_comment": "STATUS: Home Win.\nREASON: FC Cincinnati's PPG (1.5) and xG (1.2) are superior to Montreal Impact's (0.75 PPG, 1.0 xG). Odds of 1.58 align with this home favoritism. Other market odds are missing, limiting comprehensive analysis.\nCONCLUSION: Recommend Home Win.",
-      "ai_comment": "STATUS: Home Win.\nREASON: FC Cincinnati's PPG (1.5) and xG (1.2) are superior to Montreal Impact's (0.75 PPG, 1.0 xG). Odds of 1.58 align with this home favoritism. Other market odds are missing, limiting comprehensive analysis.\nCONCLUSION: Recommend Home Win."
+      "boss_ai_decision": "STATUS: Confirmed.\nREASON: FC Cincinnati exhibits superior PPG (1.5 vs 0.75) and higher xG (1.2 vs 1.0) than Montreal Impact. Home win odds (1.58) align with these performance metrics, indicating consistent market valuation.\nCONCLUSION: Recommend Home Win.",
+      "prematch_comment": "STATUS: Confirmed.\nREASON: FC Cincinnati exhibits superior PPG (1.5 vs 0.75) and higher xG (1.2 vs 1.0) than Montreal Impact. Home win odds (1.58) align with these performance metrics, indicating consistent market valuation.\nCONCLUSION: Recommend Home Win.",
+      "ai_comment": "STATUS: Confirmed.\nREASON: FC Cincinnati exhibits superior PPG (1.5 vs 0.75) and higher xG (1.2 vs 1.0) than Montreal Impact. Home win odds (1.58) align with these performance metrics, indicating consistent market valuation.\nCONCLUSION: Recommend Home Win."
     },
     {
       "id": "8487678",
@@ -615,9 +481,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Low Risk\nREASON: AGF exhibits higher xG (1.89) and superior PPG (2.22) compared to Brøndby. Odds of 1.72 align with AGF's statistical advantage. Data is consistent.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: Low Risk\nREASON: AGF exhibits higher xG (1.89) and superior PPG (2.22) compared to Brøndby. Odds of 1.72 align with AGF's statistical advantage. Data is consistent.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: Low Risk\nREASON: AGF exhibits higher xG (1.89) and superior PPG (2.22) compared to Brøndby. Odds of 1.72 align with AGF's statistical advantage. Data is consistent.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: No apparent conflict.\nREASON: AGF's xG (1.89) and PPG (2.22) significantly exceed Brøndby's (1.62 xG, 1.48 PPG). Odds (1.72) reflect this strong home advantage. All data aligns for a home victory.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: No apparent conflict.\nREASON: AGF's xG (1.89) and PPG (2.22) significantly exceed Brøndby's (1.62 xG, 1.48 PPG). Odds (1.72) reflect this strong home advantage. All data aligns for a home victory.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: No apparent conflict.\nREASON: AGF's xG (1.89) and PPG (2.22) significantly exceed Brøndby's (1.62 xG, 1.48 PPG). Odds (1.72) reflect this strong home advantage. All data aligns for a home victory.\nCONCLUSION: Home Win."
     },
     {
       "id": "8488695",
@@ -654,9 +520,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Home win odds (2.37) contradict Hermannstadt's significantly lower PPG (0.74) and xG (1.33) versus Botoşani's stronger metrics (PPG 1.45, xG 1.51).\nCONCLUSION: Away Win.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Home win odds (2.37) contradict Hermannstadt's significantly lower PPG (0.74) and xG (1.33) versus Botoşani's stronger metrics (PPG 1.45, xG 1.51).\nCONCLUSION: Away Win.",
-      "ai_comment": "STATUS: RISKY\nREASON: Home win odds (2.37) contradict Hermannstadt's significantly lower PPG (0.74) and xG (1.33) versus Botoşani's stronger metrics (PPG 1.45, xG 1.51).\nCONCLUSION: Away Win."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Away team Botoşani shows superior xG (1.51 vs 1.33) and significantly higher PPG (1.45 vs 0.74). However, home win odds (2.37) imply higher probability than away win odds (2.75), directly contradicting performance data.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Away team Botoşani shows superior xG (1.51 vs 1.33) and significantly higher PPG (1.45 vs 0.74). However, home win odds (2.37) imply higher probability than away win odds (2.75), directly contradicting performance data.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Away team Botoşani shows superior xG (1.51 vs 1.33) and significantly higher PPG (1.45 vs 0.74). However, home win odds (2.37) imply higher probability than away win odds (2.75), directly contradicting performance data.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8200529",
@@ -721,9 +587,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Odds for Over 2.5 and BTTS are zero, preventing cross-validation. Combined xG (3.17) conflicts with historical Over 2.5% (43%). Athletic Club Bilbao exhibits stronger PPG (1.64 vs 1.36) and slightly higher xG (1.68 vs 1.49) at home.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: RISKY\nREASON: Odds for Over 2.5 and BTTS are zero, preventing cross-validation. Combined xG (3.17) conflicts with historical Over 2.5% (43%). Athletic Club Bilbao exhibits stronger PPG (1.64 vs 1.36) and slightly higher xG (1.68 vs 1.49) at home.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: RISKY\nREASON: Odds for Over 2.5 and BTTS are zero, preventing cross-validation. Combined xG (3.17) conflicts with historical Over 2.5% (43%). Athletic Club Bilbao exhibits stronger PPG (1.64 vs 1.36) and slightly higher xG (1.68 vs 1.49) at home.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: Data consistent for Home Win. Over 2.5 market conflicting between xG sum (3.17) and historical percentage (43%).\nREASON: Athletic Club Bilbao demonstrates superior xG (1.68 vs 1.49) and PPG (1.64 vs 1.36) at home. Odds of 2.16 reflect this clear home advantage.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Data consistent for Home Win. Over 2.5 market conflicting between xG sum (3.17) and historical percentage (43%).\nREASON: Athletic Club Bilbao demonstrates superior xG (1.68 vs 1.49) and PPG (1.64 vs 1.36) at home. Odds of 2.16 reflect this clear home advantage.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Data consistent for Home Win. Over 2.5 market conflicting between xG sum (3.17) and historical percentage (43%).\nREASON: Athletic Club Bilbao demonstrates superior xG (1.68 vs 1.49) and PPG (1.64 vs 1.36) at home. Odds of 2.16 reflect this clear home advantage.\nCONCLUSION: Home Win."
     },
     {
       "id": "8210128",
@@ -788,9 +654,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: NOT RISKY\nREASON: xG and PPG metrics consistently favor Anderlecht (1.88 xG, 2.0 PPG) over Cercle Brugge (1.46 xG, 1.43 PPG). The odds for Home Win (2.06) reflect this statistical advantage without conflict.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: NOT RISKY\nREASON: xG and PPG metrics consistently favor Anderlecht (1.88 xG, 2.0 PPG) over Cercle Brugge (1.46 xG, 1.43 PPG). The odds for Home Win (2.06) reflect this statistical advantage without conflict.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: NOT RISKY\nREASON: xG and PPG metrics consistently favor Anderlecht (1.88 xG, 2.0 PPG) over Cercle Brugge (1.46 xG, 1.43 PPG). The odds for Home Win (2.06) reflect this statistical advantage without conflict.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: Stable.\nREASON: RSC Anderlecht's xG (1.88) and PPG (2.0) are superior to Cercle Brugge (xG 1.46, PPG 1.43), aligning with Home Win odds (2.06). Key odds for Over 2.5 and BTTS are unavailable, precluding their analysis.\nCONCLUSION: Recommend Home Win.",
+      "prematch_comment": "STATUS: Stable.\nREASON: RSC Anderlecht's xG (1.88) and PPG (2.0) are superior to Cercle Brugge (xG 1.46, PPG 1.43), aligning with Home Win odds (2.06). Key odds for Over 2.5 and BTTS are unavailable, precluding their analysis.\nCONCLUSION: Recommend Home Win.",
+      "ai_comment": "STATUS: Stable.\nREASON: RSC Anderlecht's xG (1.88) and PPG (2.0) are superior to Cercle Brugge (xG 1.46, PPG 1.43), aligning with Home Win odds (2.06). Key odds for Over 2.5 and BTTS are unavailable, precluding their analysis.\nCONCLUSION: Recommend Home Win."
     },
     {
       "id": "8210129",
@@ -855,9 +721,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant discrepancy between reported PPG/xG and market odds for match outcome. Sint-Truiden shows higher PPG (2.21 vs 1.43) and xG (1.73 vs 1.55) but is an underdog (odds 3.45). Union SG is favored (odds 2.07) despite lower metrics. Missing odds for other bet types prevent analysis.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant discrepancy between reported PPG/xG and market odds for match outcome. Sint-Truiden shows higher PPG (2.21 vs 1.43) and xG (1.73 vs 1.55) but is an underdog (odds 3.45). Union SG is favored (odds 2.07) despite lower metrics. Missing odds for other bet types prevent analysis.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant discrepancy between reported PPG/xG and market odds for match outcome. Sint-Truiden shows higher PPG (2.21 vs 1.43) and xG (1.73 vs 1.55) but is an underdog (odds 3.45). Union SG is favored (odds 2.07) despite lower metrics. Missing odds for other bet types prevent analysis.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Sint-Truiden's xG (1.73) and PPG (2.21) significantly outperform Union Saint-Gilloise (xG 1.55, PPG 1.43), yet away win odds (2.07) heavily favor USG. Conflicting data across primary indicators.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Sint-Truiden's xG (1.73) and PPG (2.21) significantly outperform Union Saint-Gilloise (xG 1.55, PPG 1.43), yet away win odds (2.07) heavily favor USG. Conflicting data across primary indicators.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Sint-Truiden's xG (1.73) and PPG (2.21) significantly outperform Union Saint-Gilloise (xG 1.55, PPG 1.43), yet away win odds (2.07) heavily favor USG. Conflicting data across primary indicators.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8210130",
@@ -922,9 +788,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: No Bet / Skip.\n\nREASON: Missing odds data for Over 2.5, BTTS, and First Half Over 0.5 prevents accurate cross-checking and risk assessment. Home/Away win metrics (xG, PPG, odds) indicate extreme match balance, leading to high outcome variance.\n\nCONCLUSION: Confidence is low due to insufficient data for robust lowest-risk bet identification.",
-      "prematch_comment": "STATUS: No Bet / Skip.\n\nREASON: Missing odds data for Over 2.5, BTTS, and First Half Over 0.5 prevents accurate cross-checking and risk assessment. Home/Away win metrics (xG, PPG, odds) indicate extreme match balance, leading to high outcome variance.\n\nCONCLUSION: Confidence is low due to insufficient data for robust lowest-risk bet identification.",
-      "ai_comment": "STATUS: No Bet / Skip.\n\nREASON: Missing odds data for Over 2.5, BTTS, and First Half Over 0.5 prevents accurate cross-checking and risk assessment. Home/Away win metrics (xG, PPG, odds) indicate extreme match balance, leading to high outcome variance.\n\nCONCLUSION: Confidence is low due to insufficient data for robust lowest-risk bet identification."
+      "boss_ai_decision": "STATUS: No Bet / Skip\nREASON: Odds for high-probability events (O2.5, BTTS, 1H O0.5) are missing. Analyzable 1X2 market indicates high statistical parity (xG, PPG) and no clear value.\nCONCLUSION: Confidence low.",
+      "prematch_comment": "STATUS: No Bet / Skip\nREASON: Odds for high-probability events (O2.5, BTTS, 1H O0.5) are missing. Analyzable 1X2 market indicates high statistical parity (xG, PPG) and no clear value.\nCONCLUSION: Confidence low.",
+      "ai_comment": "STATUS: No Bet / Skip\nREASON: Odds for high-probability events (O2.5, BTTS, 1H O0.5) are missing. Analyzable 1X2 market indicates high statistical parity (xG, PPG) and no clear value.\nCONCLUSION: Confidence low."
     },
     {
       "id": "8210131",
@@ -989,9 +855,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: xG indicates a slight away advantage (1.5 vs 1.3), conflicting with odds favoring home (2.55). PPG is identical (1.21), adding to data divergence.\nCONCLUSION: First Half Over 0.5",
-      "prematch_comment": "STATUS: RISKY\nREASON: xG indicates a slight away advantage (1.5 vs 1.3), conflicting with odds favoring home (2.55). PPG is identical (1.21), adding to data divergence.\nCONCLUSION: First Half Over 0.5",
-      "ai_comment": "STATUS: RISKY\nREASON: xG indicates a slight away advantage (1.5 vs 1.3), conflicting with odds favoring home (2.55). PPG is identical (1.21), adding to data divergence.\nCONCLUSION: First Half Over 0.5"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical odds data for Over 2.5, BTTS, and First Half Over 0.5 are unavailable, preventing cross-validation against xG and implied probabilities. 1X2 market shows conflicting xG vs. odds.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical odds data for Over 2.5, BTTS, and First Half Over 0.5 are unavailable, preventing cross-validation against xG and implied probabilities. 1X2 market shows conflicting xG vs. odds.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical odds data for Over 2.5, BTTS, and First Half Over 0.5 are unavailable, preventing cross-validation against xG and implied probabilities. 1X2 market shows conflicting xG vs. odds.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8210149",
@@ -1056,9 +922,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Consistent.\nREASON: Club Brugge exhibits superior xG (2.08) and PPG (2.29) compared to KV Mechelen (xG 1.23, PPG 1.50). The odds (1.28) are aligned with these strong performance indicators.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: Consistent.\nREASON: Club Brugge exhibits superior xG (2.08) and PPG (2.29) compared to KV Mechelen (xG 1.23, PPG 1.50). The odds (1.28) are aligned with these strong performance indicators.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: Consistent.\nREASON: Club Brugge exhibits superior xG (2.08) and PPG (2.29) compared to KV Mechelen (xG 1.23, PPG 1.50). The odds (1.28) are aligned with these strong performance indicators.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: Confirmed\nREASON: Club Brugge exhibits significantly higher xG (2.08 vs 1.23) and PPG (2.29 vs 1.5). The Home Win odds (1.28) align precisely with these strong statistical indicators, demonstrating no conflict.\nCONCLUSION: Home Win",
+      "prematch_comment": "STATUS: Confirmed\nREASON: Club Brugge exhibits significantly higher xG (2.08 vs 1.23) and PPG (2.29 vs 1.5). The Home Win odds (1.28) align precisely with these strong statistical indicators, demonstrating no conflict.\nCONCLUSION: Home Win",
+      "ai_comment": "STATUS: Confirmed\nREASON: Club Brugge exhibits significantly higher xG (2.08 vs 1.23) and PPG (2.29 vs 1.5). The Home Win odds (1.28) align precisely with these strong statistical indicators, demonstrating no conflict.\nCONCLUSION: Home Win"
     },
     {
       "id": "8210150",
@@ -1123,9 +989,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: No Bet / Skip\nREASON: Odds data for Over 2.5, Both Teams Score, First Half Over 0.5, Asian Handicap, and Team Total Goals is missing (0.0). This prevents a comprehensive risk assessment across all specified markets.\nCONCLUSION: Cannot confidently identify the lowest-risk bet due to insufficient market data.",
-      "prematch_comment": "STATUS: No Bet / Skip\nREASON: Odds data for Over 2.5, Both Teams Score, First Half Over 0.5, Asian Handicap, and Team Total Goals is missing (0.0). This prevents a comprehensive risk assessment across all specified markets.\nCONCLUSION: Cannot confidently identify the lowest-risk bet due to insufficient market data.",
-      "ai_comment": "STATUS: No Bet / Skip\nREASON: Odds data for Over 2.5, Both Teams Score, First Half Over 0.5, Asian Handicap, and Team Total Goals is missing (0.0). This prevents a comprehensive risk assessment across all specified markets.\nCONCLUSION: Cannot confidently identify the lowest-risk bet due to insufficient market data."
+      "boss_ai_decision": "STATUS: Clear\nREASON: Home xG (1.62) significantly surpasses Away xG (1.14). Home PPG (1.0) marginally leads Away (0.93). Odds (1.85) align with home favoritism, indicating a supported outcome.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Clear\nREASON: Home xG (1.62) significantly surpasses Away xG (1.14). Home PPG (1.0) marginally leads Away (0.93). Odds (1.85) align with home favoritism, indicating a supported outcome.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Clear\nREASON: Home xG (1.62) significantly surpasses Away xG (1.14). Home PPG (1.0) marginally leads Away (0.93). Odds (1.85) align with home favoritism, indicating a supported outcome.\nCONCLUSION: Home Win."
     },
     {
       "id": "8210178",
@@ -1162,9 +1028,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: No Bet / Skip\nREASON: Odds for Over 2.5, BTTS, and First Half Over 0.5 are missing, preventing comprehensive cross-referencing and risk assessment across all bet types.\nCONCLUSION: Insufficient data to confidently determine the lowest-risk bet.",
-      "prematch_comment": "STATUS: No Bet / Skip\nREASON: Odds for Over 2.5, BTTS, and First Half Over 0.5 are missing, preventing comprehensive cross-referencing and risk assessment across all bet types.\nCONCLUSION: Insufficient data to confidently determine the lowest-risk bet.",
-      "ai_comment": "STATUS: No Bet / Skip\nREASON: Odds for Over 2.5, BTTS, and First Half Over 0.5 are missing, preventing comprehensive cross-referencing and risk assessment across all bet types.\nCONCLUSION: Insufficient data to confidently determine the lowest-risk bet."
+      "boss_ai_decision": "STATUS: No Bet / Skip\nREASON: Incomplete odds data for Over 2.5, BTTS, and First Half Over 0.5 prevents comprehensive risk assessment. Close xG values (1.27 vs 1.36) suggest a tighter outcome than PPG/odds imply for win markets.\nCONCLUSION: Confidence is low due to data limitations.",
+      "prematch_comment": "STATUS: No Bet / Skip\nREASON: Incomplete odds data for Over 2.5, BTTS, and First Half Over 0.5 prevents comprehensive risk assessment. Close xG values (1.27 vs 1.36) suggest a tighter outcome than PPG/odds imply for win markets.\nCONCLUSION: Confidence is low due to data limitations.",
+      "ai_comment": "STATUS: No Bet / Skip\nREASON: Incomplete odds data for Over 2.5, BTTS, and First Half Over 0.5 prevents comprehensive risk assessment. Close xG values (1.27 vs 1.36) suggest a tighter outcome than PPG/odds imply for win markets.\nCONCLUSION: Confidence is low due to data limitations."
     },
     {
       "id": "8210261",
@@ -1201,9 +1067,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Confirmed\nREASON: KRC Genk exhibits superior xG (1.53) and PPG (1.36) compared to RAAL La Louvière (xG 1.3, PPG 1.07). The odds of 2.12 for an Away Win align with Genk's stronger statistical profile, indicating consistency and low conflict.\nCONCLUSION: Away Win",
-      "prematch_comment": "STATUS: Confirmed\nREASON: KRC Genk exhibits superior xG (1.53) and PPG (1.36) compared to RAAL La Louvière (xG 1.3, PPG 1.07). The odds of 2.12 for an Away Win align with Genk's stronger statistical profile, indicating consistency and low conflict.\nCONCLUSION: Away Win",
-      "ai_comment": "STATUS: Confirmed\nREASON: KRC Genk exhibits superior xG (1.53) and PPG (1.36) compared to RAAL La Louvière (xG 1.3, PPG 1.07). The odds of 2.12 for an Away Win align with Genk's stronger statistical profile, indicating consistency and low conflict.\nCONCLUSION: Away Win"
+      "boss_ai_decision": "STATUS: Consistent\nREASON: KRC Genk's xG (1.53) and PPG (1.36) are superior to RAAL La Louvière's (xG 1.3, PPG 1.07). Odds (2.12) also firmly favor an away win, aligning all core metrics.\nCONCLUSION: Away Win.",
+      "prematch_comment": "STATUS: Consistent\nREASON: KRC Genk's xG (1.53) and PPG (1.36) are superior to RAAL La Louvière's (xG 1.3, PPG 1.07). Odds (2.12) also firmly favor an away win, aligning all core metrics.\nCONCLUSION: Away Win.",
+      "ai_comment": "STATUS: Consistent\nREASON: KRC Genk's xG (1.53) and PPG (1.36) are superior to RAAL La Louvière's (xG 1.3, PPG 1.07). Odds (2.12) also firmly favor an away win, aligning all core metrics.\nCONCLUSION: Away Win."
     },
     {
       "id": "8235178",
@@ -1268,9 +1134,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: CONSISTENT.\nREASON: Las Palmas' superior xG (1.44 vs 1.13) and home PPG (1.73 vs 1.14) align with the 1.8 home win odds (55.56% implied probability). No conflicting data points for this outcome.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: CONSISTENT.\nREASON: Las Palmas' superior xG (1.44 vs 1.13) and home PPG (1.73 vs 1.14) align with the 1.8 home win odds (55.56% implied probability). No conflicting data points for this outcome.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: CONSISTENT.\nREASON: Las Palmas' superior xG (1.44 vs 1.13) and home PPG (1.73 vs 1.14) align with the 1.8 home win odds (55.56% implied probability). No conflicting data points for this outcome.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: Data is consistent.\nREASON: UD Las Palmas exhibits superior attacking metrics (xG 1.44) and home performance (PPG 1.73) against Sporting Gijón's away metrics (xG 1.13, PPG 1.14). The 1.8 odds reflect this advantage.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Data is consistent.\nREASON: UD Las Palmas exhibits superior attacking metrics (xG 1.44) and home performance (PPG 1.73) against Sporting Gijón's away metrics (xG 1.13, PPG 1.14). The 1.8 odds reflect this advantage.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Data is consistent.\nREASON: UD Las Palmas exhibits superior attacking metrics (xG 1.44) and home performance (PPG 1.73) against Sporting Gijón's away metrics (xG 1.13, PPG 1.14). The 1.8 odds reflect this advantage.\nCONCLUSION: Home Win."
     },
     {
       "id": "8193658",
@@ -1307,9 +1173,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Data Aligned.\nREASON: Benfica II demonstrates superior xG (1.98 vs 1.4) and PPG (1.62 vs 1.31) performance. Market odds (1: 2.3) accurately reflect this statistical advantage.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: Data Aligned.\nREASON: Benfica II demonstrates superior xG (1.98 vs 1.4) and PPG (1.62 vs 1.31) performance. Market odds (1: 2.3) accurately reflect this statistical advantage.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: Data Aligned.\nREASON: Benfica II demonstrates superior xG (1.98 vs 1.4) and PPG (1.62 vs 1.31) performance. Market odds (1: 2.3) accurately reflect this statistical advantage.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: No conflict.\nREASON: Benfica II's xG (1.98) and PPG (1.62) consistently exceed Farense's (xG 1.4, PPG 1.31), indicating a home advantage. Odds (2.3) align with these metrics.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: No conflict.\nREASON: Benfica II's xG (1.98) and PPG (1.62) consistently exceed Farense's (xG 1.4, PPG 1.31), indicating a home advantage. Odds (2.3) align with these metrics.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: No conflict.\nREASON: Benfica II's xG (1.98) and PPG (1.62) consistently exceed Farense's (xG 1.4, PPG 1.31), indicating a home advantage. Odds (2.3) align with these metrics.\nCONCLUSION: Home Win."
     },
     {
       "id": "8227444",
@@ -1374,9 +1240,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: OK\nREASON: Sporting CP's superior xG (1.83 vs 1.28) and PPG (2.38 vs 1.46) strongly align with the favored odds (1.30) for an away win. No data conflicts identified.\nCONCLUSION: Away Win",
-      "prematch_comment": "STATUS: OK\nREASON: Sporting CP's superior xG (1.83 vs 1.28) and PPG (2.38 vs 1.46) strongly align with the favored odds (1.30) for an away win. No data conflicts identified.\nCONCLUSION: Away Win",
-      "ai_comment": "STATUS: OK\nREASON: Sporting CP's superior xG (1.83 vs 1.28) and PPG (2.38 vs 1.46) strongly align with the favored odds (1.30) for an away win. No data conflicts identified.\nCONCLUSION: Away Win"
+      "boss_ai_decision": "STATUS: Data aligns across xG, PPG, and odds for Away Win. Other markets lack sufficient odds data for analysis.\nREASON: Sporting CP's xG (1.83) and away PPG (2.38) are significantly higher than Alverca's (xG 1.28, home PPG 1.46). Odds (1.3) strongly favor Sporting CP, indicating consistency.\nCONCLUSION: Away Win",
+      "prematch_comment": "STATUS: Data aligns across xG, PPG, and odds for Away Win. Other markets lack sufficient odds data for analysis.\nREASON: Sporting CP's xG (1.83) and away PPG (2.38) are significantly higher than Alverca's (xG 1.28, home PPG 1.46). Odds (1.3) strongly favor Sporting CP, indicating consistency.\nCONCLUSION: Away Win",
+      "ai_comment": "STATUS: Data aligns across xG, PPG, and odds for Away Win. Other markets lack sufficient odds data for analysis.\nREASON: Sporting CP's xG (1.83) and away PPG (2.38) are significantly higher than Alverca's (xG 1.28, home PPG 1.46). Odds (1.3) strongly favor Sporting CP, indicating consistency.\nCONCLUSION: Away Win"
     },
     {
       "id": "8457453",
@@ -1406,16 +1272,16 @@
       "btts_potential": 50.0,
       "o25_potential": 25.0,
       "o05HT_potential": 75.0,
-      "odds_ft_1": 5.25,
-      "odds_ft_x": 3.35,
-      "odds_ft_2": 1.62,
+      "odds_ft_1": 4.5,
+      "odds_ft_x": 3.3,
+      "odds_ft_2": 1.7,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Conflicting data observed between statistical performance (xG 1.81/1.57, PPG 2.0/1.5) favoring the Home team, and bookmaker odds (Home 5.25, Away 1.62) heavily favoring the Away team. Critical odds for Over 2.5 and BTTS are missing (0.0), preventing proper evaluation.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Conflicting data observed between statistical performance (xG 1.81/1.57, PPG 2.0/1.5) favoring the Home team, and bookmaker odds (Home 5.25, Away 1.62) heavily favoring the Away team. Critical odds for Over 2.5 and BTTS are missing (0.0), preventing proper evaluation.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Conflicting data observed between statistical performance (xG 1.81/1.57, PPG 2.0/1.5) favoring the Home team, and bookmaker odds (Home 5.25, Away 1.62) heavily favoring the Away team. Critical odds for Over 2.5 and BTTS are missing (0.0), preventing proper evaluation.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Home xG (1.81) and PPG (2.0) are superior to Away (xG 1.57, PPG 1.5). However, odds heavily favor Away (1.7). This data conflict indicates significant uncertainty.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Home xG (1.81) and PPG (2.0) are superior to Away (xG 1.57, PPG 1.5). However, odds heavily favor Away (1.7). This data conflict indicates significant uncertainty.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Home xG (1.81) and PPG (2.0) are superior to Away (xG 1.57, PPG 1.5). However, odds heavily favor Away (1.7). This data conflict indicates significant uncertainty.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8491056",
@@ -1452,9 +1318,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: OK.\nREASON: Away team exhibits superior xG (1.18 vs 1.13) and PPG (1.15 vs 0.8) metrics. Odds of 2.1 align with statistical advantage, indicating no significant data conflict.\nCONCLUSION: Away Win.",
-      "prematch_comment": "STATUS: OK.\nREASON: Away team exhibits superior xG (1.18 vs 1.13) and PPG (1.15 vs 0.8) metrics. Odds of 2.1 align with statistical advantage, indicating no significant data conflict.\nCONCLUSION: Away Win.",
-      "ai_comment": "STATUS: OK.\nREASON: Away team exhibits superior xG (1.18 vs 1.13) and PPG (1.15 vs 0.8) metrics. Odds of 2.1 align with statistical advantage, indicating no significant data conflict.\nCONCLUSION: Away Win."
+      "boss_ai_decision": "**STATUS**: Data Consistent\n**REASON**: Away xG (1.18) and PPG (1.15) exceed Home (xG 1.13, PPG 0.8). Odds (2.10) align, indicating Away as favorite. Low total xG suggests a narrow victory.\n**CONCLUSION**: Away Win",
+      "prematch_comment": "**STATUS**: Data Consistent\n**REASON**: Away xG (1.18) and PPG (1.15) exceed Home (xG 1.13, PPG 0.8). Odds (2.10) align, indicating Away as favorite. Low total xG suggests a narrow victory.\n**CONCLUSION**: Away Win",
+      "ai_comment": "**STATUS**: Data Consistent\n**REASON**: Away xG (1.18) and PPG (1.15) exceed Home (xG 1.13, PPG 0.8). Odds (2.10) align, indicating Away as favorite. Low total xG suggests a narrow victory.\n**CONCLUSION**: Away Win"
     },
     {
       "id": "8491058",
@@ -1491,9 +1357,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Clear\nREASON: Al Ittihad holds superior xG (1.16 vs 1.0) and PPG (1.0 vs 0.75). Odds for Home Win (1.95) align with this statistical advantage without conflict. Other markets lack evaluable odds.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: Clear\nREASON: Al Ittihad holds superior xG (1.16 vs 1.0) and PPG (1.0 vs 0.75). Odds for Home Win (1.95) align with this statistical advantage without conflict. Other markets lack evaluable odds.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: Clear\nREASON: Al Ittihad holds superior xG (1.16 vs 1.0) and PPG (1.0 vs 0.75). Odds for Home Win (1.95) align with this statistical advantage without conflict. Other markets lack evaluable odds.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: Home Win\nREASON: Al Ittihad exhibits higher xG (1.16 vs 1.0) and superior PPG (1.0 vs 0.75). Odds (1.95) align with this statistical advantage. No data conflicts identified.\nCONCLUSION: Home Win",
+      "prematch_comment": "STATUS: Home Win\nREASON: Al Ittihad exhibits higher xG (1.16 vs 1.0) and superior PPG (1.0 vs 0.75). Odds (1.95) align with this statistical advantage. No data conflicts identified.\nCONCLUSION: Home Win",
+      "ai_comment": "STATUS: Home Win\nREASON: Al Ittihad exhibits higher xG (1.16 vs 1.0) and superior PPG (1.0 vs 0.75). Odds (1.95) align with this statistical advantage. No data conflicts identified.\nCONCLUSION: Home Win"
     },
     {
       "id": "8411959",
@@ -1590,16 +1456,16 @@
       "btts_potential": 65.0,
       "o25_potential": 45.0,
       "o05HT_potential": 68.0,
-      "odds_ft_1": 1.95,
-      "odds_ft_x": 3.2,
-      "odds_ft_2": 4.1,
+      "odds_ft_1": 1.91,
+      "odds_ft_x": 3.13,
+      "odds_ft_2": 4.5,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: No conflict. Data supports home advantage.\nREASON: Virtus Entella demonstrates superior xG (1.56 vs 1.0) and PPG (1.6 vs 0.75). Odds (1.95) align with these performance metrics. Other markets lack essential odds data, preventing their evaluation as lowest-risk options.\nCONCLUSION: Home Win",
-      "prematch_comment": "STATUS: No conflict. Data supports home advantage.\nREASON: Virtus Entella demonstrates superior xG (1.56 vs 1.0) and PPG (1.6 vs 0.75). Odds (1.95) align with these performance metrics. Other markets lack essential odds data, preventing their evaluation as lowest-risk options.\nCONCLUSION: Home Win",
-      "ai_comment": "STATUS: No conflict. Data supports home advantage.\nREASON: Virtus Entella demonstrates superior xG (1.56 vs 1.0) and PPG (1.6 vs 0.75). Odds (1.95) align with these performance metrics. Other markets lack essential odds data, preventing their evaluation as lowest-risk options.\nCONCLUSION: Home Win"
+      "boss_ai_decision": "STATUS: No data conflict.\nREASON: Virtus Entella's xG (1.56) and home PPG (1.6) significantly exceed Reggiana's away xG (1.0) and away PPG (0.75). Odds (1.91) align with home favoritism.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: No data conflict.\nREASON: Virtus Entella's xG (1.56) and home PPG (1.6) significantly exceed Reggiana's away xG (1.0) and away PPG (0.75). Odds (1.91) align with home favoritism.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: No data conflict.\nREASON: Virtus Entella's xG (1.56) and home PPG (1.6) significantly exceed Reggiana's away xG (1.0) and away PPG (0.75). Odds (1.91) align with home favoritism.\nCONCLUSION: Home Win."
     },
     {
       "id": "8227609",
@@ -1664,9 +1530,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Minor conflict. Stuttgart's superior xG aligns with favorite odds, but Augsburg holds a higher home PPG.\nREASON: Stuttgart's xG (1.79) significantly exceeds Augsburg's (1.41), indicating higher offensive output. Odds (2.07) reflect Stuttgart's favoritism, outweighing Augsburg's home PPG edge.\nCONCLUSION: Away Win.",
-      "prematch_comment": "STATUS: Minor conflict. Stuttgart's superior xG aligns with favorite odds, but Augsburg holds a higher home PPG.\nREASON: Stuttgart's xG (1.79) significantly exceeds Augsburg's (1.41), indicating higher offensive output. Odds (2.07) reflect Stuttgart's favoritism, outweighing Augsburg's home PPG edge.\nCONCLUSION: Away Win.",
-      "ai_comment": "STATUS: Minor conflict. Stuttgart's superior xG aligns with favorite odds, but Augsburg holds a higher home PPG.\nREASON: Stuttgart's xG (1.79) significantly exceeds Augsburg's (1.41), indicating higher offensive output. Odds (2.07) reflect Stuttgart's favoritism, outweighing Augsburg's home PPG edge.\nCONCLUSION: Away Win."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Augsburg's home PPG (1.62) contradicts Stuttgart's higher xG (1.79) and lower odds (2.07). This conflict in primary indicators leads to low confidence in win market predictions. Prop bet odds are also missing for cross-validation.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Augsburg's home PPG (1.62) contradicts Stuttgart's higher xG (1.79) and lower odds (2.07). This conflict in primary indicators leads to low confidence in win market predictions. Prop bet odds are also missing for cross-validation.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Augsburg's home PPG (1.62) contradicts Stuttgart's higher xG (1.79) and lower odds (2.07). This conflict in primary indicators leads to low confidence in win market predictions. Prop bet odds are also missing for cross-validation.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8390689",
@@ -1703,9 +1569,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Home xG (1.63) and PPG (3.0) strongly suggest Home scores multiple goals. Market odds heavily favor Away (2.26) despite Home's superior statistics, creating significant conflict for outright winner.\nCONCLUSION: Recommend Home Team +1.5 Over Goals.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Home xG (1.63) and PPG (3.0) strongly suggest Home scores multiple goals. Market odds heavily favor Away (2.26) despite Home's superior statistics, creating significant conflict for outright winner.\nCONCLUSION: Recommend Home Team +1.5 Over Goals.",
-      "ai_comment": "STATUS: RISKY\nREASON: Home xG (1.63) and PPG (3.0) strongly suggest Home scores multiple goals. Market odds heavily favor Away (2.26) despite Home's superior statistics, creating significant conflict for outright winner.\nCONCLUSION: Recommend Home Team +1.5 Over Goals."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: xG and PPG favor Home, conflicting with odds favoring Away. Missing Over 2.5 and BTTS odds, and low probabilities for goals (17% BTTS, 17% Over 2.5) increase market uncertainty.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: xG and PPG favor Home, conflicting with odds favoring Away. Missing Over 2.5 and BTTS odds, and low probabilities for goals (17% BTTS, 17% Over 2.5) increase market uncertainty.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: xG and PPG favor Home, conflicting with odds favoring Away. Missing Over 2.5 and BTTS odds, and low probabilities for goals (17% BTTS, 17% Over 2.5) increase market uncertainty.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8419007",
@@ -1742,9 +1608,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Sarmiento's xG (1.29) is marginally higher than Aldosivi's (1.25), indicating a tight match. However, Sarmiento's PPG (1.0) is significantly better than Aldosivi's (0.56). This conflict between xG and PPG makes the Home Win outcome uncertain. Other viable market odds are missing.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Sarmiento's xG (1.29) is marginally higher than Aldosivi's (1.25), indicating a tight match. However, Sarmiento's PPG (1.0) is significantly better than Aldosivi's (0.56). This conflict between xG and PPG makes the Home Win outcome uncertain. Other viable market odds are missing.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Sarmiento's xG (1.29) is marginally higher than Aldosivi's (1.25), indicating a tight match. However, Sarmiento's PPG (1.0) is significantly better than Aldosivi's (0.56). This conflict between xG and PPG makes the Home Win outcome uncertain. Other viable market odds are missing.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: xG (1.29 vs 1.25) suggests an even contest, conflicting with odds (2.2) and PPG (1.0 vs 0.56) heavily favoring Sarmiento. Low Over 2.5 (21%) indicates minimal goal probability.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: xG (1.29 vs 1.25) suggests an even contest, conflicting with odds (2.2) and PPG (1.0 vs 0.56) heavily favoring Sarmiento. Low Over 2.5 (21%) indicates minimal goal probability.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: xG (1.29 vs 1.25) suggests an even contest, conflicting with odds (2.2) and PPG (1.0 vs 0.56) heavily favoring Sarmiento. Low Over 2.5 (21%) indicates minimal goal probability.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8409521",
@@ -1781,9 +1647,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant discrepancy between Coritiba's exceptional 2.5 away PPG and high odds (4.32). Missing odds for all goal markets prevent cross-referencing and risk assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant discrepancy between Coritiba's exceptional 2.5 away PPG and high odds (4.32). Missing odds for all goal markets prevent cross-referencing and risk assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant discrepancy between Coritiba's exceptional 2.5 away PPG and high odds (4.32). Missing odds for all goal markets prevent cross-referencing and risk assessment.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant odds data missing for crucial markets. Available 1X2 market shows conflicting PPG (Away favored) vs xG/Odds (Home favored). Insufficient data for cross-checking other markets.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant odds data missing for crucial markets. Available 1X2 market shows conflicting PPG (Away favored) vs xG/Odds (Home favored). Insufficient data for cross-checking other markets.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant odds data missing for crucial markets. Available 1X2 market shows conflicting PPG (Away favored) vs xG/Odds (Home favored). Insufficient data for cross-checking other markets.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8409750",
@@ -1848,9 +1714,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: No Bet / Skip.\nREASON: Odds data for Over 2.5, BTTS, and First Half Over 0.5 are unavailable, preventing comprehensive cross-referencing for these markets. Home/Away win markets exhibit conflicting xG versus PPG/odds.\nCONCLUSION: Insufficient complete data for a confident, lowest-risk recommendation.",
-      "prematch_comment": "STATUS: No Bet / Skip.\nREASON: Odds data for Over 2.5, BTTS, and First Half Over 0.5 are unavailable, preventing comprehensive cross-referencing for these markets. Home/Away win markets exhibit conflicting xG versus PPG/odds.\nCONCLUSION: Insufficient complete data for a confident, lowest-risk recommendation.",
-      "ai_comment": "STATUS: No Bet / Skip.\nREASON: Odds data for Over 2.5, BTTS, and First Half Over 0.5 are unavailable, preventing comprehensive cross-referencing for these markets. Home/Away win markets exhibit conflicting xG versus PPG/odds.\nCONCLUSION: Insufficient complete data for a confident, lowest-risk recommendation."
+      "boss_ai_decision": "STATUS: Data for Home Win shows alignment. Other markets lack odds data for proper cross-checking.\nREASON: Cruzeiro's PPG (0.67) is double Santos's (0.33), aligning with odds (1.75) for a home win. Marginal xG difference does not constitute significant conflict.\nCONCLUSION: Home Win",
+      "prematch_comment": "STATUS: Data for Home Win shows alignment. Other markets lack odds data for proper cross-checking.\nREASON: Cruzeiro's PPG (0.67) is double Santos's (0.33), aligning with odds (1.75) for a home win. Marginal xG difference does not constitute significant conflict.\nCONCLUSION: Home Win",
+      "ai_comment": "STATUS: Data for Home Win shows alignment. Other markets lack odds data for proper cross-checking.\nREASON: Cruzeiro's PPG (0.67) is double Santos's (0.33), aligning with odds (1.75) for a home win. Marginal xG difference does not constitute significant conflict.\nCONCLUSION: Home Win"
     },
     {
       "id": "8409763",
@@ -1915,9 +1781,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Major conflict between xG and PPG data. Remo xG (1.41) higher than Bahia (0.95), yet Bahia PPG (3.0) significantly outperforms Remo (0.67). Odds for over/under and BTTS are 0.0, rendering them unbettable. No odds for other options.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Major conflict between xG and PPG data. Remo xG (1.41) higher than Bahia (0.95), yet Bahia PPG (3.0) significantly outperforms Remo (0.67). Odds for over/under and BTTS are 0.0, rendering them unbettable. No odds for other options.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Major conflict between xG and PPG data. Remo xG (1.41) higher than Bahia (0.95), yet Bahia PPG (3.0) significantly outperforms Remo (0.67). Odds for over/under and BTTS are 0.0, rendering them unbettable. No odds for other options.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant conflict detected between Bahia's high PPG (3.0) and low xG (0.95). Remo's higher xG (1.41) contradicts its low PPG (0.67). \"First Half Over 0.5\" probability of 100% is unrealistic and lacks associated odds.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant conflict detected between Bahia's high PPG (3.0) and low xG (0.95). Remo's higher xG (1.41) contradicts its low PPG (0.67). \"First Half Over 0.5\" probability of 100% is unrealistic and lacks associated odds.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant conflict detected between Bahia's high PPG (3.0) and low xG (0.95). Remo's higher xG (1.41) contradicts its low PPG (0.67). \"First Half Over 0.5\" probability of 100% is unrealistic and lacks associated odds.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8409780",
@@ -1982,9 +1848,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Clear.\nREASON: xG_home (2.33) significantly exceeds xG_away (1.04). Home_PPG (1.75) vastly superior to Away_PPG (0.33). Odds (1.95) align with this strong statistical advantage for Vasco. Data points for Over 2.5 and BTTS are unusable.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: Clear.\nREASON: xG_home (2.33) significantly exceeds xG_away (1.04). Home_PPG (1.75) vastly superior to Away_PPG (0.33). Odds (1.95) align with this strong statistical advantage for Vasco. Data points for Over 2.5 and BTTS are unusable.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: Clear.\nREASON: xG_home (2.33) significantly exceeds xG_away (1.04). Home_PPG (1.75) vastly superior to Away_PPG (0.33). Odds (1.95) align with this strong statistical advantage for Vasco. Data points for Over 2.5 and BTTS are unusable.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: Data strongly favors home win. Over 2.5 and BTTS odds are unavailable.\nREASON: Vasco da Gama exhibits superior xG (2.33 vs 1.04) and PPG (1.75 vs 0.33). Odds of 1.95 for Home Win align with the strong statistical advantage. No data conflicts identified for this market.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Data strongly favors home win. Over 2.5 and BTTS odds are unavailable.\nREASON: Vasco da Gama exhibits superior xG (2.33 vs 1.04) and PPG (1.75 vs 0.33). Odds of 1.95 for Home Win align with the strong statistical advantage. No data conflicts identified for this market.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Data strongly favors home win. Over 2.5 and BTTS odds are unavailable.\nREASON: Vasco da Gama exhibits superior xG (2.33 vs 1.04) and PPG (1.75 vs 0.33). Odds of 1.95 for Home Win align with the strong statistical advantage. No data conflicts identified for this market.\nCONCLUSION: Home Win."
     },
     {
       "id": "8469795",
@@ -2127,9 +1993,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Data supports Midtjylland superiority in xG and PPG. Odds align with this assessment. Missing Over/BTTS odds limit market cross-checking on those selections.\nREASON: Midtjylland exhibits higher xG (1.69 vs 1.46) and significantly better PPG (2.0 vs 1.57). This statistical advantage points towards an away victory, validated by the odds.\nCONCLUSION: Away Win",
-      "prematch_comment": "STATUS: Data supports Midtjylland superiority in xG and PPG. Odds align with this assessment. Missing Over/BTTS odds limit market cross-checking on those selections.\nREASON: Midtjylland exhibits higher xG (1.69 vs 1.46) and significantly better PPG (2.0 vs 1.57). This statistical advantage points towards an away victory, validated by the odds.\nCONCLUSION: Away Win",
-      "ai_comment": "STATUS: Data supports Midtjylland superiority in xG and PPG. Odds align with this assessment. Missing Over/BTTS odds limit market cross-checking on those selections.\nREASON: Midtjylland exhibits higher xG (1.69 vs 1.46) and significantly better PPG (2.0 vs 1.57). This statistical advantage points towards an away victory, validated by the odds.\nCONCLUSION: Away Win"
+      "boss_ai_decision": "STATUS: No Bet / Skip\nREASON: Missing odds for Over 2.5 and Both Teams Score markets prevent comprehensive cross-referencing with xG/PPG data, impairing full risk assessment across all available options.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: No Bet / Skip\nREASON: Missing odds for Over 2.5 and Both Teams Score markets prevent comprehensive cross-referencing with xG/PPG data, impairing full risk assessment across all available options.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: No Bet / Skip\nREASON: Missing odds for Over 2.5 and Both Teams Score markets prevent comprehensive cross-referencing with xG/PPG data, impairing full risk assessment across all available options.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8181631",
@@ -2187,16 +2053,16 @@
       "btts_potential": 58.0,
       "o25_potential": 46.0,
       "o05HT_potential": 72.0,
-      "odds_ft_1": 2.26,
-      "odds_ft_x": 3.35,
+      "odds_ft_1": 2.2,
+      "odds_ft_x": 3.25,
       "odds_ft_2": 3.0,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Raków's superior PPG (1.48) and comparable xG (1.70) contradict their underdog odds (3.0). Legia's lower PPG (1.16) makes their favorite status (2.26) questionable. Market undervalues away performance.\nCONCLUSION: Away Win.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Raków's superior PPG (1.48) and comparable xG (1.70) contradict their underdog odds (3.0). Legia's lower PPG (1.16) makes their favorite status (2.26) questionable. Market undervalues away performance.\nCONCLUSION: Away Win.",
-      "ai_comment": "STATUS: RISKY\nREASON: Raków's superior PPG (1.48) and comparable xG (1.70) contradict their underdog odds (3.0). Legia's lower PPG (1.16) makes their favorite status (2.26) questionable. Market undervalues away performance.\nCONCLUSION: Away Win."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Home PPG (1.16) is lower than Away PPG (1.48), conflicting with Home Win odds (2.2). Total xG (3.43) conflicts with 46% Over 2.5 probability.\nCONCLUSION: First Half Over 0.5.",
+      "prematch_comment": "STATUS: RISKY\nREASON: Home PPG (1.16) is lower than Away PPG (1.48), conflicting with Home Win odds (2.2). Total xG (3.43) conflicts with 46% Over 2.5 probability.\nCONCLUSION: First Half Over 0.5.",
+      "ai_comment": "STATUS: RISKY\nREASON: Home PPG (1.16) is lower than Away PPG (1.48), conflicting with Home Win odds (2.2). Total xG (3.43) conflicts with 46% Over 2.5 probability.\nCONCLUSION: First Half Over 0.5."
     },
     {
       "id": "8206476",
@@ -2261,9 +2127,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Equal xG (1.21-1.21) conflicts with Strasbourg's superior PPG (1.0 vs 0.62) and low away win odds (2.0). Critical odds data for Over 2.5, BTTS, and First Half Over 0.5 is unavailable.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Equal xG (1.21-1.21) conflicts with Strasbourg's superior PPG (1.0 vs 0.62) and low away win odds (2.0). Critical odds data for Over 2.5, BTTS, and First Half Over 0.5 is unavailable.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Equal xG (1.21-1.21) conflicts with Strasbourg's superior PPG (1.0 vs 0.62) and low away win odds (2.0). Critical odds data for Over 2.5, BTTS, and First Half Over 0.5 is unavailable.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: xG data indicates offensive parity (1.21 for both teams), conflicting with Strasbourg's superior PPG (1.0 vs 0.62) and significantly lower win odds (2.0 vs 3.5). This discrepancy introduces high uncertainty.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: xG data indicates offensive parity (1.21 for both teams), conflicting with Strasbourg's superior PPG (1.0 vs 0.62) and significantly lower win odds (2.0 vs 3.5). This discrepancy introduces high uncertainty.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: xG data indicates offensive parity (1.21 for both teams), conflicting with Strasbourg's superior PPG (1.0 vs 0.62) and significantly lower win odds (2.0 vs 3.5). This discrepancy introduces high uncertainty.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8238490",
@@ -2328,9 +2194,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "",
-      "prematch_comment": "",
-      "ai_comment": ""
+      "boss_ai_decision": "STATUS: Clear\nREASON: Inter Milan's xG_away (1.92) and outstanding away_ppg (2.36) significantly outperform Fiorentina's home_ppg (1.0). Odds (1.63) reflect this strong statistical advantage. No data conflict identified.\nCONCLUSION: Away Win",
+      "prematch_comment": "STATUS: Clear\nREASON: Inter Milan's xG_away (1.92) and outstanding away_ppg (2.36) significantly outperform Fiorentina's home_ppg (1.0). Odds (1.63) reflect this strong statistical advantage. No data conflict identified.\nCONCLUSION: Away Win",
+      "ai_comment": "STATUS: Clear\nREASON: Inter Milan's xG_away (1.92) and outstanding away_ppg (2.36) significantly outperform Fiorentina's home_ppg (1.0). Odds (1.63) reflect this strong statistical advantage. No data conflict identified.\nCONCLUSION: Away Win"
     },
     {
       "id": "8200630",
@@ -2395,9 +2261,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "",
-      "prematch_comment": "",
-      "ai_comment": ""
+      "boss_ai_decision": "STATUS: STABLE\nREASON: Real Madrid's xG (2.22) and PPG (2.57) strongly align with favored odds (1.66). Conflicting combined xG (3.51) and Over 2.5% (44.0%), plus absent odds for Over 2.5 and BTTS, render those markets unassessable or high risk.\nCONCLUSION: Home Win",
+      "prematch_comment": "STATUS: STABLE\nREASON: Real Madrid's xG (2.22) and PPG (2.57) strongly align with favored odds (1.66). Conflicting combined xG (3.51) and Over 2.5% (44.0%), plus absent odds for Over 2.5 and BTTS, render those markets unassessable or high risk.\nCONCLUSION: Home Win",
+      "ai_comment": "STATUS: STABLE\nREASON: Real Madrid's xG (2.22) and PPG (2.57) strongly align with favored odds (1.66). Conflicting combined xG (3.51) and Over 2.5% (44.0%), plus absent odds for Over 2.5 and BTTS, render those markets unassessable or high risk.\nCONCLUSION: Home Win"
     },
     {
       "id": "8227348",
@@ -2494,9 +2360,9 @@
       "btts_potential": 25.0,
       "o25_potential": 0.0,
       "o05HT_potential": 0.0,
-      "odds_ft_1": 2.02,
-      "odds_ft_x": 3.3,
-      "odds_ft_2": 3.65,
+      "odds_ft_1": 2.0,
+      "odds_ft_x": 3.2,
+      "odds_ft_2": 3.3,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
@@ -2611,9 +2477,9 @@
       "btts_potential": 44.0,
       "o25_potential": 30.0,
       "o05HT_potential": 57.0,
-      "odds_ft_1": 2.4,
-      "odds_ft_x": 3.18,
-      "odds_ft_2": 2.93,
+      "odds_ft_1": 2.68,
+      "odds_ft_x": 3.0,
+      "odds_ft_2": 2.57,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
@@ -3018,9 +2884,9 @@
       "btts_potential": 0.0,
       "o25_potential": 0.0,
       "o05HT_potential": 0.0,
-      "odds_ft_1": 2.42,
-      "odds_ft_x": 3.05,
-      "odds_ft_2": 2.78,
+      "odds_ft_1": 2.2,
+      "odds_ft_x": 2.95,
+      "odds_ft_2": 3.18,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
@@ -3214,5 +3080,5 @@
       "ai_comment": ""
     }
   ],
-  "updated_at": "2026-03-22T16:28:59.964572Z"
+  "updated_at": "2026-03-22T17:00:45.365711Z"
 }
