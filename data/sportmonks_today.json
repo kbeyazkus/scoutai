@@ -5598,14 +5598,14 @@
         "type": "actual",
         "metric": "celcius",
         "current": {
-          "temp": 11.02,
-          "wind": 2.06,
+          "temp": 10.78,
+          "wind": 1.79,
           "clouds": null,
-          "humidity": "35%",
-          "pressure": 1013,
-          "direction": 60,
-          "feels_like": 9.09,
-          "description": "few clouds"
+          "humidity": "46%",
+          "pressure": 1014,
+          "direction": 30,
+          "feels_like": 9.11,
+          "description": "scattered clouds"
         }
       },
       "home_ppg": 0.0,
@@ -5620,7 +5620,7 @@
       "odds_ft_2": 0.0,
       "homeGoalCount": 1,
       "awayGoalCount": 1,
-      "status": "INPLAY_2ND_HALF",
+      "status": "FT",
       "elapsed": 0,
       "boss_ai_decision": "",
       "prematch_comment": "",
@@ -5674,13 +5674,13 @@
         "type": "actual",
         "metric": "celcius",
         "current": {
-          "temp": 11,
+          "temp": 10,
           "wind": 3.09,
           "clouds": null,
-          "humidity": "71%",
-          "pressure": 1016,
+          "humidity": "76%",
+          "pressure": 1017,
           "direction": 10,
-          "feels_like": 10.01,
+          "feels_like": 8.46,
           "description": "clear sky"
         }
       },
@@ -5695,8 +5695,8 @@
       "odds_ft_x": 0.0,
       "odds_ft_2": 0.0,
       "homeGoalCount": 2,
-      "awayGoalCount": 2,
-      "status": "INPLAY_2ND_HALF",
+      "awayGoalCount": 3,
+      "status": "FT",
       "elapsed": 0,
       "boss_ai_decision": "",
       "prematch_comment": "",
@@ -5750,13 +5750,13 @@
         "type": "actual",
         "metric": "celcius",
         "current": {
-          "temp": 12.78,
-          "wind": 1.03,
+          "temp": 12.63,
+          "wind": 3.6,
           "clouds": null,
-          "humidity": "62%",
+          "humidity": "57%",
           "pressure": 1011,
-          "direction": 0,
-          "feels_like": 11.73,
+          "direction": 280,
+          "feels_like": 11.44,
           "description": "clear sky"
         }
       },
@@ -5770,7 +5770,7 @@
       "odds_ft_1": 0.0,
       "odds_ft_x": 0.0,
       "odds_ft_2": 0.0,
-      "homeGoalCount": 2,
+      "homeGoalCount": 3,
       "awayGoalCount": 2,
       "status": "INPLAY_2ND_HALF",
       "elapsed": 0,
@@ -5826,14 +5826,14 @@
         "type": "actual",
         "metric": "celcius",
         "current": {
-          "temp": 11.8,
-          "wind": 0.98,
+          "temp": 11.63,
+          "wind": 1.46,
           "clouds": null,
-          "humidity": "83%",
+          "humidity": "84%",
           "pressure": 1013,
-          "direction": 65,
-          "feels_like": 11.2,
-          "description": "clear sky"
+          "direction": 59,
+          "feels_like": 11.04,
+          "description": "few clouds"
         }
       },
       "home_ppg": 0.0,
@@ -5848,7 +5848,7 @@
       "odds_ft_2": 0.0,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
-      "status": "HT",
+      "status": "INPLAY_2ND_HALF",
       "elapsed": 0,
       "boss_ai_decision": "",
       "prematch_comment": "",
@@ -5899,9 +5899,18 @@
         "clouds": "82%",
         "description": "broken clouds",
         "icon": "https://cdn.sportmonks.com/images/weather/04d.png",
-        "type": "forecast",
+        "type": "actual",
         "metric": "celcius",
-        "current": null
+        "current": {
+          "temp": 27.65,
+          "wind": 5.14,
+          "clouds": null,
+          "humidity": "74%",
+          "pressure": 1009,
+          "direction": 70,
+          "feels_like": 30.48,
+          "description": "clear sky"
+        }
       },
       "home_ppg": 0.0,
       "away_ppg": 0.0,
@@ -5915,7 +5924,7 @@
       "odds_ft_2": 0.0,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
-      "status": "NS",
+      "status": "INPLAY_1ST_HALF",
       "elapsed": 0,
       "boss_ai_decision": "",
       "prematch_comment": "",
@@ -5966,9 +5975,18 @@
         "clouds": "68%",
         "description": "moderate rain",
         "icon": "https://cdn.sportmonks.com/images/weather/10d.png",
-        "type": "forecast",
+        "type": "actual",
         "metric": "celcius",
-        "current": null
+        "current": {
+          "temp": 23.68,
+          "wind": 3.09,
+          "clouds": null,
+          "humidity": "83%",
+          "pressure": 1012,
+          "direction": 150,
+          "feels_like": 24.27,
+          "description": "overcast clouds"
+        }
       },
       "home_ppg": 0.0,
       "away_ppg": 0.0,
@@ -5982,7 +6000,7 @@
       "odds_ft_2": 0.0,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
-      "status": "NS",
+      "status": "INPLAY_1ST_HALF",
       "elapsed": 0,
       "boss_ai_decision": "",
       "prematch_comment": "",
@@ -6056,5 +6074,5 @@
       "ai_comment": ""
     }
   ],
-  "updated_at": "2026-03-22T21:27:23.014013Z"
+  "updated_at": "2026-03-22T21:43:31.915796Z"
 }

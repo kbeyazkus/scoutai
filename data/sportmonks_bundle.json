@@ -81347,7 +81347,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 376835,
-        "state_id": 22,
+        "state_id": 5,
         "venue_id": 6162,
         "name": "Nantes vs Strasbourg",
         "starting_at": "2026-03-22 19:45:00",
@@ -81372,10 +81372,10 @@
             "founded": 1943,
             "type": "domestic",
             "placeholder": false,
-            "last_played_at": "2026-03-07 16:00:00",
+            "last_played_at": "2026-03-22 19:45:00",
             "meta": {
               "location": "home",
-              "winner": null,
+              "winner": false,
               "position": 17
             }
           },
@@ -81391,10 +81391,10 @@
             "founded": 1906,
             "type": "domestic",
             "placeholder": false,
-            "last_played_at": "2026-03-19 20:00:00",
+            "last_played_at": "2026-03-22 19:45:00",
             "meta": {
               "location": "away",
-              "winner": null,
+              "winner": true,
               "position": 8
             }
           }
@@ -81409,7 +81409,7 @@
           "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/13/301.png",
           "type": "league",
           "sub_type": "domestic",
-          "last_played_at": "2026-03-22 16:15:00",
+          "last_played_at": "2026-03-22 19:45:00",
           "category": 1,
           "has_jerseys": false,
           "country": {
@@ -81451,11 +81451,11 @@
           "national_team": false
         },
         "state": {
-          "id": 22,
-          "state": "INPLAY_2ND_HALF",
-          "name": "2nd Half",
-          "short_name": "2nd",
-          "developer_name": "INPLAY_2ND_HALF"
+          "id": 5,
+          "state": "FT",
+          "name": "Full Time",
+          "short_name": "FT",
+          "developer_name": "FT"
         },
         "scores": [
           {
@@ -81508,7 +81508,7 @@
             "type_id": 1525,
             "participant_id": 686,
             "score": {
-              "goals": 2,
+              "goals": 3,
               "participant": "away"
             },
             "description": "CURRENT"
@@ -81519,7 +81519,7 @@
             "type_id": 2,
             "participant_id": 686,
             "score": {
-              "goals": 2,
+              "goals": 3,
               "participant": "away"
             },
             "description": "2ND_HALF"
@@ -81530,7 +81530,7 @@
             "type_id": 48996,
             "participant_id": 686,
             "score": {
-              "goals": 1,
+              "goals": 2,
               "participant": "away"
             },
             "description": "2ND_HALF_ONLY"
@@ -81569,155 +81569,19 @@
             "fixture_id": 19467870,
             "type_id": 2,
             "started": 1774212651,
-            "ended": null,
+            "ended": 1774215649,
             "counts_from": 45,
-            "ticking": true,
+            "ticking": false,
             "sort_order": 2,
             "description": "2nd-half",
-            "time_added": null,
+            "time_added": 4,
             "period_length": 45,
-            "minutes": 89,
-            "seconds": 39,
-            "has_timer": true
+            "minutes": 94,
+            "seconds": 58,
+            "has_timer": false
           }
         ],
         "events": [
-          {
-            "id": 156333385,
-            "fixture_id": 19467870,
-            "period_id": 6866905,
-            "participant_id": 59,
-            "type_id": 18,
-            "section": "event",
-            "player_id": 37660433,
-            "related_player_id": 37407220,
-            "player_name": "Herba Guirassy",
-            "related_player_name": "Mohamed Kaba",
-            "result": null,
-            "info": null,
-            "addition": "6th Substitution",
-            "minute": 81,
-            "extra_minute": null,
-            "injured": null,
-            "on_bench": false,
-            "coach_id": null,
-            "sub_type_id": null,
-            "detailed_period_id": 6866905,
-            "rescinded": null,
-            "sort_order": 6,
-            "type": {
-              "id": 18,
-              "name": "Substitution",
-              "code": "substitution",
-              "developer_name": "SUBSTITUTION",
-              "model_type": "event",
-              "stat_group": null
-            },
-            "period": {
-              "id": 6866905,
-              "fixture_id": 19467870,
-              "type_id": 2,
-              "started": 1774212651,
-              "ended": null,
-              "counts_from": 45,
-              "ticking": true,
-              "sort_order": 2,
-              "description": "2nd-half",
-              "time_added": null,
-              "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
-            },
-            "player": {
-              "id": 37660433,
-              "sport_id": 1,
-              "country_id": 1703,
-              "nationality_id": 1703,
-              "city_id": null,
-              "position_id": 27,
-              "detailed_position_id": 152,
-              "type_id": null,
-              "common_name": "B. Guirassy",
-              "firstname": "Bahereba",
-              "lastname": "Guirassy",
-              "name": "Bahereba Guirassy",
-              "display_name": "Herba Guirassy",
-              "image_path": "https://cdn.sportmonks.com/images/soccer/players/17/37660433.png",
-              "height": 177,
-              "weight": 66,
-              "date_of_birth": "2006-08-29",
-              "gender": "male"
-            }
-          },
-          {
-            "id": 156333392,
-            "fixture_id": 19467870,
-            "period_id": 6866905,
-            "participant_id": 59,
-            "type_id": 18,
-            "section": "event",
-            "player_id": 37660429,
-            "related_player_id": 37658194,
-            "player_name": "Louis Leroux",
-            "related_player_name": "Dehmaine Tabibou",
-            "result": null,
-            "info": null,
-            "addition": "7th Substitution",
-            "minute": 81,
-            "extra_minute": null,
-            "injured": null,
-            "on_bench": false,
-            "coach_id": null,
-            "sub_type_id": null,
-            "detailed_period_id": 6866905,
-            "rescinded": null,
-            "sort_order": 7,
-            "type": {
-              "id": 18,
-              "name": "Substitution",
-              "code": "substitution",
-              "developer_name": "SUBSTITUTION",
-              "model_type": "event",
-              "stat_group": null
-            },
-            "period": {
-              "id": 6866905,
-              "fixture_id": 19467870,
-              "type_id": 2,
-              "started": 1774212651,
-              "ended": null,
-              "counts_from": 45,
-              "ticking": true,
-              "sort_order": 2,
-              "description": "2nd-half",
-              "time_added": null,
-              "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
-            },
-            "player": {
-              "id": 37660429,
-              "sport_id": 1,
-              "country_id": 17,
-              "nationality_id": 17,
-              "city_id": null,
-              "position_id": 26,
-              "detailed_position_id": 150,
-              "type_id": null,
-              "common_name": "L. Leroux",
-              "firstname": "Louis",
-              "lastname": "Leroux",
-              "name": "Louis Leroux",
-              "display_name": "Louis Leroux",
-              "image_path": "https://cdn.sportmonks.com/images/soccer/players/13/37660429.png",
-              "height": 184,
-              "weight": 75,
-              "date_of_birth": "2006-01-23",
-              "gender": "male"
-            }
-          },
           {
             "id": 156332131,
             "fixture_id": 19467870,
@@ -81822,16 +81686,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 24817375,
@@ -81852,74 +81716,6 @@
               "weight": 69,
               "date_of_birth": "2002-10-22",
               "gender": "male"
-            }
-          },
-          {
-            "id": 156333178,
-            "fixture_id": 19467870,
-            "period_id": 6866905,
-            "participant_id": 686,
-            "type_id": 18,
-            "section": "event",
-            "player_id": 37622174,
-            "related_player_id": 37668633,
-            "player_name": "Abdoul Ouattara",
-            "related_player_name": "Lucas Høgsberg",
-            "result": null,
-            "info": null,
-            "addition": "3rd Substitution",
-            "minute": 62,
-            "extra_minute": null,
-            "injured": null,
-            "on_bench": false,
-            "coach_id": null,
-            "sub_type_id": null,
-            "detailed_period_id": 6866905,
-            "rescinded": null,
-            "sort_order": 3,
-            "type": {
-              "id": 18,
-              "name": "Substitution",
-              "code": "substitution",
-              "developer_name": "SUBSTITUTION",
-              "model_type": "event",
-              "stat_group": null
-            },
-            "period": {
-              "id": 6866905,
-              "fixture_id": 19467870,
-              "type_id": 2,
-              "started": 1774212651,
-              "ended": null,
-              "counts_from": 45,
-              "ticking": true,
-              "sort_order": 2,
-              "description": "2nd-half",
-              "time_added": null,
-              "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
-            },
-            "player": {
-              "id": 37622174,
-              "sport_id": 1,
-              "country_id": 17,
-              "nationality_id": 17,
-              "city_id": null,
-              "position_id": 27,
-              "detailed_position_id": 156,
-              "type_id": null,
-              "common_name": "G. Ouattara",
-              "firstname": "Guemissongui",
-              "lastname": "Ouattara",
-              "name": "Guemissongui Ouattara",
-              "display_name": "Abdoul Ouattara",
-              "image_path": "https://cdn.sportmonks.com/images/soccer/players/30/37622174.png",
-              "height": 178,
-              "weight": 68,
-              "date_of_birth": "2005-10-22",
-              "gender": null
             }
           },
           {
@@ -82094,16 +81890,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 37560480,
@@ -82298,16 +82094,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 37692095,
@@ -82366,16 +82162,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 37663291,
@@ -82396,74 +82192,6 @@
               "weight": 82,
               "date_of_birth": "2002-10-07",
               "gender": "male"
-            }
-          },
-          {
-            "id": 156333179,
-            "fixture_id": 19467870,
-            "period_id": 6866905,
-            "participant_id": 686,
-            "type_id": 18,
-            "section": "event",
-            "player_id": 37633774,
-            "related_player_id": 37592030,
-            "player_name": "Gessime Yassine",
-            "related_player_name": "Samuel Amo-Ameyaw",
-            "result": null,
-            "info": null,
-            "addition": "4th Substitution",
-            "minute": 62,
-            "extra_minute": null,
-            "injured": null,
-            "on_bench": false,
-            "coach_id": null,
-            "sub_type_id": null,
-            "detailed_period_id": 6866905,
-            "rescinded": null,
-            "sort_order": 4,
-            "type": {
-              "id": 18,
-              "name": "Substitution",
-              "code": "substitution",
-              "developer_name": "SUBSTITUTION",
-              "model_type": "event",
-              "stat_group": null
-            },
-            "period": {
-              "id": 6866905,
-              "fixture_id": 19467870,
-              "type_id": 2,
-              "started": 1774212651,
-              "ended": null,
-              "counts_from": 45,
-              "ticking": true,
-              "sort_order": 2,
-              "description": "2nd-half",
-              "time_added": null,
-              "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
-            },
-            "player": {
-              "id": 37633774,
-              "sport_id": 1,
-              "country_id": 17,
-              "nationality_id": 17,
-              "city_id": null,
-              "position_id": 27,
-              "detailed_position_id": 156,
-              "type_id": null,
-              "common_name": "G. Yassine",
-              "firstname": "Gessime",
-              "lastname": "Yassine",
-              "name": "Gessime Yassine",
-              "display_name": "Gessime Yassine",
-              "image_path": "https://cdn.sportmonks.com/images/soccer/players/14/37633774.png",
-              "height": 173,
-              "weight": null,
-              "date_of_birth": "2005-11-22",
-              "gender": null
             }
           },
           {
@@ -82502,16 +82230,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 37328128,
@@ -82570,16 +82298,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 29419594,
@@ -82601,6 +82329,123 @@
               "date_of_birth": "2004-01-23",
               "gender": "male"
             }
+          },
+          {
+            "id": 156333519,
+            "fixture_id": 19467870,
+            "period_id": 6866905,
+            "participant_id": 686,
+            "type_id": 14,
+            "section": "event",
+            "player_id": 37663291,
+            "related_player_id": null,
+            "player_name": "Joaquín Panichelli",
+            "related_player_name": null,
+            "result": "2-3",
+            "info": "Left foot shot",
+            "addition": "5th Goal",
+            "minute": 90,
+            "extra_minute": 2,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": 1521,
+            "detailed_period_id": 6866905,
+            "rescinded": null,
+            "sort_order": 5,
+            "type": {
+              "id": 14,
+              "name": "Goal",
+              "code": "goal",
+              "developer_name": "GOAL",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866905,
+              "fixture_id": 19467870,
+              "type_id": 2,
+              "started": 1774212651,
+              "ended": 1774215649,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37663291,
+              "sport_id": 1,
+              "country_id": 44,
+              "nationality_id": 44,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "J. Panichelli",
+              "firstname": "Joaquín",
+              "lastname": "Panichelli",
+              "name": "Joaquín Panichelli",
+              "display_name": "Joaquín Panichelli",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/27/37663291.png",
+              "height": 190,
+              "weight": 82,
+              "date_of_birth": "2002-10-07",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156333505,
+            "fixture_id": 19467870,
+            "period_id": 6866905,
+            "participant_id": 59,
+            "type_id": 19,
+            "section": "event",
+            "player_id": null,
+            "related_player_id": null,
+            "player_name": null,
+            "related_player_name": null,
+            "result": null,
+            "info": null,
+            "addition": "7th Yellowcard",
+            "minute": 90,
+            "extra_minute": 1,
+            "injured": null,
+            "on_bench": true,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866905,
+            "rescinded": false,
+            "sort_order": 1,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866905,
+              "fixture_id": 19467870,
+              "type_id": 2,
+              "started": 1774212651,
+              "ended": 1774215649,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
+            },
+            "player": null
           },
           {
             "id": 156333451,
@@ -82638,16 +82483,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 1421,
@@ -82706,16 +82551,16 @@
               "fixture_id": 19467870,
               "type_id": 2,
               "started": 1774212651,
-              "ended": null,
+              "ended": 1774215649,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 39,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
             },
             "player": {
               "id": 37663291,
@@ -82735,6 +82580,346 @@
               "height": 190,
               "weight": 82,
               "date_of_birth": "2002-10-07",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156333178,
+            "fixture_id": 19467870,
+            "period_id": 6866905,
+            "participant_id": 686,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37622174,
+            "related_player_id": 37668633,
+            "player_name": "Abdoul Ouattara",
+            "related_player_name": "Lucas Høgsberg",
+            "result": null,
+            "info": null,
+            "addition": "3rd Substitution",
+            "minute": 62,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866905,
+            "rescinded": null,
+            "sort_order": 3,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866905,
+              "fixture_id": 19467870,
+              "type_id": 2,
+              "started": 1774212651,
+              "ended": 1774215649,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37622174,
+              "sport_id": 1,
+              "country_id": 17,
+              "nationality_id": 17,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": null,
+              "common_name": "G. Ouattara",
+              "firstname": "Guemissongui",
+              "lastname": "Ouattara",
+              "name": "Guemissongui Ouattara",
+              "display_name": "Abdoul Ouattara",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/30/37622174.png",
+              "height": 178,
+              "weight": 68,
+              "date_of_birth": "2005-10-22",
+              "gender": null
+            }
+          },
+          {
+            "id": 156333179,
+            "fixture_id": 19467870,
+            "period_id": 6866905,
+            "participant_id": 686,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37633774,
+            "related_player_id": 37592030,
+            "player_name": "Gessime Yassine",
+            "related_player_name": "Samuel Amo-Ameyaw",
+            "result": null,
+            "info": null,
+            "addition": "4th Substitution",
+            "minute": 62,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866905,
+            "rescinded": null,
+            "sort_order": 4,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866905,
+              "fixture_id": 19467870,
+              "type_id": 2,
+              "started": 1774212651,
+              "ended": 1774215649,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37633774,
+              "sport_id": 1,
+              "country_id": 17,
+              "nationality_id": 17,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": null,
+              "common_name": "G. Yassine",
+              "firstname": "Gessime",
+              "lastname": "Yassine",
+              "name": "Gessime Yassine",
+              "display_name": "Gessime Yassine",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/14/37633774.png",
+              "height": 173,
+              "weight": null,
+              "date_of_birth": "2005-11-22",
+              "gender": null
+            }
+          },
+          {
+            "id": 156333385,
+            "fixture_id": 19467870,
+            "period_id": 6866905,
+            "participant_id": 59,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37660433,
+            "related_player_id": 37407220,
+            "player_name": "Herba Guirassy",
+            "related_player_name": "Mohamed Kaba",
+            "result": null,
+            "info": null,
+            "addition": "6th Substitution",
+            "minute": 81,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866905,
+            "rescinded": null,
+            "sort_order": 6,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866905,
+              "fixture_id": 19467870,
+              "type_id": 2,
+              "started": 1774212651,
+              "ended": 1774215649,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37660433,
+              "sport_id": 1,
+              "country_id": 1703,
+              "nationality_id": 1703,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 152,
+              "type_id": null,
+              "common_name": "B. Guirassy",
+              "firstname": "Bahereba",
+              "lastname": "Guirassy",
+              "name": "Bahereba Guirassy",
+              "display_name": "Herba Guirassy",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/17/37660433.png",
+              "height": 177,
+              "weight": 66,
+              "date_of_birth": "2006-08-29",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156333392,
+            "fixture_id": 19467870,
+            "period_id": 6866905,
+            "participant_id": 59,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37660429,
+            "related_player_id": 37658194,
+            "player_name": "Louis Leroux",
+            "related_player_name": "Dehmaine Tabibou",
+            "result": null,
+            "info": null,
+            "addition": "7th Substitution",
+            "minute": 81,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866905,
+            "rescinded": null,
+            "sort_order": 7,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866905,
+              "fixture_id": 19467870,
+              "type_id": 2,
+              "started": 1774212651,
+              "ended": 1774215649,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37660429,
+              "sport_id": 1,
+              "country_id": 17,
+              "nationality_id": 17,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": null,
+              "common_name": "L. Leroux",
+              "firstname": "Louis",
+              "lastname": "Leroux",
+              "name": "Louis Leroux",
+              "display_name": "Louis Leroux",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/13/37660429.png",
+              "height": 184,
+              "weight": 75,
+              "date_of_birth": "2006-01-23",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156333511,
+            "fixture_id": 19467870,
+            "period_id": 6866905,
+            "participant_id": 59,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 37660433,
+            "related_player_id": null,
+            "player_name": "Herba Guirassy",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "6th Yellowcard",
+            "minute": 90,
+            "extra_minute": 1,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866905,
+            "rescinded": false,
+            "sort_order": 6,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866905,
+              "fixture_id": 19467870,
+              "type_id": 2,
+              "started": 1774212651,
+              "ended": 1774215649,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 58,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37660433,
+              "sport_id": 1,
+              "country_id": 1703,
+              "nationality_id": 1703,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 152,
+              "type_id": null,
+              "common_name": "B. Guirassy",
+              "firstname": "Bahereba",
+              "lastname": "Guirassy",
+              "name": "Bahereba Guirassy",
+              "display_name": "Herba Guirassy",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/17/37660433.png",
+              "height": 177,
+              "weight": 66,
+              "date_of_birth": "2006-08-29",
               "gender": "male"
             }
           }
@@ -82782,7 +82967,7 @@
             "type_id": 84,
             "participant_id": 59,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -82854,7 +83039,7 @@
             "type_id": 45,
             "participant_id": 59,
             "data": {
-              "value": 38
+              "value": 37
             },
             "location": "home",
             "type": {
@@ -82872,7 +83057,7 @@
             "type_id": 45,
             "participant_id": 686,
             "data": {
-              "value": 62
+              "value": 63
             },
             "location": "away",
             "type": {
@@ -82908,7 +83093,7 @@
             "type_id": 43,
             "participant_id": 686,
             "data": {
-              "value": 96
+              "value": 102
             },
             "location": "away",
             "type": {
@@ -83034,7 +83219,7 @@
             "type_id": 50,
             "participant_id": 686,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -83052,7 +83237,7 @@
             "type_id": 27265,
             "participant_id": 686,
             "data": {
-              "value": 48
+              "value": 50
             },
             "location": "away",
             "type": {
@@ -83106,7 +83291,7 @@
             "type_id": 98,
             "participant_id": 59,
             "data": {
-              "value": 16
+              "value": 17
             },
             "location": "home",
             "type": {
@@ -83160,7 +83345,7 @@
             "type_id": 42,
             "participant_id": 686,
             "data": {
-              "value": 9
+              "value": 13
             },
             "location": "away",
             "type": {
@@ -83196,7 +83381,7 @@
             "type_id": 80,
             "participant_id": 59,
             "data": {
-              "value": 319
+              "value": 325
             },
             "location": "home",
             "type": {
@@ -83214,7 +83399,7 @@
             "type_id": 62,
             "participant_id": 59,
             "data": {
-              "value": 40
+              "value": 42
             },
             "location": "home",
             "type": {
@@ -83232,7 +83417,7 @@
             "type_id": 78,
             "participant_id": 59,
             "data": {
-              "value": 16
+              "value": 19
             },
             "location": "home",
             "type": {
@@ -83286,7 +83471,7 @@
             "type_id": 81,
             "participant_id": 59,
             "data": {
-              "value": 250
+              "value": 254
             },
             "location": "home",
             "type": {
@@ -83304,7 +83489,7 @@
             "type_id": 81,
             "participant_id": 686,
             "data": {
-              "value": 500
+              "value": 522
             },
             "location": "away",
             "type": {
@@ -83322,7 +83507,7 @@
             "type_id": 27265,
             "participant_id": 59,
             "data": {
-              "value": 50
+              "value": 48
             },
             "location": "home",
             "type": {
@@ -83340,7 +83525,7 @@
             "type_id": 80,
             "participant_id": 686,
             "data": {
-              "value": 550
+              "value": 574
             },
             "location": "away",
             "type": {
@@ -83358,7 +83543,7 @@
             "type_id": 62,
             "participant_id": 686,
             "data": {
-              "value": 29
+              "value": 32
             },
             "location": "away",
             "type": {
@@ -83376,7 +83561,7 @@
             "type_id": 117,
             "participant_id": 686,
             "data": {
-              "value": 8
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -83430,7 +83615,7 @@
             "type_id": 34,
             "participant_id": 686,
             "data": {
-              "value": 3
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -83484,7 +83669,7 @@
             "type_id": 27264,
             "participant_id": 686,
             "data": {
-              "value": 14
+              "value": 16
             },
             "location": "away",
             "type": {
@@ -83520,7 +83705,7 @@
             "type_id": 108,
             "participant_id": 686,
             "data": {
-              "value": 17
+              "value": 19
             },
             "location": "away",
             "type": {
@@ -83574,7 +83759,7 @@
             "type_id": 1605,
             "participant_id": 686,
             "data": {
-              "value": 47
+              "value": 42
             },
             "location": "away",
             "type": {
@@ -83592,7 +83777,7 @@
             "type_id": 55,
             "participant_id": 686,
             "data": {
-              "value": 14
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -83628,7 +83813,7 @@
             "type_id": 49,
             "participant_id": 686,
             "data": {
-              "value": 8
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -83682,7 +83867,7 @@
             "type_id": 57,
             "participant_id": 59,
             "data": {
-              "value": 4
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -83700,7 +83885,7 @@
             "type_id": 44,
             "participant_id": 59,
             "data": {
-              "value": 30
+              "value": 31
             },
             "location": "home",
             "type": {
@@ -83790,7 +83975,7 @@
             "type_id": 86,
             "participant_id": 686,
             "data": {
-              "value": 6
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -83826,7 +84011,7 @@
             "type_id": 52,
             "participant_id": 686,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -83862,7 +84047,7 @@
             "type_id": 100,
             "participant_id": 686,
             "data": {
-              "value": 12
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -83934,7 +84119,7 @@
             "type_id": 44,
             "participant_id": 686,
             "data": {
-              "value": 33
+              "value": 40
             },
             "location": "away",
             "type": {
@@ -83952,7 +84137,7 @@
             "type_id": 60,
             "participant_id": 59,
             "data": {
-              "value": 24
+              "value": 25
             },
             "location": "home",
             "type": {
@@ -83970,7 +84155,7 @@
             "type_id": 60,
             "participant_id": 686,
             "data": {
-              "value": 17
+              "value": 19
             },
             "location": "away",
             "type": {
@@ -84024,7 +84209,7 @@
             "type_id": 581,
             "participant_id": 686,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -84060,7 +84245,7 @@
             "type_id": 580,
             "participant_id": 686,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -84096,7 +84281,7 @@
             "type_id": 58,
             "participant_id": 686,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -86585,7 +86770,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T21:35:30.680543Z"
+      "fetched_at": "2026-03-22T21:43:34.521691Z"
     },
     "19502682": {
       "detail": {
@@ -86597,7 +86782,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 381013,
-        "state_id": 3,
+        "state_id": 22,
         "venue_id": 313,
         "name": "Sporting Braga vs Porto",
         "starting_at": "2026-03-22 20:30:00",
@@ -86694,11 +86879,11 @@
           "national_team": false
         },
         "state": {
-          "id": 3,
-          "state": "HT",
-          "name": "Half Time",
-          "short_name": "HT",
-          "developer_name": "HT"
+          "id": 22,
+          "state": "INPLAY_2ND_HALF",
+          "name": "2nd Half",
+          "short_name": "2nd",
+          "developer_name": "INPLAY_2ND_HALF"
         },
         "scores": [
           {
@@ -86766,6 +86951,28 @@
               "participant": "home"
             },
             "description": "CURRENT"
+          },
+          {
+            "id": 19674518,
+            "fixture_id": 19502682,
+            "type_id": 48996,
+            "participant_id": 884,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "2ND_HALF_ONLY"
+          },
+          {
+            "id": 19674519,
+            "fixture_id": 19502682,
+            "type_id": 48996,
+            "participant_id": 652,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "2ND_HALF_ONLY"
           }
         ],
         "periods": [
@@ -86784,6 +86991,22 @@
             "minutes": 45,
             "seconds": 23,
             "has_timer": false
+          },
+          {
+            "id": 6866961,
+            "fixture_id": 19502682,
+            "type_id": 2,
+            "started": 1774215385,
+            "ended": null,
+            "counts_from": 45,
+            "ticking": true,
+            "sort_order": 2,
+            "description": "2nd-half",
+            "time_added": null,
+            "period_length": 45,
+            "minutes": 52,
+            "seconds": 9,
+            "has_timer": true
           }
         ],
         "events": [
@@ -86990,6 +87213,74 @@
               "date_of_birth": "1999-07-10",
               "gender": "male"
             }
+          },
+          {
+            "id": 156333595,
+            "fixture_id": 19502682,
+            "period_id": 6866961,
+            "participant_id": 652,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 37293367,
+            "related_player_id": null,
+            "player_name": "Gabri Veiga",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "4th Yellowcard",
+            "minute": 52,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866961,
+            "rescinded": false,
+            "sort_order": 4,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866961,
+              "fixture_id": 19502682,
+              "type_id": 2,
+              "started": 1774215385,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 52,
+              "seconds": 9,
+              "has_timer": true
+            },
+            "player": {
+              "id": 37293367,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": 26,
+              "common_name": "G. Veiga Novas",
+              "firstname": "Gabriel",
+              "lastname": "Veiga Novas",
+              "name": "Gabriel Veiga Novas",
+              "display_name": "Gabri Veiga",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/23/37293367.png",
+              "height": 184,
+              "weight": 76,
+              "date_of_birth": "2002-05-27",
+              "gender": "male"
+            }
           }
         ],
         "statistics": [
@@ -86999,7 +87290,7 @@
             "type_id": 45,
             "participant_id": 884,
             "data": {
-              "value": 59
+              "value": 61
             },
             "location": "home",
             "type": {
@@ -87017,7 +87308,7 @@
             "type_id": 82,
             "participant_id": 884,
             "data": {
-              "value": 88
+              "value": 89
             },
             "location": "home",
             "type": {
@@ -87035,7 +87326,7 @@
             "type_id": 45,
             "participant_id": 652,
             "data": {
-              "value": 41
+              "value": 39
             },
             "location": "away",
             "type": {
@@ -87053,7 +87344,7 @@
             "type_id": 44,
             "participant_id": 884,
             "data": {
-              "value": 12
+              "value": 18
             },
             "location": "home",
             "type": {
@@ -87125,7 +87416,7 @@
             "type_id": 42,
             "participant_id": 884,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -87143,7 +87434,7 @@
             "type_id": 82,
             "participant_id": 652,
             "data": {
-              "value": 83
+              "value": 80
             },
             "location": "away",
             "type": {
@@ -87179,7 +87470,7 @@
             "type_id": 81,
             "participant_id": 884,
             "data": {
-              "value": 214
+              "value": 258
             },
             "location": "home",
             "type": {
@@ -87197,7 +87488,7 @@
             "type_id": 80,
             "participant_id": 884,
             "data": {
-              "value": 243
+              "value": 291
             },
             "location": "home",
             "type": {
@@ -87215,7 +87506,7 @@
             "type_id": 62,
             "participant_id": 652,
             "data": {
-              "value": 17
+              "value": 21
             },
             "location": "away",
             "type": {
@@ -87269,7 +87560,7 @@
             "type_id": 60,
             "participant_id": 652,
             "data": {
-              "value": 13
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -87287,7 +87578,7 @@
             "type_id": 43,
             "participant_id": 884,
             "data": {
-              "value": 44
+              "value": 51
             },
             "location": "home",
             "type": {
@@ -87305,7 +87596,7 @@
             "type_id": 43,
             "participant_id": 652,
             "data": {
-              "value": 26
+              "value": 32
             },
             "location": "away",
             "type": {
@@ -87323,7 +87614,7 @@
             "type_id": 44,
             "participant_id": 652,
             "data": {
-              "value": 17
+              "value": 19
             },
             "location": "away",
             "type": {
@@ -87341,7 +87632,7 @@
             "type_id": 60,
             "participant_id": 884,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -87359,7 +87650,7 @@
             "type_id": 62,
             "participant_id": 884,
             "data": {
-              "value": 22
+              "value": 24
             },
             "location": "home",
             "type": {
@@ -87377,7 +87668,7 @@
             "type_id": 27264,
             "participant_id": 884,
             "data": {
-              "value": 10
+              "value": 11
             },
             "location": "home",
             "type": {
@@ -87395,7 +87686,7 @@
             "type_id": 80,
             "participant_id": 652,
             "data": {
-              "value": 163
+              "value": 182
             },
             "location": "away",
             "type": {
@@ -87413,7 +87704,7 @@
             "type_id": 27265,
             "participant_id": 884,
             "data": {
-              "value": 45
+              "value": 46
             },
             "location": "home",
             "type": {
@@ -87431,7 +87722,7 @@
             "type_id": 27265,
             "participant_id": 652,
             "data": {
-              "value": 29
+              "value": 24
             },
             "location": "away",
             "type": {
@@ -87449,7 +87740,7 @@
             "type_id": 98,
             "participant_id": 884,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -87503,7 +87794,7 @@
             "type_id": 81,
             "participant_id": 652,
             "data": {
-              "value": 135
+              "value": 146
             },
             "location": "away",
             "type": {
@@ -87521,7 +87812,7 @@
             "type_id": 50,
             "participant_id": 884,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -87575,7 +87866,7 @@
             "type_id": 1605,
             "participant_id": 884,
             "data": {
-              "value": 57
+              "value": 56
             },
             "location": "home",
             "type": {
@@ -87611,7 +87902,7 @@
             "type_id": 34,
             "participant_id": 884,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -87665,7 +87956,7 @@
             "type_id": 78,
             "participant_id": 652,
             "data": {
-              "value": 11
+              "value": 12
             },
             "location": "away",
             "type": {
@@ -87683,7 +87974,7 @@
             "type_id": 108,
             "participant_id": 884,
             "data": {
-              "value": 7
+              "value": 9
             },
             "location": "home",
             "type": {
@@ -87719,7 +88010,7 @@
             "type_id": 117,
             "participant_id": 884,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -87773,7 +88064,7 @@
             "type_id": 98,
             "participant_id": 652,
             "data": {
-              "value": 9
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -87791,7 +88082,7 @@
             "type_id": 99,
             "participant_id": 884,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -87827,7 +88118,7 @@
             "type_id": 65,
             "participant_id": 884,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -87845,7 +88136,7 @@
             "type_id": 65,
             "participant_id": 652,
             "data": {
-              "value": 7
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -87881,7 +88172,7 @@
             "type_id": 56,
             "participant_id": 884,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -87899,7 +88190,7 @@
             "type_id": 109,
             "participant_id": 884,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -87953,7 +88244,7 @@
             "type_id": 100,
             "participant_id": 884,
             "data": {
-              "value": 6
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -88007,7 +88298,7 @@
             "type_id": 56,
             "participant_id": 652,
             "data": {
-              "value": 7
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -88025,7 +88316,7 @@
             "type_id": 55,
             "participant_id": 884,
             "data": {
-              "value": 7
+              "value": 9
             },
             "location": "home",
             "type": {
@@ -88043,7 +88334,7 @@
             "type_id": 55,
             "participant_id": 652,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -88079,7 +88370,7 @@
             "type_id": 84,
             "participant_id": 652,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -88213,6 +88504,42 @@
               "name": "Shots Blocked",
               "code": "shots-blocked",
               "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126412,
+            "fixture_id": 19502682,
+            "type_id": 47,
+            "participant_id": 884,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 47,
+              "name": "Penalties",
+              "code": "penalties",
+              "developer_name": "PENALTIES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126413,
+            "fixture_id": 19502682,
+            "type_id": 47,
+            "participant_id": 652,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 47,
+              "name": "Penalties",
+              "code": "penalties",
+              "developer_name": "PENALTIES",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -90589,7 +90916,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T21:35:44.393313Z"
+      "fetched_at": "2026-03-22T21:43:34.112080Z"
     },
     "19622008": {
       "detail": {
@@ -110087,8 +110414,8 @@
             "description": "2nd-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 74,
-            "seconds": 52,
+            "minutes": 83,
+            "seconds": 4,
             "has_timer": true
           }
         ],
@@ -110136,8 +110463,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110204,8 +110531,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110272,8 +110599,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110408,8 +110735,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110476,8 +110803,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110612,8 +110939,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110680,8 +111007,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110748,8 +111075,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110816,8 +111143,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -110838,6 +111165,74 @@
               "height": 195,
               "weight": 90,
               "date_of_birth": "1995-12-05",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156333514,
+            "fixture_id": 19439537,
+            "period_id": 6866936,
+            "participant_id": 3468,
+            "type_id": 20,
+            "section": "event",
+            "player_id": 260862,
+            "related_player_id": null,
+            "player_name": "Federico Valverde",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "1st Redcard",
+            "minute": 77,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866936,
+            "rescinded": false,
+            "sort_order": 1,
+            "type": {
+              "id": 20,
+              "name": "Redcard",
+              "code": "redcard",
+              "developer_name": "REDCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866936,
+              "fixture_id": 19439537,
+              "type_id": 2,
+              "started": 1774213546,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 83,
+              "seconds": 4,
+              "has_timer": true
+            },
+            "player": {
+              "id": 260862,
+              "sport_id": 1,
+              "country_id": 158,
+              "nationality_id": 158,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "F. Valverde Dipetta",
+              "firstname": "Federico Santiago",
+              "lastname": "Valverde Dipetta",
+              "name": "Federico Santiago Valverde Dipetta",
+              "display_name": "Federico Valverde",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/30/260862.png",
+              "height": 182,
+              "weight": 78,
+              "date_of_birth": "1998-07-22",
               "gender": "male"
             }
           },
@@ -110884,8 +111279,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -111020,8 +111415,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -111088,8 +111483,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": null
@@ -111137,8 +111532,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -111205,8 +111600,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -111273,8 +111668,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -111341,8 +111736,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -111409,8 +111804,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 74,
-              "seconds": 52,
+              "minutes": 83,
+              "seconds": 4,
               "has_timer": true
             },
             "player": {
@@ -111442,7 +111837,7 @@
             "type_id": 27265,
             "participant_id": 7980,
             "data": {
-              "value": 64
+              "value": 65
             },
             "location": "away",
             "type": {
@@ -111496,7 +111891,7 @@
             "type_id": 43,
             "participant_id": 3468,
             "data": {
-              "value": 102
+              "value": 107
             },
             "location": "home",
             "type": {
@@ -111514,7 +111909,7 @@
             "type_id": 50,
             "participant_id": 7980,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -111550,7 +111945,7 @@
             "type_id": 81,
             "participant_id": 3468,
             "data": {
-              "value": 463
+              "value": 493
             },
             "location": "home",
             "type": {
@@ -111568,7 +111963,7 @@
             "type_id": 27265,
             "participant_id": 3468,
             "data": {
-              "value": 64
+              "value": 62
             },
             "location": "home",
             "type": {
@@ -111586,7 +111981,7 @@
             "type_id": 44,
             "participant_id": 7980,
             "data": {
-              "value": 20
+              "value": 27
             },
             "location": "away",
             "type": {
@@ -111604,7 +111999,7 @@
             "type_id": 45,
             "participant_id": 3468,
             "data": {
-              "value": 58
+              "value": 56
             },
             "location": "home",
             "type": {
@@ -111622,7 +112017,7 @@
             "type_id": 45,
             "participant_id": 7980,
             "data": {
-              "value": 42
+              "value": 44
             },
             "location": "away",
             "type": {
@@ -111658,7 +112053,7 @@
             "type_id": 80,
             "participant_id": 7980,
             "data": {
-              "value": 368
+              "value": 415
             },
             "location": "away",
             "type": {
@@ -111676,7 +112071,7 @@
             "type_id": 55,
             "participant_id": 7980,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -111712,7 +112107,7 @@
             "type_id": 81,
             "participant_id": 7980,
             "data": {
-              "value": 333
+              "value": 374
             },
             "location": "away",
             "type": {
@@ -111730,7 +112125,7 @@
             "type_id": 80,
             "participant_id": 3468,
             "data": {
-              "value": 499
+              "value": 532
             },
             "location": "home",
             "type": {
@@ -111748,7 +112143,7 @@
             "type_id": 62,
             "participant_id": 3468,
             "data": {
-              "value": 36
+              "value": 39
             },
             "location": "home",
             "type": {
@@ -111766,7 +112161,7 @@
             "type_id": 62,
             "participant_id": 7980,
             "data": {
-              "value": 22
+              "value": 23
             },
             "location": "away",
             "type": {
@@ -111784,7 +112179,7 @@
             "type_id": 27264,
             "participant_id": 3468,
             "data": {
-              "value": 23
+              "value": 24
             },
             "location": "home",
             "type": {
@@ -111802,7 +112197,7 @@
             "type_id": 27264,
             "participant_id": 7980,
             "data": {
-              "value": 14
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -111820,7 +112215,7 @@
             "type_id": 44,
             "participant_id": 3468,
             "data": {
-              "value": 47
+              "value": 50
             },
             "location": "home",
             "type": {
@@ -111856,7 +112251,7 @@
             "type_id": 56,
             "participant_id": 3468,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -111928,7 +112323,7 @@
             "type_id": 117,
             "participant_id": 7980,
             "data": {
-              "value": 8
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -111964,7 +112359,7 @@
             "type_id": 98,
             "participant_id": 7980,
             "data": {
-              "value": 5
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -111982,7 +112377,7 @@
             "type_id": 108,
             "participant_id": 3468,
             "data": {
-              "value": 15
+              "value": 16
             },
             "location": "home",
             "type": {
@@ -112036,7 +112431,7 @@
             "type_id": 42,
             "participant_id": 7980,
             "data": {
-              "value": 8
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -112054,7 +112449,7 @@
             "type_id": 1605,
             "participant_id": 3468,
             "data": {
-              "value": 47
+              "value": 44
             },
             "location": "home",
             "type": {
@@ -112108,7 +112503,7 @@
             "type_id": 78,
             "participant_id": 7980,
             "data": {
-              "value": 16
+              "value": 18
             },
             "location": "away",
             "type": {
@@ -112144,7 +112539,7 @@
             "type_id": 78,
             "participant_id": 3468,
             "data": {
-              "value": 9
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -112252,7 +112647,7 @@
             "type_id": 41,
             "participant_id": 7980,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -112342,7 +112737,7 @@
             "type_id": 43,
             "participant_id": 7980,
             "data": {
-              "value": 49
+              "value": 57
             },
             "location": "away",
             "type": {
@@ -112360,7 +112755,7 @@
             "type_id": 106,
             "participant_id": 3468,
             "data": {
-              "value": 29
+              "value": 30
             },
             "location": "home",
             "type": {
@@ -112414,7 +112809,7 @@
             "type_id": 106,
             "participant_id": 7980,
             "data": {
-              "value": 30
+              "value": 34
             },
             "location": "away",
             "type": {
@@ -112468,7 +112863,7 @@
             "type_id": 64,
             "participant_id": 7980,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -112540,7 +112935,7 @@
             "type_id": 60,
             "participant_id": 3468,
             "data": {
-              "value": 12
+              "value": 14
             },
             "location": "home",
             "type": {
@@ -112558,7 +112953,7 @@
             "type_id": 60,
             "participant_id": 7980,
             "data": {
-              "value": 3
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -112684,7 +113079,7 @@
             "type_id": 99,
             "participant_id": 7980,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -112720,7 +113115,7 @@
             "type_id": 65,
             "participant_id": 7980,
             "data": {
-              "value": 7
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -112874,6 +113269,42 @@
               "developer_name": "PENALTIES",
               "model_type": "statistic",
               "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814115193,
+            "fixture_id": 19439537,
+            "type_id": 83,
+            "participant_id": 7980,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 83,
+              "name": "Redcards",
+              "code": "redcards",
+              "developer_name": "REDCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814115192,
+            "fixture_id": 19439537,
+            "type_id": 83,
+            "participant_id": 3468,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 83,
+              "name": "Redcards",
+              "code": "redcards",
+              "developer_name": "REDCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
             }
           }
         ],
@@ -115537,7 +115968,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T21:35:38.354592Z"
+      "fetched_at": "2026-03-22T21:43:51.036385Z"
     },
     "19425175": {
       "detail": {
@@ -115549,11 +115980,11 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 371878,
-        "state_id": 22,
+        "state_id": 5,
         "venue_id": 7223,
         "name": "Fiorentina vs Inter",
         "starting_at": "2026-03-22 19:45:00",
-        "result_info": null,
+        "result_info": "Game ended in draw.",
         "leg": "1/1",
         "details": null,
         "length": 90,
@@ -115574,10 +116005,10 @@
             "founded": 1926,
             "type": "domestic",
             "placeholder": false,
-            "last_played_at": "2026-03-19 17:45:00",
+            "last_played_at": "2026-03-22 19:45:00",
             "meta": {
               "location": "home",
-              "winner": null,
+              "winner": false,
               "position": 16
             }
           },
@@ -115593,10 +116024,10 @@
             "founded": 1908,
             "type": "domestic",
             "placeholder": false,
-            "last_played_at": "2026-03-14 14:00:00",
+            "last_played_at": "2026-03-22 19:45:00",
             "meta": {
               "location": "away",
-              "winner": null,
+              "winner": false,
               "position": 1
             }
           }
@@ -115611,7 +116042,7 @@
           "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/0/384.png",
           "type": "league",
           "sub_type": "domestic",
-          "last_played_at": "2026-03-22 17:00:00",
+          "last_played_at": "2026-03-22 19:45:00",
           "category": 1,
           "has_jerseys": false,
           "country": {
@@ -115651,11 +116082,11 @@
           "national_team": false
         },
         "state": {
-          "id": 22,
-          "state": "INPLAY_2ND_HALF",
-          "name": "2nd Half",
-          "short_name": "2nd",
-          "developer_name": "INPLAY_2ND_HALF"
+          "id": 5,
+          "state": "FT",
+          "name": "Full Time",
+          "short_name": "FT",
+          "developer_name": "FT"
         },
         "scores": [
           {
@@ -115769,16 +116200,16 @@
             "fixture_id": 19425175,
             "type_id": 2,
             "started": 1774212691,
-            "ended": null,
+            "ended": 1774215675,
             "counts_from": 45,
-            "ticking": true,
+            "ticking": false,
             "sort_order": 2,
             "description": "2nd-half",
-            "time_added": null,
+            "time_added": 4,
             "period_length": 45,
-            "minutes": 89,
-            "seconds": 13,
-            "has_timer": true
+            "minutes": 94,
+            "seconds": 44,
+            "has_timer": false
           }
         ],
         "events": [
@@ -115886,16 +116317,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 20333755,
@@ -116071,16 +116502,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 134015,
@@ -116139,16 +116570,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 262274,
@@ -116207,16 +116638,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 37568690,
@@ -116343,16 +116774,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 37533560,
@@ -116411,16 +116842,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 133769,
@@ -116479,16 +116910,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 130117,
@@ -116547,16 +116978,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 128873,
@@ -116615,16 +117046,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 37683059,
@@ -116683,16 +117114,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 31284407,
@@ -116751,16 +117182,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 37568690,
@@ -116780,6 +117211,74 @@
               "height": 190,
               "weight": 82,
               "date_of_birth": "2004-07-27",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156333521,
+            "fixture_id": 19425175,
+            "period_id": 6866906,
+            "participant_id": 109,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37669686,
+            "related_player_id": 28454,
+            "player_name": "Pietro Comuzzo",
+            "related_player_name": "Albert Gudmundsson",
+            "result": null,
+            "info": null,
+            "addition": "8th Substitution",
+            "minute": 90,
+            "extra_minute": 1,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866906,
+            "rescinded": null,
+            "sort_order": 8,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866906,
+              "fixture_id": 19425175,
+              "type_id": 2,
+              "started": 1774212691,
+              "ended": 1774215675,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37669686,
+              "sport_id": 1,
+              "country_id": 251,
+              "nationality_id": 251,
+              "city_id": 78724,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": null,
+              "common_name": "P. Comuzzo",
+              "firstname": "Pietro",
+              "lastname": "Comuzzo",
+              "name": "Pietro Comuzzo",
+              "display_name": "Pietro Comuzzo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/22/37669686.png",
+              "height": 188,
+              "weight": 75,
+              "date_of_birth": "2005-02-20",
               "gender": "male"
             }
           },
@@ -116819,16 +117318,16 @@
               "fixture_id": 19425175,
               "type_id": 2,
               "started": 1774212691,
-              "ended": null,
+              "ended": 1774215675,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 4,
               "period_length": 45,
-              "minutes": 89,
-              "seconds": 13,
-              "has_timer": true
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
             },
             "player": {
               "id": 24081699,
@@ -116850,6 +117349,74 @@
               "date_of_birth": "2001-01-27",
               "gender": "male"
             }
+          },
+          {
+            "id": 156333530,
+            "fixture_id": 19425175,
+            "period_id": 6866906,
+            "participant_id": 109,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37529791,
+            "related_player_id": 4536538,
+            "player_name": "Giovanni Fabbian",
+            "related_player_name": "Nicolò Fagioli",
+            "result": null,
+            "info": null,
+            "addition": "9th Substitution",
+            "minute": 90,
+            "extra_minute": 1,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6866906,
+            "rescinded": null,
+            "sort_order": 9,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6866906,
+              "fixture_id": 19425175,
+              "type_id": 2,
+              "started": 1774212691,
+              "ended": 1774215675,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 4,
+              "period_length": 45,
+              "minutes": 94,
+              "seconds": 44,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37529791,
+              "sport_id": 1,
+              "country_id": 251,
+              "nationality_id": 251,
+              "city_id": 14619,
+              "position_id": 26,
+              "detailed_position_id": null,
+              "type_id": 26,
+              "common_name": "G. Fabbian",
+              "firstname": "Giovanni",
+              "lastname": "Fabbian",
+              "name": "Giovanni Fabbian",
+              "display_name": "Giovanni Fabbian",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/31/37529791.png",
+              "height": 186,
+              "weight": 75,
+              "date_of_birth": "2003-01-14",
+              "gender": "male"
+            }
           }
         ],
         "statistics": [
@@ -116859,7 +117426,7 @@
             "type_id": 53,
             "participant_id": 2930,
             "data": {
-              "value": 6
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -116913,7 +117480,7 @@
             "type_id": 45,
             "participant_id": 109,
             "data": {
-              "value": 41
+              "value": 40
             },
             "location": "home",
             "type": {
@@ -116949,7 +117516,7 @@
             "type_id": 45,
             "participant_id": 2930,
             "data": {
-              "value": 59
+              "value": 60
             },
             "location": "away",
             "type": {
@@ -116967,7 +117534,7 @@
             "type_id": 106,
             "participant_id": 109,
             "data": {
-              "value": 23
+              "value": 28
             },
             "location": "home",
             "type": {
@@ -117003,7 +117570,7 @@
             "type_id": 43,
             "participant_id": 2930,
             "data": {
-              "value": 97
+              "value": 103
             },
             "location": "away",
             "type": {
@@ -117039,7 +117606,7 @@
             "type_id": 82,
             "participant_id": 2930,
             "data": {
-              "value": 87
+              "value": 86
             },
             "location": "away",
             "type": {
@@ -117075,7 +117642,7 @@
             "type_id": 86,
             "participant_id": 2930,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -117129,7 +117696,7 @@
             "type_id": 98,
             "participant_id": 2930,
             "data": {
-              "value": 18
+              "value": 22
             },
             "location": "away",
             "type": {
@@ -117165,7 +117732,7 @@
             "type_id": 42,
             "participant_id": 2930,
             "data": {
-              "value": 10
+              "value": 12
             },
             "location": "away",
             "type": {
@@ -117183,7 +117750,7 @@
             "type_id": 82,
             "participant_id": 109,
             "data": {
-              "value": 85
+              "value": 84
             },
             "location": "home",
             "type": {
@@ -117201,7 +117768,7 @@
             "type_id": 43,
             "participant_id": 109,
             "data": {
-              "value": 78
+              "value": 81
             },
             "location": "home",
             "type": {
@@ -117255,7 +117822,7 @@
             "type_id": 60,
             "participant_id": 2930,
             "data": {
-              "value": 14
+              "value": 17
             },
             "location": "away",
             "type": {
@@ -117273,7 +117840,7 @@
             "type_id": 81,
             "participant_id": 109,
             "data": {
-              "value": 318
+              "value": 321
             },
             "location": "home",
             "type": {
@@ -117291,7 +117858,7 @@
             "type_id": 81,
             "participant_id": 2930,
             "data": {
-              "value": 470
+              "value": 497
             },
             "location": "away",
             "type": {
@@ -117309,7 +117876,7 @@
             "type_id": 99,
             "participant_id": 2930,
             "data": {
-              "value": 7
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -117327,7 +117894,7 @@
             "type_id": 80,
             "participant_id": 109,
             "data": {
-              "value": 374
+              "value": 382
             },
             "location": "home",
             "type": {
@@ -117363,7 +117930,7 @@
             "type_id": 65,
             "participant_id": 2930,
             "data": {
-              "value": 12
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -117417,7 +117984,7 @@
             "type_id": 80,
             "participant_id": 2930,
             "data": {
-              "value": 541
+              "value": 575
             },
             "location": "away",
             "type": {
@@ -117471,7 +118038,7 @@
             "type_id": 62,
             "participant_id": 109,
             "data": {
-              "value": 45
+              "value": 51
             },
             "location": "home",
             "type": {
@@ -117489,7 +118056,7 @@
             "type_id": 62,
             "participant_id": 2930,
             "data": {
-              "value": 55
+              "value": 59
             },
             "location": "away",
             "type": {
@@ -117507,7 +118074,7 @@
             "type_id": 49,
             "participant_id": 2930,
             "data": {
-              "value": 9
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -117525,7 +118092,7 @@
             "type_id": 27265,
             "participant_id": 109,
             "data": {
-              "value": 49
+              "value": 45
             },
             "location": "home",
             "type": {
@@ -117543,7 +118110,7 @@
             "type_id": 117,
             "participant_id": 109,
             "data": {
-              "value": 11
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -117615,7 +118182,7 @@
             "type_id": 117,
             "participant_id": 2930,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -117633,7 +118200,7 @@
             "type_id": 55,
             "participant_id": 2930,
             "data": {
-              "value": 15
+              "value": 16
             },
             "location": "away",
             "type": {
@@ -117651,7 +118218,7 @@
             "type_id": 56,
             "participant_id": 109,
             "data": {
-              "value": 11
+              "value": 15
             },
             "location": "home",
             "type": {
@@ -117669,7 +118236,7 @@
             "type_id": 56,
             "participant_id": 2930,
             "data": {
-              "value": 11
+              "value": 12
             },
             "location": "away",
             "type": {
@@ -117723,7 +118290,7 @@
             "type_id": 100,
             "participant_id": 109,
             "data": {
-              "value": 8
+              "value": 9
             },
             "location": "home",
             "type": {
@@ -117759,7 +118326,7 @@
             "type_id": 1605,
             "participant_id": 2930,
             "data": {
-              "value": 50
+              "value": 60
             },
             "location": "away",
             "type": {
@@ -117777,7 +118344,7 @@
             "type_id": 44,
             "participant_id": 2930,
             "data": {
-              "value": 41
+              "value": 49
             },
             "location": "away",
             "type": {
@@ -117813,7 +118380,7 @@
             "type_id": 27264,
             "participant_id": 109,
             "data": {
-              "value": 22
+              "value": 23
             },
             "location": "home",
             "type": {
@@ -117831,7 +118398,7 @@
             "type_id": 106,
             "participant_id": 2930,
             "data": {
-              "value": 35
+              "value": 46
             },
             "location": "away",
             "type": {
@@ -117867,7 +118434,7 @@
             "type_id": 27264,
             "participant_id": 2930,
             "data": {
-              "value": 28
+              "value": 30
             },
             "location": "away",
             "type": {
@@ -117885,7 +118452,7 @@
             "type_id": 34,
             "participant_id": 2930,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -117957,7 +118524,7 @@
             "type_id": 57,
             "participant_id": 109,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -118029,7 +118596,7 @@
             "type_id": 53,
             "participant_id": 109,
             "data": {
-              "value": 5
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -118047,7 +118614,7 @@
             "type_id": 108,
             "participant_id": 2930,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -118227,7 +118794,7 @@
             "type_id": 109,
             "participant_id": 2930,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -118263,7 +118830,7 @@
             "type_id": 59,
             "participant_id": 109,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -120886,7 +121453,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T21:35:44.734643Z"
+      "fetched_at": "2026-03-22T21:43:42.456180Z"
     },
     "19622001": {
       "detail": {
@@ -121056,17 +121623,6 @@
             "description": "2ND_HALF"
           },
           {
-            "id": 19674359,
-            "fixture_id": 19622001,
-            "type_id": 1,
-            "participant_id": 11126,
-            "score": {
-              "goals": 0,
-              "participant": "away"
-            },
-            "description": "1ST_HALF"
-          },
-          {
             "id": 19674356,
             "fixture_id": 19622001,
             "type_id": 1525,
@@ -121076,6 +121632,17 @@
               "participant": "home"
             },
             "description": "CURRENT"
+          },
+          {
+            "id": 19674359,
+            "fixture_id": 19622001,
+            "type_id": 1,
+            "participant_id": 11126,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "1ST_HALF"
           }
         ],
         "periods": [
@@ -121091,8 +121658,8 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 5,
-            "seconds": 6,
+            "minutes": 13,
+            "seconds": 12,
             "has_timer": true
           }
         ],
@@ -121140,7 +121707,7 @@
             "type_id": 100,
             "participant_id": 11126,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -121158,7 +121725,7 @@
             "type_id": 45,
             "participant_id": 3440,
             "data": {
-              "value": 37
+              "value": 44
             },
             "location": "home",
             "type": {
@@ -121168,6 +121735,24 @@
               "developer_name": "BALL_POSSESSION",
               "model_type": "statistic",
               "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814116360,
+            "fixture_id": 19622001,
+            "type_id": 51,
+            "participant_id": 11126,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
             }
           },
           {
@@ -121194,7 +121779,7 @@
             "type_id": 98,
             "participant_id": 3440,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -121212,7 +121797,7 @@
             "type_id": 27264,
             "participant_id": 11126,
             "data": {
-              "value": 3
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -121284,7 +121869,7 @@
             "type_id": 1605,
             "participant_id": 11126,
             "data": {
-              "value": 100
+              "value": 67
             },
             "location": "away",
             "type": {
@@ -121292,6 +121877,42 @@
               "name": "Successful Dribbles Percentage",
               "code": "successful-dribbles-percentage",
               "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814122552,
+            "fixture_id": 19622001,
+            "type_id": 53,
+            "participant_id": 11126,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814122555,
+            "fixture_id": 19622001,
+            "type_id": 49,
+            "participant_id": 3440,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -121338,7 +121959,7 @@
             "type_id": 81,
             "participant_id": 11126,
             "data": {
-              "value": 40
+              "value": 67
             },
             "location": "away",
             "type": {
@@ -121356,7 +121977,7 @@
             "type_id": 82,
             "participant_id": 11126,
             "data": {
-              "value": 91
+              "value": 85
             },
             "location": "away",
             "type": {
@@ -121374,7 +121995,7 @@
             "type_id": 43,
             "participant_id": 11126,
             "data": {
-              "value": 5
+              "value": 17
             },
             "location": "away",
             "type": {
@@ -121392,7 +122013,7 @@
             "type_id": 43,
             "participant_id": 3440,
             "data": {
-              "value": 4
+              "value": 11
             },
             "location": "home",
             "type": {
@@ -121410,7 +122031,7 @@
             "type_id": 98,
             "participant_id": 11126,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -121428,7 +122049,7 @@
             "type_id": 27264,
             "participant_id": 3440,
             "data": {
-              "value": 1
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -121446,7 +122067,7 @@
             "type_id": 108,
             "participant_id": 11126,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -121482,7 +122103,7 @@
             "type_id": 42,
             "participant_id": 11126,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -121536,7 +122157,7 @@
             "type_id": 81,
             "participant_id": 3440,
             "data": {
-              "value": 25
+              "value": 52
             },
             "location": "home",
             "type": {
@@ -121554,7 +122175,7 @@
             "type_id": 80,
             "participant_id": 11126,
             "data": {
-              "value": 44
+              "value": 79
             },
             "location": "away",
             "type": {
@@ -121572,7 +122193,7 @@
             "type_id": 62,
             "participant_id": 11126,
             "data": {
-              "value": 5
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -121590,7 +122211,7 @@
             "type_id": 62,
             "participant_id": 3440,
             "data": {
-              "value": 2
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -121608,7 +122229,7 @@
             "type_id": 82,
             "participant_id": 3440,
             "data": {
-              "value": 89
+              "value": 83
             },
             "location": "home",
             "type": {
@@ -121626,7 +122247,7 @@
             "type_id": 27265,
             "participant_id": 3440,
             "data": {
-              "value": 50
+              "value": 57
             },
             "location": "home",
             "type": {
@@ -121636,6 +122257,24 @@
               "developer_name": "SUCCESSFUL_LONG_PASSES_PERCENTAGE",
               "model_type": "statistic",
               "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814116361,
+            "fixture_id": 19622001,
+            "type_id": 51,
+            "participant_id": 3440,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
             }
           },
           {
@@ -121662,7 +122301,7 @@
             "type_id": 34,
             "participant_id": 3440,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -121672,6 +122311,24 @@
               "developer_name": "CORNERS",
               "model_type": "statistic",
               "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814115527,
+            "fixture_id": 19622001,
+            "type_id": 78,
+            "participant_id": 3440,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
             }
           },
           {
@@ -121716,7 +122373,7 @@
             "type_id": 80,
             "participant_id": 3440,
             "data": {
-              "value": 28
+              "value": 63
             },
             "location": "home",
             "type": {
@@ -121752,7 +122409,7 @@
             "type_id": 27265,
             "participant_id": 11126,
             "data": {
-              "value": 60
+              "value": 64
             },
             "location": "away",
             "type": {
@@ -121770,7 +122427,7 @@
             "type_id": 44,
             "participant_id": 11126,
             "data": {
-              "value": 1
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -121824,7 +122481,7 @@
             "type_id": 99,
             "participant_id": 11126,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -121860,7 +122517,7 @@
             "type_id": 44,
             "participant_id": 3440,
             "data": {
-              "value": 0
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -121878,7 +122535,7 @@
             "type_id": 100,
             "participant_id": 3440,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -121896,7 +122553,7 @@
             "type_id": 60,
             "participant_id": 3440,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -121909,12 +122566,30 @@
             }
           },
           {
+            "id": 814115975,
+            "fixture_id": 19622001,
+            "type_id": 117,
+            "participant_id": 3440,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
             "id": 814102458,
             "fixture_id": 19622001,
             "type_id": 60,
             "participant_id": 11126,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -121932,7 +122607,7 @@
             "type_id": 45,
             "participant_id": 11126,
             "data": {
-              "value": 63
+              "value": 56
             },
             "location": "away",
             "type": {
@@ -121994,6 +122669,114 @@
               "name": "Shots On Target",
               "code": "shots-on-target",
               "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814115974,
+            "fixture_id": 19622001,
+            "type_id": 117,
+            "participant_id": 11126,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814115526,
+            "fixture_id": 19622001,
+            "type_id": 78,
+            "participant_id": 11126,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814119452,
+            "fixture_id": 19622001,
+            "type_id": 65,
+            "participant_id": 11126,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 65,
+              "name": "Successful Headers",
+              "code": "successful-headers",
+              "developer_name": "SUCCESSFUL_HEADERS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814119453,
+            "fixture_id": 19622001,
+            "type_id": 65,
+            "participant_id": 3440,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 65,
+              "name": "Successful Headers",
+              "code": "successful-headers",
+              "developer_name": "SUCCESSFUL_HEADERS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814122553,
+            "fixture_id": 19622001,
+            "type_id": 53,
+            "participant_id": 3440,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814122554,
+            "fixture_id": 19622001,
+            "type_id": 49,
+            "participant_id": 11126,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -122091,7 +122874,7 @@
             "position_id": 26,
             "formation_field": "3:3",
             "type_id": 11,
-            "formation_position": 7,
+            "formation_position": 8,
             "player_name": "Emmanuel Martínez",
             "jersey_number": 6,
             "player": {
@@ -122171,7 +122954,7 @@
             "player_id": 219598,
             "team_id": 3440,
             "position_id": 27,
-            "formation_field": "4:2",
+            "formation_field": "4:1",
             "type_id": 11,
             "formation_position": 10,
             "player_name": "Matheuzinho",
@@ -122293,10 +123076,10 @@
             "fixture_id": 19622001,
             "player_id": 11298638,
             "team_id": 3440,
-            "position_id": 26,
-            "formation_field": "3:4",
+            "position_id": 25,
+            "formation_field": "2:4",
             "type_id": 11,
-            "formation_position": 8,
+            "formation_position": 5,
             "player_name": "Ramon",
             "jersey_number": 13,
             "player": {
@@ -122334,10 +123117,10 @@
             "fixture_id": 19622001,
             "player_id": 186909,
             "team_id": 3440,
-            "position_id": 25,
-            "formation_field": "2:1",
+            "position_id": 26,
+            "formation_field": "3:4",
             "type_id": 11,
-            "formation_position": 2,
+            "formation_position": 9,
             "player_name": "Aitor Cantalapiedra",
             "jersey_number": 17,
             "player": {
@@ -122621,10 +123404,10 @@
             "fixture_id": 19622001,
             "player_id": 470083,
             "team_id": 3440,
-            "position_id": 27,
-            "formation_field": "4:1",
+            "position_id": 26,
+            "formation_field": "3:1",
             "type_id": 11,
-            "formation_position": 9,
+            "formation_position": 6,
             "player_name": "Erick",
             "jersey_number": 33,
             "player": {
@@ -122706,7 +123489,7 @@
             "position_id": 26,
             "formation_field": "3:2",
             "type_id": 11,
-            "formation_position": 6,
+            "formation_position": 7,
             "player_name": "Baralhas",
             "jersey_number": 44,
             "player": {
@@ -122744,10 +123527,10 @@
             "fixture_id": 19622001,
             "player_id": 37567295,
             "team_id": 3440,
-            "position_id": 26,
-            "formation_field": "3:1",
+            "position_id": 25,
+            "formation_field": "2:1",
             "type_id": 11,
-            "formation_position": 5,
+            "formation_position": 2,
             "player_name": "Nathan Mendes",
             "jersey_number": 45,
             "player": {
@@ -122786,7 +123569,7 @@
             "player_id": 221411,
             "team_id": 3440,
             "position_id": 27,
-            "formation_field": "5:1",
+            "formation_field": "4:2",
             "type_id": 11,
             "formation_position": 11,
             "player_name": "Renato Kayzer",
@@ -124775,7 +125558,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T21:35:52.586575Z"
+      "fetched_at": "2026-03-22T21:43:58.693188Z"
     },
     "19622003": {
       "detail": {
@@ -124980,8 +125763,8 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 6,
-            "seconds": 0,
+            "minutes": 14,
+            "seconds": 12,
             "has_timer": true
           }
         ],
@@ -124993,7 +125776,7 @@
             "type_id": 78,
             "participant_id": 2696,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -125011,7 +125794,7 @@
             "type_id": 45,
             "participant_id": 2696,
             "data": {
-              "value": 53
+              "value": 49
             },
             "location": "home",
             "type": {
@@ -125029,7 +125812,7 @@
             "type_id": 45,
             "participant_id": 710,
             "data": {
-              "value": 47
+              "value": 51
             },
             "location": "away",
             "type": {
@@ -125047,7 +125830,7 @@
             "type_id": 43,
             "participant_id": 710,
             "data": {
-              "value": 3
+              "value": 17
             },
             "location": "away",
             "type": {
@@ -125065,7 +125848,7 @@
             "type_id": 82,
             "participant_id": 2696,
             "data": {
-              "value": 87
+              "value": 82
             },
             "location": "home",
             "type": {
@@ -125083,7 +125866,7 @@
             "type_id": 44,
             "participant_id": 710,
             "data": {
-              "value": 1
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -125101,7 +125884,7 @@
             "type_id": 81,
             "participant_id": 2696,
             "data": {
-              "value": 34
+              "value": 64
             },
             "location": "home",
             "type": {
@@ -125119,7 +125902,7 @@
             "type_id": 62,
             "participant_id": 2696,
             "data": {
-              "value": 5
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -125137,7 +125920,7 @@
             "type_id": 27264,
             "participant_id": 2696,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -125155,7 +125938,7 @@
             "type_id": 108,
             "participant_id": 710,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -125209,7 +125992,7 @@
             "type_id": 43,
             "participant_id": 2696,
             "data": {
-              "value": 10
+              "value": 21
             },
             "location": "home",
             "type": {
@@ -125227,7 +126010,7 @@
             "type_id": 56,
             "participant_id": 2696,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -125263,7 +126046,7 @@
             "type_id": 65,
             "participant_id": 2696,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -125299,7 +126082,7 @@
             "type_id": 100,
             "participant_id": 2696,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -125317,7 +126100,7 @@
             "type_id": 80,
             "participant_id": 2696,
             "data": {
-              "value": 39
+              "value": 78
             },
             "location": "home",
             "type": {
@@ -125335,7 +126118,7 @@
             "type_id": 80,
             "participant_id": 710,
             "data": {
-              "value": 35
+              "value": 83
             },
             "location": "away",
             "type": {
@@ -125371,7 +126154,7 @@
             "type_id": 27265,
             "participant_id": 2696,
             "data": {
-              "value": 60
+              "value": 42
             },
             "location": "home",
             "type": {
@@ -125407,7 +126190,7 @@
             "type_id": 27264,
             "participant_id": 710,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -125425,7 +126208,7 @@
             "type_id": 82,
             "participant_id": 710,
             "data": {
-              "value": 80
+              "value": 82
             },
             "location": "away",
             "type": {
@@ -125461,7 +126244,7 @@
             "type_id": 60,
             "participant_id": 2696,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -125479,7 +126262,7 @@
             "type_id": 44,
             "participant_id": 2696,
             "data": {
-              "value": 5
+              "value": 9
             },
             "location": "home",
             "type": {
@@ -125497,7 +126280,7 @@
             "type_id": 81,
             "participant_id": 710,
             "data": {
-              "value": 28
+              "value": 68
             },
             "location": "away",
             "type": {
@@ -125515,7 +126298,7 @@
             "type_id": 60,
             "participant_id": 710,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -125533,7 +126316,7 @@
             "type_id": 100,
             "participant_id": 710,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -125551,7 +126334,7 @@
             "type_id": 55,
             "participant_id": 710,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -125582,12 +126365,30 @@
             }
           },
           {
+            "id": 814117991,
+            "fixture_id": 19622003,
+            "type_id": 34,
+            "participant_id": 710,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 814095009,
             "fixture_id": 19622003,
             "type_id": 62,
             "participant_id": 710,
             "data": {
-              "value": 6
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -125597,6 +126398,276 @@
               "developer_name": "LONG_PASSES",
               "model_type": "statistic",
               "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814114046,
+            "fixture_id": 19622003,
+            "type_id": 98,
+            "participant_id": 2696,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814114047,
+            "fixture_id": 19622003,
+            "type_id": 98,
+            "participant_id": 710,
+            "data": {
+              "value": 4
+            },
+            "location": "away",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814117990,
+            "fixture_id": 19622003,
+            "type_id": 34,
+            "participant_id": 2696,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126411,
+            "fixture_id": 19622003,
+            "type_id": 99,
+            "participant_id": 710,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126819,
+            "fixture_id": 19622003,
+            "type_id": 41,
+            "participant_id": 710,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126820,
+            "fixture_id": 19622003,
+            "type_id": 42,
+            "participant_id": 2696,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126821,
+            "fixture_id": 19622003,
+            "type_id": 42,
+            "participant_id": 710,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126410,
+            "fixture_id": 19622003,
+            "type_id": 99,
+            "participant_id": 2696,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814128780,
+            "fixture_id": 19622003,
+            "type_id": 53,
+            "participant_id": 2696,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814128781,
+            "fixture_id": 19622003,
+            "type_id": 53,
+            "participant_id": 710,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814126818,
+            "fixture_id": 19622003,
+            "type_id": 41,
+            "participant_id": 2696,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814127603,
+            "fixture_id": 19622003,
+            "type_id": 58,
+            "participant_id": 710,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814127602,
+            "fixture_id": 19622003,
+            "type_id": 58,
+            "participant_id": 2696,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814128782,
+            "fixture_id": 19622003,
+            "type_id": 49,
+            "participant_id": 2696,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814128783,
+            "fixture_id": 19622003,
+            "type_id": 49,
+            "participant_id": 710,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
             }
           }
         ],
@@ -126592,9 +127663,9 @@
             "player_id": 455748,
             "team_id": 2696,
             "position_id": 25,
-            "formation_field": "2:2",
+            "formation_field": "2:3",
             "type_id": 11,
-            "formation_position": 3,
+            "formation_position": 4,
             "player_name": "Félix Torres",
             "jersey_number": 4,
             "player": {
@@ -127166,9 +128237,9 @@
             "player_id": 186911,
             "team_id": 2696,
             "position_id": 25,
-            "formation_field": "2:3",
+            "formation_field": "2:2",
             "type_id": 11,
-            "formation_position": 4,
+            "formation_position": 3,
             "player_name": "Gabriel Mercado",
             "jersey_number": 25,
             "player": {
@@ -127678,7 +128749,7 @@
               "bookmaker": "mansionbet",
               "fair_odd": 1.44,
               "odd": 1.47,
-              "stake": 1.48,
+              "stake": 1.42,
               "is_value": true
             },
             "type_id": 33,
@@ -128208,7 +129279,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T21:35:29.684098Z"
+      "fetched_at": "2026-03-22T21:43:41.941378Z"
     }
   }
 }
