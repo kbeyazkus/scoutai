@@ -408,9 +408,34 @@ async function loadData(){
   const smLiveRaw =smLiveR.status==='fulfilled'?smLiveR.value:{};
   const smLive    =tag(smLiveRaw.matches||smLiveRaw.data||[],'sportmonks');
   state.bundle=bundleR.status==='fulfilled'?bundleR.value:{fixtures:{}};
-  const scoreMap={};
-  for(const m of smLive){ const k=((m.home_name||'')+'_'+(m.away_name||'')).toLowerCase(); scoreMap[k]=m; }
-  function overlayLive(rows){ return rows.map(r=>{ const k=((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase(); const lm=scoreMap[k]; if(!lm) return r; return {...r,_h:lm.homeGoalCount??r.homeGoalCount,_a:lm.awayGoalCount??r.awayGoalCount,_min:lm.elapsed??r.elapsed,status:'live',elapsed:lm.elapsed??r.elapsed,live_comment:r.live_comment||lm.live_comment||lm.boss_ai_decision||'',boss_ai_decision:r.boss_ai_decision||lm.boss_ai_decision||''}; }); }
+  // Build score map: SM ID + name-based (fuzzy) for robust matching
+  const scoreMapById={}, scoreMapByName={};
+  for(const m of smLive){
+    const smid=String(m?.source_ids?.sportmonks||m?.sportmonks_id||m.id||'').replace('sm-','');
+    if(smid) scoreMapById[smid]=m;
+    const k=((m.home_name||'')+'_'+(m.away_name||'')).toLowerCase().replace(/[^a-z0-9_]/g,'');
+    scoreMapByName[k]=m;
+  }
+  function fuzzyMatchLive(r){
+    // 1. Try SM ID match
+    const smid=String(r?.source_ids?.sportmonks||r?.sportmonks_id||'').replace('sm-','');
+    if(smid && scoreMapById[smid]) return scoreMapById[smid];
+    // 2. Try exact name match
+    const k=((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase().replace(/[^a-z0-9_]/g,'');
+    if(scoreMapByName[k]) return scoreMapByName[k];
+    // 3. Try partial name match (first 6 chars)
+    const hk=(r.home_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
+    const ak=(r.away_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
+    if(hk && ak){
+      for(const[,m] of Object.entries(scoreMapById)){
+        const mh=(m.home_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
+        const ma=(m.away_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
+        if(mh===hk && ma===ak) return m;
+      }
+    }
+    return null;
+  }
+  function overlayLive(rows){ return rows.map(r=>{ const lm=fuzzyMatchLive(r); if(!lm) return r; return {...r,_h:lm.homeGoalCount??r.homeGoalCount,_a:lm.awayGoalCount??r.awayGoalCount,_min:lm.elapsed??r.elapsed,status:'live',elapsed:lm.elapsed??r.elapsed,live_comment:r.live_comment||lm.live_comment||lm.boss_ai_decision||'',boss_ai_decision:r.boss_ai_decision||lm.boss_ai_decision||''}; }); }
   state.fs.today   =dedupeById(overlayLive(fsToday));
   state.fs.tomorrow=dedupeById(fsTomorrow);
   state.fs.live    =dedupeById([...fsLive.filter(isLive),...overlayLive(fsToday).filter(isLive)]);
