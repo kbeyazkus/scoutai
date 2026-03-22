@@ -35,9 +35,10 @@ LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = (
     'participants;league.country;venue;state;scores;periods;'
     'events.type;events.period;events.player;'
-    'statistics.type;lineups.player;lineups.type;'
+    'statistics.type;'
+    'lineups.player.position;lineups.player.detailedPosition;lineups.type;lineups.details.type;'
     'coaches;sidelined.sideline.player;sidelined.sideline.type;'
-    'weatherReport;predictions.type'
+    'weatherReport;predictions.type;pressure'
 )
 
 def log(msg): print(msg, flush=True)
@@ -92,15 +93,17 @@ def get_sides(parts):
     return home, away
 
 def current_score(fixture):
+    h = a = None
     for s in (fixture.get('scores') or []):
         if str(s.get('description','')).upper() == 'CURRENT':
             p = (s.get('score') or {}).get('participant')
             g = si((s.get('score') or {}).get('goals'))
             if p == 'home': h = g
             elif p == 'away': a = g
-    try: return h, a
-    except: pass
-    for ev in (fixture.get('events') or []):
+    if h is not None and a is not None:
+        return h, a
+    # fallback: latest event result string
+    for ev in sorted(fixture.get('events') or [], key=lambda e: si(e.get('minute')), reverse=True):
         result = ev.get('result')
         if result:
             m = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', str(result))
@@ -241,18 +244,19 @@ def ai_comment_live(client, row, detail, ctx):
         'shots_on_target_home': ctx.get('shots_on_home'),
         'shots_on_target_away': ctx.get('shots_on_away'),
         'events_summary': ctx.get('events_summary'),
-        'model_predictions': ctx.get('predictions'),
+        'live_predictions': ctx.get('predictions'),  # live model predictions only
         'key_sidelined':  ctx.get('sidelined'),
         'home_ppg':       sf(row.get('home_ppg')),
         'away_ppg':       sf(row.get('away_ppg')),
-        'btts_potential': sf(row.get('btts_potential')),
-        'o25_potential':  sf(row.get('o25_potential')),
+        # NOTE: btts_potential / o25_potential intentionally excluded —
+        # these are PREMATCH values and conflict with live score at 65+ min
     }
 
     prompt = '\n'.join([
         'You are a technical live betting analysis engine.',
-        'Cross-check ALL provided metrics: pressure, shots on target, model predictions, PPG.',
-        'If data conflicts flag as RISKY.',
+        'This is a LIVE match at 65+ minutes. Base your analysis on LIVE data only:',
+        'current score, pressure, shots on target, live model predictions.',
+        'Do NOT treat prematch potentials as current probabilities.',
         'Recommend ONE lowest-risk bet from:',
         'Home Win, Away Win, Over 2.5, Both Teams Score,',
         'First Half Over 0.5, Asian Handicap,',
@@ -361,6 +365,9 @@ def main():
         fid = str(fixture.get('id') or '')
 
         detail = get_cached_detail(bundle, fid)
+        # Force refresh if lineups missing — lineup may arrive after kickoff
+        if detail and not detail.get('lineups'):
+            detail = None
         if not detail:
             detail = fetch_detail(si(fid))
             if detail:
