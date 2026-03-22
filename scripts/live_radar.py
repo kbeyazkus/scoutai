@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-import json
-import os
-import re
-import time
+"""
+live_radar.py
+- Fetches live fixtures from Sportmonks
+- Builds RICH AI payload (pressure, shots, predictions, standings, h2h, sidelined)
+- Writes AI comment using full context
+- Saves SLIM sportmonks_live.json (score + AI comment only) — prevents file bloat
+- Saves full detail back to sportmonks_bundle.json for frontend
+"""
+import json, os, re, time
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 import requests
 from unidecode import unidecode
@@ -14,98 +19,70 @@ try:
 except Exception:
     genai = None
 
-DATA_DIR = 'data'
+DATA_DIR             = 'data'
 FOOTYSTATS_TODAY_JSON = os.path.join(DATA_DIR, 'footystats_today.json')
-FOOTYSTATS_LIVE_JSON = os.path.join(DATA_DIR, 'footystats_live.json')
-SPORTMONKS_LIVE_JSON = os.path.join(DATA_DIR, 'sportmonks_live.json')
-BUNDLE_JSON = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
-HEALTH_JSON = os.path.join(DATA_DIR, 'health.json')
+FOOTYSTATS_LIVE_JSON  = os.path.join(DATA_DIR, 'footystats_live.json')
+SPORTMONKS_LIVE_JSON  = os.path.join(DATA_DIR, 'sportmonks_live.json')
+BUNDLE_JSON           = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
+HEALTH_JSON           = os.path.join(DATA_DIR, 'health.json')
 
-SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
+SM_KEY         = os.getenv('SPORTMONKS_KEY','').strip()
+GEMINI_MODEL   = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 REQUEST_TIMEOUT = 25
+DETAIL_TTL_SEC  = 300
+
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
-DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport'
-# FIX 6: Raised from 120 to 300 sec — prevents rate limit with 10+ live matches
-DETAIL_TTL_SEC = 300
+DETAIL_INCLUDE = (
+    'participants;league.country;venue;state;scores;periods;'
+    'events.type;events.period;events.player;'
+    'statistics.type;lineups.player;lineups.type;'
+    'coaches;sidelined.sideline.player;sidelined.sideline.type;'
+    'weatherReport;predictions.type'
+)
 
-def log(msg: str):
-    print(msg, flush=True)
+def log(msg): print(msg, flush=True)
+def sf(v,d=0.0):
+    try: return float(v) if v not in (None,'') else d
+    except: return d
+def si(v,d=0):
+    try: return int(float(v)) if v not in (None,'') else d
+    except: return d
 
-def load_json(path: str, default: Any):
+def load_json(path, default):
     try:
-        with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception:
-        return default
+        with open(path,'r',encoding='utf-8') as f: return json.load(f)
+    except: return default
 
-def save_json(path: str, data: Any):
-    with open(path, 'w', encoding='utf-8') as f:
+def save_json(path, data):
+    with open(path,'w',encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-def safe_int(v: Any, default: int = 0) -> int:
-    try:
-        if v in (None, ''): return default
-        return int(float(v))
-    except Exception: return default
-
-def safe_float(v: Any, default: float = 0.0) -> float:
-    try:
-        if v in (None, ''): return default
-        return float(v)
-    except Exception: return default
-
-def fetch_json(url: str) -> Dict[str, Any]:
+def fetch_json(url):
     try:
         r = requests.get(url, timeout=REQUEST_TIMEOUT)
         r.raise_for_status()
         return r.json()
     except Exception as e:
-        log(f"API Hatasi: {e}")
+        log(f'API error: {e}')
         return {}
 
-def init_vertex_client():
-    if genai is None:
-        return None
-    gac = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
+def init_client():
+    if genai is None: return None
+    gac = os.getenv('GOOGLE_APPLICATION_CREDENTIALS','').strip()
     if gac and os.path.exists(gac):
         try:
-            with open(gac, 'r', encoding='utf-8') as f:
-                info = json.load(f)
-            project = info.get('project_id')
-            if project:
-                return genai.Client(vertexai=True, project=project, location='global')
-        except Exception as e:
-            log(f'Credentials read error: {e}')
-    project = os.getenv('GCP_PROJECT_ID', '').strip()
-    location = os.getenv('GCP_LOCATION', 'global').strip()
-    if not project:
-        return None
-    try:
-        return genai.Client(vertexai=True, project=project, location=location)
-    except Exception as e:
-        log(f'Vertex AI init error: {e}')
-        return None
+            info = json.load(open(gac,'r',encoding='utf-8'))
+            proj = info.get('project_id')
+            if proj: return genai.Client(vertexai=True, project=proj, location='global')
+        except Exception as e: log(f'Credentials error: {e}')
+    proj = os.getenv('GCP_PROJECT_ID','').strip()
+    loc  = os.getenv('GCP_LOCATION','global').strip()
+    if not proj: return None
+    try: return genai.Client(vertexai=True, project=proj, location=loc)
+    except Exception as e: log(f'Vertex init error: {e}'); return None
 
-def clean_name(name: str) -> str:
-    n = unidecode(str(name or '')).lower()
-    n = re.sub(r'[\W_]+', '', n)
-    for token in ['footballclub', 'futebolclube', 'clubdefutbol', 'clubdeportivo', 'women', 'ladies', 'reserves', 'reserve', 'ii', 'iii', 'u21', 'u23', 'fc', 'cf', 'ac', 'afc', 'sc', 'sk', 'if', 'fk', 'bk', 'nk', 'cd', 'de', 'la', 'the']:
-        n = n.replace(token, '')
-    return n
-
-def ratio(a: str, b: str) -> float:
-    if not a or not b: return 0.0
-    if a == b: return 1.0
-    if a in b or b in a:
-        shorter = min(len(a), len(b))
-        longer = max(len(a), len(b))
-        return shorter / max(longer, 1)
-    same = sum(1 for x, y in zip(a, b) if x == y)
-    return same / max(len(a), len(b), 1)
-
-def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    home, away = {}, {}
+def get_sides(parts):
+    home = away = {}
     for p in parts:
         loc = str((p.get('meta') or {}).get('location') or '').lower()
         if loc == 'home': home = p
@@ -114,270 +91,332 @@ def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], 
     if not away and len(parts) > 1: away = parts[1]
     return home, away
 
-def current_score(fixture: Dict[str, Any]) -> Tuple[int, int]:
-    scores = fixture.get('scores') or []
-    home, away = None, None
-    for s in scores:
-        if str(s.get('description') or '').upper() == 'CURRENT':
-            participant = (s.get('score') or {}).get('participant')
-            goals = safe_int((s.get('score') or {}).get('goals'), 0)
-            if participant == 'home': home = goals
-            elif participant == 'away': away = goals
-    if home is not None and away is not None:
-        return home, away
-    latest = None
-    latest_ord = -1
-    for ev in fixture.get('events') or []:
+def current_score(fixture):
+    for s in (fixture.get('scores') or []):
+        if str(s.get('description','')).upper() == 'CURRENT':
+            p = (s.get('score') or {}).get('participant')
+            g = si((s.get('score') or {}).get('goals'))
+            if p == 'home': h = g
+            elif p == 'away': a = g
+    try: return h, a
+    except: pass
+    for ev in (fixture.get('events') or []):
         result = ev.get('result')
-        total = safe_int(ev.get('minute'), 0) * 100 + safe_int(ev.get('extra_minute'), 0)
-        if result and total >= latest_ord:
-            latest_ord = total
-            latest = result
-    if latest:
-        m = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', str(latest))
-        if m: return int(m.group(1)), int(m.group(2))
+        if result:
+            m = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', str(result))
+            if m: return int(m.group(1)), int(m.group(2))
     return 0, 0
 
-def extract_minute(fixture: Dict[str, Any]) -> int:
+def extract_minute(fixture):
     state = fixture.get('state') or {}
-    minute = safe_int(state.get('minute'), 0)
-    if minute: return minute
+    m = si(state.get('minute'))
+    if m: return m
     best = 0
-    for p in fixture.get('periods') or []:
-        best = max(best, safe_int(p.get('minutes'), 0), safe_int(p.get('minute'), 0))
-    for ev in fixture.get('events') or []:
-        total = safe_int(ev.get('minute'), 0) + (1 if safe_int(ev.get('extra_minute'), 0) > 0 else 0)
-        best = max(best, total)
+    for p in (fixture.get('periods') or []):
+        best = max(best, si(p.get('minutes')), si(p.get('minute')))
+    for ev in (fixture.get('events') or []):
+        best = max(best, si(ev.get('minute')))
     return best
 
-def summarize_predictions(predictions: List[Dict[str, Any]]) -> Dict[str, float]:
-    out = {'over25': 0.0, 'btts': 0.0}
-    for p in predictions or []:
+def get_cached_detail(bundle, fid):
+    cache = (bundle.get('fixtures') or {}).get(str(fid)) or {}
+    ts = cache.get('fetched_at','')
+    if ts:
+        try:
+            dt = datetime.fromisoformat(ts.replace('Z',''))
+            if (datetime.utcnow() - dt).total_seconds() < DETAIL_TTL_SEC:
+                return cache.get('detail') or {}
+        except: pass
+    return {}
+
+def fetch_detail(fid):
+    if not fid: return {}
+    url = f'https://api.sportmonks.com/v3/football/fixtures/{fid}?api_token={SM_KEY}&include={DETAIL_INCLUDE}'
+    return fetch_json(url).get('data') or {}
+
+def extract_rich_context(detail, row):
+    """Build rich AI context from full detail — xG, shots, pressure, predictions, sidelined."""
+    # --- Shots ---
+    shots_home = shots_away = shots_on_home = shots_on_away = 0
+    for st in (detail.get('statistics') or []):
+        dev = str((st.get('type') or {}).get('developer_name') or '').upper()
+        loc = str(st.get('location') or '').lower()
+        val = si((st.get('data') or {}).get('value'))
+        if 'SHOTS_TOTAL' in dev:
+            if loc == 'home': shots_home = val
+            elif loc == 'away': shots_away = val
+        elif 'SHOTS_ON_TARGET' in dev:
+            if loc == 'home': shots_on_home = val
+            elif loc == 'away': shots_on_away = val
+
+    # --- Pressure (last 12 events) ---
+    pressure_events = (detail.get('pressure') or [])[-12:]
+    press_home = press_away = 0.0
+    for p in pressure_events:
+        loc = str((p.get('participant') or {}).get('meta',{}).get('location') or p.get('location') or '').lower()
+        val = sf(p.get('value') or p.get('amount'))
+        if loc == 'home': press_home += val
+        else: press_away += val
+    pressure_score = round(press_home - press_away, 2)
+
+    # --- Predictions ---
+    preds = {}
+    for p in (detail.get('predictions') or []):
         dev = str((p.get('type') or {}).get('developer_name') or '').upper()
         vals = p.get('predictions') or {}
-        if dev == 'OVER_UNDER_2_5_PROBABILITY':
-            out['over25'] = safe_float(vals.get('yes'))
-        elif dev == 'BTTS_PROBABILITY':
-            out['btts'] = safe_float(vals.get('yes'))
-    return out
+        if 'OVER_UNDER_2_5' in dev: preds['over25']   = sf(vals.get('yes'))
+        elif 'BTTS' in dev:         preds['btts']     = sf(vals.get('yes'))
+        elif 'HOME_WIN' in dev:     preds['home_win'] = sf(vals.get('yes'))
+        elif 'AWAY_WIN' in dev:     preds['away_win'] = sf(vals.get('yes'))
 
-def heur_live_comment(row: Dict[str, Any], detail: Dict[str, Any]) -> str:
-    h = safe_int(row.get('homeGoalCount'), 0)
-    a = safe_int(row.get('awayGoalCount'), 0)
-    minute = safe_int(row.get('elapsed'), 0)
-    pressure = safe_float(row.get('pressure_score'), 0)
-    preds = summarize_predictions(detail.get('predictions') or [])
-    shots_home = shots_away = 0
-    for st in detail.get('statistics') or []:
-        dev = str((st.get('type') or {}).get('developer_name') or '').upper()
-        if dev == 'SHOTS_ON_TARGET':
-            if st.get('location') == 'home': shots_home = safe_int((st.get('data') or {}).get('value'))
-            elif st.get('location') == 'away': shots_away = safe_int((st.get('data') or {}).get('value'))
-            
-    if minute <= 0 and not pressure and not shots_home and not shots_away:
-        return f"STATUS: Match is live, score {h}-{a}.\nREASON: Limited live data available.\nCONCLUSION: No Bet / Skip for now."
+    # --- Key sidelined ---
+    sidelined = []
+    for sl in (detail.get('sidelined') or [])[:5]:
+        player = (sl.get('player') or (sl.get('sideline') or {}).get('player') or {})
+        name = player.get('display_name') or player.get('name') or ''
+        if name: sidelined.append(name)
+
+    # --- Events summary ---
+    goals = corners = yellows = reds = 0
+    for ev in (detail.get('events') or []):
+        t = str((ev.get('type') or {}).get('developer_name') or '').upper()
+        if 'GOAL' in t: goals += 1
+        elif 'CORNER' in t: corners += 1
+        elif 'YELLOW' in t: yellows += 1
+        elif 'RED' in t: reds += 1
+
+    return {
+        'shots_home': shots_home, 'shots_away': shots_away,
+        'shots_on_home': shots_on_home, 'shots_on_away': shots_on_away,
+        'pressure_score': pressure_score,
+        'press_home': round(press_home, 1),
+        'press_away': round(press_away, 1),
+        'predictions': preds,
+        'sidelined': sidelined,
+        'events_summary': {
+            'goals': goals, 'corners': corners,
+            'yellows': yellows, 'reds': reds
+        }
+    }
+
+def heuristic_comment(row, ctx):
+    h = si(row.get('homeGoalCount'))
+    a = si(row.get('awayGoalCount'))
+    minute = si(row.get('elapsed'))
+    press = sf(ctx.get('pressure_score'))
+    preds = ctx.get('predictions') or {}
+    sh = ctx.get('shots_on_home',0)
+    sa = ctx.get('shots_on_away',0)
+
     if h == a:
-        if pressure >= 8 or shots_home >= shots_away + 2:
-            return "STATUS: Score level but home team applying pressure.\nREASON: Pressure gap and shot advantage on home side.\nCONCLUSION: Home goal or Over side worth monitoring."
-        if pressure <= -8 or shots_away >= shots_home + 2:
-            return "STATUS: Score level but away team applying pressure.\nREASON: Pressure gap and shot advantage on away side.\nCONCLUSION: Away goal or Over side worth monitoring."
-        if preds.get('over25') >= 60 or preds.get('btts') >= 60:
-            return "STATUS: Score level.\nREASON: Model maintains high-scoring match tendency.\nCONCLUSION: Over 2.5 or Both Teams Score worth monitoring."
-        return "STATUS: Match evenly contested.\nREASON: No clear pressure dominance established.\nCONCLUSION: No Bet / Skip for now."
-        
-    leader = row.get('home_name') if h > a else row.get('away_name')
+        if press >= 8 or sh >= sa + 2:
+            return f"STATUS: Score level {h}-{a} at {minute}'.\\nREASON: Home pressure ({ctx.get('press_home',0)}) dominates, {sh} shots on target.\\nCONCLUSION: Home goal or Over 2.5 worth monitoring."
+        if press <= -8 or sa >= sh + 2:
+            return f"STATUS: Score level {h}-{a} at {minute}'.\\nREASON: Away pressure ({ctx.get('press_away',0)}) dominates, {sa} shots on target.\\nCONCLUSION: Away goal or Over 2.5 worth monitoring."
+        if preds.get('over25',0) >= 60 or preds.get('btts',0) >= 60:
+            return f"STATUS: Score level {h}-{a}.\\nREASON: Model maintains high-scoring tendency (O2.5: {preds.get('over25',0):.0f}%, BTTS: {preds.get('btts',0):.0f}%).\\nCONCLUSION: Over 2.5 or Both Teams Score worth monitoring."
+        return f"STATUS: Evenly contested, score {h}-{a} at {minute}'.\\nREASON: No clear pressure or shot dominance.\\nCONCLUSION: No Bet / Skip for now."
+    leader  = row.get('home_name') if h > a else row.get('away_name')
     trailer = row.get('away_name') if h > a else row.get('home_name')
-    if abs(pressure) >= 8:
-        side = 'home' if pressure > 0 else 'away'
-        return f"STATUS: {leader} leads but pressure on {side} side.\nREASON: Tempo and pressure data indicate match still open.\nCONCLUSION: Additional goal probability warrants live monitoring."
-    return f"STATUS: {leader} holds score advantage.\nREASON: Match at minute {minute}, {trailer} produced no clear response.\nCONCLUSION: Leading team scenario maintained at this stage."
+    if abs(press) >= 8:
+        return f"STATUS: {leader} leads {h}-{a} but pressure shifting.\\nREASON: {trailer} pressure building, match still open.\\nCONCLUSION: Live monitoring recommended."
+    return f"STATUS: {leader} leads {h}-{a} at {minute}'.\\nREASON: {trailer} produced no clear response.\\nCONCLUSION: Current direction maintained."
 
-def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
-    heuristic = heur_live_comment(row, detail)
-    if client is None:
-        return heuristic
-
-    minute = safe_int(row.get('elapsed'), 0)
-
-    # FIX 2: Only call AI for matches 65+ minutes — saves API quota
-    if minute < 65:
-        return heuristic
+def ai_comment_live(client, row, detail, ctx):
+    heuristic = heuristic_comment(row, ctx)
+    if client is None: return heuristic
+    minute = si(row.get('elapsed'))
+    if minute < 65: return heuristic
 
     payload = {
-        'home': row.get('home_name'),
-        'away': row.get('away_name'),
-        'minute': minute,
-        'score_home': safe_int(row.get('homeGoalCount'), 0),
-        'score_away': safe_int(row.get('awayGoalCount'), 0),
-        'pressure': safe_float(row.get('pressure_score'), 0),
-        'shots': [s for s in detail.get('statistics', []) if (s.get('type') or {}).get('developer_name') in ('SHOTS_TOTAL', 'SHOTS_ON_TARGET')],
-        'prediction': detail.get('predictions', [])[:4],
+        'home':           row.get('home_name'),
+        'away':           row.get('away_name'),
+        'minute':         minute,
+        'score':          f"{si(row.get('homeGoalCount'))}-{si(row.get('awayGoalCount'))}",
+        'pressure_score': ctx.get('pressure_score'),
+        'pressure_home':  ctx.get('press_home'),
+        'pressure_away':  ctx.get('press_away'),
+        'shots_home':     ctx.get('shots_home'),
+        'shots_away':     ctx.get('shots_away'),
+        'shots_on_target_home': ctx.get('shots_on_home'),
+        'shots_on_target_away': ctx.get('shots_on_away'),
+        'events_summary': ctx.get('events_summary'),
+        'model_predictions': ctx.get('predictions'),
+        'key_sidelined':  ctx.get('sidelined'),
+        'home_ppg':       sf(row.get('home_ppg')),
+        'away_ppg':       sf(row.get('away_ppg')),
+        'btts_potential': sf(row.get('btts_potential')),
+        'o25_potential':  sf(row.get('o25_potential')),
     }
+
     prompt = '\n'.join([
-        'You are a technical live betting analysis engine that cross-checks data.',
-        'Cross-check all metrics (pressure, shots, xG, PPG). If data conflicts flag as RISKY.',
-        'Recommend only ONE lowest-risk bet from: Home Win, Away Win, Over 2.5, Both Teams Score, First Half Over 0.5, Asian Handicap, Home Team +1.5 Over Goals, Away Team +1.5 Over Goals.',
+        'You are a technical live betting analysis engine.',
+        'Cross-check ALL provided metrics: pressure, shots on target, model predictions, PPG.',
+        'If data conflicts flag as RISKY.',
+        'Recommend ONE lowest-risk bet from:',
+        'Home Win, Away Win, Over 2.5, Both Teams Score,',
+        'First Half Over 0.5, Asian Handicap,',
+        'Home Team +1.5 Over Goals, Away Team +1.5 Over Goals.',
         'If confidence is low output exactly: "No Bet / Skip".',
-        'Rules: Max 80 words. 3 sections only: STATUS, REASON, CONCLUSION. Be sharp and technical.',
-        '- Live match 65+ min: weight live pressure over prematch stats.',
-        '- Never use emojis, flattery or drama.',
-        json.dumps(payload, ensure_ascii=False)
+        'Rules: Max 80 words. 3 sections: STATUS, REASON, CONCLUSION.',
+        'Live match 65+ min: weight live pressure and shots over prematch stats.',
+        'No emojis, no flattery, sharp and technical.',
+        '',
+        json.dumps(payload, ensure_ascii=False),
     ])
 
-    # FIX 1: Retry with exponential backoff on 429
-    max_retries = 3
-    for attempt in range(max_retries):
+    for attempt in range(3):
         try:
-            response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
-            text = (getattr(response, 'text', '') or '').strip()
-            return text[:520].rsplit(' ', 1)[0] if len(text) > 520 else (text or heuristic)
+            resp = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
+            text = (getattr(resp,'text','') or '').strip()
+            return text[:520].rsplit(' ',1)[0] if len(text) > 520 else (text or heuristic)
         except Exception as e:
             err = str(e)
             if '429' in err or 'RESOURCE_EXHAUSTED' in err:
-                wait = 10 * (2 ** attempt)  # 10s, 20s, 40s
-                log(f'⚠️  429 rate limit — waiting {wait}s (attempt {attempt+1}/{max_retries})')
+                wait = 10 * (2 ** attempt)
+                log(f'⚠️  429 — waiting {wait}s (attempt {attempt+1}/3)')
                 time.sleep(wait)
             else:
                 log(f'Live AI error ({row.get("home_name")} - {row.get("away_name")}): {e}')
                 return heuristic
-    log(f'⚠️  AI skipped after {max_retries} retries — using heuristic')
     return heuristic
 
-def fetch_live_rows() -> List[Dict[str, Any]]:
-    url = f'https://api.sportmonks.com/v3/football/livescores/inplay?api_token={SM_KEY}&include={LIVE_INCLUDE}'
-    return fetch_json(url).get('data', []) or []
-
-def fetch_fixture_detail(fid: int) -> Dict[str, Any]:
-    if not fid: return {}
-    url = f'https://api.sportmonks.com/v3/football/fixtures/{fid}?api_token={SM_KEY}&include={DETAIL_INCLUDE}'
-    return fetch_json(url).get('data', {}) or {}
-
-def get_cached_detail(bundle: Dict[str, Any], fid: str) -> Dict[str, Any]:
-    fixture_cache = (bundle.get('fixtures') or {}).get(fid) or {}
-    fetched_at = fixture_cache.get('fetched_at') or ''
-    if fetched_at:
-        try:
-            ts = datetime.fromisoformat(fetched_at.replace('Z', ''))
-            if (datetime.utcnow() - ts).total_seconds() < DETAIL_TTL_SEC:
-                return fixture_cache.get('detail') or {}
-        except Exception: pass
-    return {}
-
-def build_sm_row_from_live(fixture: Dict[str, Any]) -> Dict[str, Any]:
-    parts = fixture.get('participants') or []
-    home, away = get_side_participants(parts)
-    league = fixture.get('league') or {}
+def build_slim_row(fixture, detail, row_base, ctx, live_comment):
+    """Build SLIM output row — only what frontend needs for live display.
+    Full detail stays in bundle.json — this file stays small."""
     h, a = current_score(fixture)
     minute = extract_minute(fixture)
+    parts = fixture.get('participants') or []
+    home, away = get_sides(parts)
+    league = fixture.get('league') or {}
+
     return {
-        'id': f"sm-{fixture.get('id')}",
-        'source_ids': {'footystats': '', 'sportmonks': str(fixture.get('id') or '')},
-        'home_name': home.get('name') or 'Home',
-        'away_name': away.get('name') or 'Away',
-        'competition_name': league.get('name') or fixture.get('name') or 'Live Match',
-        'competition_id': safe_int(league.get('id'), 0),
-        'league_country': (league.get('country') or {}).get('name', ''),
-        'league_country_image': (league.get('country') or {}).get('image_path', ''),
-        'date_unix': safe_int(fixture.get('starting_at_timestamp'), 0),
-        'home_image': home.get('image_path', ''),
-        'away_image': away.get('image_path', ''),
-        # FIX 8: derive country from image path so flag emojis work in frontend
-        'home_country': (league.get('country') or {}).get('name', '') or home.get('image_path', '').split('/')[-1].split('-')[0].replace('_',' ').strip().title(),
-        'away_country': (league.get('country') or {}).get('name', '') or away.get('image_path', '').split('/')[-1].split('-')[0].replace('_',' ').strip().title(),
-        'stadium_name': '',
-        'stadium_location': '',
-        'referee_name': '',
-        'weather': {},
-        'home_ppg': 0.0,
-        'away_ppg': 0.0,
-        'team_a_ppg': '0',
-        'team_b_ppg': '0',
-        'pre_match_home_ppg': 0.0,
-        'pre_match_away_ppg': 0.0,
-        'team_a_xg_prematch': 0.0,
-        'team_b_xg_prematch': 0.0,
-        'btts_potential': 0.0,
-        'o25_potential': 0.0,
-        'o05HT_potential': 0.0,
-        'pressure_score': 0.0,
-        'odds_ft_1': 0.0,
-        'odds_ft_x': 0.0,
-        'odds_ft_2': 0.0,
-        'odds_ft_over25': 0.0,
-        'odds_btts_yes': 0.0,
-        'odds_1st_half_over05': 0.0,
-        'homeGoalCount': h,
-        'awayGoalCount': a,
-        'status': 'live',
-        'elapsed': minute,
-        'boss_ai_decision': '',
-        'prematch_comment': '',
-        'live_comment': '',
+        'id':              f"sm-{fixture.get('id')}",
+        'source_ids':      {'footystats': '', 'sportmonks': str(fixture.get('id') or '')},
+        'home_name':       home.get('name','Home'),
+        'away_name':       away.get('name','Away'),
+        'home_image':      home.get('image_path',''),
+        'away_image':      away.get('image_path',''),
+        'competition_name': league.get('name',''),
+        'league_country':  (league.get('country') or {}).get('name',''),
+        'league_country_image': (league.get('country') or {}).get('image_path',''),
+        'home_country':    (league.get('country') or {}).get('name',''),
+        'away_country':    (league.get('country') or {}).get('name',''),
+        'date_unix':       si(fixture.get('starting_at_timestamp')),
+        'homeGoalCount':   h,
+        'awayGoalCount':   a,
+        'status':          'live',
+        'elapsed':         minute,
+        'pressure_score':  ctx.get('pressure_score', 0),
+        'shots_home':      ctx.get('shots_home', 0),
+        'shots_away':      ctx.get('shots_away', 0),
+        'live_comment':    live_comment,
+        'boss_ai_decision': live_comment,
+        'ai_comment':      live_comment,
+        # Prematch data from base row if available
+        'home_ppg':        sf(row_base.get('home_ppg')),
+        'away_ppg':        sf(row_base.get('away_ppg')),
+        'btts_potential':  sf(row_base.get('btts_potential')),
+        'o25_potential':   sf(row_base.get('o25_potential')),
+        'o05HT_potential': sf(row_base.get('o05HT_potential')),
+        'odds_ft_1':       sf(row_base.get('odds_ft_1')),
+        'odds_ft_x':       sf(row_base.get('odds_ft_x')),
+        'odds_ft_2':       sf(row_base.get('odds_ft_2')),
     }
+
+def find_prematch_row(today_rows, fixture):
+    """Match live fixture to today's prematch row by name."""
+    parts = fixture.get('participants') or []
+    home, away = get_sides(parts)
+    hname = (home.get('name') or '').lower()
+    aname = (away.get('name') or '').lower()
+    for r in today_rows:
+        rh = (r.get('home_name') or '').lower()
+        ra = (r.get('away_name') or '').lower()
+        if hname[:5] in rh and aname[:5] in ra:
+            return r
+    return {}
 
 def main():
     if not SM_KEY: return
-    client = init_vertex_client()
-    bundle = load_json(BUNDLE_JSON, {'fixtures': {}})
-    health = load_json(HEALTH_JSON, {})
+    client  = init_client()
+    bundle  = load_json(BUNDLE_JSON, {'fixtures': {}})
+    health  = load_json(HEALTH_JSON, {})
+    today_rows = load_json(FOOTYSTATS_TODAY_JSON, {}).get('data', [])
 
-    live_rows = fetch_live_rows()
-    sm_live_out = []
+    url = (f'https://api.sportmonks.com/v3/football/livescores/inplay'
+           f'?api_token={SM_KEY}&include={LIVE_INCLUDE}')
+    live_fixtures = fetch_json(url).get('data') or []
 
     health.update({
-        'live_runner': 'live_radar_optimized',
-        'live_started_at': datetime.utcnow().isoformat() + 'Z',
-        'live_fixtures_seen': len(live_rows),
-        'live_ai_written': 0,
-        'live_errors': [],
+        'live_runner':       'live_radar_rich',
+        'live_started_at':   datetime.utcnow().isoformat() + 'Z',
+        'live_fixtures_seen': len(live_fixtures),
+        'live_ai_written':   0,
     })
 
-    for fixture in live_rows:
+    sm_live_out = []
+
+    for fixture in live_fixtures:
         fid = str(fixture.get('id') or '')
-        row = build_sm_row_from_live(fixture)
 
         detail = get_cached_detail(bundle, fid)
         if not detail:
-            detail = fetch_fixture_detail(safe_int(fid))
+            detail = fetch_detail(si(fid))
             if detail:
                 bundle.setdefault('fixtures', {})[fid] = {
-                    'detail': detail,
+                    'detail':     detail,
                     'fetched_at': datetime.utcnow().isoformat() + 'Z',
                 }
 
-        if detail:
-            state = detail.get('state') or {}
-            row['elapsed'] = safe_int(state.get('minute'), row.get('elapsed', 0))
-            vals = {'home': 0.0, 'away': 0.0}
-            for p in (detail.get('pressure') or [])[-12:]:
-                loc = str((p.get('participant') or {}).get('meta', {}).get('location') or p.get('location') or '').lower()
-                if loc == 'home': vals['home'] += safe_float(p.get('value') or p.get('amount'))
-                elif loc == 'away': vals['away'] += safe_float(p.get('value') or p.get('amount'))
-            row['pressure_score'] = round(vals['home'] - vals['away'], 2)
-            row['lineups'] = detail.get('lineups') or []
-            row['events'] = detail.get('events') or []
-            row['statistics'] = detail.get('statistics') or []
+        ctx = extract_rich_context(detail, {}) if detail else {
+            'pressure_score': 0, 'press_home': 0, 'press_away': 0,
+            'shots_home': 0, 'shots_away': 0, 'shots_on_home': 0, 'shots_on_away': 0,
+            'predictions': {}, 'sidelined': [], 'events_summary': {}
+        }
 
-        if row.get('elapsed', 0) > 0:
-            live_comment = ai_comment_live(client, row, detail or {})
-        else:
-            live_comment = heur_live_comment(row, detail or {})
+        # Build temp row for heuristic/AI
+        h, a   = current_score(fixture)
+        minute = extract_minute(fixture)
+        parts  = fixture.get('participants') or []
+        home_p, away_p = get_sides(parts)
+        row_base = find_prematch_row(today_rows, fixture)
+        temp_row = {
+            **row_base,
+            'home_name':      home_p.get('name','Home'),
+            'away_name':      away_p.get('name','Away'),
+            'homeGoalCount':  h,
+            'awayGoalCount':  a,
+            'elapsed':        minute,
+            'status':         'live',
+        }
 
+        live_comment = ai_comment_live(client, temp_row, detail or {}, ctx)
         if live_comment:
-            row['live_comment'] = live_comment
-            row['boss_ai_decision'] = live_comment
             health['live_ai_written'] += 1
 
-        sm_live_out.append(row)
+        slim = build_slim_row(fixture, detail or {}, row_base, ctx, live_comment)
+        sm_live_out.append(slim)
+        log(f'  📡 {slim["home_name"]} {h}-{a} {slim["away_name"]} | {minute}\' | AI: {"✅" if live_comment else "⏭"}')
 
-    fs_today = load_json(FOOTYSTATS_TODAY_JSON, {}).get('data', [])
-    fs_live = [x for x in fs_today if str(x.get('status', '')).lower() in ('live', 'inplay', 'ht') or safe_int(x.get('elapsed'), 0) > 0]
+    # FootyStats live
+    fs_live = [x for x in today_rows
+               if str(x.get('status','')).lower() in ('live','inplay','ht')
+               or si(x.get('elapsed')) > 0]
 
-    save_json(FOOTYSTATS_LIVE_JSON, {'data': fs_live, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
-    save_json(SPORTMONKS_LIVE_JSON, {'data': sm_live_out, 'updated_at': datetime.utcnow().isoformat() + 'Z'})
+    save_json(FOOTYSTATS_LIVE_JSON, {
+        'data': fs_live,
+        'updated_at': datetime.utcnow().isoformat() + 'Z'
+    })
+    save_json(SPORTMONKS_LIVE_JSON, {
+        'matches': sm_live_out,
+        'updated_at': datetime.utcnow().isoformat() + 'Z'
+    })
     save_json(BUNDLE_JSON, bundle)
     health['live_finished_at'] = datetime.utcnow().isoformat() + 'Z'
     save_json(HEALTH_JSON, health)
+
+    log(f'✅ Canlı maç: {len(sm_live_out)} | AI yorum: {health["live_ai_written"]}')
 
 if __name__ == '__main__':
     main()
