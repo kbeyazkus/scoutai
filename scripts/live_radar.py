@@ -22,7 +22,7 @@ BUNDLE_JSON = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
 HEALTH_JSON = os.path.join(DATA_DIR, 'health.json')
 
 SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.0-flash').strip()
+GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 REQUEST_TIMEOUT = 25
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport'
@@ -74,11 +74,11 @@ def init_vertex_client():
                 info = json.load(f)
             project = info.get('project_id')
             if project:
-                return genai.Client(vertexai=True, project=project, location='us-central1')
+                return genai.Client(vertexai=True, project=project, location='global')
         except Exception as e:
             log(f'Credentials read error: {e}')
     project = os.getenv('GCP_PROJECT_ID', '').strip()
-    location = os.getenv('GCP_LOCATION', 'us-central1').strip()
+    location = os.getenv('GCP_LOCATION', 'global').strip()
     if not project:
         return None
     try:
