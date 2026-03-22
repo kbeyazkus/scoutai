@@ -10,7 +10,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 396715,
-        "state_id": 22,
+        "state_id": 5,
         "venue_id": 2006,
         "name": "Vitória vs Mirassol",
         "starting_at": "2026-03-22 21:30:00",
@@ -38,7 +38,7 @@
             "last_played_at": "2026-03-18 23:00:00",
             "meta": {
               "location": "away",
-              "winner": null,
+              "winner": false,
               "position": 16
             }
           },
@@ -57,7 +57,7 @@
             "last_played_at": "2026-03-19 22:00:00",
             "meta": {
               "location": "home",
-              "winner": null,
+              "winner": true,
               "position": 15
             }
           }
@@ -72,7 +72,7 @@
           "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/8/648.png",
           "type": "league",
           "sub_type": "domestic",
-          "last_played_at": "2026-03-22 19:00:00",
+          "last_played_at": "2026-03-22 21:30:00",
           "category": 2,
           "has_jerseys": false,
           "country": {
@@ -116,11 +116,11 @@
           "national_team": false
         },
         "state": {
-          "id": 22,
-          "state": "INPLAY_2ND_HALF",
-          "name": "2nd Half",
-          "short_name": "2nd",
-          "developer_name": "INPLAY_2ND_HALF"
+          "id": 5,
+          "state": "FT",
+          "name": "Full Time",
+          "short_name": "FT",
+          "developer_name": "FT"
         },
         "scores": [
           {
@@ -234,16 +234,16 @@
             "fixture_id": 19622001,
             "type_id": 2,
             "started": 1774219338,
-            "ended": null,
+            "ended": 1774222585,
             "counts_from": 45,
-            "ticking": true,
+            "ticking": false,
             "sort_order": 2,
             "description": "2nd-half",
             "time_added": 7,
             "period_length": 45,
-            "minutes": 91,
-            "seconds": 45,
-            "has_timer": true
+            "minutes": 99,
+            "seconds": 7,
+            "has_timer": false
           }
         ],
         "events": [
@@ -487,16 +487,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 10995304,
@@ -555,16 +555,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 529235,
@@ -623,16 +623,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 29313822,
@@ -691,16 +691,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 460161,
@@ -759,16 +759,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 260853,
@@ -827,16 +827,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 37421968,
@@ -895,16 +895,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 227789,
@@ -963,16 +963,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 219598,
@@ -1031,16 +1031,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 225191,
@@ -1099,16 +1099,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 29313822,
@@ -1167,16 +1167,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 218449,
@@ -1212,7 +1212,7 @@
             "related_player_name": null,
             "result": null,
             "info": null,
-            "addition": "6th Yellowcard",
+            "addition": "7th Yellowcard",
             "minute": 72,
             "extra_minute": null,
             "injured": null,
@@ -1235,16 +1235,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": null
           },
@@ -1284,16 +1284,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 37737209,
@@ -1352,16 +1352,16 @@
               "fixture_id": 19622001,
               "type_id": 2,
               "started": 1774219338,
-              "ended": null,
+              "ended": 1774222585,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 7,
               "period_length": 45,
-              "minutes": 91,
-              "seconds": 45,
-              "has_timer": true
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
             },
             "player": {
               "id": 38210734,
@@ -1381,6 +1381,74 @@
               "height": null,
               "weight": null,
               "date_of_birth": "2002-09-28",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156334690,
+            "fixture_id": 19622001,
+            "period_id": 6867004,
+            "participant_id": 3440,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 470926,
+            "related_player_id": null,
+            "player_name": "Baralhas",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "6th Yellowcard",
+            "minute": 90,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6867004,
+            "rescinded": false,
+            "sort_order": 6,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6867004,
+              "fixture_id": 19622001,
+              "type_id": 2,
+              "started": 1774219338,
+              "ended": 1774222585,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 7,
+              "period_length": 45,
+              "minutes": 99,
+              "seconds": 7,
+              "has_timer": false
+            },
+            "player": {
+              "id": 470926,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": 11188,
+              "position_id": 26,
+              "detailed_position_id": 149,
+              "type_id": 26,
+              "common_name": "G. Baralhas dos Santos",
+              "firstname": "Gabriel",
+              "lastname": "Baralhas dos Santos",
+              "name": "Gabriel Baralhas dos Santos",
+              "display_name": "Baralhas",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/14/470926.png",
+              "height": 178,
+              "weight": 74,
+              "date_of_birth": "1998-10-10",
               "gender": "male"
             }
           }
@@ -1428,7 +1496,7 @@
             "type_id": 98,
             "participant_id": 3440,
             "data": {
-              "value": 16
+              "value": 17
             },
             "location": "home",
             "type": {
@@ -1446,7 +1514,7 @@
             "type_id": 27264,
             "participant_id": 11126,
             "data": {
-              "value": 21
+              "value": 22
             },
             "location": "away",
             "type": {
@@ -1482,7 +1550,7 @@
             "type_id": 109,
             "participant_id": 11126,
             "data": {
-              "value": 10
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -1518,7 +1586,7 @@
             "type_id": 1605,
             "participant_id": 11126,
             "data": {
-              "value": 53
+              "value": 52
             },
             "location": "away",
             "type": {
@@ -1536,7 +1604,7 @@
             "type_id": 53,
             "participant_id": 11126,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -1590,7 +1658,7 @@
             "type_id": 56,
             "participant_id": 3440,
             "data": {
-              "value": 14
+              "value": 15
             },
             "location": "home",
             "type": {
@@ -1608,7 +1676,7 @@
             "type_id": 81,
             "participant_id": 11126,
             "data": {
-              "value": 334
+              "value": 362
             },
             "location": "away",
             "type": {
@@ -1626,7 +1694,7 @@
             "type_id": 82,
             "participant_id": 11126,
             "data": {
-              "value": 82
+              "value": 83
             },
             "location": "away",
             "type": {
@@ -1644,7 +1712,7 @@
             "type_id": 43,
             "participant_id": 11126,
             "data": {
-              "value": 92
+              "value": 100
             },
             "location": "away",
             "type": {
@@ -1662,7 +1730,7 @@
             "type_id": 43,
             "participant_id": 3440,
             "data": {
-              "value": 88
+              "value": 93
             },
             "location": "home",
             "type": {
@@ -1680,7 +1748,7 @@
             "type_id": 98,
             "participant_id": 11126,
             "data": {
-              "value": 22
+              "value": 28
             },
             "location": "away",
             "type": {
@@ -1716,7 +1784,7 @@
             "type_id": 108,
             "participant_id": 11126,
             "data": {
-              "value": 19
+              "value": 21
             },
             "location": "away",
             "type": {
@@ -1752,7 +1820,7 @@
             "type_id": 42,
             "participant_id": 11126,
             "data": {
-              "value": 14
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -1770,7 +1838,7 @@
             "type_id": 42,
             "participant_id": 3440,
             "data": {
-              "value": 12
+              "value": 13
             },
             "location": "home",
             "type": {
@@ -1824,7 +1892,7 @@
             "type_id": 27265,
             "participant_id": 3440,
             "data": {
-              "value": 39
+              "value": 37
             },
             "location": "home",
             "type": {
@@ -1860,7 +1928,7 @@
             "type_id": 34,
             "participant_id": 11126,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -1896,7 +1964,7 @@
             "type_id": 78,
             "participant_id": 3440,
             "data": {
-              "value": 16
+              "value": 20
             },
             "location": "home",
             "type": {
@@ -1950,7 +2018,7 @@
             "type_id": 80,
             "participant_id": 3440,
             "data": {
-              "value": 285
+              "value": 295
             },
             "location": "home",
             "type": {
@@ -1968,7 +2036,7 @@
             "type_id": 57,
             "participant_id": 11126,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -1986,7 +2054,7 @@
             "type_id": 44,
             "participant_id": 11126,
             "data": {
-              "value": 55
+              "value": 62
             },
             "location": "away",
             "type": {
@@ -2004,7 +2072,7 @@
             "type_id": 58,
             "participant_id": 11126,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -2040,7 +2108,7 @@
             "type_id": 99,
             "participant_id": 11126,
             "data": {
-              "value": 5
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -2076,7 +2144,7 @@
             "type_id": 44,
             "participant_id": 3440,
             "data": {
-              "value": 35
+              "value": 40
             },
             "location": "home",
             "type": {
@@ -2112,7 +2180,7 @@
             "type_id": 60,
             "participant_id": 3440,
             "data": {
-              "value": 20
+              "value": 22
             },
             "location": "home",
             "type": {
@@ -2130,7 +2198,7 @@
             "type_id": 117,
             "participant_id": 3440,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -2148,7 +2216,7 @@
             "type_id": 45,
             "participant_id": 11126,
             "data": {
-              "value": 59
+              "value": 60
             },
             "location": "away",
             "type": {
@@ -2166,7 +2234,7 @@
             "type_id": 86,
             "participant_id": 3440,
             "data": {
-              "value": 5
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -2220,7 +2288,7 @@
             "type_id": 117,
             "participant_id": 11126,
             "data": {
-              "value": 11
+              "value": 12
             },
             "location": "away",
             "type": {
@@ -2238,7 +2306,7 @@
             "type_id": 65,
             "participant_id": 11126,
             "data": {
-              "value": 20
+              "value": 24
             },
             "location": "away",
             "type": {
@@ -2274,7 +2342,7 @@
             "type_id": 49,
             "participant_id": 11126,
             "data": {
-              "value": 6
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -2292,7 +2360,7 @@
             "type_id": 62,
             "participant_id": 11126,
             "data": {
-              "value": 42
+              "value": 43
             },
             "location": "away",
             "type": {
@@ -2310,7 +2378,7 @@
             "type_id": 84,
             "participant_id": 3440,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -2382,7 +2450,7 @@
             "type_id": 27265,
             "participant_id": 11126,
             "data": {
-              "value": 50
+              "value": 51
             },
             "location": "away",
             "type": {
@@ -2400,7 +2468,7 @@
             "type_id": 53,
             "participant_id": 3440,
             "data": {
-              "value": 8
+              "value": 9
             },
             "location": "home",
             "type": {
@@ -2526,7 +2594,7 @@
             "type_id": 46,
             "participant_id": 3440,
             "data": {
-              "value": 66
+              "value": 69
             },
             "location": "home",
             "type": {
@@ -2562,7 +2630,7 @@
             "type_id": 46,
             "participant_id": 11126,
             "data": {
-              "value": 64
+              "value": 69
             },
             "location": "away",
             "type": {
@@ -2598,7 +2666,7 @@
             "type_id": 54,
             "participant_id": 3440,
             "data": {
-              "value": 5
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -2634,7 +2702,7 @@
             "type_id": 62,
             "participant_id": 3440,
             "data": {
-              "value": 49
+              "value": 51
             },
             "location": "home",
             "type": {
@@ -2706,7 +2774,7 @@
             "type_id": 50,
             "participant_id": 3440,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -2724,7 +2792,7 @@
             "type_id": 60,
             "participant_id": 11126,
             "data": {
-              "value": 26
+              "value": 27
             },
             "location": "away",
             "type": {
@@ -2742,7 +2810,7 @@
             "type_id": 81,
             "participant_id": 3440,
             "data": {
-              "value": 214
+              "value": 221
             },
             "location": "home",
             "type": {
@@ -2760,7 +2828,7 @@
             "type_id": 45,
             "participant_id": 3440,
             "data": {
-              "value": 41
+              "value": 40
             },
             "location": "home",
             "type": {
@@ -2778,7 +2846,7 @@
             "type_id": 80,
             "participant_id": 11126,
             "data": {
-              "value": 407
+              "value": 437
             },
             "location": "away",
             "type": {
@@ -5567,7 +5635,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T23:29:03.903263Z"
+      "fetched_at": "2026-03-22T23:36:42.403252Z"
     },
     "19622003": {
       "detail": {
@@ -5583,7 +5651,7 @@
         "venue_id": 308342,
         "name": "Internacional vs Chapecoense",
         "starting_at": "2026-03-22 21:30:00",
-        "result_info": null,
+        "result_info": "Internacional won after full-time.",
         "leg": "1/1",
         "details": null,
         "length": 90,
@@ -5604,7 +5672,7 @@
             "founded": 1909,
             "type": "domestic",
             "placeholder": false,
-            "last_played_at": "2026-03-19 00:30:00",
+            "last_played_at": "2026-03-22 21:30:00",
             "meta": {
               "location": "home",
               "winner": true,
@@ -5623,7 +5691,7 @@
             "founded": 1973,
             "type": "domestic",
             "placeholder": false,
-            "last_played_at": "2026-03-20 00:30:00",
+            "last_played_at": "2026-03-22 21:30:00",
             "meta": {
               "location": "away",
               "winner": false,
@@ -5641,7 +5709,7 @@
           "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/8/648.png",
           "type": "league",
           "sub_type": "domestic",
-          "last_played_at": "2026-03-22 19:00:00",
+          "last_played_at": "2026-03-22 21:30:00",
           "category": 2,
           "has_jerseys": false,
           "country": {
@@ -5803,15 +5871,15 @@
             "fixture_id": 19622003,
             "type_id": 2,
             "started": 1774219049,
-            "ended": 1774221749,
+            "ended": 1774222131,
             "counts_from": 45,
             "ticking": false,
             "sort_order": 2,
             "description": "2nd-half",
             "time_added": 6,
             "period_length": 45,
-            "minutes": 90,
-            "seconds": 0,
+            "minutes": 96,
+            "seconds": 22,
             "has_timer": false
           }
         ],
@@ -5852,15 +5920,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -5988,15 +6056,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6056,15 +6124,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6124,15 +6192,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6192,15 +6260,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6260,15 +6328,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6328,15 +6396,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6396,15 +6464,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6464,15 +6532,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6532,15 +6600,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6600,15 +6668,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6668,15 +6736,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6736,15 +6804,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": null
@@ -6785,15 +6853,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6853,15 +6921,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6921,15 +6989,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -6989,15 +7057,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -7057,15 +7125,15 @@
               "fixture_id": 19622003,
               "type_id": 2,
               "started": 1774219049,
-              "ended": 1774221749,
+              "ended": 1774222131,
               "counts_from": 45,
               "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
               "time_added": 6,
               "period_length": 45,
-              "minutes": 90,
-              "seconds": 0,
+              "minutes": 96,
+              "seconds": 22,
               "has_timer": false
             },
             "player": {
@@ -7205,7 +7273,7 @@
             "type_id": 81,
             "participant_id": 2696,
             "data": {
-              "value": 327
+              "value": 330
             },
             "location": "home",
             "type": {
@@ -7331,7 +7399,7 @@
             "type_id": 56,
             "participant_id": 2696,
             "data": {
-              "value": 15
+              "value": 16
             },
             "location": "home",
             "type": {
@@ -7349,7 +7417,7 @@
             "type_id": 56,
             "participant_id": 710,
             "data": {
-              "value": 6
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -7403,7 +7471,7 @@
             "type_id": 100,
             "participant_id": 2696,
             "data": {
-              "value": 13
+              "value": 14
             },
             "location": "home",
             "type": {
@@ -8177,7 +8245,7 @@
             "type_id": 46,
             "participant_id": 710,
             "data": {
-              "value": 70
+              "value": 71
             },
             "location": "away",
             "type": {
@@ -8195,7 +8263,7 @@
             "type_id": 46,
             "participant_id": 2696,
             "data": {
-              "value": 67
+              "value": 69
             },
             "location": "home",
             "type": {
@@ -8231,7 +8299,7 @@
             "type_id": 59,
             "participant_id": 710,
             "data": {
-              "value": 6
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -8249,7 +8317,7 @@
             "type_id": 54,
             "participant_id": 2696,
             "data": {
-              "value": 11
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -8483,7 +8551,7 @@
             "type_id": 78,
             "participant_id": 2696,
             "data": {
-              "value": 18
+              "value": 19
             },
             "location": "home",
             "type": {
@@ -8501,7 +8569,7 @@
             "type_id": 80,
             "participant_id": 2696,
             "data": {
-              "value": 399
+              "value": 404
             },
             "location": "home",
             "type": {
@@ -8519,7 +8587,7 @@
             "type_id": 80,
             "participant_id": 710,
             "data": {
-              "value": 431
+              "value": 432
             },
             "location": "away",
             "type": {
@@ -10700,11 +10768,11 @@
           "metric": "celcius",
           "current": {
             "temp": 23.43,
-            "wind": 1.54,
+            "wind": 2.57,
             "clouds": null,
             "humidity": "87%",
             "pressure": 1013,
-            "direction": 160,
+            "direction": 130,
             "feels_like": 24.1,
             "description": "overcast clouds"
           }
@@ -11248,7 +11316,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T23:28:53.602103Z"
+      "fetched_at": "2026-03-22T23:36:53.080905Z"
     },
     "19502682": {
       "detail": {
@@ -16774,7 +16842,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 396715,
-        "state_id": 1,
+        "state_id": 2,
         "venue_id": 10494,
         "name": "Corinthians vs Flamengo",
         "starting_at": "2026-03-22 23:30:00",
@@ -16836,7 +16904,7 @@
           "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/8/648.png",
           "type": "league",
           "sub_type": "domestic",
-          "last_played_at": "2026-03-22 19:00:00",
+          "last_played_at": "2026-03-22 21:30:00",
           "category": 2,
           "has_jerseys": false,
           "country": {
@@ -16880,11 +16948,11 @@
           "national_team": false
         },
         "state": {
-          "id": 1,
-          "state": "NS",
-          "name": "Not Started",
-          "short_name": "NS",
-          "developer_name": "NS"
+          "id": 2,
+          "state": "INPLAY_1ST_HALF",
+          "name": "1st Half",
+          "short_name": "1st",
+          "developer_name": "INPLAY_1ST_HALF"
         },
         "scores": [
           {
@@ -16893,43 +16961,10 @@
             "type_id": 2,
             "participant_id": 1024,
             "score": {
-              "goals": 0,
+              "goals": 1,
               "participant": "away"
             },
             "description": "2ND_HALF"
-          },
-          {
-            "id": 19674721,
-            "fixture_id": 19622006,
-            "type_id": 1,
-            "participant_id": 303,
-            "score": {
-              "goals": 0,
-              "participant": "home"
-            },
-            "description": "1ST_HALF"
-          },
-          {
-            "id": 19674718,
-            "fixture_id": 19622006,
-            "type_id": 1525,
-            "participant_id": 1024,
-            "score": {
-              "goals": 0,
-              "participant": "away"
-            },
-            "description": "CURRENT"
-          },
-          {
-            "id": 19674720,
-            "fixture_id": 19622006,
-            "type_id": 1,
-            "participant_id": 1024,
-            "score": {
-              "goals": 0,
-              "participant": "away"
-            },
-            "description": "1ST_HALF"
           },
           {
             "id": 19674719,
@@ -16952,18 +16987,439 @@
               "participant": "home"
             },
             "description": "2ND_HALF"
+          },
+          {
+            "id": 19674718,
+            "fixture_id": 19622006,
+            "type_id": 1525,
+            "participant_id": 1024,
+            "score": {
+              "goals": 1,
+              "participant": "away"
+            },
+            "description": "CURRENT"
+          },
+          {
+            "id": 19674721,
+            "fixture_id": 19622006,
+            "type_id": 1,
+            "participant_id": 303,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+            "id": 19674720,
+            "fixture_id": 19622006,
+            "type_id": 1,
+            "participant_id": 1024,
+            "score": {
+              "goals": 1,
+              "participant": "away"
+            },
+            "description": "1ST_HALF"
           }
         ],
-        "periods": [],
-        "events": [],
+        "periods": [
+          {
+            "id": 6867036,
+            "fixture_id": 19622006,
+            "type_id": 1,
+            "started": 1774222284,
+            "ended": null,
+            "counts_from": 0,
+            "ticking": true,
+            "sort_order": 1,
+            "description": "1st-half",
+            "time_added": null,
+            "period_length": 45,
+            "minutes": 5,
+            "seconds": 34,
+            "has_timer": true
+          }
+        ],
+        "events": [
+          {
+            "id": 156334691,
+            "fixture_id": 19622006,
+            "period_id": 6867036,
+            "participant_id": 1024,
+            "type_id": 14,
+            "section": "event",
+            "player_id": 220052,
+            "related_player_id": 219859,
+            "player_name": "Lucas Paquetá",
+            "related_player_name": "Pedro",
+            "result": "0-1",
+            "info": "Left foot shot",
+            "addition": "1st Goal",
+            "minute": 3,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": 1521,
+            "detailed_period_id": 6867036,
+            "rescinded": null,
+            "sort_order": 1,
+            "type": {
+              "id": 14,
+              "name": "Goal",
+              "code": "goal",
+              "developer_name": "GOAL",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6867036,
+              "fixture_id": 19622006,
+              "type_id": 1,
+              "started": 1774222284,
+              "ended": null,
+              "counts_from": 0,
+              "ticking": true,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 5,
+              "seconds": 34,
+              "has_timer": true
+            },
+            "player": {
+              "id": 220052,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": 74558,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": 26,
+              "common_name": "L. Tolentino Coelho de Lima",
+              "firstname": "Lucas",
+              "lastname": "Tolentino Coelho de Lima",
+              "name": "Lucas Tolentino Coelho de Lima",
+              "display_name": "Lucas Paquetá",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/20/220052.png",
+              "height": 180,
+              "weight": 72,
+              "date_of_birth": "1997-08-27",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156334703,
+            "fixture_id": 19622006,
+            "period_id": 6867036,
+            "participant_id": 1024,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 129725,
+            "related_player_id": null,
+            "player_name": "Alex Sandro",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "1st Yellowcard",
+            "minute": 2,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6867036,
+            "rescinded": false,
+            "sort_order": 1,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6867036,
+              "fixture_id": 19622006,
+              "type_id": 1,
+              "started": 1774222284,
+              "ended": null,
+              "counts_from": 0,
+              "ticking": true,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 5,
+              "seconds": 34,
+              "has_timer": true
+            },
+            "player": {
+              "id": 129725,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": 16017,
+              "position_id": 25,
+              "detailed_position_id": 155,
+              "type_id": 25,
+              "common_name": "A. Lobo Silva",
+              "firstname": "Alex Sandro",
+              "lastname": "Lobo Silva",
+              "name": "Alex Sandro Lobo Silva",
+              "display_name": "Alex Sandro",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/29/129725.png",
+              "height": 181,
+              "weight": 80,
+              "date_of_birth": "1991-01-26",
+              "gender": "male"
+            }
+          }
+        ],
         "statistics": [
+          {
+            "id": 814380636,
+            "fixture_id": 19622006,
+            "type_id": 580,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814394698,
+            "fixture_id": 19622006,
+            "type_id": 117,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814394699,
+            "fixture_id": 19622006,
+            "type_id": 117,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376481,
+            "fixture_id": 19622006,
+            "type_id": 56,
+            "participant_id": 303,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814375033,
+            "fixture_id": 19622006,
+            "type_id": 43,
+            "participant_id": 303,
+            "data": {
+              "value": 6
+            },
+            "location": "home",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814375034,
+            "fixture_id": 19622006,
+            "type_id": 100,
+            "participant_id": 1024,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814376482,
+            "fixture_id": 19622006,
+            "type_id": 60,
+            "participant_id": 1024,
+            "data": {
+              "value": 4
+            },
+            "location": "away",
+            "type": {
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376486,
+            "fixture_id": 19622006,
+            "type_id": 84,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376490,
+            "fixture_id": 19622006,
+            "type_id": 27264,
+            "participant_id": 1024,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 27264,
+              "name": "Successful Long Passes",
+              "code": "successful-long-passes",
+              "developer_name": "SUCCESSFUL_LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376493,
+            "fixture_id": 19622006,
+            "type_id": 108,
+            "participant_id": 303,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814373586,
+            "fixture_id": 19622006,
+            "type_id": 82,
+            "participant_id": 1024,
+            "data": {
+              "value": 83
+            },
+            "location": "away",
+            "type": {
+              "id": 82,
+              "name": "Successful Passes Percentage",
+              "code": "successful-passes-percentage",
+              "developer_name": "SUCCESSFUL_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376488,
+            "fixture_id": 19622006,
+            "type_id": 62,
+            "participant_id": 1024,
+            "data": {
+              "value": 3
+            },
+            "location": "away",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376499,
+            "fixture_id": 19622006,
+            "type_id": 1605,
+            "participant_id": 303,
+            "data": {
+              "value": 100
+            },
+            "location": "home",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
           {
             "id": 814361929,
             "fixture_id": 19622006,
             "type_id": 45,
             "participant_id": 303,
             "data": {
-              "value": 50
+              "value": 42
             },
             "location": "home",
             "type": {
@@ -16981,7 +17437,7 @@
             "type_id": 45,
             "participant_id": 1024,
             "data": {
-              "value": 50
+              "value": 58
             },
             "location": "away",
             "type": {
@@ -16991,6 +17447,672 @@
               "developer_name": "BALL_POSSESSION",
               "model_type": "statistic",
               "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814375394,
+            "fixture_id": 19622006,
+            "type_id": 44,
+            "participant_id": 1024,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814376483,
+            "fixture_id": 19622006,
+            "type_id": 60,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376489,
+            "fixture_id": 19622006,
+            "type_id": 62,
+            "participant_id": 303,
+            "data": {
+              "value": 5
+            },
+            "location": "home",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376491,
+            "fixture_id": 19622006,
+            "type_id": 27264,
+            "participant_id": 303,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 27264,
+              "name": "Successful Long Passes",
+              "code": "successful-long-passes",
+              "developer_name": "SUCCESSFUL_LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814379392,
+            "fixture_id": 19622006,
+            "type_id": 42,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814373582,
+            "fixture_id": 19622006,
+            "type_id": 81,
+            "participant_id": 1024,
+            "data": {
+              "value": 20
+            },
+            "location": "away",
+            "type": {
+              "id": 81,
+              "name": "Successful Passes",
+              "code": "successful-passes",
+              "developer_name": "SUCCESSFUL_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814373584,
+            "fixture_id": 19622006,
+            "type_id": 80,
+            "participant_id": 1024,
+            "data": {
+              "value": 24
+            },
+            "location": "away",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814373585,
+            "fixture_id": 19622006,
+            "type_id": 80,
+            "participant_id": 303,
+            "data": {
+              "value": 17
+            },
+            "location": "home",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814373587,
+            "fixture_id": 19622006,
+            "type_id": 82,
+            "participant_id": 303,
+            "data": {
+              "value": 82
+            },
+            "location": "home",
+            "type": {
+              "id": 82,
+              "name": "Successful Passes Percentage",
+              "code": "successful-passes-percentage",
+              "developer_name": "SUCCESSFUL_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376479,
+            "fixture_id": 19622006,
+            "type_id": 55,
+            "participant_id": 303,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814376480,
+            "fixture_id": 19622006,
+            "type_id": 56,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814376485,
+            "fixture_id": 19622006,
+            "type_id": 78,
+            "participant_id": 303,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814373583,
+            "fixture_id": 19622006,
+            "type_id": 81,
+            "participant_id": 303,
+            "data": {
+              "value": 14
+            },
+            "location": "home",
+            "type": {
+              "id": 81,
+              "name": "Successful Passes",
+              "code": "successful-passes",
+              "developer_name": "SUCCESSFUL_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814375032,
+            "fixture_id": 19622006,
+            "type_id": 43,
+            "participant_id": 1024,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814376478,
+            "fixture_id": 19622006,
+            "type_id": 55,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814376484,
+            "fixture_id": 19622006,
+            "type_id": 78,
+            "participant_id": 1024,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814376492,
+            "fixture_id": 19622006,
+            "type_id": 108,
+            "participant_id": 1024,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814376494,
+            "fixture_id": 19622006,
+            "type_id": 109,
+            "participant_id": 1024,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814376495,
+            "fixture_id": 19622006,
+            "type_id": 109,
+            "participant_id": 303,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814376496,
+            "fixture_id": 19622006,
+            "type_id": 27265,
+            "participant_id": 1024,
+            "data": {
+              "value": 67
+            },
+            "location": "away",
+            "type": {
+              "id": 27265,
+              "name": "Successful Long Passes Percentage",
+              "code": "successful-long-passes-percentage",
+              "developer_name": "SUCCESSFUL_LONG_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376497,
+            "fixture_id": 19622006,
+            "type_id": 27265,
+            "participant_id": 303,
+            "data": {
+              "value": 60
+            },
+            "location": "home",
+            "type": {
+              "id": 27265,
+              "name": "Successful Long Passes Percentage",
+              "code": "successful-long-passes-percentage",
+              "developer_name": "SUCCESSFUL_LONG_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814375035,
+            "fixture_id": 19622006,
+            "type_id": 100,
+            "participant_id": 303,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814375395,
+            "fixture_id": 19622006,
+            "type_id": 44,
+            "participant_id": 303,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814376487,
+            "fixture_id": 19622006,
+            "type_id": 84,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 814376498,
+            "fixture_id": 19622006,
+            "type_id": 1605,
+            "participant_id": 1024,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814379393,
+            "fixture_id": 19622006,
+            "type_id": 42,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814380112,
+            "fixture_id": 19622006,
+            "type_id": 46,
+            "participant_id": 1024,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 46,
+              "name": "Ball Safe",
+              "code": "ball-safe",
+              "developer_name": "BALL_SAFE",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814380113,
+            "fixture_id": 19622006,
+            "type_id": 46,
+            "participant_id": 303,
+            "data": {
+              "value": 4
+            },
+            "location": "home",
+            "type": {
+              "id": 46,
+              "name": "Ball Safe",
+              "code": "ball-safe",
+              "developer_name": "BALL_SAFE",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 814379394,
+            "fixture_id": 19622006,
+            "type_id": 49,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814379395,
+            "fixture_id": 19622006,
+            "type_id": 49,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814377950,
+            "fixture_id": 19622006,
+            "type_id": 52,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814377951,
+            "fixture_id": 19622006,
+            "type_id": 52,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814380114,
+            "fixture_id": 19622006,
+            "type_id": 54,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 54,
+              "name": "Goal Attempts",
+              "code": "goal-attempts",
+              "developer_name": "GOAL_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814380115,
+            "fixture_id": 19622006,
+            "type_id": 54,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 54,
+              "name": "Goal Attempts",
+              "code": "goal-attempts",
+              "developer_name": "GOAL_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814379390,
+            "fixture_id": 19622006,
+            "type_id": 86,
+            "participant_id": 1024,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814379391,
+            "fixture_id": 19622006,
+            "type_id": 86,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 814380637,
+            "fixture_id": 19622006,
+            "type_id": 580,
+            "participant_id": 303,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
             }
           }
         ],
@@ -19064,9 +20186,18 @@
           "clouds": "18%",
           "description": "few clouds",
           "icon": "https://cdn.sportmonks.com/images/weather/02d.png",
-          "type": "forecast",
+          "type": "actual",
           "metric": "celcius",
-          "current": null
+          "current": {
+            "temp": 23.86,
+            "wind": 2.57,
+            "clouds": null,
+            "humidity": "60%",
+            "pressure": 1014,
+            "direction": 130,
+            "feels_like": 23.87,
+            "description": "clear sky"
+          }
         },
         "predictions": [
           {
@@ -19586,7 +20717,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-22T23:29:03.306458Z"
+      "fetched_at": "2026-03-22T23:36:58.788779Z"
     }
   }
 }
