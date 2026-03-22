@@ -47,7 +47,7 @@ jobs:
       - name: Run live radar
         env:
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
-          GEMINI_MODEL: "gemini-2.5-flash"
+          GEMINI_MODEL: "gemini-2.0-flash"
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_LOCATION: "us-central1"
           GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
@@ -56,7 +56,7 @@ jobs:
       # STEP 3: AI prematch yorumları yaz (~3-5 dk, max 40 maç/run)
       - name: Run AI comments
         env:
-          GEMINI_MODEL: "gemini-2.5-flash"
+          GEMINI_MODEL: "gemini-2.0-flash"
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_LOCATION: "us-central1"
           GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
