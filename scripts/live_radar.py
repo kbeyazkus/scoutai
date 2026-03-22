@@ -22,7 +22,7 @@ BUNDLE_JSON = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
 HEALTH_JSON = os.path.join(DATA_DIR, 'health.json')
 
 SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
+GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.0-flash').strip()
 REQUEST_TIMEOUT = 25
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport'
@@ -196,10 +196,17 @@ def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
     heuristic = heur_live_comment(row, detail)
     if client is None:
         return heuristic
+
+    minute = safe_int(row.get('elapsed'), 0)
+
+    # FIX 2: Only call AI for matches 65+ minutes — saves API quota
+    if minute < 65:
+        return heuristic
+
     payload = {
         'home': row.get('home_name'),
         'away': row.get('away_name'),
-        'minute': safe_int(row.get('elapsed'), 0),
+        'minute': minute,
         'score_home': safe_int(row.get('homeGoalCount'), 0),
         'score_away': safe_int(row.get('awayGoalCount'), 0),
         'pressure': safe_float(row.get('pressure_score'), 0),
@@ -216,13 +223,25 @@ def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
         '- Never use emojis, flattery or drama.',
         json.dumps(payload, ensure_ascii=False)
     ])
-    try:
-        response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
-        text = (getattr(response, 'text', '') or '').strip()
-        return text or heuristic
-    except Exception as e:
-        log(f'Live AI hatası: {e}')
-        return heuristic
+
+    # FIX 1: Retry with exponential backoff on 429
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
+            text = (getattr(response, 'text', '') or '').strip()
+            return text[:520].rsplit(' ', 1)[0] if len(text) > 520 else (text or heuristic)
+        except Exception as e:
+            err = str(e)
+            if '429' in err or 'RESOURCE_EXHAUSTED' in err:
+                wait = 10 * (2 ** attempt)  # 10s, 20s, 40s
+                log(f'⚠️  429 rate limit — waiting {wait}s (attempt {attempt+1}/{max_retries})')
+                time.sleep(wait)
+            else:
+                log(f'Live AI error ({row.get("home_name")} - {row.get("away_name")}): {e}')
+                return heuristic
+    log(f'⚠️  AI skipped after {max_retries} retries — using heuristic')
+    return heuristic
 
 def fetch_live_rows() -> List[Dict[str, Any]]:
     url = f'https://api.sportmonks.com/v3/football/livescores/inplay?api_token={SM_KEY}&include={LIVE_INCLUDE}'
