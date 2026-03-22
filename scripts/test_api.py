@@ -2,14 +2,13 @@ import requests
 
 API_KEY = "CpJnwdzG4RHQIs37bRQehp2iET5I7fQLoOCUMkT7qxNF78FABDIciJ7ka6o6"
 FIXTURE_ID = "19622007"
+# 27 başlığın teknik karşılıkları
 INCLUDES = [
-    "participants", "league.country", "venue", "state", "scores", 
-    "periods", "events.type", "events.period", "events.player", 
-    "statistics.type", "lineups.player", "lineups.type", 
-    "lineups.details.type", "metadata.type", "coaches", 
-    "sidelined.sideline.player", "sidelined.sideline.type", 
-    "weatherReport", "comments", "pressure.participant", 
-    "trends.type", "trends.participant"
+    "participants", "scores", "events", "lineups", "odds", "statistics",
+    "predictions", "trends", "pressure", "standings", "topscorers",
+    "tvstations", "sidelined", "referees", "comments", "venue", "coaches",
+    "periods", "league", "season", "form", "groupstandings", "news", 
+    "metadata", "state", "weatherReport", "probabilities"
 ]
 
 for inc in INCLUDES:
@@ -17,5 +16,5 @@ for inc in INCLUDES:
     try:
         r = requests.get(url, timeout=10)
         print(f"[{r.status_code}] {inc}")
-    except Exception as e:
+    except:
         print(f"[HATA] {inc}")
