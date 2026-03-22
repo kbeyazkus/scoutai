@@ -25,7 +25,7 @@ SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
 GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-3-flash').strip()
 REQUEST_TIMEOUT = 25
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
-DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport;comments;pressure.participant;trends.type;trends.participant'
+DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport'
 DETAIL_TTL_SEC = 120
 
 def log(msg: str):
