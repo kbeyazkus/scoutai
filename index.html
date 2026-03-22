@@ -408,34 +408,36 @@ async function loadData(){
   const smLiveRaw =smLiveR.status==='fulfilled'?smLiveR.value:{};
   const smLive    =tag(smLiveRaw.matches||smLiveRaw.data||[],'sportmonks');
   state.bundle=bundleR.status==='fulfilled'?bundleR.value:{fixtures:{}};
-  // Build score map: SM ID + name-based (fuzzy) for robust matching
-  const scoreMapById={}, scoreMapByName={};
+  // Build score map keyed by clean SM ID (strip 'sm-' prefix)
+  // SM live row id = "sm-12345", source_ids.sportmonks = "12345"
+  // SM today row id = "sm-12345", source_ids.sportmonks = "12345"
+  // → always match on pure numeric SM ID
+  const liveById={};
   for(const m of smLive){
-    const smid=String(m?.source_ids?.sportmonks||m?.sportmonks_id||m.id||'').replace('sm-','');
-    if(smid) scoreMapById[smid]=m;
-    const k=((m.home_name||'')+'_'+(m.away_name||'')).toLowerCase().replace(/[^a-z0-9_]/g,'');
-    scoreMapByName[k]=m;
+    const rawId = String(m?.source_ids?.sportmonks || m?.id || '').replace(/^sm-/,'').trim();
+    if(rawId) liveById[rawId] = m;
   }
-  function fuzzyMatchLive(r){
-    // 1. Try SM ID match
-    const smid=String(r?.source_ids?.sportmonks||r?.sportmonks_id||'').replace('sm-','');
-    if(smid && scoreMapById[smid]) return scoreMapById[smid];
-    // 2. Try exact name match
-    const k=((r.home_name||'')+'_'+(r.away_name||'')).toLowerCase().replace(/[^a-z0-9_]/g,'');
-    if(scoreMapByName[k]) return scoreMapByName[k];
-    // 3. Try partial name match (first 6 chars)
-    const hk=(r.home_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
-    const ak=(r.away_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
-    if(hk && ak){
-      for(const[,m] of Object.entries(scoreMapById)){
-        const mh=(m.home_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
-        const ma=(m.away_name||'').toLowerCase().slice(0,6).replace(/[^a-z]/g,'');
-        if(mh===hk && ma===ak) return m;
-      }
-    }
-    return null;
+  function findLive(r){
+    const rawId = String(r?.source_ids?.sportmonks || r?.id || '').replace(/^sm-/,'').trim();
+    return rawId ? (liveById[rawId] || null) : null;
   }
-  function overlayLive(rows){ return rows.map(r=>{ const lm=fuzzyMatchLive(r); if(!lm) return r; return {...r,_h:lm.homeGoalCount??r.homeGoalCount,_a:lm.awayGoalCount??r.awayGoalCount,_min:lm.elapsed??r.elapsed,status:'live',elapsed:lm.elapsed??r.elapsed,live_comment:r.live_comment||lm.live_comment||lm.boss_ai_decision||'',boss_ai_decision:r.boss_ai_decision||lm.boss_ai_decision||''}; }); }
+  function overlayLive(rows){
+    return rows.map(r=>{
+      const lm = findLive(r);
+      if(!lm) return r;
+      return {
+        ...r,
+        _h: lm.homeGoalCount ?? r.homeGoalCount,
+        _a: lm.awayGoalCount ?? r.awayGoalCount,
+        _min: lm.elapsed ?? r.elapsed,
+        status: 'live',
+        elapsed: lm.elapsed ?? r.elapsed,
+        live_comment: r.live_comment || lm.live_comment || lm.boss_ai_decision || '',
+        boss_ai_decision: r.boss_ai_decision || lm.boss_ai_decision || '',
+        ai_comment: r.ai_comment || lm.ai_comment || '',
+      };
+    });
+  }
   state.fs.today   =dedupeById(overlayLive(fsToday));
   state.fs.tomorrow=dedupeById(fsTomorrow);
   state.fs.live    =dedupeById([...fsLive.filter(isLive),...overlayLive(fsToday).filter(isLive)]);
