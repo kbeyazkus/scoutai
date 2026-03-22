@@ -405,12 +405,6 @@ def main():
     today_str    = iso_date(0)
     tomorrow_str = iso_date(1)
 
-    # FIX 4: Prune match_map — only keep SM IDs seen today/tomorrow to prevent bloat
-    match_map_full = load_json(MATCH_MAP_JSON, {'sportmonks_to_footystats': {}})
-    match_map = match_map_full.get('sportmonks_to_footystats', {})
-    active_sm_ids = {str(s.get('id', '')) for s in sm_today_raw + sm_tomorrow_raw if s.get('id')}
-    match_map = {k: v for k, v in match_map.items() if k in active_sm_ids}
-
     # ── FootyStats verileri ──────────────────────────────────────────────────
     fs_today_raw    = fetch_footystats_for_date(today_str)
     fs_tomorrow_raw = fetch_footystats_for_date(tomorrow_str)
@@ -418,6 +412,12 @@ def main():
     # ── Sportmonks verileri ──────────────────────────────────────────────────
     sm_today_raw    = fetch_sportmonks_for_date(today_str)
     sm_tomorrow_raw = fetch_sportmonks_for_date(tomorrow_str)
+
+    # FIX 4: Prune match_map — only keep SM IDs seen today/tomorrow to prevent bloat
+    match_map_full = load_json(MATCH_MAP_JSON, {'sportmonks_to_footystats': {}})
+    match_map = match_map_full.get('sportmonks_to_footystats', {})
+    active_sm_ids = {str(s.get('id', '')) for s in sm_today_raw + sm_tomorrow_raw if s.get('id')}
+    match_map = {k: v for k, v in match_map.items() if k in active_sm_ids}
 
     # ── FIX 6: SM → FS eşleştirmeli FootyStats normalize ───────────────────
     fs_today: List[Dict] = []
