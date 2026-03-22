@@ -22,16 +22,14 @@ BUNDLE_JSON = os.path.join(DATA_DIR, 'sportmonks_bundle.json')
 HEALTH_JSON = os.path.join(DATA_DIR, 'health.json')
 
 SM_KEY = os.getenv('SPORTMONKS_KEY', '').strip()
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
+GEMINI_MODEL = "gemini-2.5-flash"
 REQUEST_TIMEOUT = 25
 LIVE_INCLUDE = 'participants;scores;periods;events;league.country;round;state'
 DETAIL_INCLUDE = 'participants;league.country;venue;state;scores;periods;events.type;events.period;events.player;statistics.type;lineups.player;lineups.type;lineups.details.type;metadata.type;coaches;sidelined.sideline.player;sidelined.sideline.type;weatherReport;comments;pressure.participant;trends.type;trends.participant'
 DETAIL_TTL_SEC = 120
 
-
 def log(msg: str):
     print(msg, flush=True)
-
 
 def load_json(path: str, default: Any):
     try:
@@ -40,50 +38,43 @@ def load_json(path: str, default: Any):
     except Exception:
         return default
 
-
 def save_json(path: str, data: Any):
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-
 def safe_int(v: Any, default: int = 0) -> int:
     try:
-        if v in (None, ''):
-            return default
+        if v in (None, ''): return default
         return int(float(v))
-    except Exception:
-        return default
-
+    except Exception: return default
 
 def safe_float(v: Any, default: float = 0.0) -> float:
     try:
-        if v in (None, ''):
-            return default
+        if v in (None, ''): return default
         return float(v)
-    except Exception:
-        return default
-
+    except Exception: return default
 
 def fetch_json(url: str) -> Dict[str, Any]:
-    r = requests.get(url, timeout=REQUEST_TIMEOUT)
-    r.raise_for_status()
-    return r.json()
-
+    try:
+        r = requests.get(url, timeout=REQUEST_TIMEOUT)
+        r.raise_for_status()
+        return r.json()
+    except Exception as e:
+        log(f"API Hatasi: {e}")
+        return {}
 
 def init_vertex_client():
     if genai is None:
         return None
-    gac = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
-    if not gac or not os.path.exists(gac):
+    project = os.getenv('GCP_PROJECT_ID')
+    location = os.getenv('GCP_LOCATION', 'us-central1')
+    if not project:
         return None
     try:
-        with open(gac, 'r', encoding='utf-8') as f:
-            info = json.load(f)
-        return genai.Client(vertexai=True, project=info['project_id'], location='us-central1')
+        return genai.Client(vertexai=True, project=project, location=location)
     except Exception as e:
-        log(f'⚠️ Gemini başlatılamadı: {e}')
+        log(f'Vertex AI Hatasi: {e}')
         return None
-
 
 def clean_name(name: str) -> str:
     n = unidecode(str(name or '')).lower()
@@ -92,12 +83,9 @@ def clean_name(name: str) -> str:
         n = n.replace(token, '')
     return n
 
-
 def ratio(a: str, b: str) -> float:
-    if not a or not b:
-        return 0.0
-    if a == b:
-        return 1.0
+    if not a or not b: return 0.0
+    if a == b: return 1.0
     if a in b or b in a:
         shorter = min(len(a), len(b))
         longer = max(len(a), len(b))
@@ -105,21 +93,15 @@ def ratio(a: str, b: str) -> float:
     same = sum(1 for x, y in zip(a, b) if x == y)
     return same / max(len(a), len(b), 1)
 
-
 def get_side_participants(parts: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     home, away = {}, {}
     for p in parts:
         loc = str((p.get('meta') or {}).get('location') or '').lower()
-        if loc == 'home':
-            home = p
-        elif loc == 'away':
-            away = p
-    if not home and parts:
-        home = parts[0]
-    if not away and len(parts) > 1:
-        away = parts[1]
+        if loc == 'home': home = p
+        elif loc == 'away': away = p
+    if not home and parts: home = parts[0]
+    if not away and len(parts) > 1: away = parts[1]
     return home, away
-
 
 def current_score(fixture: Dict[str, Any]) -> Tuple[int, int]:
     scores = fixture.get('scores') or []
@@ -128,10 +110,8 @@ def current_score(fixture: Dict[str, Any]) -> Tuple[int, int]:
         if str(s.get('description') or '').upper() == 'CURRENT':
             participant = (s.get('score') or {}).get('participant')
             goals = safe_int((s.get('score') or {}).get('goals'), 0)
-            if participant == 'home':
-                home = goals
-            elif participant == 'away':
-                away = goals
+            if participant == 'home': home = goals
+            elif participant == 'away': away = goals
     if home is not None and away is not None:
         return home, away
     latest = None
@@ -144,16 +124,13 @@ def current_score(fixture: Dict[str, Any]) -> Tuple[int, int]:
             latest = result
     if latest:
         m = re.match(r'^\s*(\d+)\s*-\s*(\d+)\s*$', str(latest))
-        if m:
-            return int(m.group(1)), int(m.group(2))
+        if m: return int(m.group(1)), int(m.group(2))
     return 0, 0
-
 
 def extract_minute(fixture: Dict[str, Any]) -> int:
     state = fixture.get('state') or {}
     minute = safe_int(state.get('minute'), 0)
-    if minute:
-        return minute
+    if minute: return minute
     best = 0
     for p in fixture.get('periods') or []:
         best = max(best, safe_int(p.get('minutes'), 0), safe_int(p.get('minute'), 0))
@@ -161,7 +138,6 @@ def extract_minute(fixture: Dict[str, Any]) -> int:
         total = safe_int(ev.get('minute'), 0) + (1 if safe_int(ev.get('extra_minute'), 0) > 0 else 0)
         best = max(best, total)
     return best
-
 
 def summarize_predictions(predictions: List[Dict[str, Any]]) -> Dict[str, float]:
     out = {'over25': 0.0, 'btts': 0.0}
@@ -174,7 +150,6 @@ def summarize_predictions(predictions: List[Dict[str, Any]]) -> Dict[str, float]
             out['btts'] = safe_float(vals.get('yes'))
     return out
 
-
 def heur_live_comment(row: Dict[str, Any], detail: Dict[str, Any]) -> str:
     h = safe_int(row.get('homeGoalCount'), 0)
     a = safe_int(row.get('awayGoalCount'), 0)
@@ -185,27 +160,26 @@ def heur_live_comment(row: Dict[str, Any], detail: Dict[str, Any]) -> str:
     for st in detail.get('statistics') or []:
         dev = str((st.get('type') or {}).get('developer_name') or '').upper()
         if dev == 'SHOTS_ON_TARGET':
-            if st.get('location') == 'home':
-                shots_home = safe_int((st.get('data') or {}).get('value'))
-            elif st.get('location') == 'away':
-                shots_away = safe_int((st.get('data') or {}).get('value'))
+            if st.get('location') == 'home': shots_home = safe_int((st.get('data') or {}).get('value'))
+            elif st.get('location') == 'away': shots_away = safe_int((st.get('data') or {}).get('value'))
+            
     if minute <= 0 and not pressure and not shots_home and not shots_away:
         return f"DURUM: Maç canlı izleniyor.\nNEDEN: Detay veri sınırlı ama skor {h}-{a}.\nSONUÇ: Şimdilik pas daha sağlıklı."
     if h == a:
         if pressure >= 8 or shots_home >= shots_away + 2:
-            return f"DURUM: Skor dengede ama ev sahibi baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü ev tarafında.\nSONUÇ: Ev yönlü gol veya üst tarafı izlenebilir."
+            return "DURUM: Skor dengede ama ev sahibi baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü ev tarafında.\nSONUÇ: Ev yönlü gol veya üst tarafı izlenebilir."
         if pressure <= -8 or shots_away >= shots_home + 2:
-            return f"DURUM: Skor dengede ama deplasman baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü deplasman tarafında.\nSONUÇ: Deplasman yönlü gol veya üst tarafı izlenebilir."
+            return "DURUM: Skor dengede ama deplasman baskı kuruyor.\nNEDEN: Baskı farkı ve isabetli şut üstünlüğü deplasman tarafında.\nSONUÇ: Deplasman yönlü gol veya üst tarafı izlenebilir."
         if preds.get('over25') >= 60 or preds.get('btts') >= 60:
-            return f"DURUM: Skor dengede.\nNEDEN: Modelde gollü maç eğilimi korunuyor.\nSONUÇ: Üst veya KG tarafı izlenebilir."
+            return "DURUM: Skor dengede.\nNEDEN: Modelde gollü maç eğilimi korunuyor.\nSONUÇ: Üst veya KG tarafı izlenebilir."
         return "DURUM: Maç dengede gidiyor.\nNEDEN: Net baskı üstünlüğü oluşmadı.\nSONUÇ: Şimdilik pas daha sağlıklı."
+        
     leader = row.get('home_name') if h > a else row.get('away_name')
     trailer = row.get('away_name') if h > a else row.get('home_name')
     if abs(pressure) >= 8:
         side = 'ev sahibi' if pressure > 0 else 'deplasman'
         return f"DURUM: {leader} önde, baskı ise {side} tarafında.\nNEDEN: Oyun temposu ve baskı verisi maçın hâlâ açık olduğunu gösteriyor.\nSONUÇ: Ek gol ihtimali canlı takip için uygun."
     return f"DURUM: {leader} skor üstünlüğünü aldı.\nNEDEN: Maç {minute}. dakikada ve {trailer} tarafı net tepki üretmedi.\nSONUÇ: Şu aşamada önde olan taraf lehine senaryo korunuyor."
-
 
 def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
     heuristic = heur_live_comment(row, detail)
@@ -214,7 +188,6 @@ def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
     payload = {
         'home': row.get('home_name'),
         'away': row.get('away_name'),
-        'league': row.get('competition_name'),
         'minute': safe_int(row.get('elapsed'), 0),
         'score_home': safe_int(row.get('homeGoalCount'), 0),
         'score_away': safe_int(row.get('awayGoalCount'), 0),
@@ -224,7 +197,12 @@ def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
     }
     prompt = '\n'.join([
         'Sen kısa ve teknik canlı bahis analiz motorusun.',
-        'Kurallar: en fazla 85 kelime. 3 satır yaz: DURUM, NEDEN, SONUÇ. Veri yetersizse "AI yorumu henüz yok." yaz.',
+        'Kurallar:',
+        '- Maksimum 80 kelime.',
+        '- 3 satır yaz: DURUM, NEDEN, SONUÇ.',
+        '- Asla övgü, hitap, emoji, teatral ifade kullanma.',
+        '- Kesin olmayan şeyi kesinmiş gibi yazma.',
+        '- Veri yetersizse tam olarak "AI yorumu henüz yok." yaz.',
         json.dumps(payload, ensure_ascii=False)
     ])
     try:
@@ -232,25 +210,17 @@ def ai_comment_live(client, row: Dict[str, Any], detail: Dict[str, Any]) -> str:
         text = (getattr(response, 'text', '') or '').strip()
         return text or heuristic
     except Exception as e:
-        log(f'⚠️ Live AI hatası: {e}')
+        log(f'Live AI hatası: {e}')
         return heuristic
-
 
 def fetch_live_rows() -> List[Dict[str, Any]]:
     url = f'https://api.sportmonks.com/v3/football/livescores/inplay?api_token={SM_KEY}&include={LIVE_INCLUDE}'
     return fetch_json(url).get('data', []) or []
 
-
 def fetch_fixture_detail(fid: int) -> Dict[str, Any]:
-    if not fid:
-        return {}
+    if not fid: return {}
     url = f'https://api.sportmonks.com/v3/football/fixtures/{fid}?api_token={SM_KEY}&include={DETAIL_INCLUDE}'
-    try:
-        return fetch_json(url).get('data', {}) or {}
-    except Exception as e:
-        log(f'⚠️ Live detail alınamadı fixture={fid}: {e}')
-        return {}
-
+    return fetch_json(url).get('data', {}) or {}
 
 def get_cached_detail(bundle: Dict[str, Any], fid: str) -> Dict[str, Any]:
     fixture_cache = (bundle.get('fixtures') or {}).get(fid) or {}
@@ -260,10 +230,8 @@ def get_cached_detail(bundle: Dict[str, Any], fid: str) -> Dict[str, Any]:
             ts = datetime.fromisoformat(fetched_at.replace('Z', ''))
             if (datetime.utcnow() - ts).total_seconds() < DETAIL_TTL_SEC:
                 return fixture_cache.get('detail') or {}
-        except Exception:
-            pass
+        except Exception: pass
     return {}
-
 
 def build_sm_row_from_live(fixture: Dict[str, Any]) -> Dict[str, Any]:
     parts = fixture.get('participants') or []
@@ -316,11 +284,8 @@ def build_sm_row_from_live(fixture: Dict[str, Any]) -> Dict[str, Any]:
         'live_comment': '',
     }
 
-
 def main():
-    if not SM_KEY:
-        raise RuntimeError('SPORTMONKS_KEY eksik')
-
+    if not SM_KEY: return
     client = init_vertex_client()
     bundle = load_json(BUNDLE_JSON, {'fixtures': {}})
     health = load_json(HEALTH_JSON, {})
@@ -329,7 +294,7 @@ def main():
     sm_live_out = []
 
     health.update({
-        'live_runner': 'live_split_sources_optimized',
+        'live_runner': 'live_radar_optimized',
         'live_started_at': datetime.utcnow().isoformat() + 'Z',
         'live_fixtures_seen': len(live_rows),
         'live_ai_written': 0,
@@ -356,10 +321,8 @@ def main():
             vals = {'home': 0.0, 'away': 0.0}
             for p in (detail.get('pressure') or [])[-12:]:
                 loc = str((p.get('participant') or {}).get('meta', {}).get('location') or p.get('location') or '').lower()
-                if loc == 'home':
-                    vals['home'] += safe_float(p.get('value') or p.get('amount'))
-                elif loc == 'away':
-                    vals['away'] += safe_float(p.get('value') or p.get('amount'))
+                if loc == 'home': vals['home'] += safe_float(p.get('value') or p.get('amount'))
+                elif loc == 'away': vals['away'] += safe_float(p.get('value') or p.get('amount'))
             row['pressure_score'] = round(vals['home'] - vals['away'], 2)
             row['lineups'] = detail.get('lineups') or []
             row['events'] = detail.get('events') or []
@@ -381,9 +344,6 @@ def main():
     save_json(BUNDLE_JSON, bundle)
     health['live_finished_at'] = datetime.utcnow().isoformat() + 'Z'
     save_json(HEALTH_JSON, health)
-    log(f'✅ footystats_live {len(fs_live)}')
-    log(f'✅ sportmonks_live {len(sm_live_out)}')
-
 
 if __name__ == '__main__':
     main()
