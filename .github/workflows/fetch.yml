@@ -21,7 +21,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests unidecode google-genai
+        run: pip install requests unidecode google-cloud-aiplatform
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -32,9 +32,9 @@ jobs:
         env:
           FOOTYSTATS_KEY: ${{ secrets.FOOTYSTATS_KEY }}
           SPORTMONKS_KEY: ${{ secrets.SPORTMONKS_KEY }}
-          GEMINI_MODEL: "gemini-2.5-flash" # Güncel model zorunluluğu
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # Kritik eksik
-          GCP_LOCATION: "us-central1" # Kritik eksik
+          GEMINI_MODEL: "gemini-2.5-flash"
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_LOCATION: "us-central1"
         run: python scripts/fetch_split_sources.py
 
       - name: Run split live
