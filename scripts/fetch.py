@@ -28,7 +28,7 @@ HEALTH_JSON               = os.path.join(DATA_DIR, 'health.json')
 FS_KEY       = os.getenv('FOOTYSTATS_KEY', '').strip()
 SM_KEY       = os.getenv('SPORTMONKS_KEY', '').strip()
 # FIX 4: Doğru model adı
-GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.0-flash').strip()
+GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 REQUEST_TIMEOUT  = 25
 SM_BASE_INCLUDE  = 'participants;league.country;venue;referees;weatherReport;state;scores;periods;round;predictions'
 
@@ -103,12 +103,12 @@ def init_vertex_client():
                 info = json.load(f)
             project = info.get('project_id')
             if project:
-                return genai.Client(vertexai=True, project=project, location='us-central1')
+                return genai.Client(vertexai=True, project=project, location='global')
         except Exception as e:
             log(f'⚠️ Credentials dosyasından proje okunamadı: {e}')
     # Fallback: env variable
     project  = os.getenv('GCP_PROJECT_ID', '').strip()
-    location = os.getenv('GCP_LOCATION', 'us-central1').strip()
+    location = os.getenv('GCP_LOCATION', 'global').strip()
     if not project: return None
     try:
         return genai.Client(vertexai=True, project=project, location=location)
