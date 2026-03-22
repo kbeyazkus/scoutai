@@ -30,7 +30,7 @@ SM_KEY       = os.getenv('SPORTMONKS_KEY', '').strip()
 # FIX 4: Doğru model adı
 GEMINI_MODEL = (os.getenv('GEMINI_MODEL') or 'gemini-2.5-flash').strip()
 REQUEST_TIMEOUT  = 25
-SM_BASE_INCLUDE  = 'participants;league.country;venue;referees;weatherReport;state;scores;periods;round;predictions'
+SM_BASE_INCLUDE  = 'participants;league.country;venue;referees;weatherReport;state;scores;periods;round;predictions.type;statistics.type;odds.market'
 
 
 # ─── Yardımcı fonksiyonlar ────────────────────────────────────────────────────
@@ -309,28 +309,66 @@ def normalize_fs_row(fs: Dict[str, Any], client=None,
 def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
     base = extract_sm_basic(sm)
 
-    # HOTFIX: predictions can be list, dict, or None — handle all cases safely
-    raw_predictions = sm.get('predictions')
-    btts_potential = 0.0
-    o25_potential  = 0.0
-    home_ppg       = 0.0
-    away_ppg       = 0.0
+    # --- Predictions ---
+    raw_predictions = sm.get('predictions') or []
+    btts_potential = o25_potential = home_ppg = away_ppg = o05HT_potential = 0.0
+    xg_home = xg_away = 0.0
 
-    if isinstance(raw_predictions, list):
-        for p in raw_predictions:
-            if not isinstance(p, dict): continue
-            dev  = str((p.get('type') or {}).get('developer_name') or '').upper()
-            vals = p.get('predictions') or {}
-            if not isinstance(vals, dict): continue
-            if dev == 'BTTS_PROBABILITY':
-                btts_potential = safe_float(vals.get('yes'))
-            elif 'OVER_UNDER_2_5' in dev:
-                o25_potential  = safe_float(vals.get('yes'))
-    elif isinstance(raw_predictions, dict):
-        btts_potential = safe_float(raw_predictions.get('btts_probability'))
-        o25_potential  = safe_float(raw_predictions.get('over_25_probability'))
-        home_ppg       = safe_float(raw_predictions.get('home_ppg'))
-        away_ppg       = safe_float(raw_predictions.get('away_ppg'))
+    pred_list = raw_predictions if isinstance(raw_predictions, list) else []
+    for p in pred_list:
+        if not isinstance(p, dict): continue
+        dev  = str((p.get('type') or {}).get('developer_name') or '').upper()
+        vals = p.get('predictions') or {}
+        if not isinstance(vals, dict): continue
+        if dev == 'BTTS_PROBABILITY':
+            btts_potential = safe_float(vals.get('yes'))
+        elif 'OVER_UNDER_2_5' in dev and 'HALF' not in dev:
+            o25_potential  = safe_float(vals.get('yes'))
+        elif 'OVER_UNDER_0_5' in dev and ('HALF' in dev or '1ST' in dev):
+            o05HT_potential = safe_float(vals.get('yes'))
+        elif dev in ('HOME_WIN_PROBABILITY', 'WINNING_ODDS'):
+            home_ppg = safe_float(vals.get('yes') or vals.get('home'))
+        elif dev == 'AWAY_WIN_PROBABILITY':
+            away_ppg = safe_float(vals.get('yes') or vals.get('away'))
+        elif 'XG' in dev or 'EXPECTED_GOALS' in dev:
+            loc = str((p.get('participant') or {}).get('meta', {}).get('location') or '').lower()
+            if loc == 'home': xg_home = safe_float(vals.get('value') or vals.get('yes'))
+            elif loc == 'away': xg_away = safe_float(vals.get('value') or vals.get('yes'))
+
+    if isinstance(raw_predictions, dict):
+        btts_potential  = safe_float(raw_predictions.get('btts_probability'))
+        o25_potential   = safe_float(raw_predictions.get('over_25_probability'))
+        home_ppg        = safe_float(raw_predictions.get('home_ppg'))
+        away_ppg        = safe_float(raw_predictions.get('away_ppg'))
+
+    # --- Statistics (xG from stats) ---
+    for st in (sm.get('statistics') or []):
+        dev = str((st.get('type') or {}).get('developer_name') or '').upper()
+        loc = str(st.get('location') or '').lower()
+        val = safe_float((st.get('data') or {}).get('value'))
+        if 'XG' in dev or 'EXPECTED_GOALS' in dev:
+            if loc == 'home' and not xg_home: xg_home = val
+            elif loc == 'away' and not xg_away: xg_away = val
+        elif 'PPG' in dev or 'POINTS_PER_GAME' in dev:
+            if loc == 'home' and not home_ppg: home_ppg = val
+            elif loc == 'away' and not away_ppg: away_ppg = val
+
+    # --- Odds ---
+    odds_ft_1 = odds_ft_x = odds_ft_2 = odds_ft_over25 = odds_btts_yes = 0.0
+    for o in (sm.get('odds') or []):
+        market = str((o.get('market') or {}).get('developer_name') or (o.get('market') or {}).get('name') or '').upper()
+        label  = str(o.get('label') or o.get('name') or '').strip()
+        val    = safe_float(o.get('value') or o.get('odds'))
+        if not val: continue
+        if '3WAY' in market or 'MATCH_WINNER' in market or '1X2' in market:
+            if label == '1' and not odds_ft_1:   odds_ft_1 = val
+            elif label == 'X' and not odds_ft_x: odds_ft_x = val
+            elif label == '2' and not odds_ft_2: odds_ft_2 = val
+        elif 'OVER_UNDER' in market and '2.5' in label:
+            if 'OVER' in label.upper() and not odds_ft_over25: odds_ft_over25 = val
+        elif 'BTTS' in market or 'BOTH_TEAMS' in market:
+            if 'YES' in label.upper() and not odds_btts_yes: odds_btts_yes = val
+
     row = {
         'id':               f"sm-{base['sportmonks_id']}",
         'source_ids':       {'footystats': '', 'sportmonks': str(base['sportmonks_id'])},
@@ -351,14 +389,18 @@ def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
         'weather':          base['weather'],
         'home_ppg':         home_ppg,
         'away_ppg':         away_ppg,
-        'team_a_xg_prematch': 0.0,
-        'team_b_xg_prematch': 0.0,
+        'pre_match_home_ppg': home_ppg,
+        'pre_match_away_ppg': away_ppg,
+        'team_a_xg_prematch': xg_home,
+        'team_b_xg_prematch': xg_away,
         'btts_potential':   btts_potential,
         'o25_potential':    o25_potential,
-        'o05HT_potential':  0.0,
-        'odds_ft_1':        0.0,
-        'odds_ft_x':        0.0,
-        'odds_ft_2':        0.0,
+        'o05HT_potential':  o05HT_potential,
+        'odds_ft_1':        odds_ft_1,
+        'odds_ft_x':        odds_ft_x,
+        'odds_ft_2':        odds_ft_2,
+        'odds_ft_over25':   odds_ft_over25,
+        'odds_btts_yes':    odds_btts_yes,
         'homeGoalCount':    base['homeGoalCount'],
         'awayGoalCount':    base['awayGoalCount'],
         'status':           base['status'],
