@@ -327,9 +327,11 @@ def normalize_fs_row(fs: Dict[str, Any], client=None,
         'awayGoalCount':    safe_int(fs.get('awayGoalCount'), 0),
         'status':           fs.get('status') or 'incomplete',
         'elapsed':          safe_int(fs.get('elapsed'), 0),
+        # AI yorum live_radar tarafından doldurulacak
         'boss_ai_decision': '',
+        'prematch_comment': '',
+        'ai_comment':       '',
     }
-    row['boss_ai_decision'] = ai_comment_prematch(client, row)
     return row
 
 def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
@@ -390,8 +392,9 @@ def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
         'status':           base['status'],
         'elapsed':          base['elapsed'],
         'boss_ai_decision': '',
+        'prematch_comment': '',
+        'ai_comment':       '',
     }
-    row['boss_ai_decision'] = ai_comment_prematch(client, row)
     return row
 
 
@@ -400,7 +403,8 @@ def normalize_sm_row(sm: Dict[str, Any], client=None) -> Dict[str, Any]:
 def main():
     ensure_dir()
     started = time.time()
-    client = init_vertex_client()
+    # AI yorumlar live_radar.py tarafından yapılıyor — fetch hızlı kalır
+    client = None
 
     today_str    = iso_date(0)
     tomorrow_str = iso_date(1)
