@@ -106,7 +106,7 @@ def extract_bundle_data(bundle: Dict, row: Dict) -> Dict:
     # --- Key sidelined players ---
     sidelined_names = []
     for sl in (detail.get('sidelined') or [])[:6]:
-        player = (sl.get('player') or sl.get('sideline',{}).get('player') or {})
+        player = (sl.get('player') or (sl.get('sideline') or {}).get('player') or {})
         name = player.get('display_name') or player.get('name') or ''
         if name: sidelined_names.append(name)
 
