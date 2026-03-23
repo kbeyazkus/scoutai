@@ -21403,13 +21403,13 @@
             "description": "CURRENT"
           },
           {
-            "id": 19678236,
+            "id": 19678237,
             "fixture_id": 19441404,
             "type_id": 1,
-            "participant_id": 11354,
+            "participant_id": 10008,
             "score": {
               "goals": 0,
-              "participant": "away"
+              "participant": "home"
             },
             "description": "1ST_HALF"
           },
@@ -21425,20 +21425,57 @@
             "description": "CURRENT"
           },
           {
-            "id": 19678237,
+            "id": 19678236,
             "fixture_id": 19441404,
             "type_id": 1,
-            "participant_id": 10008,
+            "participant_id": 11354,
             "score": {
               "goals": 0,
-              "participant": "home"
+              "participant": "away"
             },
             "description": "1ST_HALF"
           }
         ],
         "periods": [],
         "events": [],
-        "statistics": [],
+        "statistics": [
+          {
+            "id": 815389569,
+            "fixture_id": 19441404,
+            "type_id": 45,
+            "participant_id": 10008,
+            "data": {
+              "value": 50
+            },
+            "location": "home",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 815389568,
+            "fixture_id": 19441404,
+            "type_id": 45,
+            "participant_id": 11354,
+            "data": {
+              "value": 50
+            },
+            "location": "away",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          }
+        ],
         "lineups": [
           {
             "id": 14673189232,
@@ -22020,7 +22057,7 @@
             "fixture_id": 19441404,
             "player_id": 37591206,
             "team_id": 10008,
-            "position_id": 27,
+            "position_id": 26,
             "formation_field": "3:5",
             "type_id": 11,
             "formation_position": 9,
@@ -22307,11 +22344,11 @@
             "fixture_id": 19441404,
             "player_id": null,
             "team_id": 10008,
-            "position_id": 27,
+            "position_id": 26,
             "formation_field": null,
             "type_id": 12,
             "formation_position": null,
-            "player_name": "Isi Angulo",
+            "player_name": "Isi",
             "jersey_number": 31,
             "player": null,
             "type": {
@@ -22698,7 +22735,7 @@
             "fixture_id": 19441404,
             "player_id": 37624113,
             "team_id": 11354,
-            "position_id": 27,
+            "position_id": 26,
             "formation_field": null,
             "type_id": 12,
             "formation_position": null,
@@ -22739,7 +22776,7 @@
             "fixture_id": 19441404,
             "player_id": 16488492,
             "team_id": 11354,
-            "position_id": 25,
+            "position_id": 26,
             "formation_field": "3:1",
             "type_id": 11,
             "formation_position": 9,
@@ -22944,7 +22981,7 @@
             "fixture_id": 19441404,
             "player_id": 6042,
             "team_id": 11354,
-            "position_id": 25,
+            "position_id": 26,
             "formation_field": "3:4",
             "type_id": 11,
             "formation_position": 6,
@@ -23382,9 +23419,18 @@
           "clouds": "75%",
           "description": "broken clouds",
           "icon": "https://cdn.sportmonks.com/images/weather/04d.png",
-          "type": "forecast",
+          "type": "actual",
           "metric": "celcius",
-          "current": null
+          "current": {
+            "temp": 11.41,
+            "wind": 1.29,
+            "clouds": null,
+            "humidity": "74%",
+            "pressure": 1021,
+            "direction": 231,
+            "feels_like": 10.54,
+            "description": "scattered clouds"
+          }
         },
         "predictions": [
           {
@@ -23925,7 +23971,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-23T19:15:39.284102Z"
+      "fetched_at": "2026-03-23T19:33:24.749017Z"
     }
   }
 }
