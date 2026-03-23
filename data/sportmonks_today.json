@@ -45,9 +45,18 @@
         "clouds": "75%",
         "description": "broken clouds",
         "icon": "https://cdn.sportmonks.com/images/weather/04d.png",
-        "type": "forecast",
+        "type": "actual",
         "metric": "celcius",
-        "current": null
+        "current": {
+          "temp": 10.85,
+          "wind": 1.29,
+          "clouds": null,
+          "humidity": "75%",
+          "pressure": 1021,
+          "direction": 231,
+          "feels_like": 9.95,
+          "description": "scattered clouds"
+        }
       },
       "home_ppg": 0.0,
       "away_ppg": 0.0,
@@ -62,15 +71,15 @@
       "odds_ft_x": 0.0,
       "odds_ft_2": 0.0,
       "odds_ft_over25": 0.0,
-      "odds_btts_yes": 1.72,
+      "odds_btts_yes": 1.81,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
-      "status": "NS",
+      "status": "INPLAY_1ST_HALF",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, league standings, full market odds (1X2, O/U2.5), and H2H records are entirely absent or zero. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, league standings, full market odds (1X2, O/U2.5), and H2H records are entirely absent or zero. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, league standings, full market odds (1X2, O/U2.5), and H2H records are entirely absent or zero. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and most odds are missing or zero. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and most odds are missing or zero. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and most odds are missing or zero. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip."
     }
   ],
-  "updated_at": "2026-03-23T19:17:24.966068Z"
+  "updated_at": "2026-03-23T20:04:57.783095Z"
 }
