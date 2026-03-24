@@ -27043,6 +27043,20 @@
         },
         "scores": [
           {
+<<<<<<< Updated upstream
+=======
+            "id": 19680646,
+            "fixture_id": 19429851,
+            "type_id": 1525,
+            "participant_id": 1435,
+            "score": {
+              "goals": 3,
+              "participant": "away"
+            },
+            "description": "CURRENT"
+          },
+          {
+>>>>>>> Stashed changes
             "id": 19680647,
             "fixture_id": 19429851,
             "type_id": 1525,
@@ -27054,6 +27068,31 @@
             "description": "CURRENT"
           },
           {
+<<<<<<< Updated upstream
+=======
+            "id": 19680648,
+            "fixture_id": 19429851,
+            "type_id": 1,
+            "participant_id": 1435,
+            "score": {
+              "goals": 3,
+              "participant": "away"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+            "id": 19680649,
+            "fixture_id": 19429851,
+            "type_id": 1,
+            "participant_id": 2475,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+>>>>>>> Stashed changes
             "id": 19680650,
             "fixture_id": 19429851,
             "type_id": 2,
@@ -27074,6 +27113,7 @@
               "participant": "home"
             },
             "description": "2ND_HALF"
+<<<<<<< Updated upstream
           },
           {
             "id": 19680649,
@@ -27107,6 +27147,8 @@
               "participant": "away"
             },
             "description": "CURRENT"
+=======
+>>>>>>> Stashed changes
           }
         ],
         "periods": [
@@ -27122,8 +27164,13 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
+<<<<<<< Updated upstream
             "minutes": 43,
             "seconds": 39,
+=======
+            "minutes": 44,
+            "seconds": 36,
+>>>>>>> Stashed changes
             "has_timer": true
           }
         ],
@@ -27171,8 +27218,13 @@
               "description": "1st-half",
               "time_added": null,
               "period_length": 45,
+<<<<<<< Updated upstream
               "minutes": 43,
               "seconds": 39,
+=======
+              "minutes": 44,
+              "seconds": 36,
+>>>>>>> Stashed changes
               "has_timer": true
             },
             "player": {
@@ -27239,8 +27291,13 @@
               "description": "1st-half",
               "time_added": null,
               "period_length": 45,
+<<<<<<< Updated upstream
               "minutes": 43,
               "seconds": 39,
+=======
+              "minutes": 44,
+              "seconds": 36,
+>>>>>>> Stashed changes
               "has_timer": true
             },
             "player": {
@@ -27307,8 +27364,13 @@
               "description": "1st-half",
               "time_added": null,
               "period_length": 45,
+<<<<<<< Updated upstream
               "minutes": 43,
               "seconds": 39,
+=======
+              "minutes": 44,
+              "seconds": 36,
+>>>>>>> Stashed changes
               "has_timer": true
             },
             "player": {
@@ -27375,8 +27437,13 @@
               "description": "1st-half",
               "time_added": null,
               "period_length": 45,
+<<<<<<< Updated upstream
               "minutes": 43,
               "seconds": 39,
+=======
+              "minutes": 44,
+              "seconds": 36,
+>>>>>>> Stashed changes
               "has_timer": true
             },
             "player": {
@@ -27403,6 +27470,45 @@
         ],
         "statistics": [
           {
+<<<<<<< Updated upstream
+=======
+            "id": 816312396,
+            "fixture_id": 19429851,
+            "type_id": 45,
+            "participant_id": 1435,
+            "data": {
+              "value": 45
+            },
+            "location": "away",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 816312397,
+            "fixture_id": 19429851,
+            "type_id": 45,
+            "participant_id": 2475,
+            "data": {
+              "value": 55
+            },
+            "location": "home",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+>>>>>>> Stashed changes
             "id": 816312922,
             "fixture_id": 19429851,
             "type_id": 82,
@@ -27439,6 +27545,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816325622,
             "fixture_id": 19429851,
             "type_id": 99,
@@ -27452,11 +27559,27 @@
               "name": "Accurate Crosses",
               "code": "accurate-crosses",
               "developer_name": "ACCURATE_CROSSES",
+=======
+            "id": 816322414,
+            "fixture_id": 19429851,
+            "type_id": 43,
+            "participant_id": 1435,
+            "data": {
+              "value": 49
+            },
+            "location": "away",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "offensive"
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816324145,
             "fixture_id": 19429851,
             "type_id": 56,
@@ -27506,6 +27629,21 @@
               "name": "Shots Outsidebox",
               "code": "shots-outsidebox",
               "developer_name": "SHOTS_OUTSIDEBOX",
+=======
+            "id": 816322415,
+            "fixture_id": 19429851,
+            "type_id": 43,
+            "participant_id": 2475,
+            "data": {
+              "value": 43
+            },
+            "location": "home",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -27529,6 +27667,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816323662,
             "fixture_id": 19429851,
             "type_id": 52,
@@ -27542,11 +27681,27 @@
               "name": "Goals",
               "code": "goals",
               "developer_name": "GOALS",
+=======
+            "id": 816322417,
+            "fixture_id": 19429851,
+            "type_id": 44,
+            "participant_id": 2475,
+            "data": {
+              "value": 21
+            },
+            "location": "home",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "offensive"
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816324144,
             "fixture_id": 19429851,
             "type_id": 56,
@@ -27578,6 +27733,147 @@
               "name": "Ball Possession %",
               "code": "ball-possession",
               "developer_name": "BALL_POSSESSION",
+=======
+            "id": 816322672,
+            "fixture_id": 19429851,
+            "type_id": 62,
+            "participant_id": 1435,
+            "data": {
+              "value": 38
+            },
+            "location": "away",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 816322604,
+            "fixture_id": 19429851,
+            "type_id": 34,
+            "participant_id": 1435,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322605,
+            "fixture_id": 19429851,
+            "type_id": 34,
+            "participant_id": 2475,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322606,
+            "fixture_id": 19429851,
+            "type_id": 80,
+            "participant_id": 1435,
+            "data": {
+              "value": 156
+            },
+            "location": "away",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 816322607,
+            "fixture_id": 19429851,
+            "type_id": 80,
+            "participant_id": 2475,
+            "data": {
+              "value": 182
+            },
+            "location": "home",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 816322608,
+            "fixture_id": 19429851,
+            "type_id": 98,
+            "participant_id": 1435,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322609,
+            "fixture_id": 19429851,
+            "type_id": 98,
+            "participant_id": 2475,
+            "data": {
+              "value": 10
+            },
+            "location": "home",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322664,
+            "fixture_id": 19429851,
+            "type_id": 81,
+            "participant_id": 1435,
+            "data": {
+              "value": 120
+            },
+            "location": "away",
+            "type": {
+              "id": 81,
+              "name": "Successful Passes",
+              "code": "successful-passes",
+              "developer_name": "SUCCESSFUL_PASSES",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "overall"
             }
@@ -27637,6 +27933,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816322606,
             "fixture_id": 19429851,
             "type_id": 80,
@@ -28231,6 +28528,8 @@
             }
           },
           {
+=======
+>>>>>>> Stashed changes
             "id": 816322668,
             "fixture_id": 19429851,
             "type_id": 78,
@@ -28285,6 +28584,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816322672,
             "fixture_id": 19429851,
             "type_id": 62,
@@ -28293,6 +28593,34 @@
               "value": 38
             },
             "location": "away",
+=======
+            "id": 816322671,
+            "fixture_id": 19429851,
+            "type_id": 42,
+            "participant_id": 2475,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322673,
+            "fixture_id": 19429851,
+            "type_id": 62,
+            "participant_id": 2475,
+            "data": {
+              "value": 23
+            },
+            "location": "home",
+>>>>>>> Stashed changes
             "type": {
               "id": 62,
               "name": "Long Passes",
@@ -28375,6 +28703,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816322673,
             "fixture_id": 19429851,
             "type_id": 62,
@@ -28388,11 +28717,99 @@
               "name": "Long Passes",
               "code": "long-passes",
               "developer_name": "LONG_PASSES",
+=======
+            "id": 816322838,
+            "fixture_id": 19429851,
+            "type_id": 51,
+            "participant_id": 1435,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322839,
+            "fixture_id": 19429851,
+            "type_id": 51,
+            "participant_id": 2475,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322840,
+            "fixture_id": 19429851,
+            "type_id": 49,
+            "participant_id": 1435,
+            "data": {
+              "value": 5
+            },
+            "location": "away",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322841,
+            "fixture_id": 19429851,
+            "type_id": 49,
+            "participant_id": 2475,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816322868,
+            "fixture_id": 19429851,
+            "type_id": 117,
+            "participant_id": 1435,
+            "data": {
+              "value": 6
+            },
+            "location": "away",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "overall"
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816323769,
             "fixture_id": 19429851,
             "type_id": 108,
@@ -28432,16 +28849,100 @@
             "id": 816324086,
             "fixture_id": 19429851,
             "type_id": 79,
+=======
+            "id": 816322869,
+            "fixture_id": 19429851,
+            "type_id": 117,
+            "participant_id": 2475,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 816323030,
+            "fixture_id": 19429851,
+            "type_id": 60,
+>>>>>>> Stashed changes
             "participant_id": 1435,
             "data": {
               "value": 3
             },
             "location": "away",
             "type": {
+<<<<<<< Updated upstream
               "id": 79,
               "name": "Assists",
               "code": "assists",
               "developer_name": "ASSISTS",
+=======
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 816323031,
+            "fixture_id": 19429851,
+            "type_id": 60,
+            "participant_id": 2475,
+            "data": {
+              "value": 9
+            },
+            "location": "home",
+            "type": {
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 816323661,
+            "fixture_id": 19429851,
+            "type_id": 86,
+            "participant_id": 2475,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816323663,
+            "fixture_id": 19429851,
+            "type_id": 52,
+            "participant_id": 2475,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -28465,6 +28966,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816323661,
             "fixture_id": 19429851,
             "type_id": 86,
@@ -28491,6 +28993,16 @@
               "value": 2
             },
             "location": "home",
+=======
+            "id": 816324356,
+            "fixture_id": 19429851,
+            "type_id": 41,
+            "participant_id": 1435,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+>>>>>>> Stashed changes
             "type": {
               "id": 41,
               "name": "Shots Off Target",
@@ -28501,6 +29013,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816326879,
             "fixture_id": 19429851,
             "type_id": 46,
@@ -28514,6 +29027,129 @@
               "name": "Ball Safe",
               "code": "ball-safe",
               "developer_name": "BALL_SAFE",
+=======
+            "id": 816325302,
+            "fixture_id": 19429851,
+            "type_id": 50,
+            "participant_id": 1435,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816325303,
+            "fixture_id": 19429851,
+            "type_id": 50,
+            "participant_id": 2475,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816325621,
+            "fixture_id": 19429851,
+            "type_id": 53,
+            "participant_id": 2475,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816325622,
+            "fixture_id": 19429851,
+            "type_id": 99,
+            "participant_id": 1435,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816325989,
+            "fixture_id": 19429851,
+            "type_id": 100,
+            "participant_id": 2475,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 816324142,
+            "fixture_id": 19429851,
+            "type_id": 55,
+            "participant_id": 1435,
+            "data": {
+              "value": 9
+            },
+            "location": "away",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 816324143,
+            "fixture_id": 19429851,
+            "type_id": 55,
+            "participant_id": 2475,
+            "data": {
+              "value": 7
+            },
+            "location": "home",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "defensive"
             }
@@ -28537,6 +29173,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816325989,
             "fixture_id": 19429851,
             "type_id": 100,
@@ -28550,11 +29187,119 @@
               "name": "Interceptions",
               "code": "interceptions",
               "developer_name": "INTERCEPTIONS",
+=======
+            "id": 816326878,
+            "fixture_id": 19429851,
+            "type_id": 46,
+            "participant_id": 1435,
+            "data": {
+              "value": 23
+            },
+            "location": "away",
+            "type": {
+              "id": 46,
+              "name": "Ball Safe",
+              "code": "ball-safe",
+              "developer_name": "BALL_SAFE",
               "model_type": "statistic",
               "stat_group": "defensive"
             }
           },
           {
+            "id": 816326879,
+            "fixture_id": 19429851,
+            "type_id": 46,
+            "participant_id": 2475,
+            "data": {
+              "value": 21
+            },
+            "location": "home",
+            "type": {
+              "id": 46,
+              "name": "Ball Safe",
+              "code": "ball-safe",
+              "developer_name": "BALL_SAFE",
+>>>>>>> Stashed changes
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+<<<<<<< Updated upstream
+=======
+            "id": 816324144,
+            "fixture_id": 19429851,
+            "type_id": 56,
+            "participant_id": 1435,
+            "data": {
+              "value": 7
+            },
+            "location": "away",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 816323768,
+            "fixture_id": 19429851,
+            "type_id": 108,
+            "participant_id": 1435,
+            "data": {
+              "value": 12
+            },
+            "location": "away",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816323662,
+            "fixture_id": 19429851,
+            "type_id": 52,
+            "participant_id": 1435,
+            "data": {
+              "value": 3
+            },
+            "location": "away",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816323660,
+            "fixture_id": 19429851,
+            "type_id": 86,
+            "participant_id": 1435,
+            "data": {
+              "value": 3
+            },
+            "location": "away",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+>>>>>>> Stashed changes
             "id": 816328318,
             "fixture_id": 19429851,
             "type_id": 580,
@@ -28573,6 +29318,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816328319,
             "fixture_id": 19429851,
             "type_id": 580,
@@ -28586,6 +29332,39 @@
               "name": "Big Chances Created",
               "code": "big-chances-created",
               "developer_name": "BIG_CHANCES_CREATED",
+=======
+            "id": 816324086,
+            "fixture_id": 19429851,
+            "type_id": 79,
+            "participant_id": 1435,
+            "data": {
+              "value": 3
+            },
+            "location": "away",
+            "type": {
+              "id": 79,
+              "name": "Assists",
+              "code": "assists",
+              "developer_name": "ASSISTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816323770,
+            "fixture_id": 19429851,
+            "type_id": 109,
+            "participant_id": 1435,
+            "data": {
+              "value": 9
+            },
+            "location": "away",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -28627,19 +29406,140 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 816331577,
             "fixture_id": 19429851,
             "type_id": 581,
+=======
+            "id": 816323772,
+            "fixture_id": 19429851,
+            "type_id": 1605,
+            "participant_id": 1435,
+            "data": {
+              "value": 75
+            },
+            "location": "away",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816324145,
+            "fixture_id": 19429851,
+            "type_id": 56,
+            "participant_id": 2475,
+            "data": {
+              "value": 8
+            },
+            "location": "home",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 816323769,
+            "fixture_id": 19429851,
+            "type_id": 108,
+            "participant_id": 2475,
+            "data": {
+              "value": 5
+            },
+            "location": "home",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816324357,
+            "fixture_id": 19429851,
+            "type_id": 41,
+            "participant_id": 2475,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816325620,
+            "fixture_id": 19429851,
+            "type_id": 53,
+            "participant_id": 1435,
+            "data": {
+              "value": 11
+            },
+            "location": "away",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816325623,
+            "fixture_id": 19429851,
+            "type_id": 99,
+            "participant_id": 2475,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816328319,
+            "fixture_id": 19429851,
+            "type_id": 580,
+>>>>>>> Stashed changes
             "participant_id": 2475,
             "data": {
               "value": 1
             },
             "location": "home",
             "type": {
+<<<<<<< Updated upstream
               "id": 581,
               "name": "Big Chances Missed",
               "code": "big-chances-missed",
               "developer_name": "BIG_CHANCES_MISSED",
+=======
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+>>>>>>> Stashed changes
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -28661,6 +29561,63 @@
               "model_type": "statistic",
               "stat_group": "offensive"
             }
+<<<<<<< Updated upstream
+=======
+          },
+          {
+            "id": 816331577,
+            "fixture_id": 19429851,
+            "type_id": 581,
+            "participant_id": 2475,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 581,
+              "name": "Big Chances Missed",
+              "code": "big-chances-missed",
+              "developer_name": "BIG_CHANCES_MISSED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816323771,
+            "fixture_id": 19429851,
+            "type_id": 109,
+            "participant_id": 2475,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 816323773,
+            "fixture_id": 19429851,
+            "type_id": 1605,
+            "participant_id": 2475,
+            "data": {
+              "value": 60
+            },
+            "location": "home",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+>>>>>>> Stashed changes
           }
         ],
         "lineups": [
@@ -30560,6 +31517,105 @@
         ],
         "sidelined": [
           {
+<<<<<<< Updated upstream
+=======
+            "id": 1385091,
+            "fixture_id": 19429851,
+            "sideline_id": 772007,
+            "participant_id": 1435,
+            "player_id": 37927235,
+            "type_id": 557,
+            "sideline": {
+              "id": 772007,
+              "player_id": 37927235,
+              "type_id": 557,
+              "category": "injury",
+              "team_id": 1435,
+              "season_id": null,
+              "start_date": "2025-09-29",
+              "end_date": null,
+              "games_missed": 25,
+              "completed": false,
+              "player": {
+                "id": 37927235,
+                "sport_id": 1,
+                "country_id": 38,
+                "nationality_id": null,
+                "city_id": null,
+                "position_id": 26,
+                "detailed_position_id": 149,
+                "type_id": null,
+                "common_name": "D. Visser",
+                "firstname": "Daan",
+                "lastname": "Visser",
+                "name": "Daan Visser",
+                "display_name": "Daan Visser",
+                "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+                "height": null,
+                "weight": null,
+                "date_of_birth": "2004-11-05",
+                "gender": "male"
+              },
+              "type": {
+                "id": 557,
+                "name": "Cruciate Ligament Injury",
+                "code": "cruciate-ligament-injury",
+                "developer_name": "CRUCIATE_LIGAMENT_INJURY",
+                "model_type": "injury_suspension",
+                "stat_group": null
+              }
+            }
+          },
+          {
+            "id": 1386647,
+            "fixture_id": 19429851,
+            "sideline_id": 776011,
+            "participant_id": 1435,
+            "player_id": 37668735,
+            "type_id": 1613,
+            "sideline": {
+              "id": 776011,
+              "player_id": 37668735,
+              "type_id": 1613,
+              "category": "suspended",
+              "team_id": 1435,
+              "season_id": null,
+              "start_date": "2026-03-23",
+              "end_date": "2026-04-01",
+              "games_missed": 0,
+              "completed": false,
+              "player": {
+                "id": 37668735,
+                "sport_id": 1,
+                "country_id": 556,
+                "nationality_id": 556,
+                "city_id": null,
+                "position_id": 25,
+                "detailed_position_id": 148,
+                "type_id": null,
+                "common_name": "I. Baouf",
+                "firstname": "Ismaël",
+                "lastname": "Baouf",
+                "name": "Ismaël Baouf",
+                "display_name": "Ismaël Baouf",
+                "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+                "height": 183,
+                "weight": 72,
+                "date_of_birth": "2006-09-17",
+                "gender": "male"
+              },
+              "type": {
+                "id": 1613,
+                "name": "Called Up To National Team",
+                "code": "called-up-to-national-team",
+                "developer_name": "CALLED_UP_TO_NATIONAL_TEAM",
+                "model_type": "injury_suspension",
+                "stat_group": null
+              }
+            }
+          },
+          {
+>>>>>>> Stashed changes
             "id": 1306075,
             "fixture_id": 19429851,
             "sideline_id": 763489,
@@ -30656,6 +31712,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 1385091,
             "fixture_id": 19429851,
             "sideline_id": 772007,
@@ -30704,6 +31761,8 @@
             }
           },
           {
+=======
+>>>>>>> Stashed changes
             "id": 1385092,
             "fixture_id": 19429851,
             "sideline_id": 728947,
@@ -30750,6 +31809,7 @@
                 "stat_group": null
               }
             }
+<<<<<<< Updated upstream
           },
           {
             "id": 1386647,
@@ -30798,6 +31858,8 @@
                 "stat_group": null
               }
             }
+=======
+>>>>>>> Stashed changes
           }
         ],
         "weatherreport": {
@@ -30980,6 +32042,7 @@
             }
           },
           {
+<<<<<<< Updated upstream
             "id": 24935808,
             "fixture_id": 19429851,
             "predictions": {
@@ -31001,6 +32064,8 @@
             }
           },
           {
+=======
+>>>>>>> Stashed changes
             "id": 24321494,
             "fixture_id": 19429851,
             "predictions": {
@@ -31374,10 +32439,38 @@
               "model_type": "prediction",
               "stat_group": null
             }
+<<<<<<< Updated upstream
           }
         ]
       },
       "fetched_at": "2026-03-24T19:43:52.526555Z"
+=======
+          },
+          {
+            "id": 24935808,
+            "fixture_id": 19429851,
+            "predictions": {
+              "bet": "1",
+              "bookmaker": "betway",
+              "fair_odd": 2.93,
+              "odd": 3.1,
+              "stake": 0.6,
+              "is_value": false
+            },
+            "type_id": 33,
+            "type": {
+              "id": 33,
+              "name": "Valuebet",
+              "code": "valuebet",
+              "developer_name": "VALUEBET",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          }
+        ]
+      },
+      "fetched_at": "2026-03-24T19:44:49.330250Z"
+>>>>>>> Stashed changes
     }
   }
 }
