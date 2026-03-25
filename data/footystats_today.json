@@ -1,84 +1,6 @@
 {
   "data": [
     {
-      "id": "8419030",
-      "source_ids": {
-        "footystats": "8419030",
-        "sportmonks": ""
-      },
-      "home_name": "Deportivo Riestra",
-      "away_name": "San Lorenzo",
-      "competition_name": "",
-      "competition_id": 16571,
-      "league_country": "",
-      "league_country_image": "",
-      "date_unix": 1774476000,
-      "home_image": "teams/argentina-cd-riestra.png",
-      "away_image": "teams/argentina-ca-san-lorenzo-de-almagro.png",
-      "home_country": "Argentina",
-      "away_country": "Argentina",
-      "venue_name": "Estadio Leandro Nicéforo Alem",
-      "venue_city": "Avenida Almirante Brown y Sarmiento, General Rodríguez, Provincia de Buenos Aires",
-      "referee_name": "",
-      "weather": {},
-      "home_ppg": 0.6,
-      "away_ppg": 1.3,
-      "team_a_xg_prematch": 1.33,
-      "team_b_xg_prematch": 1.18,
-      "btts_potential": 30.0,
-      "o25_potential": 10.0,
-      "o05HT_potential": 40.0,
-      "odds_ft_1": 2.37,
-      "odds_ft_x": 2.62,
-      "odds_ft_2": 3.56,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps (model predictions, standings, H2H, key sidelined) and conflicting information between team PPG (Away favored) and bookmaker odds (Home/Draw favored) prevent a confident recommendation.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps (model predictions, standings, H2H, key sidelined) and conflicting information between team PPG (Away favored) and bookmaker odds (Home/Draw favored) prevent a confident recommendation.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps (model predictions, standings, H2H, key sidelined) and conflicting information between team PPG (Away favored) and bookmaker odds (Home/Draw favored) prevent a confident recommendation.\nCONCLUSION: No Bet / Skip"
-    },
-    {
-      "id": "8428646",
-      "source_ids": {
-        "footystats": "8428646",
-        "sportmonks": ""
-      },
-      "home_name": "Guaraní",
-      "away_name": "2 de Mayo",
-      "competition_name": "",
-      "competition_id": 16533,
-      "league_country": "",
-      "league_country_image": "",
-      "date_unix": 1774477800,
-      "home_image": "teams/paraguay-club-guarani.png",
-      "away_image": "teams/paraguay-club-2-de-mayo.png",
-      "home_country": "Paraguay",
-      "away_country": "Paraguay",
-      "venue_name": "Estadio Rogelio Lorenzo Livieres",
-      "venue_city": "Avenida Artigas, Barrio Dos Bocas, Asunción",
-      "referee_name": "",
-      "weather": {},
-      "home_ppg": 1.18,
-      "away_ppg": 1.09,
-      "team_a_xg_prematch": 1.28,
-      "team_b_xg_prematch": 1.07,
-      "btts_potential": 46.0,
-      "o25_potential": 41.0,
-      "o05HT_potential": 64.0,
-      "odds_ft_1": 1.88,
-      "odds_ft_x": 3.2,
-      "odds_ft_2": 4.1,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data: model predictions, league standings, H2H, and key sidelined players. Critical odds for Over 2.5 and BTTS are also missing, preventing proper analysis of those markets.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data: model predictions, league standings, H2H, and key sidelined players. Critical odds for Over 2.5 and BTTS are also missing, preventing proper analysis of those markets.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data: model predictions, league standings, H2H, and key sidelined players. Critical odds for Over 2.5 and BTTS are also missing, preventing proper analysis of those markets.\nCONCLUSION: No Bet / Skip"
-    },
-    {
       "id": "8432025",
       "source_ids": {
         "footystats": "8432025",
@@ -113,10 +35,10 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY / LOW CONFIDENCE\nREASON: Critical data missing: league context, full odds (O2.5, BTTS, IH05), model predictions, standings, H2H, and sidelined players. Insufficient information to cross-check effectively or determine true market value.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY / LOW CONFIDENCE\nREASON: Critical data missing: league context, full odds (O2.5, BTTS, IH05), model predictions, standings, H2H, and sidelined players. Insufficient information to cross-check effectively or determine true market value.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY / LOW CONFIDENCE\nREASON: Critical data missing: league context, full odds (O2.5, BTTS, IH05), model predictions, standings, H2H, and sidelined players. Insufficient information to cross-check effectively or determine true market value.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Crucial data missing (standings, H2H, model predictions, specific odds for goals markets). Data for Over 2.5 and BTTS is incomplete (odds=0 vs. existing potential), preventing proper cross-verification.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Crucial data missing (standings, H2H, model predictions, specific odds for goals markets). Data for Over 2.5 and BTTS is incomplete (odds=0 vs. existing potential), preventing proper cross-verification.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Crucial data missing (standings, H2H, model predictions, specific odds for goals markets). Data for Over 2.5 and BTTS is incomplete (odds=0 vs. existing potential), preventing proper cross-verification.\nCONCLUSION: No Bet / Skip."
     }
   ],
-  "updated_at": "2026-03-25T21:55:53.679369Z"
+  "updated_at": "2026-03-25T22:48:54.971493Z"
 }
