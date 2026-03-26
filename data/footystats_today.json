@@ -35,9 +35,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data gaps include missing odds for Over 2.5 and BTTS, no model predictions, standings, H2H, or key player information. xG suggests a tight game (1.13 vs 1.12), but PPG (1.08 vs 1.25) conflicts with bookmaker odds (Home 2.25, Away 2.9).\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data gaps include missing odds for Over 2.5 and BTTS, no model predictions, standings, H2H, or key player information. xG suggests a tight game (1.13 vs 1.12), but PPG (1.08 vs 1.25) conflicts with bookmaker odds (Home 2.25, Away 2.9).\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data gaps include missing odds for Over 2.5 and BTTS, no model predictions, standings, H2H, or key player information. xG suggests a tight game (1.13 vs 1.12), but PPG (1.08 vs 1.25) conflicts with bookmaker odds (Home 2.25, Away 2.9).\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data deficiencies including absent model predictions, standings, H2H, and specific odds for Over 2.5 and Both Teams Score. xG, PPG, and available odds do not provide a clear, low-risk advantage.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data deficiencies including absent model predictions, standings, H2H, and specific odds for Over 2.5 and Both Teams Score. xG, PPG, and available odds do not provide a clear, low-risk advantage.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data deficiencies including absent model predictions, standings, H2H, and specific odds for Over 2.5 and Both Teams Score. xG, PPG, and available odds do not provide a clear, low-risk advantage.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8419334",
@@ -74,10 +74,49 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY. Significant data gaps and internal conflicts.\nREASON: Missing league, standings, H2H, model predictions, and key sidelined players. xG (home favor) conflicts with PPG (away favor). BTTS and O2.5 odds are invalid.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY. Significant data gaps and internal conflicts.\nREASON: Missing league, standings, H2H, model predictions, and key sidelined players. xG (home favor) conflicts with PPG (away favor). BTTS and O2.5 odds are invalid.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY. Significant data gaps and internal conflicts.\nREASON: Missing league, standings, H2H, model predictions, and key sidelined players. xG (home favor) conflicts with PPG (away favor). BTTS and O2.5 odds are invalid.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including O2.5/BTTS odds, model predictions, standings, H2H, and sidelined players are missing. PPG contradicts favored odds. O2.5 potential conflicts with combined xG.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including O2.5/BTTS odds, model predictions, standings, H2H, and sidelined players are missing. PPG contradicts favored odds. O2.5 potential conflicts with combined xG.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including O2.5/BTTS odds, model predictions, standings, H2H, and sidelined players are missing. PPG contradicts favored odds. O2.5 potential conflicts with combined xG.\nCONCLUSION: No Bet / Skip"
+    },
+    {
+      "id": "8235211",
+      "source_ids": {
+        "footystats": "8235211",
+        "sportmonks": ""
+      },
+      "home_name": "Córdoba",
+      "away_name": "Mirandés",
+      "competition_name": "",
+      "competition_id": 15066,
+      "league_country": "",
+      "league_country_image": "",
+      "date_unix": 1774634400,
+      "home_image": "teams/spain-cordoba-cf.png",
+      "away_image": "teams/spain-cd-mirandes.png",
+      "home_country": "Spain",
+      "away_country": "Spain",
+      "venue_name": "Estadio Nuevo Arcángel",
+      "venue_city": "Avenida del Arcángel, Córdoba",
+      "referee_name": "",
+      "weather": {},
+      "home_ppg": 1.4,
+      "away_ppg": 0.8,
+      "team_a_xg_prematch": 1.89,
+      "team_b_xg_prematch": 1.11,
+      "btts_potential": 60.0,
+      "o25_potential": 53.0,
+      "o05HT_potential": 77.0,
+      "odds_ft_1": 1.6,
+      "odds_ft_x": 3.8,
+      "odds_ft_2": 4.35,
+      "homeGoalCount": 0,
+      "awayGoalCount": 0,
+      "status": "incomplete",
+      "elapsed": 0,
+      "boss_ai_decision": "STATUS: No Bet / Skip\nREASON: Critical data points are missing (league standings, H2H, key sidelined players, model predictions). Bookmaker odds for Over 2.5, Both Teams Score, and First Half Over 0.5 are unavailable, preventing comprehensive cross-checking and value assessment.\nCONCLUSION: Insufficient data for a confident, low-risk recommendation.",
+      "prematch_comment": "STATUS: No Bet / Skip\nREASON: Critical data points are missing (league standings, H2H, key sidelined players, model predictions). Bookmaker odds for Over 2.5, Both Teams Score, and First Half Over 0.5 are unavailable, preventing comprehensive cross-checking and value assessment.\nCONCLUSION: Insufficient data for a confident, low-risk recommendation.",
+      "ai_comment": "STATUS: No Bet / Skip\nREASON: Critical data points are missing (league standings, H2H, key sidelined players, model predictions). Bookmaker odds for Over 2.5, Both Teams Score, and First Half Over 0.5 are unavailable, preventing comprehensive cross-checking and value assessment.\nCONCLUSION: Insufficient data for a confident, low-risk recommendation."
     }
   ],
-  "updated_at": "2026-03-26T17:13:44.241378Z"
+  "updated_at": "2026-03-26T18:13:33.137627Z"
 }
