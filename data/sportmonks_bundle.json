@@ -5474,6 +5474,2577 @@
         ]
       },
       "fetched_at": "2026-03-27T20:00:39.805855Z"
+    },
+    "19648226": {
+      "detail": {
+        "id": 19648226,
+        "sport_id": 1,
+        "league_id": 1034,
+        "season_id": 26894,
+        "stage_id": 77480127,
+        "group_id": null,
+        "aggregate_id": null,
+        "round_id": 399386,
+        "state_id": 1,
+        "venue_id": 709,
+        "name": "Pohang Steelers vs Gangwon",
+        "starting_at": "2026-03-28 06:00:00",
+        "result_info": null,
+        "leg": "1/1",
+        "details": null,
+        "length": 90,
+        "placeholder": false,
+        "has_odds": true,
+        "has_premium_odds": true,
+        "starting_at_timestamp": 1774677600,
+        "participants": [
+          {
+            "id": 7273,
+            "sport_id": 1,
+            "country_id": 712,
+            "venue_id": 14112,
+            "gender": "male",
+            "name": "Gangwon",
+            "short_code": null,
+            "image_path": "https://cdn.sportmonks.com/images/soccer/teams/9/7273.png",
+            "founded": 2008,
+            "type": "domestic",
+            "placeholder": false,
+            "last_played_at": "2026-03-22 07:30:00",
+            "meta": {
+              "location": "away",
+              "winner": null,
+              "position": 11
+            }
+          },
+          {
+            "id": 1506,
+            "sport_id": 1,
+            "country_id": 712,
+            "venue_id": 709,
+            "gender": "male",
+            "name": "Pohang Steelers",
+            "short_code": null,
+            "image_path": "https://cdn.sportmonks.com/images/soccer/teams/2/1506.png",
+            "founded": 1973,
+            "type": "domestic",
+            "placeholder": false,
+            "last_played_at": "2026-03-22 07:30:00",
+            "meta": {
+              "location": "home",
+              "winner": null,
+              "position": 10
+            }
+          }
+        ],
+        "league": {
+          "id": 1034,
+          "sport_id": 1,
+          "country_id": 712,
+          "name": "K League 1",
+          "active": true,
+          "short_code": "KOR KL",
+          "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/10/1034.png",
+          "type": "league",
+          "sub_type": "domestic",
+          "last_played_at": "2026-03-22 07:30:00",
+          "category": 2,
+          "has_jerseys": false,
+          "country": {
+            "id": 712,
+            "continent_id": 2,
+            "name": "South Korea",
+            "official_name": "Republic of Korea",
+            "fifa_name": "KOR",
+            "iso2": "KR",
+            "iso3": "KOR",
+            "latitude": "40.077640533447266",
+            "longitude": "127.13385009765625",
+            "borders": [
+              "PRK"
+            ],
+            "image_path": "https://cdn.sportmonks.com/images/countries/png/short/kr.png"
+          }
+        },
+        "venue": {
+          "id": 709,
+          "country_id": 712,
+          "city_id": 70057,
+          "name": "Steelyard Stadium",
+          "address": null,
+          "zipcode": null,
+          "latitude": "36.0189315",
+          "longitude": "129.3429384",
+          "capacity": 17443,
+          "image_path": "https://cdn.sportmonks.com/images/soccer/venues/5/709.png",
+          "city_name": "Pohang",
+          "surface": "grass",
+          "national_team": false
+        },
+        "state": {
+          "id": 1,
+          "state": "NS",
+          "name": "Not Started",
+          "short_name": "NS",
+          "developer_name": "NS"
+        },
+        "scores": [
+          {
+            "id": 19694270,
+            "fixture_id": 19648226,
+            "type_id": 1525,
+            "participant_id": 7273,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "CURRENT"
+          },
+          {
+            "id": 19694273,
+            "fixture_id": 19648226,
+            "type_id": 1,
+            "participant_id": 7273,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+            "id": 19694274,
+            "fixture_id": 19648226,
+            "type_id": 1,
+            "participant_id": 1506,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+            "id": 19694272,
+            "fixture_id": 19648226,
+            "type_id": 1525,
+            "participant_id": 1506,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "CURRENT"
+          },
+          {
+            "id": 19694275,
+            "fixture_id": 19648226,
+            "type_id": 2,
+            "participant_id": 7273,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "2ND_HALF"
+          },
+          {
+            "id": 19694276,
+            "fixture_id": 19648226,
+            "type_id": 2,
+            "participant_id": 1506,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "2ND_HALF"
+          }
+        ],
+        "periods": [],
+        "events": [],
+        "statistics": [],
+        "lineups": [
+          {
+            "id": 14673208904,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 321289,
+            "team_id": 1506,
+            "position_id": 24,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Pyeong-guk Yun",
+            "jersey_number": 1,
+            "player": {
+              "id": 321289,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": 24,
+              "common_name": "P. Yoon",
+              "firstname": "Pyeong-Gook",
+              "lastname": "Yoon",
+              "name": "Pyeong-Gook Yoon",
+              "display_name": "Pyeong-guk Yun",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 189,
+              "weight": 79,
+              "date_of_birth": "1992-02-08",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208883,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37562307,
+            "team_id": 1506,
+            "position_id": 25,
+            "formation_field": "2:4",
+            "type_id": 11,
+            "formation_position": 5,
+            "player_name": "Jeong-won Eo",
+            "jersey_number": 2,
+            "player": {
+              "id": 37562307,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": 27,
+              "common_name": "J. Eo",
+              "firstname": "Jeong-Won",
+              "lastname": "Eo",
+              "name": "Jeong-Won Eo",
+              "display_name": "Jeong-won Eo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/3/37562307.png",
+              "height": 175,
+              "weight": null,
+              "date_of_birth": "1999-07-08",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208887,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 13186217,
+            "team_id": 1506,
+            "position_id": 25,
+            "formation_field": "2:1",
+            "type_id": 11,
+            "formation_position": 2,
+            "player_name": "Ye-sung Kim",
+            "jersey_number": 3,
+            "player": {
+              "id": 13186217,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 155,
+              "type_id": 25,
+              "common_name": "Y. Kim",
+              "firstname": "Ye-Sung",
+              "lastname": "Kim",
+              "name": "Ye-Sung Kim",
+              "display_name": "Ye-sung Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 172,
+              "weight": 69,
+              "date_of_birth": "1996-10-21",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208908,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 169812,
+            "team_id": 1506,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "In-sung Kim",
+            "jersey_number": 7,
+            "player": {
+              "id": 169812,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 152,
+              "type_id": 26,
+              "common_name": "I. Kim",
+              "firstname": "In-Sung",
+              "lastname": "Kim",
+              "name": "In-Sung Kim",
+              "display_name": "In-sung Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/20/169812.png",
+              "height": 180,
+              "weight": 74,
+              "date_of_birth": "1989-09-09",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208888,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37563500,
+            "team_id": 1506,
+            "position_id": 26,
+            "formation_field": "3:3",
+            "type_id": 11,
+            "formation_position": 8,
+            "player_name": "Seung-ho Kim",
+            "jersey_number": 8,
+            "player": {
+              "id": 37563500,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "S. Kim",
+              "firstname": "Seung-Ho",
+              "lastname": "Kim",
+              "name": "Seung-Ho Kim",
+              "display_name": "Seung-ho Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 173,
+              "weight": null,
+              "date_of_birth": "1998-10-01",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208906,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37619399,
+            "team_id": 1506,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Jakob Tranziska",
+            "jersey_number": 10,
+            "player": {
+              "id": 37619399,
+              "sport_id": 1,
+              "country_id": 11,
+              "nationality_id": 11,
+              "city_id": 19224,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": null,
+              "common_name": "J. Tranziska",
+              "firstname": "Jakob",
+              "lastname": "Tranziska",
+              "name": "Jakob Tranziska",
+              "display_name": "Jakob Tranziska",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/7/37619399.png",
+              "height": 189,
+              "weight": null,
+              "date_of_birth": "2001-06-25",
+              "gender": null
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208910,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 463224,
+            "team_id": 1506,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Juninho Rocha",
+            "jersey_number": 11,
+            "player": {
+              "id": 463224,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": 74558,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 26,
+              "common_name": "P. da Rocha Júnior",
+              "firstname": "Paulo Afonso",
+              "lastname": "da Rocha Júnior",
+              "name": "Paulo Afonso da Rocha Júnior",
+              "display_name": "Juninho Rocha",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 170,
+              "weight": 65,
+              "date_of_birth": "1997-11-05",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208905,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37700496,
+            "team_id": 1506,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Chang-woo Lee",
+            "jersey_number": 14,
+            "player": {
+              "id": 37700496,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": null,
+              "common_name": "C. Lee",
+              "firstname": "Chang-Woo",
+              "lastname": "Lee",
+              "name": "Chang-Woo Lee",
+              "display_name": "Chang-woo Lee",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 178,
+              "weight": 70,
+              "date_of_birth": "2006-03-12",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208912,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37735452,
+            "team_id": 1506,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Dong-jin Kim",
+            "jersey_number": 16,
+            "player": {
+              "id": 37735452,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": null,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": null,
+              "common_name": "D. Kim",
+              "firstname": "Dong-Jin",
+              "lastname": "Kim",
+              "name": "Dong-Jin Kim",
+              "display_name": "Dong-jin Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 181,
+              "weight": 71,
+              "date_of_birth": "2003-07-30",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208911,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 319932,
+            "team_id": 1506,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Kwang-hoon Shin",
+            "jersey_number": 17,
+            "player": {
+              "id": 319932,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": 60081,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": 25,
+              "common_name": "K. Shin",
+              "firstname": "Kwang-Hoon",
+              "lastname": "Shin",
+              "name": "Kwang-Hoon Shin",
+              "display_name": "Kwang-hoon Shin",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/28/319932.png",
+              "height": 178,
+              "weight": 73,
+              "date_of_birth": "1987-03-18",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208890,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37561719,
+            "team_id": 1506,
+            "position_id": 27,
+            "formation_field": "4:2",
+            "type_id": 11,
+            "formation_position": 11,
+            "player_name": "Ho-jae Lee",
+            "jersey_number": 19,
+            "player": {
+              "id": 37561719,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "H. Lee",
+              "firstname": "Ho-Jae",
+              "lastname": "Lee",
+              "name": "Ho-Jae Lee",
+              "display_name": "Ho-jae Lee",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/23/37561719.png",
+              "height": 192,
+              "weight": 84,
+              "date_of_birth": "2000-10-14",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208892,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 319194,
+            "team_id": 1506,
+            "position_id": 25,
+            "formation_field": "2:2",
+            "type_id": 11,
+            "formation_position": 3,
+            "player_name": "Chan-yong Park",
+            "jersey_number": 20,
+            "player": {
+              "id": 319194,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "C. Park",
+              "firstname": "Chan-Yong",
+              "lastname": "Park",
+              "name": "Chan-Yong Park",
+              "display_name": "Chan-yong Park",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/26/319194.png",
+              "height": 186,
+              "weight": 80,
+              "date_of_birth": "1996-01-27",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208885,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 321252,
+            "team_id": 1506,
+            "position_id": 24,
+            "formation_field": "1:1",
+            "type_id": 11,
+            "formation_position": 1,
+            "player_name": "In-jae Hwang",
+            "jersey_number": 21,
+            "player": {
+              "id": 321252,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": 24,
+              "common_name": "I. Hwang",
+              "firstname": "In-Jae",
+              "lastname": "Hwang",
+              "name": "In-Jae Hwang",
+              "display_name": "In-jae Hwang",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/4/321252.png",
+              "height": 188,
+              "weight": 73,
+              "date_of_birth": "1994-04-22",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208884,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37913073,
+            "team_id": 1506,
+            "position_id": 25,
+            "formation_field": "2:3",
+            "type_id": 11,
+            "formation_position": 4,
+            "player_name": "Hyeon-seo Han",
+            "jersey_number": 24,
+            "player": {
+              "id": 37913073,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": null,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": null,
+              "common_name": "H. Han",
+              "firstname": "Hyeon-Seo",
+              "lastname": "Han",
+              "name": "Hyeon-Seo Han",
+              "display_name": "Hyeon-seo Han",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 186,
+              "weight": 76,
+              "date_of_birth": "2004-01-02",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208882,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37533029,
+            "team_id": 1506,
+            "position_id": 27,
+            "formation_field": "4:1",
+            "type_id": 11,
+            "formation_position": 10,
+            "player_name": "Jorge Teixeira",
+            "jersey_number": 25,
+            "player": {
+              "id": 37533029,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "J. Barbosa Teixeira",
+              "firstname": "Jorge Luiz",
+              "lastname": "Barbosa Teixeira",
+              "name": "Jorge Luiz Barbosa Teixeira",
+              "display_name": "Jorge Teixeira",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 192,
+              "weight": null,
+              "date_of_birth": "1999-06-21",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208889,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37342731,
+            "team_id": 1506,
+            "position_id": 26,
+            "formation_field": "3:1",
+            "type_id": 11,
+            "formation_position": 6,
+            "player_name": "Yong-hak Kim",
+            "jersey_number": 30,
+            "player": {
+              "id": 37342731,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 27,
+              "common_name": "Y. Kim",
+              "firstname": "Yong-Hak",
+              "lastname": "Kim",
+              "name": "Yong-Hak Kim",
+              "display_name": "Yong-hak Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/11/37342731.png",
+              "height": 172,
+              "weight": null,
+              "date_of_birth": "2003-05-20",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208891,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37680428,
+            "team_id": 1506,
+            "position_id": 26,
+            "formation_field": "3:2",
+            "type_id": 11,
+            "formation_position": 7,
+            "player_name": "Kento Nishiya",
+            "jersey_number": 31,
+            "player": {
+              "id": 37680428,
+              "sport_id": 1,
+              "country_id": 479,
+              "nationality_id": 479,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 149,
+              "type_id": null,
+              "common_name": "K. Nishiya",
+              "firstname": "Kento",
+              "lastname": "Nishiya",
+              "name": "Kento Nishiya",
+              "display_name": "Kento Nishiya",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 175,
+              "weight": 68,
+              "date_of_birth": "1999-11-07",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208907,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 813,
+            "team_id": 1506,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Sung-yueng Ki",
+            "jersey_number": 40,
+            "player": {
+              "id": 813,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 149,
+              "type_id": 26,
+              "common_name": "S. Ki",
+              "firstname": "Sung-Yeung",
+              "lastname": "Ki",
+              "name": "Sung-Yeung Ki",
+              "display_name": "Sung-yueng Ki",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/13/813.png",
+              "height": 188,
+              "weight": 75,
+              "date_of_birth": "1989-01-24",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208886,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37735451,
+            "team_id": 1506,
+            "position_id": 26,
+            "formation_field": "3:4",
+            "type_id": 11,
+            "formation_position": 9,
+            "player_name": "Seo-woong Hwang",
+            "jersey_number": 70,
+            "player": {
+              "id": 37735451,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": null,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": null,
+              "common_name": "S. Hwang",
+              "firstname": "Seo-Woong",
+              "lastname": "Hwang",
+              "name": "Seo-Woong Hwang",
+              "display_name": "Seo-woong Hwang",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 177,
+              "weight": null,
+              "date_of_birth": "2005-01-22",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208909,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 222138,
+            "team_id": 1506,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Wanderson",
+            "jersey_number": 77,
+            "player": {
+              "id": 222138,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 152,
+              "type_id": 25,
+              "common_name": "W. Carvalho Oliveira",
+              "firstname": "Wanderson",
+              "lastname": "Carvalho Oliveira",
+              "name": "Wanderson Carvalho Oliveira",
+              "display_name": "Wanderson",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 172,
+              "weight": 60,
+              "date_of_birth": "1989-03-31",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208902,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 320786,
+            "team_id": 7273,
+            "position_id": 24,
+            "formation_field": "1:1",
+            "type_id": 11,
+            "formation_position": 1,
+            "player_name": "Cheong-hyo Park",
+            "jersey_number": 1,
+            "player": {
+              "id": 320786,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": 24,
+              "common_name": "C. Park",
+              "firstname": "Chung-Hyo",
+              "lastname": "Park",
+              "name": "Chung-Hyo Park",
+              "display_name": "Cheong-hyo Park",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/18/320786.png",
+              "height": 190,
+              "weight": 77,
+              "date_of_birth": "1990-02-13",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208913,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": null,
+            "team_id": 7273,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Jeong Seung-Bin",
+            "jersey_number": 3,
+            "player": null,
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208917,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37474580,
+            "team_id": 7273,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Min-woo Seo",
+            "jersey_number": 4,
+            "player": {
+              "id": 37474580,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 149,
+              "type_id": 26,
+              "common_name": "Seo Min-Woo",
+              "firstname": "Min-Woo",
+              "lastname": "Seo",
+              "name": "Min-Woo Seo",
+              "display_name": "Min-woo Seo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/20/37474580.png",
+              "height": 184,
+              "weight": 75,
+              "date_of_birth": "1998-03-12",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208897,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 324352,
+            "team_id": 7273,
+            "position_id": 26,
+            "formation_field": "3:1",
+            "type_id": 11,
+            "formation_position": 9,
+            "player_name": "Dae-won Kim",
+            "jersey_number": 7,
+            "player": {
+              "id": 324352,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": 82035,
+              "position_id": 27,
+              "detailed_position_id": 152,
+              "type_id": 27,
+              "common_name": "D. Kim",
+              "firstname": "Dae-Won",
+              "lastname": "Kim",
+              "name": "Dae-Won Kim",
+              "display_name": "Dae-won Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/0/324352.png",
+              "height": 170,
+              "weight": 68,
+              "date_of_birth": "1997-02-10",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208899,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37677375,
+            "team_id": 7273,
+            "position_id": 26,
+            "formation_field": "3:2",
+            "type_id": 11,
+            "formation_position": 8,
+            "player_name": "Seung-won Lee",
+            "jersey_number": 8,
+            "player": {
+              "id": 37677375,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": null,
+              "common_name": "S. Lee",
+              "firstname": "Seung-Won",
+              "lastname": "Lee",
+              "name": "Seung-Won Lee",
+              "display_name": "Seung-won Lee",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/31/37677375.png",
+              "height": 174,
+              "weight": 66,
+              "date_of_birth": "2003-03-06",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208901,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 781632,
+            "team_id": 7273,
+            "position_id": 26,
+            "formation_field": "3:4",
+            "type_id": 11,
+            "formation_position": 6,
+            "player_name": "Jae-hyeon Mo",
+            "jersey_number": 10,
+            "player": {
+              "id": 781632,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 27,
+              "common_name": "J. Mo",
+              "firstname": "Jae-Hyeon",
+              "lastname": "Mo",
+              "name": "Jae-Hyeon Mo",
+              "display_name": "Jae-hyeon Mo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/0/781632.png",
+              "height": 184,
+              "weight": 74,
+              "date_of_birth": "1996-09-24",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208915,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37438687,
+            "team_id": 7273,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Young-jun Goh",
+            "jersey_number": 11,
+            "player": {
+              "id": 37438687,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": 100664,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": 26,
+              "common_name": "Go Young-jun",
+              "firstname": "Young-jun",
+              "lastname": "Go",
+              "name": "Young-jun Go",
+              "display_name": "Young-jun Goh",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/31/37438687.png",
+              "height": 168,
+              "weight": 73,
+              "date_of_birth": "2001-07-09",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208898,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37561621,
+            "team_id": 7273,
+            "position_id": 25,
+            "formation_field": "2:2",
+            "type_id": 11,
+            "formation_position": 4,
+            "player_name": "Gi-hyuk Lee",
+            "jersey_number": 13,
+            "player": {
+              "id": 37561621,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 26,
+              "common_name": "G. Lee",
+              "firstname": "Gi-Hyuk",
+              "lastname": "Lee",
+              "name": "Gi-Hyuk Lee",
+              "display_name": "Gi-hyuk Lee",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/21/37561621.png",
+              "height": 184,
+              "weight": 76,
+              "date_of_birth": "2000-07-07",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208895,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37555208,
+            "team_id": 7273,
+            "position_id": 27,
+            "formation_field": "4:2",
+            "type_id": 11,
+            "formation_position": 10,
+            "player_name": "Yun-gu Kang",
+            "jersey_number": 14,
+            "player": {
+              "id": 37555208,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": 82035,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": 26,
+              "common_name": "Y. Kang",
+              "firstname": "Yoon-Gu",
+              "lastname": "Kang",
+              "name": "Yoon-Gu Kang",
+              "display_name": "Yun-gu Kang",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 177,
+              "weight": null,
+              "date_of_birth": "2002-04-08",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208914,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37563551,
+            "team_id": 7273,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Sang-hyeok Park",
+            "jersey_number": 19,
+            "player": {
+              "id": 37563551,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "S. Park",
+              "firstname": "Sang-Hyeok",
+              "lastname": "Park",
+              "name": "Sang-Hyeok Park",
+              "display_name": "Sang-hyeok Park",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/31/37563551.png",
+              "height": 182,
+              "weight": 75,
+              "date_of_birth": "2002-06-13",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208903,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 1525368,
+            "team_id": 7273,
+            "position_id": 25,
+            "formation_field": "2:3",
+            "type_id": 11,
+            "formation_position": 3,
+            "player_name": "Marko Tuci",
+            "jersey_number": 23,
+            "player": {
+              "id": 1525368,
+              "sport_id": 1,
+              "country_id": 998,
+              "nationality_id": 998,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "M. Tuci",
+              "firstname": "Marko",
+              "lastname": "Tuci",
+              "name": "Marko Tuci",
+              "display_name": "Marko Tuci",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 190,
+              "weight": null,
+              "date_of_birth": "1998-12-04",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208918,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 13186145,
+            "team_id": 7273,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Ho-yeong Park",
+            "jersey_number": 24,
+            "player": {
+              "id": 13186145,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "H. Park",
+              "firstname": "Ho-Young",
+              "lastname": "Park",
+              "name": "Ho-Young Park",
+              "display_name": "Ho-yeong Park",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 198,
+              "weight": 87,
+              "date_of_birth": "1999-04-07",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208921,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 38211143,
+            "team_id": 7273,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Won-woo Cho",
+            "jersey_number": 26,
+            "player": {
+              "id": 38211143,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 27,
+              "type_id": null,
+              "common_name": "W.  Cho",
+              "firstname": "Won-woo",
+              "lastname": "Cho",
+              "name": "Won-woo Cho",
+              "display_name": "Won-woo Cho",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": null,
+              "weight": null,
+              "date_of_birth": "2005-05-12",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208896,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37679853,
+            "team_id": 7273,
+            "position_id": 25,
+            "formation_field": "2:4",
+            "type_id": 11,
+            "formation_position": 2,
+            "player_name": "Do-hyun Kim",
+            "jersey_number": 27,
+            "player": {
+              "id": 37679853,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": null,
+              "common_name": "D. Kim",
+              "firstname": "Do-Hyun",
+              "lastname": "Kim",
+              "name": "Do-Hyun Kim",
+              "display_name": "Do-hyun Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 177,
+              "weight": null,
+              "date_of_birth": "2004-05-12",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208920,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37563546,
+            "team_id": 7273,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Jun-seok Song",
+            "jersey_number": 34,
+            "player": {
+              "id": 37563546,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 155,
+              "type_id": 25,
+              "common_name": "J. Song",
+              "firstname": "Jun-Seok",
+              "lastname": "Song",
+              "name": "Jun-Seok Song",
+              "display_name": "Jun-seok Song",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 170,
+              "weight": 67,
+              "date_of_birth": "2001-02-06",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208919,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37677370,
+            "team_id": 7273,
+            "position_id": 24,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Min-kyu Cho",
+            "jersey_number": 51,
+            "player": {
+              "id": 37677370,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": null,
+              "common_name": "M. Cho",
+              "firstname": "Min-Kyu",
+              "lastname": "Cho",
+              "name": "Min-Kyu Cho",
+              "display_name": "Min-kyu Cho",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 193,
+              "weight": 84,
+              "date_of_birth": "2003-04-30",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208893,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37387708,
+            "team_id": 7273,
+            "position_id": 27,
+            "formation_field": "4:1",
+            "type_id": 11,
+            "formation_position": 11,
+            "player_name": "Abdallah Khalaihal",
+            "jersey_number": 77,
+            "player": {
+              "id": 37387708,
+              "sport_id": 1,
+              "country_id": 802,
+              "nationality_id": 802,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 26,
+              "common_name": "A. Halaihal",
+              "firstname": "Abdalla",
+              "lastname": "Halaihal",
+              "name": "Abdalla Halaihal",
+              "display_name": "Abdallah Khalaihal",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": null,
+              "weight": null,
+              "date_of_birth": "2001-01-11",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208916,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 13186162,
+            "team_id": 7273,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Byeong-chan Choe",
+            "jersey_number": 96,
+            "player": {
+              "id": 13186162,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 26,
+              "common_name": "B. Choe",
+              "firstname": "Byeong-Chan",
+              "lastname": "Choe",
+              "name": "Byeong-Chan Choe",
+              "display_name": "Byeong-chan Choe",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/18/13186162.png",
+              "height": 175,
+              "weight": 65,
+              "date_of_birth": "1996-04-04",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208900,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 787520,
+            "team_id": 7273,
+            "position_id": 26,
+            "formation_field": "3:3",
+            "type_id": 11,
+            "formation_position": 7,
+            "player_name": "You-hyeon Lee",
+            "jersey_number": 97,
+            "player": {
+              "id": 787520,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": 25,
+              "common_name": "Y. Lee",
+              "firstname": "You-Hyeon",
+              "lastname": "Lee",
+              "name": "You-Hyeon Lee",
+              "display_name": "You-hyeon Lee",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 179,
+              "weight": 74,
+              "date_of_birth": "1997-02-08",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673208894,
+            "sport_id": 1,
+            "fixture_id": 19648226,
+            "player_id": 37690698,
+            "team_id": 7273,
+            "position_id": 25,
+            "formation_field": "2:1",
+            "type_id": 11,
+            "formation_position": 5,
+            "player_name": "Joon-hyuck Kang",
+            "jersey_number": 99,
+            "player": {
+              "id": 37690698,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": null,
+              "common_name": "J. Kang",
+              "firstname": "Joon-Hyuck",
+              "lastname": "Kang",
+              "name": "Joon-Hyuck Kang",
+              "display_name": "Joon-hyuck Kang",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 177,
+              "weight": null,
+              "date_of_birth": "1999-10-20",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          }
+        ],
+        "coaches": [
+          {
+            "id": 452788,
+            "player_id": 452788,
+            "sport_id": 1,
+            "country_id": 712,
+            "nationality_id": 712,
+            "city_id": null,
+            "common_name": "T. Park",
+            "firstname": "Tae-Ha",
+            "lastname": "Park",
+            "name": "Tae-Ha Park",
+            "display_name": "Tae-Ha Park",
+            "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+            "height": null,
+            "weight": null,
+            "date_of_birth": "1968-05-29",
+            "gender": "male",
+            "meta": {
+              "fixture_id": 19648226,
+              "coach_id": 452788,
+              "participant_id": 1506
+            }
+          },
+          {
+            "id": 37656417,
+            "player_id": 37656417,
+            "sport_id": 1,
+            "country_id": 712,
+            "nationality_id": 712,
+            "city_id": null,
+            "common_name": "C. Kyung-Ho",
+            "firstname": "Chung",
+            "lastname": "Kyung-Ho",
+            "name": "Chung Kyung-Ho",
+            "display_name": "Chung Kyung-Ho",
+            "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+            "height": null,
+            "weight": null,
+            "date_of_birth": null,
+            "gender": "male",
+            "meta": {
+              "fixture_id": 19648226,
+              "coach_id": 37656417,
+              "participant_id": 7273
+            }
+          }
+        ],
+        "sidelined": [
+          {
+            "id": 1390929,
+            "fixture_id": 19648226,
+            "sideline_id": 776622,
+            "participant_id": 1506,
+            "player_id": 323779,
+            "type_id": 1608,
+            "sideline": {
+              "id": 776622,
+              "player_id": 323779,
+              "type_id": 1608,
+              "category": "suspended",
+              "team_id": 1506,
+              "season_id": null,
+              "start_date": "2026-03-23",
+              "end_date": "2026-04-05",
+              "games_missed": 0,
+              "completed": false,
+              "player": {
+                "id": 323779,
+                "sport_id": 1,
+                "country_id": 712,
+                "nationality_id": 712,
+                "city_id": null,
+                "position_id": 25,
+                "detailed_position_id": 148,
+                "type_id": 25,
+                "common_name": "M. Jeon",
+                "firstname": "Min-Gwang",
+                "lastname": "Jeon",
+                "name": "Min-Gwang Jeon",
+                "display_name": "Min-kwang Jeon ",
+                "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+                "height": 187,
+                "weight": 73,
+                "date_of_birth": "1993-01-17",
+                "gender": "male"
+              },
+              "type": {
+                "id": 1608,
+                "name": "Red Card Suspension",
+                "code": "red-card-suspension",
+                "developer_name": "RED_CARD_SUSPENSION",
+                "model_type": "injury_suspension",
+                "stat_group": null
+              }
+            }
+          },
+          {
+            "id": 1364639,
+            "fixture_id": 19648226,
+            "sideline_id": 758040,
+            "participant_id": 7273,
+            "player_id": 13186189,
+            "type_id": 587,
+            "sideline": {
+              "id": 758040,
+              "player_id": 13186189,
+              "type_id": 587,
+              "category": "injury",
+              "team_id": 7273,
+              "season_id": null,
+              "start_date": "2025-08-09",
+              "end_date": null,
+              "games_missed": 36,
+              "completed": false,
+              "player": {
+                "id": 13186189,
+                "sport_id": 1,
+                "country_id": 712,
+                "nationality_id": 712,
+                "city_id": 82035,
+                "position_id": 26,
+                "detailed_position_id": 149,
+                "type_id": 26,
+                "common_name": "D. Kim",
+                "firstname": "Dong-Hyun",
+                "lastname": "Kim",
+                "name": "Dong-Hyun Kim",
+                "display_name": "Dong-hyeon Kim",
+                "image_path": "https://cdn.sportmonks.com/images/soccer/players/13/13186189.png",
+                "height": 182,
+                "weight": 72,
+                "date_of_birth": "1997-06-11",
+                "gender": "male"
+              },
+              "type": {
+                "id": 587,
+                "name": "Unknown Injury",
+                "code": "unknown-injury",
+                "developer_name": "UNKNOWN_INJURY",
+                "model_type": "injury_suspension",
+                "stat_group": null
+              }
+            }
+          },
+          {
+            "id": 1364637,
+            "fixture_id": 19648226,
+            "sideline_id": 725278,
+            "participant_id": 1506,
+            "player_id": 751157,
+            "type_id": 587,
+            "sideline": {
+              "id": 725278,
+              "player_id": 751157,
+              "type_id": 587,
+              "category": "injury",
+              "team_id": 1506,
+              "season_id": null,
+              "start_date": "2025-05-05",
+              "end_date": null,
+              "games_missed": 40,
+              "completed": false,
+              "player": {
+                "id": 751157,
+                "sport_id": 1,
+                "country_id": 712,
+                "nationality_id": 712,
+                "city_id": null,
+                "position_id": 25,
+                "detailed_position_id": 148,
+                "type_id": 27,
+                "common_name": "S. Cho",
+                "firstname": "Sung-Wook",
+                "lastname": "Cho",
+                "name": "Sung-Wook Cho",
+                "display_name": "Sung-wook Jo ",
+                "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+                "height": 188,
+                "weight": 79,
+                "date_of_birth": "1995-03-22",
+                "gender": "male"
+              },
+              "type": {
+                "id": 587,
+                "name": "Unknown Injury",
+                "code": "unknown-injury",
+                "developer_name": "UNKNOWN_INJURY",
+                "model_type": "injury_suspension",
+                "stat_group": null
+              }
+            }
+          }
+        ],
+        "weatherreport": {
+          "id": 724794,
+          "fixture_id": 19648226,
+          "venue_id": 709,
+          "temperature": {
+            "day": 16.09,
+            "morning": 10.81,
+            "evening": 13.9,
+            "night": 10.61
+          },
+          "feels_like": {
+            "day": 15.06,
+            "morning": 9.54,
+            "evening": 12.91,
+            "night": 9.82
+          },
+          "wind": {
+            "speed": 4.79,
+            "direction": 68
+          },
+          "humidity": "50%",
+          "pressure": 1016,
+          "clouds": "0%",
+          "description": "sky is clear",
+          "icon": "https://cdn.sportmonks.com/images/weather/01d.png",
+          "type": "forecast",
+          "metric": "celcius",
+          "current": null
+        },
+        "predictions": [
+          {
+            "id": 25335248,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 60.15,
+              "no": 39.85
+            },
+            "type_id": 333,
+            "type": {
+              "id": 333,
+              "name": "Away Over/Under 0.5 Probability",
+              "code": "away-over-under-0_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_0_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335233,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 46.51,
+              "no": 53.49
+            },
+            "type_id": 231,
+            "type": {
+              "id": 231,
+              "name": "Both Teams To Score Probability",
+              "code": "both-teams-to-score-probability",
+              "developer_name": "BTTS_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335237,
+            "fixture_id": 19648226,
+            "predictions": {
+              "home": 52.04,
+              "away": 37.93,
+              "draw": 10.03
+            },
+            "type_id": 238,
+            "type": {
+              "id": 238,
+              "name": "Team To Score First Probability",
+              "code": "team_to_score_first-probability",
+              "developer_name": "TEAM_TO_SCORE_FIRST_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335258,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 25.68,
+              "no": 64.39,
+              "equal": 9.94
+            },
+            "type_id": 1688,
+            "type": {
+              "id": 1688,
+              "name": "Corners Over/Under 10 Probability",
+              "code": "corners-over-under-10-probability",
+              "developer_name": "CORNERS_OVER_UNDER_10_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335251,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 2.17,
+              "no": 97.83
+            },
+            "type_id": 327,
+            "type": {
+              "id": 327,
+              "name": "Away Over/Under 3.5 Probability",
+              "code": "away-over-under-3_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_3_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335246,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 14.95,
+              "no": 85.05
+            },
+            "type_id": 330,
+            "type": {
+              "id": 330,
+              "name": "Home Over/Under 2.5 Probability",
+              "code": "home-over-under-2_5_probability",
+              "developer_name": "HOME_OVER_UNDER_2_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335235,
+            "fixture_id": 19648226,
+            "predictions": {
+              "home": 31.5,
+              "away": 22.11,
+              "draw": 46.39
+            },
+            "type_id": 233,
+            "type": {
+              "id": 233,
+              "name": "First Half Winner Probability",
+              "code": "first-half-winner",
+              "developer_name": "FIRST_HALF_WINNER_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335249,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 25.42,
+              "no": 74.58
+            },
+            "type_id": 332,
+            "type": {
+              "id": 332,
+              "name": "Away Over/Under 1.5 Probability",
+              "code": "away-over-under-1_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_1_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335245,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 38.31,
+              "no": 61.69
+            },
+            "type_id": 331,
+            "type": {
+              "id": 331,
+              "name": "Home Over/Under 1.5 Probability",
+              "code": "home-over-under-1_5_probability",
+              "developer_name": "HOME_OVER_UNDER_1_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335240,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 67.77,
+              "no": 32.23
+            },
+            "type_id": 234,
+            "type": {
+              "id": 234,
+              "name": "Over/Under 1.5 Probability",
+              "code": "over-under-1_5-probability",
+              "developer_name": "OVER_UNDER_1_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335247,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 4.94,
+              "no": 95.06
+            },
+            "type_id": 326,
+            "type": {
+              "id": 326,
+              "name": "Home Over/Under 3.5 Probability",
+              "code": "home-over-under-3_5_probability",
+              "developer_name": "HOME_OVER_UNDER_3_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335242,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 21.54,
+              "no": 78.46
+            },
+            "type_id": 236,
+            "type": {
+              "id": 236,
+              "name": "Over/Under 3.5 Probability",
+              "code": "over-under-3_5_probability",
+              "developer_name": "OVER_UNDER_3_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335241,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 42.2,
+              "no": 57.8
+            },
+            "type_id": 235,
+            "type": {
+              "id": 235,
+              "name": "Over/Under 2.5 Probability",
+              "code": "over-under-2_5-probability",
+              "developer_name": "OVER_UNDER_2_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335234,
+            "fixture_id": 19648226,
+            "predictions": {
+              "home_home": 24.84,
+              "home_away": 2.04,
+              "home_draw": 5.22,
+              "away_home": 2.66,
+              "away_away": 14.22,
+              "away_draw": 5.12,
+              "draw_draw": 18.83,
+              "draw_home": 16.16,
+              "draw_away": 10.9
+            },
+            "type_id": 232,
+            "type": {
+              "id": 232,
+              "name": "Half Time/Full Time Probability",
+              "code": "half-time-full-time-probability",
+              "developer_name": "HTFT_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335236,
+            "fixture_id": 19648226,
+            "predictions": {
+              "home": 44.34,
+              "away": 27.07,
+              "draw": 28.6
+            },
+            "type_id": 237,
+            "type": {
+              "id": 237,
+              "name": "Fulltime Result Probability",
+              "code": "fulltime-result-probability",
+              "developer_name": "FULLTIME_RESULT_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335250,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 8.36,
+              "no": 91.64
+            },
+            "type_id": 328,
+            "type": {
+              "id": 328,
+              "name": "Away Over/Under 2.5 Probability",
+              "code": "away-over-under-2_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_2_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335238,
+            "fixture_id": 19648226,
+            "predictions": {
+              "draw_home": 72.94,
+              "draw_away": 55.67,
+              "home_away": 71.41
+            },
+            "type_id": 239,
+            "type": {
+              "id": 239,
+              "name": "Double Chance Probability",
+              "code": "double_chance-probability",
+              "developer_name": "DOUBLE_CHANCE_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335239,
+            "fixture_id": 19648226,
+            "predictions": {
+              "scores": {
+                "0-0": 10.03,
+                "0-1": 9.06,
+                "0-2": 4.3,
+                "0-3": 1.67,
+                "1-0": 13.13,
+                "1-1": 13.04,
+                "1-2": 6.32,
+                "1-3": 2.13,
+                "2-0": 8.24,
+                "2-1": 9,
+                "2-2": 4.54,
+                "2-3": 1.58,
+                "3-0": 3.67,
+                "3-1": 3.63,
+                "3-2": 1.9,
+                "3-3": 0.81,
+                "Other_1": 4.77,
+                "Other_2": 2,
+                "Other_X": 0.17
+              }
+            },
+            "type_id": 240,
+            "type": {
+              "id": 240,
+              "name": "Correct Score Probability",
+              "code": "correct-score-probability",
+              "developer_name": "CORRECT_SCORE_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335252,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 89.82,
+              "no": 4.84,
+              "equal": 5.34
+            },
+            "type_id": 1690,
+            "type": {
+              "id": 1690,
+              "name": "Corners Over/Under 4 Probability",
+              "code": "corners-over-under-4-probability",
+              "developer_name": "CORNERS_OVER_UNDER_4_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335253,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 81.82,
+              "no": 10.18,
+              "equal": 8
+            },
+            "type_id": 1683,
+            "type": {
+              "id": 1683,
+              "name": "Corners Over/Under 5 Probability",
+              "code": "corners-over-under-5-probability",
+              "developer_name": "CORNERS_OVER_UNDER_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335254,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 71.43,
+              "no": 18.18,
+              "equal": 10.4
+            },
+            "type_id": 1685,
+            "type": {
+              "id": 1685,
+              "name": "Corners Over/Under 6 Probability",
+              "code": "corners-over-under-6-probability",
+              "developer_name": "CORNERS_OVER_UNDER_6_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335259,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 25.68,
+              "no": 74.32,
+              "equal": null
+            },
+            "type_id": 1585,
+            "type": {
+              "id": 1585,
+              "name": "Corners Over/Under 10.5 Probability",
+              "code": "corners-over-under-10_5-probability",
+              "developer_name": "CORNERS_OVER_UNDER_10_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335243,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 11.23,
+              "no": 88.77
+            },
+            "type_id": 1679,
+            "type": {
+              "id": 1679,
+              "name": "Over/Under 4.5 Probability",
+              "code": "over-under-4_5-probability",
+              "developer_name": "OVER_UNDER_4_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335244,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 72.93,
+              "no": 27.07
+            },
+            "type_id": 334,
+            "type": {
+              "id": 334,
+              "name": "Home Over/Under 0.5 Probability",
+              "code": "home-over-under-0_5_probability",
+              "developer_name": "HOME_OVER_UNDER_0_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335255,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 59.48,
+              "no": 28.57,
+              "equal": 11.95
+            },
+            "type_id": 1686,
+            "type": {
+              "id": 1686,
+              "name": "Corners Over/Under 7 Probability",
+              "code": "corners-over-under-7-probability",
+              "developer_name": "CORNERS_OVER_UNDER_7_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335256,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 47.16,
+              "no": 40.52,
+              "equal": 12.32
+            },
+            "type_id": 1689,
+            "type": {
+              "id": 1689,
+              "name": "Corners Over/Under 8 Probability",
+              "code": "corners-over-under-8-probability",
+              "developer_name": "CORNERS_OVER_UNDER_8_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335257,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 35.61,
+              "no": 52.84,
+              "equal": 11.55
+            },
+            "type_id": 1687,
+            "type": {
+              "id": 1687,
+              "name": "Corners Over/Under 9 Probability",
+              "code": "corners-over-under-9-probability",
+              "developer_name": "CORNERS_OVER_UNDER_9_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25335260,
+            "fixture_id": 19648226,
+            "predictions": {
+              "yes": 17.75,
+              "no": 74.32,
+              "equal": 7.93
+            },
+            "type_id": 1684,
+            "type": {
+              "id": 1684,
+              "name": "Corners Over/Under 11 Probability",
+              "code": "corners-over-under-11-probability",
+              "developer_name": "CORNERS_OVER_UNDER_11_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 26285433,
+            "fixture_id": 19648226,
+            "predictions": {
+              "bet": "1",
+              "bookmaker": "pinnacle",
+              "fair_odd": 3.28,
+              "odd": 3.49,
+              "stake": 0.55,
+              "is_value": false
+            },
+            "type_id": 33,
+            "type": {
+              "id": 33,
+              "name": "Valuebet",
+              "code": "valuebet",
+              "developer_name": "VALUEBET",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          }
+        ]
+      },
+      "fetched_at": "2026-03-28T05:45:58.813079Z"
     }
   }
 }
