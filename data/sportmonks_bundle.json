@@ -5669,12 +5669,81 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 12,
-            "seconds": 47,
+            "minutes": 40,
+            "seconds": 31,
             "has_timer": true
           }
         ],
-        "events": [],
+        "events": [
+          {
+            "id": 156357958,
+            "fixture_id": 19648226,
+            "period_id": 6872800,
+            "participant_id": 7273,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 37555208,
+            "related_player_id": null,
+            "player_name": "Yun-gu Kang",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "1st Yellowcard",
+            "minute": 32,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872800,
+            "rescinded": false,
+            "sort_order": 1,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872800,
+              "fixture_id": 19648226,
+              "type_id": 1,
+              "started": 1774677624,
+              "ended": null,
+              "counts_from": 0,
+              "ticking": true,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 40,
+              "seconds": 31,
+              "has_timer": true
+            },
+            "player": {
+              "id": 37555208,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": 82035,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": 26,
+              "common_name": "Y. Kang",
+              "firstname": "Yoon-Gu",
+              "lastname": "Kang",
+              "name": "Yoon-Gu Kang",
+              "display_name": "Yun-gu Kang",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 177,
+              "weight": null,
+              "date_of_birth": "2002-04-08",
+              "gender": "male"
+            }
+          }
+        ],
         "statistics": [
           {
             "id": 817770906,
@@ -5682,7 +5751,7 @@
             "type_id": 41,
             "participant_id": 7273,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -5700,7 +5769,7 @@
             "type_id": 42,
             "participant_id": 1506,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -5718,7 +5787,7 @@
             "type_id": 55,
             "participant_id": 7273,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -5736,7 +5805,7 @@
             "type_id": 45,
             "participant_id": 1506,
             "data": {
-              "value": 70
+              "value": 43
             },
             "location": "home",
             "type": {
@@ -5772,7 +5841,7 @@
             "type_id": 43,
             "participant_id": 1506,
             "data": {
-              "value": 19
+              "value": 36
             },
             "location": "home",
             "type": {
@@ -5790,7 +5859,7 @@
             "type_id": 55,
             "participant_id": 1506,
             "data": {
-              "value": 3
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -5808,7 +5877,7 @@
             "type_id": 56,
             "participant_id": 7273,
             "data": {
-              "value": 2
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -5826,7 +5895,7 @@
             "type_id": 56,
             "participant_id": 1506,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -5844,7 +5913,7 @@
             "type_id": 43,
             "participant_id": 7273,
             "data": {
-              "value": 12
+              "value": 50
             },
             "location": "away",
             "type": {
@@ -5857,37 +5926,19 @@
             }
           },
           {
-            "id": 817770820,
+            "id": 817773756,
             "fixture_id": 19648226,
-            "type_id": 44,
+            "type_id": 86,
             "participant_id": 7273,
             "data": {
-              "value": 5
+              "value": 1
             },
             "location": "away",
             "type": {
-              "id": 44,
-              "name": "Dangerous Attacks",
-              "code": "dangerous-attacks",
-              "developer_name": "DANGEROUS_ATTACKS",
-              "model_type": "statistic",
-              "stat_group": "offensive"
-            }
-          },
-          {
-            "id": 817770821,
-            "fixture_id": 19648226,
-            "type_id": 44,
-            "participant_id": 1506,
-            "data": {
-              "value": 12
-            },
-            "location": "home",
-            "type": {
-              "id": 44,
-              "name": "Dangerous Attacks",
-              "code": "dangerous-attacks",
-              "developer_name": "DANGEROUS_ATTACKS",
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -5898,7 +5949,7 @@
             "type_id": 41,
             "participant_id": 1506,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -5911,12 +5962,48 @@
             }
           },
           {
+            "id": 817770820,
+            "fixture_id": 19648226,
+            "type_id": 44,
+            "participant_id": 7273,
+            "data": {
+              "value": 34
+            },
+            "location": "away",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817773757,
+            "fixture_id": 19648226,
+            "type_id": 86,
+            "participant_id": 1506,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 817768438,
             "fixture_id": 19648226,
             "type_id": 45,
             "participant_id": 7273,
             "data": {
-              "value": 30
+              "value": 57
             },
             "location": "away",
             "type": {
@@ -5934,7 +6021,7 @@
             "type_id": 42,
             "participant_id": 7273,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -5947,12 +6034,30 @@
             }
           },
           {
+            "id": 817770821,
+            "fixture_id": 19648226,
+            "type_id": 44,
+            "participant_id": 1506,
+            "data": {
+              "value": 22
+            },
+            "location": "home",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 817772784,
             "fixture_id": 19648226,
             "type_id": 34,
             "participant_id": 7273,
             "data": {
-              "value": 0
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -5970,7 +6075,7 @@
             "type_id": 51,
             "participant_id": 7273,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -5998,6 +6103,78 @@
               "developer_name": "OFFSIDES",
               "model_type": "statistic",
               "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817776790,
+            "fixture_id": 19648226,
+            "type_id": 84,
+            "participant_id": 7273,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 817776791,
+            "fixture_id": 19648226,
+            "type_id": 84,
+            "participant_id": 1506,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 817777868,
+            "fixture_id": 19648226,
+            "type_id": 57,
+            "participant_id": 7273,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 57,
+              "name": "Saves",
+              "code": "saves",
+              "developer_name": "SAVES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 817777869,
+            "fixture_id": 19648226,
+            "type_id": 57,
+            "participant_id": 1506,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 57,
+              "name": "Saves",
+              "code": "saves",
+              "developer_name": "SAVES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
             }
           }
         ],
@@ -7846,14 +8023,14 @@
           "type": "actual",
           "metric": "celcius",
           "current": {
-            "temp": 17.87,
-            "wind": 5.35,
+            "temp": 18.78,
+            "wind": 5.15,
             "clouds": null,
-            "humidity": "58%",
+            "humidity": "54%",
             "pressure": 1015,
-            "direction": 46,
-            "feels_like": 17.23,
-            "description": "scattered clouds"
+            "direction": 45,
+            "feels_like": 18.12,
+            "description": "clear sky"
           }
         },
         "predictions": [
@@ -8395,7 +8572,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T06:13:11.130215Z"
+      "fetched_at": "2026-03-28T06:40:56.194536Z"
     }
   }
 }
