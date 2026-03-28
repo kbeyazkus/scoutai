@@ -18290,7 +18290,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T19:46:27.758394Z"
+      "fetched_at": "2026-03-28T19:56:06.426157Z"
     },
     "19429958": {
       "detail": {
@@ -18525,10 +18525,10 @@
             "fixture_id": 19429958,
             "player_id": 37737382,
             "team_id": 320,
-            "position_id": 26,
+            "position_id": 27,
             "formation_field": "4:3",
             "type_id": 11,
-            "formation_position": 10,
+            "formation_position": 11,
             "player_name": "Tyrese Simons",
             "jersey_number": 2,
             "player": {
@@ -18567,9 +18567,9 @@
             "player_id": 37555757,
             "team_id": 320,
             "position_id": 25,
-            "formation_field": "2:3",
+            "formation_field": "2:2",
             "type_id": 11,
-            "formation_position": 4,
+            "formation_position": 3,
             "player_name": "Farouq Limouri",
             "jersey_number": 3,
             "player": {
@@ -18649,9 +18649,9 @@
             "player_id": 37640728,
             "team_id": 320,
             "position_id": 26,
-            "formation_field": "4:2",
+            "formation_field": "3:3",
             "type_id": 11,
-            "formation_position": 9,
+            "formation_position": 8,
             "player_name": "Dyon Dorenbosch",
             "jersey_number": 6,
             "player": {
@@ -18730,10 +18730,10 @@
             "fixture_id": 19429958,
             "player_id": 37621057,
             "team_id": 320,
-            "position_id": 26,
+            "position_id": 27,
             "formation_field": "4:1",
             "type_id": 11,
-            "formation_position": 8,
+            "formation_position": 9,
             "player_name": "Sven Simons",
             "jersey_number": 8,
             "player": {
@@ -18772,9 +18772,9 @@
             "player_id": 9282,
             "team_id": 320,
             "position_id": 27,
-            "formation_field": "5:1",
+            "formation_field": "4:2",
             "type_id": 11,
-            "formation_position": 11,
+            "formation_position": 10,
             "player_name": "Kevin van Veen",
             "jersey_number": 9,
             "player": {
@@ -19264,9 +19264,9 @@
             "player_id": 37783333,
             "team_id": 320,
             "position_id": 25,
-            "formation_field": "2:2",
+            "formation_field": "2:3",
             "type_id": 11,
-            "formation_position": 3,
+            "formation_position": 4,
             "player_name": "H. Ali",
             "jersey_number": 29,
             "player": {
@@ -19674,9 +19674,9 @@
             "player_id": 4536511,
             "team_id": 2475,
             "position_id": 27,
-            "formation_field": "4:3",
+            "formation_field": "4:1",
             "type_id": 11,
-            "formation_position": 9,
+            "formation_position": 11,
             "player_name": "Vicente Besuijen",
             "jersey_number": 10,
             "player": {
@@ -19961,9 +19961,9 @@
             "player_id": 37537863,
             "team_id": 2475,
             "position_id": 27,
-            "formation_field": "4:1",
+            "formation_field": "4:3",
             "type_id": 11,
-            "formation_position": 11,
+            "formation_position": 9,
             "player_name": "Noam Emeran",
             "jersey_number": 23,
             "player": {
@@ -21141,7 +21141,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T19:46:28.195568Z"
+      "fetched_at": "2026-03-28T19:56:06.073300Z"
     },
     "19441414": {
       "detail": {
@@ -21330,7 +21330,44 @@
         ],
         "periods": [],
         "events": [],
-        "statistics": [],
+        "statistics": [
+          {
+            "id": 818404506,
+            "fixture_id": 19441414,
+            "type_id": 45,
+            "participant_id": 10008,
+            "data": {
+              "value": 50
+            },
+            "location": "away",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818404505,
+            "fixture_id": 19441414,
+            "type_id": 45,
+            "participant_id": 3169,
+            "data": {
+              "value": 50
+            },
+            "location": "home",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          }
+        ],
         "lineups": [
           {
             "id": 14673234750,
@@ -23899,7 +23936,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T19:46:28.495581Z"
+      "fetched_at": "2026-03-28T19:56:07.127132Z"
     }
   }
 }
