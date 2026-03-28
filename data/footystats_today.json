@@ -1,65 +1,54 @@
 {
   "data": [
     {
-      "id": "8432024",
-      "source_ids": {
-        "footystats": "8432024",
-        "sportmonks": ""
-      },
-      "home_name": "Atlético Bucaramanga",
-      "away_name": "Santa Fe",
-      "competition_name": "",
-      "competition_id": 16614,
-      "league_country": "",
-      "league_country_image": "",
-      "date_unix": 1774660200,
-      "home_image": "teams/colombia-ca-bucaramanga.png",
-      "away_image": "teams/colombia-independiente-santa-fe-sa.png",
-      "home_country": "Colombia",
-      "away_country": "Colombia",
-      "venue_name": "Estadio Alfonso López",
-      "venue_city": "Carrera 36 Nº 53-12, Cabecera del Llano, Bucaramanga",
-      "referee_name": "",
-      "weather": {},
-      "home_ppg": 1.58,
-      "away_ppg": 1.25,
-      "team_a_xg_prematch": 1.32,
-      "team_b_xg_prematch": 1.45,
-      "btts_potential": 63.0,
-      "o25_potential": 42.0,
-      "o05HT_potential": 67.0,
-      "odds_ft_1": 1.96,
-      "odds_ft_x": 3.1,
-      "odds_ft_2": 4.2,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, full odds for Over 2.5 and BTTS, league standings, H2H, and key sidelined players. This prevents comprehensive cross-referencing and confidence assessment.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, full odds for Over 2.5 and BTTS, league standings, H2H, and key sidelined players. This prevents comprehensive cross-referencing and confidence assessment.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, full odds for Over 2.5 and BTTS, league standings, H2H, and key sidelined players. This prevents comprehensive cross-referencing and confidence assessment.\nCONCLUSION: No Bet / Skip."
-    },
-    {
       "id": "8436218",
       "source_ids": {
         "footystats": "8436218",
-        "sportmonks": ""
+        "sportmonks": "19648226"
       },
       "home_name": "Pohang Steelers",
       "away_name": "Gangwon",
-      "competition_name": "",
+      "competition_name": "K League 1",
       "competition_id": 16627,
-      "league_country": "",
-      "league_country_image": "",
+      "league_country": "South Korea",
+      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/kr.png",
       "date_unix": 1774677600,
       "home_image": "teams/south-korea-pohang-steelers-fc.png",
       "away_image": "teams/south-korea-gangwon-fc.png",
       "home_country": "South",
       "away_country": "South",
       "venue_name": "Steelyard Stadium",
-      "venue_city": ", Pohang",
+      "venue_city": "Pohang",
       "referee_name": "",
-      "weather": {},
+      "weather": {
+        "id": 724794,
+        "fixture_id": 19648226,
+        "venue_id": 709,
+        "temperature": {
+          "day": 16.09,
+          "morning": 10.81,
+          "evening": 13.9,
+          "night": 10.61
+        },
+        "feels_like": {
+          "day": 15.06,
+          "morning": 9.54,
+          "evening": 12.91,
+          "night": 9.82
+        },
+        "wind": {
+          "speed": 4.79,
+          "direction": 68
+        },
+        "humidity": "50%",
+        "pressure": 1016,
+        "clouds": "0%",
+        "description": "sky is clear",
+        "icon": "https://cdn.sportmonks.com/images/weather/01d.png",
+        "type": "forecast",
+        "metric": "celcius",
+        "current": null
+      },
       "home_ppg": 0.67,
       "away_ppg": 0.5,
       "team_a_xg_prematch": 1.18,
@@ -74,31 +63,59 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points, including model predictions, league standings, H2H results, key sidelined players, and specific O2.5/BTTS odds, are missing. Remaining data indicates low scoring potential and highly competitive odds.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points, including model predictions, league standings, H2H results, key sidelined players, and specific O2.5/BTTS odds, are missing. Remaining data indicates low scoring potential and highly competitive odds.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points, including model predictions, league standings, H2H results, key sidelined players, and specific O2.5/BTTS odds, are missing. Remaining data indicates low scoring potential and highly competitive odds.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY. SIGNIFICANT DATA GAPS.\nREASON: Standings, H2H, model predictions, key sidelined players, and crucial odds for Over 2.5 and BTTS are missing. The provided PPG values are extremely low, conflicting with First Half Over 0.5 potential (59%) given low overall O2.5 potential (25%). Comprehensive cross-checking is impossible.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY. SIGNIFICANT DATA GAPS.\nREASON: Standings, H2H, model predictions, key sidelined players, and crucial odds for Over 2.5 and BTTS are missing. The provided PPG values are extremely low, conflicting with First Half Over 0.5 potential (59%) given low overall O2.5 potential (25%). Comprehensive cross-checking is impossible.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY. SIGNIFICANT DATA GAPS.\nREASON: Standings, H2H, model predictions, key sidelined players, and crucial odds for Over 2.5 and BTTS are missing. The provided PPG values are extremely low, conflicting with First Half Over 0.5 potential (59%) given low overall O2.5 potential (25%). Comprehensive cross-checking is impossible.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8235144",
       "source_ids": {
         "footystats": "8235144",
-        "sportmonks": ""
+        "sportmonks": "19441413"
       },
       "home_name": "Ceuta",
       "away_name": "Cádiz",
-      "competition_name": "",
+      "competition_name": "La Liga 2",
       "competition_id": 15066,
-      "league_country": "",
-      "league_country_image": "",
+      "league_country": "Spain",
+      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/es.png",
       "date_unix": 1774702800,
       "home_image": "teams/spain-agrupacion-deportiva-ceuta-fc.png",
       "away_image": "teams/spain-cadiz-cf.png",
       "home_country": "Spain",
       "away_country": "Spain",
-      "venue_name": "",
-      "venue_city": "",
+      "venue_name": "Estadio Municipal Alfonso Murube",
+      "venue_city": "Ceuta",
       "referee_name": "",
-      "weather": {},
+      "weather": {
+        "id": 723853,
+        "fixture_id": 19441413,
+        "venue_id": 8409,
+        "temperature": {
+          "day": 14.28,
+          "morning": 13.27,
+          "evening": 13.6,
+          "night": 13.56
+        },
+        "feels_like": {
+          "day": 13.72,
+          "morning": 12.72,
+          "evening": 13,
+          "night": 12.93
+        },
+        "wind": {
+          "speed": 11.81,
+          "direction": 105
+        },
+        "humidity": "75%",
+        "pressure": 1019,
+        "clouds": "22%",
+        "description": "few clouds",
+        "icon": "https://cdn.sportmonks.com/images/weather/02d.png",
+        "type": "forecast",
+        "metric": "celcius",
+        "current": null
+      },
       "home_ppg": 2.07,
       "away_ppg": 1.2,
       "team_a_xg_prematch": 1.49,
@@ -113,31 +130,59 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps in model predictions, league standings, H2H, and specific odds (O2.5, BTTS). Confidence is low due to incomplete analytical inputs.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps in model predictions, league standings, H2H, and specific odds (O2.5, BTTS). Confidence is low due to incomplete analytical inputs.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps in model predictions, league standings, H2H, and specific odds (O2.5, BTTS). Confidence is low due to incomplete analytical inputs.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY - Severe data conflict regarding league context and missing critical information.\nREASON: Ceuta (Primera RFEF) and Cádiz (La Liga) are in different leagues, making provided xG and PPG incomparable for direct analysis. Key odds (O2.5, BTTS), H2H, standings, and sidelined player data are also missing.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY - Severe data conflict regarding league context and missing critical information.\nREASON: Ceuta (Primera RFEF) and Cádiz (La Liga) are in different leagues, making provided xG and PPG incomparable for direct analysis. Key odds (O2.5, BTTS), H2H, standings, and sidelined player data are also missing.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY - Severe data conflict regarding league context and missing critical information.\nREASON: Ceuta (Primera RFEF) and Cádiz (La Liga) are in different leagues, making provided xG and PPG incomparable for direct analysis. Key odds (O2.5, BTTS), H2H, standings, and sidelined player data are also missing.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8235093",
       "source_ids": {
         "footystats": "8235093",
-        "sportmonks": ""
+        "sportmonks": "19441421"
       },
       "home_name": "Real Valladolid",
       "away_name": "Burgos CF",
-      "competition_name": "",
+      "competition_name": "La Liga 2",
       "competition_id": 15066,
-      "league_country": "",
-      "league_country_image": "",
+      "league_country": "Spain",
+      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/es.png",
       "date_unix": 1774710900,
       "home_image": "teams/spain-real-valladolid-club-de-futbol.png",
       "away_image": "teams/spain-burgos-cf.png",
       "home_country": "Spain",
       "away_country": "Spain",
       "venue_name": "Estadio Municipal José Zorrilla",
-      "venue_city": "Avenida del Mundial 82, Valladolid",
+      "venue_city": "Valladolid",
       "referee_name": "",
-      "weather": {},
+      "weather": {
+        "id": 723748,
+        "fixture_id": 19441421,
+        "venue_id": 9323,
+        "temperature": {
+          "day": 10.44,
+          "morning": 2.94,
+          "evening": 7.97,
+          "night": 4.99
+        },
+        "feels_like": {
+          "day": 8.98,
+          "morning": -2.03,
+          "evening": 3.69,
+          "night": -0.28
+        },
+        "wind": {
+          "speed": 10.39,
+          "direction": 44
+        },
+        "humidity": "55%",
+        "pressure": 1026,
+        "clouds": "40%",
+        "description": "scattered clouds",
+        "icon": "https://cdn.sportmonks.com/images/weather/03d.png",
+        "type": "forecast",
+        "metric": "celcius",
+        "current": null
+      },
       "home_ppg": 1.27,
       "away_ppg": 1.4,
       "team_a_xg_prematch": 1.73,
@@ -152,31 +197,59 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "No Bet / Skip",
-      "prematch_comment": "No Bet / Skip",
-      "ai_comment": "No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points are missing: model predictions, league standings, H2H results, and key sidelined players. Odds for Over 2.5 and Both Teams Score are also unavailable, preventing comprehensive cross-checking and risk assessment.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points are missing: model predictions, league standings, H2H results, and key sidelined players. Odds for Over 2.5 and Both Teams Score are also unavailable, preventing comprehensive cross-checking and risk assessment.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points are missing: model predictions, league standings, H2H results, and key sidelined players. Odds for Over 2.5 and Both Teams Score are also unavailable, preventing comprehensive cross-checking and risk assessment.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8235216",
       "source_ids": {
         "footystats": "8235216",
-        "sportmonks": ""
+        "sportmonks": "19441419"
       },
       "home_name": "Granada CF",
       "away_name": "SD Huesca",
-      "competition_name": "",
+      "competition_name": "La Liga 2",
       "competition_id": 15066,
-      "league_country": "",
-      "league_country_image": "",
+      "league_country": "Spain",
+      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/es.png",
       "date_unix": 1774710900,
       "home_image": "teams/spain-granada-cf.png",
       "away_image": "teams/spain-sd-huesca.png",
       "home_country": "Spain",
       "away_country": "Spain",
       "venue_name": "Estadio Nuevo Los Cármenes",
-      "venue_city": "Calle Pintor Manuel Maldonado, Granada",
+      "venue_city": "Granada",
       "referee_name": "",
-      "weather": {},
+      "weather": {
+        "id": 723886,
+        "fixture_id": 19441419,
+        "venue_id": 9237,
+        "temperature": {
+          "day": 14.17,
+          "morning": 9.18,
+          "evening": 12.23,
+          "night": 9.62
+        },
+        "feels_like": {
+          "day": 13.18,
+          "morning": 9.18,
+          "evening": 11.55,
+          "night": 9.62
+        },
+        "wind": {
+          "speed": 3.42,
+          "direction": 268
+        },
+        "humidity": "59%",
+        "pressure": 1019,
+        "clouds": "74%",
+        "description": "broken clouds",
+        "icon": "https://cdn.sportmonks.com/images/weather/04d.png",
+        "type": "forecast",
+        "metric": "celcius",
+        "current": null
+      },
       "home_ppg": 1.25,
       "away_ppg": 0.53,
       "team_a_xg_prematch": 1.54,
@@ -191,31 +264,59 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps, including model predictions, league standings, H2H, and key player information, prevent comprehensive cross-checking and risk assessment. Odds for Over 2.5 and BTTS are missing.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps, including model predictions, league standings, H2H, and key player information, prevent comprehensive cross-checking and risk assessment. Odds for Over 2.5 and BTTS are missing.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps, including model predictions, league standings, H2H, and key player information, prevent comprehensive cross-checking and risk assessment. Odds for Over 2.5 and BTTS are missing.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data missing: model predictions, standings, H2H, and key sidelined players. Odds for Over 2.5 and BTTS are absent. This prevents thorough cross-referencing and robust analysis.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data missing: model predictions, standings, H2H, and key sidelined players. Odds for Over 2.5 and BTTS are absent. This prevents thorough cross-referencing and robust analysis.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data missing: model predictions, standings, H2H, and key sidelined players. Odds for Over 2.5 and BTTS are absent. This prevents thorough cross-referencing and robust analysis.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "8235162",
       "source_ids": {
         "footystats": "8235162",
-        "sportmonks": ""
+        "sportmonks": "19441420"
       },
       "home_name": "Málaga CF",
       "away_name": "Leganés",
-      "competition_name": "",
+      "competition_name": "La Liga 2",
       "competition_id": 15066,
-      "league_country": "",
-      "league_country_image": "",
+      "league_country": "Spain",
+      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/es.png",
       "date_unix": 1774719000,
       "home_image": "teams/spain-malaga-cf.png",
       "away_image": "teams/spain-cd-leganes.png",
       "home_country": "Spain",
       "away_country": "Spain",
       "venue_name": "Estadio La Rosaleda",
-      "venue_city": "Avenida de la Palmilla / Paseo de Martiricos, Málaga",
+      "venue_city": "Málaga",
       "referee_name": "",
-      "weather": {},
+      "weather": {
+        "id": 723779,
+        "fixture_id": 19441420,
+        "venue_id": 9233,
+        "temperature": {
+          "day": 12.8,
+          "morning": 12.76,
+          "evening": 13.73,
+          "night": 12.29
+        },
+        "feels_like": {
+          "day": 12.3,
+          "morning": 12.34,
+          "evening": 13.17,
+          "night": 11.72
+        },
+        "wind": {
+          "speed": 3.05,
+          "direction": 114
+        },
+        "humidity": "83%",
+        "pressure": 1021,
+        "clouds": "100%",
+        "description": "light rain",
+        "icon": "https://cdn.sportmonks.com/images/weather/10d.png",
+        "type": "forecast",
+        "metric": "celcius",
+        "current": null
+      },
       "home_ppg": 2.19,
       "away_ppg": 1.13,
       "team_a_xg_prematch": 1.76,
@@ -230,9 +331,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: No Bet / Skip.\nREASON: Critical data points, including betting odds for Over 2.5 and BTTS, model predictions, standings, H2H, and key sidelined players, are missing or explicitly zero. This prevents comprehensive cross-checking and accurate risk assessment for any bet type.\nCONCLUSION: Confidence is low due to insufficient data.",
-      "prematch_comment": "STATUS: No Bet / Skip.\nREASON: Critical data points, including betting odds for Over 2.5 and BTTS, model predictions, standings, H2H, and key sidelined players, are missing or explicitly zero. This prevents comprehensive cross-checking and accurate risk assessment for any bet type.\nCONCLUSION: Confidence is low due to insufficient data.",
-      "ai_comment": "STATUS: No Bet / Skip.\nREASON: Critical data points, including betting odds for Over 2.5 and BTTS, model predictions, standings, H2H, and key sidelined players, are missing or explicitly zero. This prevents comprehensive cross-checking and accurate risk assessment for any bet type.\nCONCLUSION: Confidence is low due to insufficient data."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including model predictions, league standings, H2H, key injuries, and specific odds (O2.5, BTTS) are entirely absent. Analysis is severely hindered by incomplete information.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including model predictions, league standings, H2H, key injuries, and specific odds (O2.5, BTTS) are entirely absent. Analysis is severely hindered by incomplete information.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including model predictions, league standings, H2H, key injuries, and specific odds (O2.5, BTTS) are entirely absent. Analysis is severely hindered by incomplete information.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "8234909",
@@ -269,31 +370,59 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data such as league standings, H2H results, key sidelined players, and valid Over 2.5/BTTS odds are missing. Conflicting signals from PPG (Home better) and xG/Bookmaker odds (Away slightly favored) create high uncertainty.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data such as league standings, H2H results, key sidelined players, and valid Over 2.5/BTTS odds are missing. Conflicting signals from PPG (Home better) and xG/Bookmaker odds (Away slightly favored) create high uncertainty.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data such as league standings, H2H results, key sidelined players, and valid Over 2.5/BTTS odds are missing. Conflicting signals from PPG (Home better) and xG/Bookmaker odds (Away slightly favored) create high uncertainty.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY. Significant data gaps.\nREASON: Model predictions, league standings, H2H results, and key sidelined players are entirely absent. Bookmaker odds for Over 2.5 and BTTS are missing. These crucial omissions prevent adequate cross-referencing and confidence in any outcome.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY. Significant data gaps.\nREASON: Model predictions, league standings, H2H results, and key sidelined players are entirely absent. Bookmaker odds for Over 2.5 and BTTS are missing. These crucial omissions prevent adequate cross-referencing and confidence in any outcome.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY. Significant data gaps.\nREASON: Model predictions, league standings, H2H results, and key sidelined players are entirely absent. Bookmaker odds for Over 2.5 and BTTS are missing. These crucial omissions prevent adequate cross-referencing and confidence in any outcome.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "8235346",
       "source_ids": {
         "footystats": "8235346",
-        "sportmonks": ""
+        "sportmonks": "19441423"
       },
       "home_name": "Sporting Gijón",
       "away_name": "Deportivo La Coruña",
-      "competition_name": "",
+      "competition_name": "La Liga 2",
       "competition_id": 15066,
-      "league_country": "",
-      "league_country_image": "",
+      "league_country": "Spain",
+      "league_country_image": "https://cdn.sportmonks.com/images/countries/png/short/es.png",
       "date_unix": 1774728000,
       "home_image": "teams/spain-real-sporting-de-gijon.png",
       "away_image": "teams/spain-real-club-deportivo-de-la-coruna.png",
       "home_country": "Spain",
       "away_country": "Spain",
-      "venue_name": "",
-      "venue_city": "",
+      "venue_name": "Estadio Municipal El Molinón",
+      "venue_city": "Gijón",
       "referee_name": "",
-      "weather": {},
+      "weather": {
+        "id": 723756,
+        "fixture_id": 19441423,
+        "venue_id": 9224,
+        "temperature": {
+          "day": 11.39,
+          "morning": 7.48,
+          "evening": 9.22,
+          "night": 8.78
+        },
+        "feels_like": {
+          "day": 10.46,
+          "morning": 7.48,
+          "evening": 7.57,
+          "night": 8
+        },
+        "wind": {
+          "speed": 3.78,
+          "direction": 33
+        },
+        "humidity": "72%",
+        "pressure": 1032,
+        "clouds": "100%",
+        "description": "light rain",
+        "icon": "https://cdn.sportmonks.com/images/weather/10d.png",
+        "type": "forecast",
+        "metric": "celcius",
+        "current": null
+      },
       "home_ppg": 1.81,
       "away_ppg": 1.88,
       "team_a_xg_prematch": 1.59,
@@ -308,9 +437,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical betting odds (O2.5, BTTS) are missing. Model predictions, league standings, and head-to-head results are entirely absent. This severe lack of comprehensive data prevents thorough cross-referencing and confidence assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical betting odds (O2.5, BTTS) are missing. Model predictions, league standings, and head-to-head results are entirely absent. This severe lack of comprehensive data prevents thorough cross-referencing and confidence assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical betting odds (O2.5, BTTS) are missing. Model predictions, league standings, and head-to-head results are entirely absent. This severe lack of comprehensive data prevents thorough cross-referencing and confidence assessment.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps including model predictions, league standings, H2H, key injuries, and crucial bookmaker odds (Over 2.5, BTTS) preclude comprehensive cross-verification and confident market assessment.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps including model predictions, league standings, H2H, key injuries, and crucial bookmaker odds (Over 2.5, BTTS) preclude comprehensive cross-verification and confident market assessment.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps including model predictions, league standings, H2H, key injuries, and crucial bookmaker odds (Over 2.5, BTTS) preclude comprehensive cross-verification and confident market assessment.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8432119",
@@ -347,9 +476,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data deficits, including league standings, H2H results, model predictions, and key player absences. Odds for Over 2.5 and BTTS are missing. Inadequate information prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant data deficits, including league standings, H2H results, model predictions, and key player absences. Odds for Over 2.5 and BTTS are missing. Inadequate information prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant data deficits, including league standings, H2H results, model predictions, and key player absences. Odds for Over 2.5 and BTTS are missing. Inadequate information prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including model predictions, league standings, head-to-head results, key sidelined players, and specific odds for Over 2.5/BTTS/First Half Over 0.5 are entirely missing.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including model predictions, league standings, head-to-head results, key sidelined players, and specific odds for Over 2.5/BTTS/First Half Over 0.5 are entirely missing.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including model predictions, league standings, head-to-head results, key sidelined players, and specific odds for Over 2.5/BTTS/First Half Over 0.5 are entirely missing.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "8428684",
@@ -386,9 +515,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY. Critical data missing.\nREASON: Odds for Over 2.5 and BTTS are zero. Model predictions, league standings, H2H, and key sidelined players data are entirely absent, preventing comprehensive cross-checking and risk assessment.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY. Critical data missing.\nREASON: Odds for Over 2.5 and BTTS are zero. Model predictions, league standings, H2H, and key sidelined players data are entirely absent, preventing comprehensive cross-checking and risk assessment.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY. Critical data missing.\nREASON: Odds for Over 2.5 and BTTS are zero. Model predictions, league standings, H2H, and key sidelined players data are entirely absent, preventing comprehensive cross-checking and risk assessment.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data incompleteness, including missing model predictions, league standings, H2H results, and crucial odds for Over 2.5 and BTTS markets. This prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data incompleteness, including missing model predictions, league standings, H2H results, and crucial odds for Over 2.5 and BTTS markets. This prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data incompleteness, including missing model predictions, league standings, H2H results, and crucial odds for Over 2.5 and BTTS markets. This prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8432120",
@@ -425,9 +554,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Data provided is incomplete, hindering comprehensive cross-checking. Key sections such as model predictions, league standings, H2H results, key sidelined players, and specific O2.5/BTTS odds are missing or null.\n\nREASON: While available xG, PPG, and 1X2 odds consistently indicate Deportes Tolima as strong favorites, the extensive absence of other crucial data points prevents a thorough risk assessment across all betting options. Confidence in any recommendation is significantly",
-      "prematch_comment": "STATUS: Data provided is incomplete, hindering comprehensive cross-checking. Key sections such as model predictions, league standings, H2H results, key sidelined players, and specific O2.5/BTTS odds are missing or null.\n\nREASON: While available xG, PPG, and 1X2 odds consistently indicate Deportes Tolima as strong favorites, the extensive absence of other crucial data points prevents a thorough risk assessment across all betting options. Confidence in any recommendation is significantly",
-      "ai_comment": "STATUS: Data provided is incomplete, hindering comprehensive cross-checking. Key sections such as model predictions, league standings, H2H results, key sidelined players, and specific O2.5/BTTS odds are missing or null.\n\nREASON: While available xG, PPG, and 1X2 odds consistently indicate Deportes Tolima as strong favorites, the extensive absence of other crucial data points prevents a thorough risk assessment across all betting options. Confidence in any recommendation is significantly"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps exist, including model predictions, league standings, H2H results, key sidelined players, and crucial odds for Over 2.5 and Both Teams Score. This prevents comprehensive cross-checking.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps exist, including model predictions, league standings, H2H results, key sidelined players, and crucial odds for Over 2.5 and Both Teams Score. This prevents comprehensive cross-checking.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps exist, including model predictions, league standings, H2H results, key sidelined players, and crucial odds for Over 2.5 and Both Teams Score. This prevents comprehensive cross-checking.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8428682",
@@ -464,10 +593,49 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, league standings, H2H results, key sidelined players, and odds for Over 2.5 and BTTS. This severe lack of information prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, league standings, H2H results, key sidelined players, and odds for Over 2.5 and BTTS. This severe lack of information prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, league standings, H2H results, key sidelined players, and odds for Over 2.5 and BTTS. This severe lack of information prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data is missing, including model predictions, league standings, H2H results, key sidelined players, and full market odds. While PPG and Home Win odds align strongly, the xG difference is less pronounced.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data is missing, including model predictions, league standings, H2H results, key sidelined players, and full market odds. While PPG and Home Win odds align strongly, the xG difference is less pronounced.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data is missing, including model predictions, league standings, H2H results, key sidelined players, and full market odds. While PPG and Home Win odds align strongly, the xG difference is less pronounced.\nCONCLUSION: No Bet / Skip"
+    },
+    {
+      "id": "8432023",
+      "source_ids": {
+        "footystats": "8432023",
+        "sportmonks": ""
+      },
+      "home_name": "Deportivo Cali",
+      "away_name": "Deportivo Pereira",
+      "competition_name": "",
+      "competition_id": 16614,
+      "league_country": "",
+      "league_country_image": "",
+      "date_unix": 1774747200,
+      "home_image": "teams/colombia-asociacion-deportivo-cali.png",
+      "away_image": "teams/colombia-cs-deportiva-y-cultural-de-pereira.png",
+      "home_country": "Colombia",
+      "away_country": "Colombia",
+      "venue_name": "Estadio Deportivo Cali",
+      "venue_city": "BN 25, Palmira",
+      "referee_name": "",
+      "weather": {},
+      "home_ppg": 1.23,
+      "away_ppg": 0.5,
+      "team_a_xg_prematch": 1.27,
+      "team_b_xg_prematch": 0.95,
+      "btts_potential": 48.0,
+      "o25_potential": 45.0,
+      "o05HT_potential": 65.0,
+      "odds_ft_1": 1.33,
+      "odds_ft_x": 4.33,
+      "odds_ft_2": 7.75,
+      "homeGoalCount": 0,
+      "awayGoalCount": 0,
+      "status": "incomplete",
+      "elapsed": 0,
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data (model predictions, standings, H2H, key injuries) prevents comprehensive cross-checking. Incomplete information leads to low confidence in any specific recommendation.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data (model predictions, standings, H2H, key injuries) prevents comprehensive cross-checking. Incomplete information leads to low confidence in any specific recommendation.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data (model predictions, standings, H2H, key injuries) prevents comprehensive cross-checking. Incomplete information leads to low confidence in any specific recommendation.\nCONCLUSION: No Bet / Skip"
     }
   ],
-  "updated_at": "2026-03-27T23:56:52.037770Z"
+  "updated_at": "2026-03-28T02:52:25.978359Z"
 }
