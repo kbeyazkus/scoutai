@@ -198,12 +198,81 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 5,
-            "seconds": 49,
+            "minutes": 25,
+            "seconds": 57,
             "has_timer": true
           }
         ],
-        "events": [],
+        "events": [
+          {
+            "id": 156370332,
+            "fixture_id": 19441420,
+            "period_id": 6875898,
+            "participant_id": 844,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 189353,
+            "related_player_id": null,
+            "player_name": "Juan Soriano",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "1st Yellowcard",
+            "minute": 18,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6875898,
+            "rescinded": false,
+            "sort_order": 1,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6875898,
+              "fixture_id": 19441420,
+              "type_id": 1,
+              "started": 1774719108,
+              "ended": null,
+              "counts_from": 0,
+              "ticking": true,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 25,
+              "seconds": 57,
+              "has_timer": true
+            },
+            "player": {
+              "id": 189353,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": 24,
+              "common_name": "J. Soriano Oropesa",
+              "firstname": "Juan",
+              "lastname": "Soriano Oropesa",
+              "name": "Juan Soriano Oropesa",
+              "display_name": "Juan Soriano",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/9/189353.png",
+              "height": 185,
+              "weight": 78,
+              "date_of_birth": "1997-08-23",
+              "gender": "male"
+            }
+          }
+        ],
         "statistics": [
           {
             "id": 818175855,
@@ -211,7 +280,7 @@
             "type_id": 81,
             "participant_id": 126,
             "data": {
-              "value": 22
+              "value": 87
             },
             "location": "home",
             "type": {
@@ -229,7 +298,7 @@
             "type_id": 78,
             "participant_id": 844,
             "data": {
-              "value": 4
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -247,7 +316,7 @@
             "type_id": 108,
             "participant_id": 126,
             "data": {
-              "value": 4
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -265,7 +334,7 @@
             "type_id": 27264,
             "participant_id": 126,
             "data": {
-              "value": 3
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -283,7 +352,7 @@
             "type_id": 44,
             "participant_id": 844,
             "data": {
-              "value": 1
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -319,7 +388,7 @@
             "type_id": 62,
             "participant_id": 844,
             "data": {
-              "value": 3
+              "value": 13
             },
             "location": "away",
             "type": {
@@ -332,30 +401,12 @@
             }
           },
           {
-            "id": 818176248,
-            "fixture_id": 19441420,
-            "type_id": 56,
-            "participant_id": 844,
-            "data": {
-              "value": 1
-            },
-            "location": "away",
-            "type": {
-              "id": 56,
-              "name": "Fouls",
-              "code": "fouls",
-              "developer_name": "FOULS",
-              "model_type": "statistic",
-              "stat_group": "defensive"
-            }
-          },
-          {
             "id": 818175857,
             "fixture_id": 19441420,
             "type_id": 78,
             "participant_id": 126,
             "data": {
-              "value": 3
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -368,12 +419,120 @@
             }
           },
           {
+            "id": 818189801,
+            "fixture_id": 19441420,
+            "type_id": 58,
+            "participant_id": 126,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818187782,
+            "fixture_id": 19441420,
+            "type_id": 53,
+            "participant_id": 844,
+            "data": {
+              "value": 4
+            },
+            "location": "away",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818189803,
+            "fixture_id": 19441420,
+            "type_id": 50,
+            "participant_id": 126,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818186263,
+            "fixture_id": 19441420,
+            "type_id": 86,
+            "participant_id": 126,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818186272,
+            "fixture_id": 19441420,
+            "type_id": 49,
+            "participant_id": 844,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818197458,
+            "fixture_id": 19441420,
+            "type_id": 581,
+            "participant_id": 844,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 581,
+              "name": "Big Chances Missed",
+              "code": "big-chances-missed",
+              "developer_name": "BIG_CHANCES_MISSED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 818175864,
             "fixture_id": 19441420,
             "type_id": 108,
             "participant_id": 844,
             "data": {
-              "value": 4
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -391,7 +550,7 @@
             "type_id": 45,
             "participant_id": 126,
             "data": {
-              "value": 41
+              "value": 46
             },
             "location": "home",
             "type": {
@@ -409,7 +568,7 @@
             "type_id": 45,
             "participant_id": 844,
             "data": {
-              "value": 59
+              "value": 54
             },
             "location": "away",
             "type": {
@@ -427,7 +586,7 @@
             "type_id": 27264,
             "participant_id": 844,
             "data": {
-              "value": 3
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -445,7 +604,7 @@
             "type_id": 81,
             "participant_id": 844,
             "data": {
-              "value": 35
+              "value": 103
             },
             "location": "away",
             "type": {
@@ -458,12 +617,156 @@
             }
           },
           {
+            "id": 818186264,
+            "fixture_id": 19441420,
+            "type_id": 86,
+            "participant_id": 844,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818197455,
+            "fixture_id": 19441420,
+            "type_id": 580,
+            "participant_id": 126,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818197456,
+            "fixture_id": 19441420,
+            "type_id": 580,
+            "participant_id": 844,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818202398,
+            "fixture_id": 19441420,
+            "type_id": 84,
+            "participant_id": 844,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818188362,
+            "fixture_id": 19441420,
+            "type_id": 41,
+            "participant_id": 844,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818186267,
+            "fixture_id": 19441420,
+            "type_id": 99,
+            "participant_id": 126,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818197457,
+            "fixture_id": 19441420,
+            "type_id": 581,
+            "participant_id": 126,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 581,
+              "name": "Big Chances Missed",
+              "code": "big-chances-missed",
+              "developer_name": "BIG_CHANCES_MISSED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818197459,
+            "fixture_id": 19441420,
+            "type_id": 100,
+            "participant_id": 126,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
             "id": 818183038,
             "fixture_id": 19441420,
             "type_id": 98,
             "participant_id": 844,
             "data": {
-              "value": 0
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -481,7 +784,7 @@
             "type_id": 55,
             "participant_id": 126,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -499,7 +802,7 @@
             "type_id": 56,
             "participant_id": 126,
             "data": {
-              "value": 1
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -517,7 +820,7 @@
             "type_id": 82,
             "participant_id": 844,
             "data": {
-              "value": 95
+              "value": 87
             },
             "location": "away",
             "type": {
@@ -530,12 +833,66 @@
             }
           },
           {
+            "id": 818186265,
+            "fixture_id": 19441420,
+            "type_id": 57,
+            "participant_id": 126,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 57,
+              "name": "Saves",
+              "code": "saves",
+              "developer_name": "SAVES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818186266,
+            "fixture_id": 19441420,
+            "type_id": 57,
+            "participant_id": 844,
+            "data": {
+              "value": 3
+            },
+            "location": "away",
+            "type": {
+              "id": 57,
+              "name": "Saves",
+              "code": "saves",
+              "developer_name": "SAVES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818186270,
+            "fixture_id": 19441420,
+            "type_id": 42,
+            "participant_id": 844,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 818174330,
             "fixture_id": 19441420,
             "type_id": 43,
             "participant_id": 844,
             "data": {
-              "value": 8
+              "value": 26
             },
             "location": "away",
             "type": {
@@ -553,7 +910,7 @@
             "type_id": 98,
             "participant_id": 126,
             "data": {
-              "value": 1
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -566,12 +923,30 @@
             }
           },
           {
+            "id": 818186654,
+            "fixture_id": 19441420,
+            "type_id": 117,
+            "participant_id": 844,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
             "id": 818175860,
             "fixture_id": 19441420,
             "type_id": 80,
             "participant_id": 844,
             "data": {
-              "value": 37
+              "value": 119
             },
             "location": "away",
             "type": {
@@ -584,12 +959,30 @@
             }
           },
           {
+            "id": 818189802,
+            "fixture_id": 19441420,
+            "type_id": 58,
+            "participant_id": 844,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 818177113,
             "fixture_id": 19441420,
             "type_id": 44,
             "participant_id": 126,
             "data": {
-              "value": 4
+              "value": 18
             },
             "location": "home",
             "type": {
@@ -597,6 +990,42 @@
               "name": "Dangerous Attacks",
               "code": "dangerous-attacks",
               "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818176248,
+            "fixture_id": 19441420,
+            "type_id": 56,
+            "participant_id": 844,
+            "data": {
+              "value": 3
+            },
+            "location": "away",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818186652,
+            "fixture_id": 19441420,
+            "type_id": 34,
+            "participant_id": 844,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -620,12 +1049,48 @@
             }
           },
           {
+            "id": 818197460,
+            "fixture_id": 19441420,
+            "type_id": 100,
+            "participant_id": 844,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818188361,
+            "fixture_id": 19441420,
+            "type_id": 41,
+            "participant_id": 126,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 818176249,
             "fixture_id": 19441420,
             "type_id": 60,
             "participant_id": 126,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -643,7 +1108,7 @@
             "type_id": 60,
             "participant_id": 844,
             "data": {
-              "value": 0
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -661,7 +1126,7 @@
             "type_id": 27265,
             "participant_id": 844,
             "data": {
-              "value": 100
+              "value": 46
             },
             "location": "away",
             "type": {
@@ -679,7 +1144,7 @@
             "type_id": 109,
             "participant_id": 126,
             "data": {
-              "value": 1
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -697,7 +1162,7 @@
             "type_id": 82,
             "participant_id": 126,
             "data": {
-              "value": 88
+              "value": 87
             },
             "location": "home",
             "type": {
@@ -715,7 +1180,7 @@
             "type_id": 1605,
             "participant_id": 844,
             "data": {
-              "value": 50
+              "value": 29
             },
             "location": "away",
             "type": {
@@ -728,12 +1193,30 @@
             }
           },
           {
+            "id": 818186651,
+            "fixture_id": 19441420,
+            "type_id": 34,
+            "participant_id": 126,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 818175859,
             "fixture_id": 19441420,
             "type_id": 80,
             "participant_id": 126,
             "data": {
-              "value": 25
+              "value": 100
             },
             "location": "home",
             "type": {
@@ -751,7 +1234,7 @@
             "type_id": 43,
             "participant_id": 126,
             "data": {
-              "value": 8
+              "value": 32
             },
             "location": "home",
             "type": {
@@ -769,7 +1252,7 @@
             "type_id": 62,
             "participant_id": 126,
             "data": {
-              "value": 4
+              "value": 17
             },
             "location": "home",
             "type": {
@@ -787,7 +1270,7 @@
             "type_id": 1605,
             "participant_id": 126,
             "data": {
-              "value": 25
+              "value": 42
             },
             "location": "home",
             "type": {
@@ -805,7 +1288,7 @@
             "type_id": 27265,
             "participant_id": 126,
             "data": {
-              "value": 75
+              "value": 71
             },
             "location": "home",
             "type": {
@@ -818,12 +1301,30 @@
             }
           },
           {
+            "id": 818189804,
+            "fixture_id": 19441420,
+            "type_id": 50,
+            "participant_id": 844,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 818176246,
             "fixture_id": 19441420,
             "type_id": 55,
             "participant_id": 844,
             "data": {
-              "value": 1
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -851,6 +1352,114 @@
               "developer_name": "OFFSIDES",
               "model_type": "statistic",
               "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818186653,
+            "fixture_id": 19441420,
+            "type_id": 117,
+            "participant_id": 126,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818186269,
+            "fixture_id": 19441420,
+            "type_id": 42,
+            "participant_id": 126,
+            "data": {
+              "value": 5
+            },
+            "location": "home",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818186271,
+            "fixture_id": 19441420,
+            "type_id": 49,
+            "participant_id": 126,
+            "data": {
+              "value": 5
+            },
+            "location": "home",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818186268,
+            "fixture_id": 19441420,
+            "type_id": 99,
+            "participant_id": 844,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818187781,
+            "fixture_id": 19441420,
+            "type_id": 53,
+            "participant_id": 126,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818202397,
+            "fixture_id": 19441420,
+            "type_id": 84,
+            "participant_id": 126,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
             }
           }
         ],
@@ -1108,9 +1717,9 @@
             "player_id": 37640769,
             "team_id": 126,
             "position_id": 27,
-            "formation_field": "4:1",
+            "formation_field": "4:2",
             "type_id": 11,
-            "formation_position": 10,
+            "formation_position": 11,
             "player_name": "Chupe",
             "jersey_number": 9,
             "player": {
@@ -1723,9 +2332,9 @@
             "player_id": 37592574,
             "team_id": 126,
             "position_id": 27,
-            "formation_field": "4:2",
+            "formation_field": "4:1",
             "type_id": 11,
-            "formation_position": 11,
+            "formation_position": 10,
             "player_name": "Rafa Rodríguez",
             "jersey_number": 37,
             "player": {
@@ -3396,7 +4005,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T17:37:37.491461Z"
+      "fetched_at": "2026-03-28T17:57:45.614776Z"
     },
     "19441421": {
       "detail": {
@@ -8930,7 +9539,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 372509,
-        "state_id": 1,
+        "state_id": 2,
         "venue_id": 174,
         "name": "Willem II vs De Graafschap",
         "starting_at": "2026-03-28 17:45:00",
@@ -9028,11 +9637,11 @@
           "national_team": false
         },
         "state": {
-          "id": 1,
-          "state": "NS",
-          "name": "Not Started",
-          "short_name": "NS",
-          "developer_name": "NS"
+          "id": 2,
+          "state": "INPLAY_1ST_HALF",
+          "name": "1st Half",
+          "short_name": "1st",
+          "developer_name": "INPLAY_1ST_HALF"
         },
         "scores": [
           {
@@ -9102,9 +9711,711 @@
             "description": "CURRENT"
           }
         ],
-        "periods": [],
+        "periods": [
+          {
+            "id": 6876074,
+            "fixture_id": 19429959,
+            "type_id": 1,
+            "started": 1774720045,
+            "ended": null,
+            "counts_from": 0,
+            "ticking": true,
+            "sort_order": 1,
+            "description": "1st-half",
+            "time_added": null,
+            "period_length": 45,
+            "minutes": 10,
+            "seconds": 20,
+            "has_timer": true
+          }
+        ],
         "events": [],
-        "statistics": [],
+        "statistics": [
+          {
+            "id": 818200161,
+            "fixture_id": 19429959,
+            "type_id": 44,
+            "participant_id": 669,
+            "data": {
+              "value": 5
+            },
+            "location": "home",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818200065,
+            "fixture_id": 19429959,
+            "type_id": 55,
+            "participant_id": 669,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818204316,
+            "fixture_id": 19429959,
+            "type_id": 99,
+            "participant_id": 1073,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818204322,
+            "fixture_id": 19429959,
+            "type_id": 109,
+            "participant_id": 1073,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818205996,
+            "fixture_id": 19429959,
+            "type_id": 78,
+            "participant_id": 1073,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818204324,
+            "fixture_id": 19429959,
+            "type_id": 1605,
+            "participant_id": 1073,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818198619,
+            "fixture_id": 19429959,
+            "type_id": 82,
+            "participant_id": 669,
+            "data": {
+              "value": 82
+            },
+            "location": "home",
+            "type": {
+              "id": 82,
+              "name": "Successful Passes Percentage",
+              "code": "successful-passes-percentage",
+              "developer_name": "SUCCESSFUL_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818200073,
+            "fixture_id": 19429959,
+            "type_id": 62,
+            "participant_id": 669,
+            "data": {
+              "value": 5
+            },
+            "location": "home",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818200076,
+            "fixture_id": 19429959,
+            "type_id": 27265,
+            "participant_id": 1073,
+            "data": {
+              "value": 33
+            },
+            "location": "away",
+            "type": {
+              "id": 27265,
+              "name": "Successful Long Passes Percentage",
+              "code": "successful-long-passes-percentage",
+              "developer_name": "SUCCESSFUL_LONG_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818198620,
+            "fixture_id": 19429959,
+            "type_id": 82,
+            "participant_id": 1073,
+            "data": {
+              "value": 82
+            },
+            "location": "away",
+            "type": {
+              "id": 82,
+              "name": "Successful Passes Percentage",
+              "code": "successful-passes-percentage",
+              "developer_name": "SUCCESSFUL_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818200067,
+            "fixture_id": 19429959,
+            "type_id": 56,
+            "participant_id": 669,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818200068,
+            "fixture_id": 19429959,
+            "type_id": 56,
+            "participant_id": 1073,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818201575,
+            "fixture_id": 19429959,
+            "type_id": 100,
+            "participant_id": 669,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818200070,
+            "fixture_id": 19429959,
+            "type_id": 81,
+            "participant_id": 1073,
+            "data": {
+              "value": 37
+            },
+            "location": "away",
+            "type": {
+              "id": 81,
+              "name": "Successful Passes",
+              "code": "successful-passes",
+              "developer_name": "SUCCESSFUL_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818204320,
+            "fixture_id": 19429959,
+            "type_id": 108,
+            "participant_id": 1073,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818204314,
+            "fixture_id": 19429959,
+            "type_id": 98,
+            "participant_id": 1073,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818190561,
+            "fixture_id": 19429959,
+            "type_id": 45,
+            "participant_id": 669,
+            "data": {
+              "value": 57
+            },
+            "location": "home",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818200074,
+            "fixture_id": 19429959,
+            "type_id": 62,
+            "participant_id": 1073,
+            "data": {
+              "value": 6
+            },
+            "location": "away",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818204317,
+            "fixture_id": 19429959,
+            "type_id": 27264,
+            "participant_id": 669,
+            "data": {
+              "value": 4
+            },
+            "location": "home",
+            "type": {
+              "id": 27264,
+              "name": "Successful Long Passes",
+              "code": "successful-long-passes",
+              "developer_name": "SUCCESSFUL_LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818203025,
+            "fixture_id": 19429959,
+            "type_id": 60,
+            "participant_id": 669,
+            "data": {
+              "value": 4
+            },
+            "location": "home",
+            "type": {
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818198830,
+            "fixture_id": 19429959,
+            "type_id": 43,
+            "participant_id": 1073,
+            "data": {
+              "value": 9
+            },
+            "location": "away",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818205995,
+            "fixture_id": 19429959,
+            "type_id": 78,
+            "participant_id": 669,
+            "data": {
+              "value": 5
+            },
+            "location": "home",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818203026,
+            "fixture_id": 19429959,
+            "type_id": 60,
+            "participant_id": 1073,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818198829,
+            "fixture_id": 19429959,
+            "type_id": 43,
+            "participant_id": 669,
+            "data": {
+              "value": 23
+            },
+            "location": "home",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818190562,
+            "fixture_id": 19429959,
+            "type_id": 45,
+            "participant_id": 1073,
+            "data": {
+              "value": 43
+            },
+            "location": "away",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818204315,
+            "fixture_id": 19429959,
+            "type_id": 99,
+            "participant_id": 669,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 99,
+              "name": "Accurate Crosses",
+              "code": "accurate-crosses",
+              "developer_name": "ACCURATE_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818201576,
+            "fixture_id": 19429959,
+            "type_id": 100,
+            "participant_id": 1073,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818200162,
+            "fixture_id": 19429959,
+            "type_id": 44,
+            "participant_id": 1073,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818200069,
+            "fixture_id": 19429959,
+            "type_id": 81,
+            "participant_id": 669,
+            "data": {
+              "value": 47
+            },
+            "location": "home",
+            "type": {
+              "id": 81,
+              "name": "Successful Passes",
+              "code": "successful-passes",
+              "developer_name": "SUCCESSFUL_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818204318,
+            "fixture_id": 19429959,
+            "type_id": 27264,
+            "participant_id": 1073,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 27264,
+              "name": "Successful Long Passes",
+              "code": "successful-long-passes",
+              "developer_name": "SUCCESSFUL_LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818204319,
+            "fixture_id": 19429959,
+            "type_id": 108,
+            "participant_id": 669,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818204323,
+            "fixture_id": 19429959,
+            "type_id": 1605,
+            "participant_id": 669,
+            "data": {
+              "value": 100
+            },
+            "location": "home",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818200072,
+            "fixture_id": 19429959,
+            "type_id": 80,
+            "participant_id": 1073,
+            "data": {
+              "value": 45
+            },
+            "location": "away",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818200075,
+            "fixture_id": 19429959,
+            "type_id": 27265,
+            "participant_id": 669,
+            "data": {
+              "value": 80
+            },
+            "location": "home",
+            "type": {
+              "id": 27265,
+              "name": "Successful Long Passes Percentage",
+              "code": "successful-long-passes-percentage",
+              "developer_name": "SUCCESSFUL_LONG_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 818200066,
+            "fixture_id": 19429959,
+            "type_id": 55,
+            "participant_id": 1073,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 818204313,
+            "fixture_id": 19429959,
+            "type_id": 98,
+            "participant_id": 669,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818204321,
+            "fixture_id": 19429959,
+            "type_id": 109,
+            "participant_id": 669,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 818200071,
+            "fixture_id": 19429959,
+            "type_id": 80,
+            "participant_id": 669,
+            "data": {
+              "value": 57
+            },
+            "location": "home",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          }
+        ],
         "lineups": [
           {
             "id": 14673233225,
@@ -9564,9 +10875,9 @@
             "player_id": 37767871,
             "team_id": 669,
             "position_id": 25,
-            "formation_field": "2:1",
+            "formation_field": "2:4",
             "type_id": 11,
-            "formation_position": 2,
+            "formation_position": 5,
             "player_name": "Per van Loon",
             "jersey_number": 22,
             "player": {
@@ -9810,9 +11121,9 @@
             "player_id": 38209000,
             "team_id": 669,
             "position_id": 25,
-            "formation_field": "2:4",
+            "formation_field": "2:1",
             "type_id": 11,
-            "formation_position": 5,
+            "formation_position": 2,
             "player_name": "Kayen Scheepens",
             "jersey_number": 46,
             "player": {
@@ -10201,9 +11512,9 @@
             "player_id": 37612033,
             "team_id": 1073,
             "position_id": 26,
-            "formation_field": "3:3",
+            "formation_field": "3:2",
             "type_id": 11,
-            "formation_position": 6,
+            "formation_position": 8,
             "player_name": "Teun Gijselhart",
             "jersey_number": 8,
             "player": {
@@ -10242,9 +11553,9 @@
             "player_id": 37734277,
             "team_id": 1073,
             "position_id": 27,
-            "formation_field": "4:2",
+            "formation_field": "4:1",
             "type_id": 11,
-            "formation_position": 10,
+            "formation_position": 11,
             "player_name": "Nils Eggens",
             "jersey_number": 9,
             "player": {
@@ -10282,10 +11593,10 @@
             "fixture_id": 19429959,
             "player_id": 26208,
             "team_id": 1073,
-            "position_id": 26,
-            "formation_field": "3:1",
+            "position_id": 27,
+            "formation_field": "4:2",
             "type_id": 11,
-            "formation_position": 8,
+            "formation_position": 10,
             "player_name": "Reuven Niemeijer",
             "jersey_number": 10,
             "player": {
@@ -10446,10 +11757,10 @@
             "fixture_id": 19429959,
             "player_id": 37616700,
             "team_id": 1073,
-            "position_id": 27,
-            "formation_field": "4:1",
+            "position_id": 26,
+            "formation_field": "3:4",
             "type_id": 11,
-            "formation_position": 11,
+            "formation_position": 6,
             "player_name": "Nathan Kaninda",
             "jersey_number": 17,
             "player": {
@@ -10528,8 +11839,8 @@
             "fixture_id": 19429959,
             "player_id": 37621056,
             "team_id": 1073,
-            "position_id": 27,
-            "formation_field": "4:3",
+            "position_id": 26,
+            "formation_field": "3:1",
             "type_id": 11,
             "formation_position": 9,
             "player_name": "Chahid el Allachi",
@@ -10652,7 +11963,7 @@
             "player_id": 25954320,
             "team_id": 1073,
             "position_id": 26,
-            "formation_field": "3:2",
+            "formation_field": "3:3",
             "type_id": 11,
             "formation_position": 7,
             "player_name": "Jason Meerstadt",
@@ -11640,7 +12951,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T17:37:37.118781Z"
+      "fetched_at": "2026-03-28T17:57:45.147704Z"
     }
   }
 }
