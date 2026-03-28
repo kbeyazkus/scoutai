@@ -5628,7 +5628,7 @@
             "type_id": 1525,
             "participant_id": 1506,
             "score": {
-              "goals": 0,
+              "goals": 1,
               "participant": "home"
             },
             "description": "CURRENT"
@@ -5650,21 +5650,10 @@
             "type_id": 2,
             "participant_id": 1506,
             "score": {
-              "goals": 0,
+              "goals": 1,
               "participant": "home"
             },
             "description": "2ND_HALF"
-          },
-          {
-            "id": 19695292,
-            "fixture_id": 19648226,
-            "type_id": 48996,
-            "participant_id": 1506,
-            "score": {
-              "goals": 0,
-              "participant": "home"
-            },
-            "description": "2ND_HALF_ONLY"
           },
           {
             "id": 19695293,
@@ -5674,6 +5663,17 @@
             "score": {
               "goals": 0,
               "participant": "away"
+            },
+            "description": "2ND_HALF_ONLY"
+          },
+          {
+            "id": 19695292,
+            "fixture_id": 19648226,
+            "type_id": 48996,
+            "participant_id": 1506,
+            "score": {
+              "goals": 1,
+              "participant": "home"
             },
             "description": "2ND_HALF_ONLY"
           }
@@ -5707,8 +5707,8 @@
             "description": "2nd-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 59,
-            "seconds": 9,
+            "minutes": 77,
+            "seconds": 58,
             "has_timer": true
           }
         ],
@@ -5824,8 +5824,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 59,
-              "seconds": 9,
+              "minutes": 77,
+              "seconds": 58,
               "has_timer": true
             },
             "player": {
@@ -5846,6 +5846,74 @@
               "height": 172,
               "weight": 60,
               "date_of_birth": "1989-03-31",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156358395,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 7273,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37563551,
+            "related_player_id": 37387708,
+            "player_name": "Sang-hyeok Park",
+            "related_player_name": "Abdallah Khalaihal",
+            "result": null,
+            "info": null,
+            "addition": "4th Substitution",
+            "minute": 60,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 4,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 77,
+              "seconds": 58,
+              "has_timer": true
+            },
+            "player": {
+              "id": 37563551,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "S. Park",
+              "firstname": "Sang-Hyeok",
+              "lastname": "Park",
+              "name": "Sang-Hyeok Park",
+              "display_name": "Sang-hyeok Park",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/31/37563551.png",
+              "height": 182,
+              "weight": 75,
+              "date_of_birth": "2002-06-13",
               "gender": "male"
             }
           },
@@ -5892,8 +5960,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 59,
-              "seconds": 9,
+              "minutes": 77,
+              "seconds": 58,
               "has_timer": true
             },
             "player": {
@@ -5960,8 +6028,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 59,
-              "seconds": 9,
+              "minutes": 77,
+              "seconds": 58,
               "has_timer": true
             },
             "player": {
@@ -5998,7 +6066,7 @@
             "related_player_name": null,
             "result": null,
             "info": null,
-            "addition": "2nd Yellowcard",
+            "addition": "3rd Yellowcard",
             "minute": 32,
             "extra_minute": null,
             "injured": null,
@@ -6033,6 +6101,278 @@
               "has_timer": false
             },
             "player": null
+          },
+          {
+            "id": 156358413,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 7273,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 787520,
+            "related_player_id": null,
+            "player_name": "You-hyeon Lee",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "2nd Yellowcard",
+            "minute": 64,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": false,
+            "sort_order": 2,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 77,
+              "seconds": 58,
+              "has_timer": true
+            },
+            "player": {
+              "id": 787520,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": 25,
+              "common_name": "Y. Lee",
+              "firstname": "You-Hyeon",
+              "lastname": "Lee",
+              "name": "You-Hyeon Lee",
+              "display_name": "You-hyeon Lee",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 179,
+              "weight": 74,
+              "date_of_birth": "1997-02-08",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156358416,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 7273,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37474580,
+            "related_player_id": 37677375,
+            "player_name": "Min-woo Seo",
+            "related_player_name": "Seung-won Lee",
+            "result": null,
+            "info": null,
+            "addition": "5th Substitution",
+            "minute": 60,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 5,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 77,
+              "seconds": 58,
+              "has_timer": true
+            },
+            "player": {
+              "id": 37474580,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 149,
+              "type_id": 26,
+              "common_name": "Seo Min-Woo",
+              "firstname": "Min-Woo",
+              "lastname": "Seo",
+              "name": "Min-Woo Seo",
+              "display_name": "Min-woo Seo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/20/37474580.png",
+              "height": 184,
+              "weight": 75,
+              "date_of_birth": "1998-03-12",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156358454,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 1506,
+            "type_id": 14,
+            "section": "event",
+            "player_id": 37561719,
+            "related_player_id": 37913073,
+            "player_name": "Ho-jae Lee",
+            "related_player_name": "Hyeon-seo Han",
+            "result": "1-0",
+            "info": "Right foot shot",
+            "addition": "1st Goal",
+            "minute": 71,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": 1522,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 1,
+            "type": {
+              "id": 14,
+              "name": "Goal",
+              "code": "goal",
+              "developer_name": "GOAL",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 77,
+              "seconds": 58,
+              "has_timer": true
+            },
+            "player": {
+              "id": 37561719,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "H. Lee",
+              "firstname": "Ho-Jae",
+              "lastname": "Lee",
+              "name": "Ho-Jae Lee",
+              "display_name": "Ho-jae Lee",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/23/37561719.png",
+              "height": 192,
+              "weight": 84,
+              "date_of_birth": "2000-10-14",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156358488,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 1506,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 813,
+            "related_player_id": 37735451,
+            "player_name": "Sung-yueng Ki",
+            "related_player_name": "Seo-woong Hwang",
+            "result": null,
+            "info": null,
+            "addition": "6th Substitution",
+            "minute": 76,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 6,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 77,
+              "seconds": 58,
+              "has_timer": true
+            },
+            "player": {
+              "id": 813,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 149,
+              "type_id": 26,
+              "common_name": "S. Ki",
+              "firstname": "Sung-Yeung",
+              "lastname": "Ki",
+              "name": "Sung-Yeung Ki",
+              "display_name": "Sung-yueng Ki",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/13/813.png",
+              "height": 188,
+              "weight": 75,
+              "date_of_birth": "1989-01-24",
+              "gender": "male"
+            }
           }
         ],
         "statistics": [
@@ -6042,7 +6382,7 @@
             "type_id": 41,
             "participant_id": 7273,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -6060,7 +6400,7 @@
             "type_id": 42,
             "participant_id": 1506,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -6078,7 +6418,7 @@
             "type_id": 55,
             "participant_id": 7273,
             "data": {
-              "value": 4
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -6096,7 +6436,7 @@
             "type_id": 45,
             "participant_id": 1506,
             "data": {
-              "value": 47
+              "value": 51
             },
             "location": "home",
             "type": {
@@ -6114,7 +6454,7 @@
             "type_id": 34,
             "participant_id": 1506,
             "data": {
-              "value": 4
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -6132,7 +6472,7 @@
             "type_id": 43,
             "participant_id": 1506,
             "data": {
-              "value": 52
+              "value": 74
             },
             "location": "home",
             "type": {
@@ -6150,7 +6490,7 @@
             "type_id": 55,
             "participant_id": 1506,
             "data": {
-              "value": 16
+              "value": 20
             },
             "location": "home",
             "type": {
@@ -6168,7 +6508,7 @@
             "type_id": 56,
             "participant_id": 7273,
             "data": {
-              "value": 11
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -6186,7 +6526,7 @@
             "type_id": 56,
             "participant_id": 1506,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -6204,7 +6544,7 @@
             "type_id": 43,
             "participant_id": 7273,
             "data": {
-              "value": 69
+              "value": 76
             },
             "location": "away",
             "type": {
@@ -6222,7 +6562,7 @@
             "type_id": 86,
             "participant_id": 7273,
             "data": {
-              "value": 1
+              "value": 0
             },
             "location": "away",
             "type": {
@@ -6240,7 +6580,7 @@
             "type_id": 41,
             "participant_id": 1506,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -6258,7 +6598,7 @@
             "type_id": 44,
             "participant_id": 7273,
             "data": {
-              "value": 51
+              "value": 58
             },
             "location": "away",
             "type": {
@@ -6294,7 +6634,7 @@
             "type_id": 45,
             "participant_id": 7273,
             "data": {
-              "value": 53
+              "value": 49
             },
             "location": "away",
             "type": {
@@ -6330,7 +6670,7 @@
             "type_id": 44,
             "participant_id": 1506,
             "data": {
-              "value": 40
+              "value": 64
             },
             "location": "home",
             "type": {
@@ -6348,7 +6688,7 @@
             "type_id": 34,
             "participant_id": 7273,
             "data": {
-              "value": 6
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -6402,7 +6742,7 @@
             "type_id": 84,
             "participant_id": 7273,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -6600,7 +6940,7 @@
             "type_id": 59,
             "participant_id": 7273,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -6618,7 +6958,7 @@
             "type_id": 59,
             "participant_id": 1506,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -6628,6 +6968,24 @@
               "developer_name": "SUBSTITUTIONS",
               "model_type": "statistic",
               "stat_group": "overall"
+            }
+          },
+          {
+            "id": 817796671,
+            "fixture_id": 19648226,
+            "type_id": 52,
+            "participant_id": 1506,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
             }
           },
           {
@@ -6646,6 +7004,60 @@
               "developer_name": "INJURIES",
               "model_type": "statistic",
               "stat_group": "overall"
+            }
+          },
+          {
+            "id": 817797186,
+            "fixture_id": 19648226,
+            "type_id": 79,
+            "participant_id": 7273,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 79,
+              "name": "Assists",
+              "code": "assists",
+              "developer_name": "ASSISTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817797187,
+            "fixture_id": 19648226,
+            "type_id": 79,
+            "participant_id": 1506,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 79,
+              "name": "Assists",
+              "code": "assists",
+              "developer_name": "ASSISTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817796670,
+            "fixture_id": 19648226,
+            "type_id": 52,
+            "participant_id": 7273,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
             }
           }
         ],
@@ -8494,13 +8906,13 @@
           "type": "actual",
           "metric": "celcius",
           "current": {
-            "temp": 18.89,
-            "wind": 5.15,
+            "temp": 18.29,
+            "wind": 4.48,
             "clouds": null,
-            "humidity": "50%",
-            "pressure": 1015,
-            "direction": 45,
-            "feels_like": 18.14,
+            "humidity": "57%",
+            "pressure": 1016,
+            "direction": 49,
+            "feels_like": 17.66,
             "description": "clear sky"
           }
         },
@@ -9043,7 +9455,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T07:17:07.837201Z"
+      "fetched_at": "2026-03-28T07:35:57.002327Z"
     }
   }
 }
