@@ -5485,11 +5485,11 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 399386,
-        "state_id": 22,
+        "state_id": 5,
         "venue_id": 709,
         "name": "Pohang Steelers vs Gangwon",
         "starting_at": "2026-03-28 06:00:00",
-        "result_info": null,
+        "result_info": "Pohang Steelers won after full-time.",
         "leg": "1/1",
         "details": null,
         "length": 90,
@@ -5498,25 +5498,6 @@
         "has_premium_odds": true,
         "starting_at_timestamp": 1774677600,
         "participants": [
-          {
-            "id": 7273,
-            "sport_id": 1,
-            "country_id": 712,
-            "venue_id": 14112,
-            "gender": "male",
-            "name": "Gangwon",
-            "short_code": null,
-            "image_path": "https://cdn.sportmonks.com/images/soccer/teams/9/7273.png",
-            "founded": 2008,
-            "type": "domestic",
-            "placeholder": false,
-            "last_played_at": "2026-03-22 07:30:00",
-            "meta": {
-              "location": "away",
-              "winner": null,
-              "position": 11
-            }
-          },
           {
             "id": 1506,
             "sport_id": 1,
@@ -5529,11 +5510,30 @@
             "founded": 1973,
             "type": "domestic",
             "placeholder": false,
-            "last_played_at": "2026-03-22 07:30:00",
+            "last_played_at": "2026-03-28 06:00:00",
             "meta": {
               "location": "home",
-              "winner": null,
+              "winner": true,
               "position": 10
+            }
+          },
+          {
+            "id": 7273,
+            "sport_id": 1,
+            "country_id": 712,
+            "venue_id": 14112,
+            "gender": "male",
+            "name": "Gangwon",
+            "short_code": null,
+            "image_path": "https://cdn.sportmonks.com/images/soccer/teams/9/7273.png",
+            "founded": 2008,
+            "type": "domestic",
+            "placeholder": false,
+            "last_played_at": "2026-03-28 06:00:00",
+            "meta": {
+              "location": "away",
+              "winner": false,
+              "position": 11
             }
           }
         ],
@@ -5547,7 +5547,7 @@
           "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/10/1034.png",
           "type": "league",
           "sub_type": "domestic",
-          "last_played_at": "2026-03-22 07:30:00",
+          "last_played_at": "2026-03-28 06:00:00",
           "category": 2,
           "has_jerseys": false,
           "country": {
@@ -5582,13 +5582,24 @@
           "national_team": false
         },
         "state": {
-          "id": 22,
-          "state": "INPLAY_2ND_HALF",
-          "name": "2nd Half",
-          "short_name": "2nd",
-          "developer_name": "INPLAY_2ND_HALF"
+          "id": 5,
+          "state": "FT",
+          "name": "Full Time",
+          "short_name": "FT",
+          "developer_name": "FT"
         },
         "scores": [
+          {
+            "id": 19695293,
+            "fixture_id": 19648226,
+            "type_id": 48996,
+            "participant_id": 7273,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "2ND_HALF_ONLY"
+          },
           {
             "id": 19694270,
             "fixture_id": 19648226,
@@ -5656,17 +5667,6 @@
             "description": "2ND_HALF"
           },
           {
-            "id": 19695293,
-            "fixture_id": 19648226,
-            "type_id": 48996,
-            "participant_id": 7273,
-            "score": {
-              "goals": 0,
-              "participant": "away"
-            },
-            "description": "2ND_HALF_ONLY"
-          },
-          {
             "id": 19695292,
             "fixture_id": 19648226,
             "type_id": 48996,
@@ -5700,16 +5700,16 @@
             "fixture_id": 19648226,
             "type_id": 2,
             "started": 1774681378,
-            "ended": null,
+            "ended": 1774684480,
             "counts_from": 45,
-            "ticking": true,
+            "ticking": false,
             "sort_order": 2,
             "description": "2nd-half",
-            "time_added": null,
+            "time_added": 5,
             "period_length": 45,
-            "minutes": 77,
-            "seconds": 58,
-            "has_timer": true
+            "minutes": 96,
+            "seconds": 42,
+            "has_timer": false
           }
         ],
         "events": [
@@ -5817,16 +5817,16 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 222138,
@@ -5885,16 +5885,16 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 37563551,
@@ -5953,16 +5953,16 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 37438687,
@@ -6021,16 +6021,16 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 463224,
@@ -6066,7 +6066,7 @@
             "related_player_name": null,
             "result": null,
             "info": null,
-            "addition": "3rd Yellowcard",
+            "addition": "4th Yellowcard",
             "minute": 32,
             "extra_minute": null,
             "injured": null,
@@ -6138,16 +6138,16 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 787520,
@@ -6206,16 +6206,16 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 37474580,
@@ -6274,16 +6274,16 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 37561719,
@@ -6313,14 +6313,14 @@
             "participant_id": 1506,
             "type_id": 18,
             "section": "event",
-            "player_id": 813,
-            "related_player_id": 37735451,
-            "player_name": "Sung-yueng Ki",
-            "related_player_name": "Seo-woong Hwang",
+            "player_id": 37619399,
+            "related_player_id": 37533029,
+            "player_name": "Jakob Tranziska",
+            "related_player_name": "Jorge Teixeira",
             "result": null,
             "info": null,
             "addition": "6th Substitution",
-            "minute": 76,
+            "minute": 73,
             "extra_minute": null,
             "injured": null,
             "on_bench": false,
@@ -6342,16 +6342,84 @@
               "fixture_id": 19648226,
               "type_id": 2,
               "started": 1774681378,
-              "ended": null,
+              "ended": 1774684480,
               "counts_from": 45,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 2,
               "description": "2nd-half",
-              "time_added": null,
+              "time_added": 5,
               "period_length": 45,
-              "minutes": 77,
-              "seconds": 58,
-              "has_timer": true
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37619399,
+              "sport_id": 1,
+              "country_id": 11,
+              "nationality_id": 11,
+              "city_id": 19224,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": null,
+              "common_name": "J. Tranziska",
+              "firstname": "Jakob",
+              "lastname": "Tranziska",
+              "name": "Jakob Tranziska",
+              "display_name": "Jakob Tranziska",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/7/37619399.png",
+              "height": 189,
+              "weight": null,
+              "date_of_birth": "2001-06-25",
+              "gender": null
+            }
+          },
+          {
+            "id": 156358499,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 1506,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 813,
+            "related_player_id": 37735451,
+            "player_name": "Sung-yueng Ki",
+            "related_player_name": "Seo-woong Hwang",
+            "result": null,
+            "info": null,
+            "addition": "7th Substitution",
+            "minute": 73,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 7,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": 1774684480,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 5,
+              "period_length": 45,
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
             },
             "player": {
               "id": 813,
@@ -6373,6 +6441,278 @@
               "date_of_birth": "1989-01-24",
               "gender": "male"
             }
+          },
+          {
+            "id": 156358527,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 7273,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 13186162,
+            "related_player_id": 324352,
+            "player_name": "Byeong-chan Choe",
+            "related_player_name": "Dae-won Kim",
+            "result": null,
+            "info": null,
+            "addition": "8th Substitution",
+            "minute": 80,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 8,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": 1774684480,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 5,
+              "period_length": 45,
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
+            },
+            "player": {
+              "id": 13186162,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 26,
+              "common_name": "B. Choe",
+              "firstname": "Byeong-Chan",
+              "lastname": "Choe",
+              "name": "Byeong-Chan Choe",
+              "display_name": "Byeong-chan Choe",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/18/13186162.png",
+              "height": 175,
+              "weight": 65,
+              "date_of_birth": "1996-04-04",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156358564,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 7273,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 13186145,
+            "related_player_id": 37679853,
+            "player_name": "Ho-yeong Park",
+            "related_player_name": "Do-hyun Kim",
+            "result": null,
+            "info": null,
+            "addition": "9th Substitution",
+            "minute": 86,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 9,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": 1774684480,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 5,
+              "period_length": 45,
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
+            },
+            "player": {
+              "id": 13186145,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "H. Park",
+              "firstname": "Ho-Young",
+              "lastname": "Park",
+              "name": "Ho-Young Park",
+              "display_name": "Ho-yeong Park",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 198,
+              "weight": 87,
+              "date_of_birth": "1999-04-07",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156358575,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 1506,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37735452,
+            "related_player_id": 37563500,
+            "player_name": "Dong-jin Kim",
+            "related_player_name": "Seung-ho Kim",
+            "result": null,
+            "info": null,
+            "addition": "10th Substitution",
+            "minute": 88,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": null,
+            "sort_order": 10,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": 1774684480,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 5,
+              "period_length": 45,
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37735452,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": null,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": null,
+              "common_name": "D. Kim",
+              "firstname": "Dong-Jin",
+              "lastname": "Kim",
+              "name": "Dong-Jin Kim",
+              "display_name": "Dong-jin Kim",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 181,
+              "weight": 71,
+              "date_of_birth": "2003-07-30",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156358608,
+            "fixture_id": 19648226,
+            "period_id": 6872877,
+            "participant_id": 1506,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 321252,
+            "related_player_id": null,
+            "player_name": "In-jae Hwang",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "3rd Yellowcard",
+            "minute": 90,
+            "extra_minute": 6,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6872877,
+            "rescinded": false,
+            "sort_order": 3,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6872877,
+              "fixture_id": 19648226,
+              "type_id": 2,
+              "started": 1774681378,
+              "ended": 1774684480,
+              "counts_from": 45,
+              "ticking": false,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": 5,
+              "period_length": 45,
+              "minutes": 96,
+              "seconds": 42,
+              "has_timer": false
+            },
+            "player": {
+              "id": 321252,
+              "sport_id": 1,
+              "country_id": 712,
+              "nationality_id": 712,
+              "city_id": null,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": 24,
+              "common_name": "I. Hwang",
+              "firstname": "In-Jae",
+              "lastname": "Hwang",
+              "name": "In-Jae Hwang",
+              "display_name": "In-jae Hwang",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/4/321252.png",
+              "height": 188,
+              "weight": 73,
+              "date_of_birth": "1994-04-22",
+              "gender": "male"
+            }
           }
         ],
         "statistics": [
@@ -6382,7 +6722,7 @@
             "type_id": 41,
             "participant_id": 7273,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -6418,7 +6758,7 @@
             "type_id": 55,
             "participant_id": 7273,
             "data": {
-              "value": 7
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -6454,7 +6794,7 @@
             "type_id": 34,
             "participant_id": 1506,
             "data": {
-              "value": 6
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -6472,7 +6812,7 @@
             "type_id": 43,
             "participant_id": 1506,
             "data": {
-              "value": 74
+              "value": 97
             },
             "location": "home",
             "type": {
@@ -6490,7 +6830,7 @@
             "type_id": 55,
             "participant_id": 1506,
             "data": {
-              "value": 20
+              "value": 22
             },
             "location": "home",
             "type": {
@@ -6508,7 +6848,7 @@
             "type_id": 56,
             "participant_id": 7273,
             "data": {
-              "value": 15
+              "value": 17
             },
             "location": "away",
             "type": {
@@ -6526,7 +6866,7 @@
             "type_id": 56,
             "participant_id": 1506,
             "data": {
-              "value": 5
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -6544,7 +6884,7 @@
             "type_id": 43,
             "participant_id": 7273,
             "data": {
-              "value": 76
+              "value": 101
             },
             "location": "away",
             "type": {
@@ -6575,30 +6915,12 @@
             }
           },
           {
-            "id": 817770907,
-            "fixture_id": 19648226,
-            "type_id": 41,
-            "participant_id": 1506,
-            "data": {
-              "value": 3
-            },
-            "location": "home",
-            "type": {
-              "id": 41,
-              "name": "Shots Off Target",
-              "code": "shots-off-target",
-              "developer_name": "SHOTS_OFF_TARGET",
-              "model_type": "statistic",
-              "stat_group": "offensive"
-            }
-          },
-          {
             "id": 817770820,
             "fixture_id": 19648226,
             "type_id": 44,
             "participant_id": 7273,
             "data": {
-              "value": 58
+              "value": 74
             },
             "location": "away",
             "type": {
@@ -6652,7 +6974,7 @@
             "type_id": 42,
             "participant_id": 7273,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -6670,7 +6992,7 @@
             "type_id": 44,
             "participant_id": 1506,
             "data": {
-              "value": 64
+              "value": 78
             },
             "location": "home",
             "type": {
@@ -6760,7 +7082,7 @@
             "type_id": 84,
             "participant_id": 1506,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -6940,7 +7262,7 @@
             "type_id": 59,
             "participant_id": 7273,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -6958,7 +7280,7 @@
             "type_id": 59,
             "participant_id": 1506,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -7056,6 +7378,24 @@
               "name": "Goals",
               "code": "goals",
               "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817770907,
+            "fixture_id": 19648226,
+            "type_id": 41,
+            "participant_id": 1506,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -8906,13 +9246,13 @@
           "type": "actual",
           "metric": "celcius",
           "current": {
-            "temp": 18.29,
+            "temp": 18.41,
             "wind": 4.48,
             "clouds": null,
-            "humidity": "57%",
+            "humidity": "53%",
             "pressure": 1016,
             "direction": 49,
-            "feels_like": 17.66,
+            "feels_like": 17.69,
             "description": "clear sky"
           }
         },
@@ -9455,7 +9795,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T07:35:57.002327Z"
+      "fetched_at": "2026-03-28T08:02:24.667944Z"
     }
   }
 }
