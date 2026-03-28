@@ -198,8 +198,8 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 10,
-            "seconds": 26,
+            "minutes": 16,
+            "seconds": 12,
             "has_timer": true
           }
         ],
@@ -224,12 +224,30 @@
             }
           },
           {
+            "id": 817862338,
+            "fixture_id": 19441413,
+            "type_id": 53,
+            "participant_id": 6827,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 817857621,
             "fixture_id": 19441413,
             "type_id": 81,
             "participant_id": 12330,
             "data": {
-              "value": 25
+              "value": 51
             },
             "location": "home",
             "type": {
@@ -265,7 +283,7 @@
             "type_id": 44,
             "participant_id": 6827,
             "data": {
-              "value": 5
+              "value": 12
             },
             "location": "away",
             "type": {
@@ -296,12 +314,30 @@
             }
           },
           {
+            "id": 817862747,
+            "fixture_id": 19441413,
+            "type_id": 581,
+            "participant_id": 12330,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 581,
+              "name": "Big Chances Missed",
+              "code": "big-chances-missed",
+              "developer_name": "BIG_CHANCES_MISSED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 817857622,
             "fixture_id": 19441413,
             "type_id": 78,
             "participant_id": 6827,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -337,7 +373,7 @@
             "type_id": 82,
             "participant_id": 12330,
             "data": {
-              "value": 78
+              "value": 81
             },
             "location": "home",
             "type": {
@@ -355,7 +391,7 @@
             "type_id": 1605,
             "participant_id": 6827,
             "data": {
-              "value": 0
+              "value": 50
             },
             "location": "away",
             "type": {
@@ -404,24 +440,6 @@
             }
           },
           {
-            "id": 817856183,
-            "fixture_id": 19441413,
-            "type_id": 43,
-            "participant_id": 12330,
-            "data": {
-              "value": 9
-            },
-            "location": "home",
-            "type": {
-              "id": 43,
-              "name": "Attacks",
-              "code": "attacks",
-              "developer_name": "ATTACKS",
-              "model_type": "statistic",
-              "stat_group": "offensive"
-            }
-          },
-          {
             "id": 817858029,
             "fixture_id": 19441413,
             "type_id": 56,
@@ -445,7 +463,7 @@
             "type_id": 60,
             "participant_id": 12330,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -463,7 +481,7 @@
             "type_id": 108,
             "participant_id": 6827,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -499,7 +517,7 @@
             "type_id": 27265,
             "participant_id": 6827,
             "data": {
-              "value": 33
+              "value": 29
             },
             "location": "away",
             "type": {
@@ -553,7 +571,7 @@
             "type_id": 98,
             "participant_id": 12330,
             "data": {
-              "value": 5
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -571,7 +589,7 @@
             "type_id": 62,
             "participant_id": 6827,
             "data": {
-              "value": 12
+              "value": 17
             },
             "location": "away",
             "type": {
@@ -589,7 +607,7 @@
             "type_id": 44,
             "participant_id": 12330,
             "data": {
-              "value": 8
+              "value": 11
             },
             "location": "home",
             "type": {
@@ -625,7 +643,7 @@
             "type_id": 60,
             "participant_id": 6827,
             "data": {
-              "value": 2
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -638,12 +656,48 @@
             }
           },
           {
+            "id": 817862746,
+            "fixture_id": 19441413,
+            "type_id": 581,
+            "participant_id": 6827,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 581,
+              "name": "Big Chances Missed",
+              "code": "big-chances-missed",
+              "developer_name": "BIG_CHANCES_MISSED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817865152,
+            "fixture_id": 19441413,
+            "type_id": 51,
+            "participant_id": 6827,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 817857623,
             "fixture_id": 19441413,
             "type_id": 78,
             "participant_id": 12330,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -661,7 +715,7 @@
             "type_id": 109,
             "participant_id": 6827,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -715,7 +769,7 @@
             "type_id": 98,
             "participant_id": 6827,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -733,7 +787,7 @@
             "type_id": 80,
             "participant_id": 6827,
             "data": {
-              "value": 28
+              "value": 51
             },
             "location": "away",
             "type": {
@@ -751,7 +805,7 @@
             "type_id": 27264,
             "participant_id": 12330,
             "data": {
-              "value": 5
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -769,7 +823,7 @@
             "type_id": 27265,
             "participant_id": 12330,
             "data": {
-              "value": 71
+              "value": 58
             },
             "location": "home",
             "type": {
@@ -787,7 +841,7 @@
             "type_id": 55,
             "participant_id": 12330,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -841,7 +895,7 @@
             "type_id": 81,
             "participant_id": 6827,
             "data": {
-              "value": 19
+              "value": 36
             },
             "location": "away",
             "type": {
@@ -859,7 +913,7 @@
             "type_id": 27264,
             "participant_id": 6827,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -877,7 +931,7 @@
             "type_id": 42,
             "participant_id": 12330,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -895,7 +949,7 @@
             "type_id": 80,
             "participant_id": 12330,
             "data": {
-              "value": 32
+              "value": 63
             },
             "location": "home",
             "type": {
@@ -913,7 +967,7 @@
             "type_id": 62,
             "participant_id": 12330,
             "data": {
-              "value": 7
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -931,7 +985,7 @@
             "type_id": 49,
             "participant_id": 12330,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -980,6 +1034,24 @@
             }
           },
           {
+            "id": 817856183,
+            "fixture_id": 19441413,
+            "type_id": 43,
+            "participant_id": 12330,
+            "data": {
+              "value": 14
+            },
+            "location": "home",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 817858390,
             "fixture_id": 19441413,
             "type_id": 117,
@@ -998,12 +1070,30 @@
             }
           },
           {
+            "id": 817862744,
+            "fixture_id": 19441413,
+            "type_id": 580,
+            "participant_id": 6827,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 817856182,
             "fixture_id": 19441413,
             "type_id": 43,
             "participant_id": 6827,
             "data": {
-              "value": 14
+              "value": 22
             },
             "location": "away",
             "type": {
@@ -1021,7 +1111,7 @@
             "type_id": 82,
             "participant_id": 6827,
             "data": {
-              "value": 68
+              "value": 71
             },
             "location": "away",
             "type": {
@@ -1065,6 +1155,96 @@
               "name": "Corners",
               "code": "corners",
               "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817865153,
+            "fixture_id": 19441413,
+            "type_id": 51,
+            "participant_id": 12330,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817862337,
+            "fixture_id": 19441413,
+            "type_id": 41,
+            "participant_id": 12330,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817862336,
+            "fixture_id": 19441413,
+            "type_id": 41,
+            "participant_id": 6827,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817862339,
+            "fixture_id": 19441413,
+            "type_id": 53,
+            "participant_id": 12330,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817862745,
+            "fixture_id": 19441413,
+            "type_id": 580,
+            "participant_id": 12330,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -3614,7 +3794,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T13:12:15.137392Z"
+      "fetched_at": "2026-03-28T13:18:01.509961Z"
     }
   }
 }
