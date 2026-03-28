@@ -5485,7 +5485,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 399386,
-        "state_id": 1,
+        "state_id": 2,
         "venue_id": 709,
         "name": "Pohang Steelers vs Gangwon",
         "starting_at": "2026-03-28 06:00:00",
@@ -5582,11 +5582,11 @@
           "national_team": false
         },
         "state": {
-          "id": 1,
-          "state": "NS",
-          "name": "Not Started",
-          "short_name": "NS",
-          "developer_name": "NS"
+          "id": 2,
+          "state": "INPLAY_1ST_HALF",
+          "name": "1st Half",
+          "short_name": "1st",
+          "developer_name": "INPLAY_1ST_HALF"
         },
         "scores": [
           {
@@ -5656,9 +5656,351 @@
             "description": "2ND_HALF"
           }
         ],
-        "periods": [],
+        "periods": [
+          {
+            "id": 6872800,
+            "fixture_id": 19648226,
+            "type_id": 1,
+            "started": 1774677624,
+            "ended": null,
+            "counts_from": 0,
+            "ticking": true,
+            "sort_order": 1,
+            "description": "1st-half",
+            "time_added": null,
+            "period_length": 45,
+            "minutes": 12,
+            "seconds": 47,
+            "has_timer": true
+          }
+        ],
         "events": [],
-        "statistics": [],
+        "statistics": [
+          {
+            "id": 817770906,
+            "fixture_id": 19648226,
+            "type_id": 41,
+            "participant_id": 7273,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817770909,
+            "fixture_id": 19648226,
+            "type_id": 42,
+            "participant_id": 1506,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817771682,
+            "fixture_id": 19648226,
+            "type_id": 55,
+            "participant_id": 7273,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 817768439,
+            "fixture_id": 19648226,
+            "type_id": 45,
+            "participant_id": 1506,
+            "data": {
+              "value": 70
+            },
+            "location": "home",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 817772785,
+            "fixture_id": 19648226,
+            "type_id": 34,
+            "participant_id": 1506,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817768947,
+            "fixture_id": 19648226,
+            "type_id": 43,
+            "participant_id": 1506,
+            "data": {
+              "value": 19
+            },
+            "location": "home",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817771683,
+            "fixture_id": 19648226,
+            "type_id": 55,
+            "participant_id": 1506,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 817771684,
+            "fixture_id": 19648226,
+            "type_id": 56,
+            "participant_id": 7273,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 817771685,
+            "fixture_id": 19648226,
+            "type_id": 56,
+            "participant_id": 1506,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 817768946,
+            "fixture_id": 19648226,
+            "type_id": 43,
+            "participant_id": 7273,
+            "data": {
+              "value": 12
+            },
+            "location": "away",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817770820,
+            "fixture_id": 19648226,
+            "type_id": 44,
+            "participant_id": 7273,
+            "data": {
+              "value": 5
+            },
+            "location": "away",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817770821,
+            "fixture_id": 19648226,
+            "type_id": 44,
+            "participant_id": 1506,
+            "data": {
+              "value": 12
+            },
+            "location": "home",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817770907,
+            "fixture_id": 19648226,
+            "type_id": 41,
+            "participant_id": 1506,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817768438,
+            "fixture_id": 19648226,
+            "type_id": 45,
+            "participant_id": 7273,
+            "data": {
+              "value": 30
+            },
+            "location": "away",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 817770908,
+            "fixture_id": 19648226,
+            "type_id": 42,
+            "participant_id": 7273,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817772784,
+            "fixture_id": 19648226,
+            "type_id": 34,
+            "participant_id": 7273,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817772242,
+            "fixture_id": 19648226,
+            "type_id": 51,
+            "participant_id": 7273,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 817772243,
+            "fixture_id": 19648226,
+            "type_id": 51,
+            "participant_id": 1506,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          }
+        ],
         "lineups": [
           {
             "id": 14673208904,
@@ -7501,9 +7843,18 @@
           "clouds": "0%",
           "description": "sky is clear",
           "icon": "https://cdn.sportmonks.com/images/weather/01d.png",
-          "type": "forecast",
+          "type": "actual",
           "metric": "celcius",
-          "current": null
+          "current": {
+            "temp": 17.87,
+            "wind": 5.35,
+            "clouds": null,
+            "humidity": "58%",
+            "pressure": 1015,
+            "direction": 46,
+            "feels_like": 17.23,
+            "description": "scattered clouds"
+          }
         },
         "predictions": [
           {
@@ -8044,7 +8395,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-28T05:45:58.813079Z"
+      "fetched_at": "2026-03-28T06:13:11.130215Z"
     }
   }
 }
