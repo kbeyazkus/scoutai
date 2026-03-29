@@ -5829,8 +5829,8 @@
             "description": "2nd-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 61,
-            "seconds": 41,
+            "minutes": 66,
+            "seconds": 48,
             "has_timer": true
           }
         ],
@@ -6286,8 +6286,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 61,
-              "seconds": 41,
+              "minutes": 66,
+              "seconds": 48,
               "has_timer": true
             },
             "player": {
@@ -6354,8 +6354,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 61,
-              "seconds": 41,
+              "minutes": 66,
+              "seconds": 48,
               "has_timer": true
             },
             "player": {
@@ -6422,8 +6422,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 61,
-              "seconds": 41,
+              "minutes": 66,
+              "seconds": 48,
               "has_timer": true
             },
             "player": {
@@ -6490,8 +6490,8 @@
               "description": "2nd-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 61,
-              "seconds": 41,
+              "minutes": 66,
+              "seconds": 48,
               "has_timer": true
             },
             "player": {
@@ -6514,16 +6514,102 @@
               "date_of_birth": "2005-09-30",
               "gender": null
             }
+          },
+          {
+            "id": 156384635,
+            "fixture_id": 19441417,
+            "period_id": 6878360,
+            "participant_id": 11354,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 186945,
+            "related_player_id": 160404,
+            "player_name": "Rubén Sobrino",
+            "related_player_name": "Víctor García",
+            "result": null,
+            "info": null,
+            "addition": "5th Substitution",
+            "minute": 66,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6878360,
+            "rescinded": null,
+            "sort_order": 5,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6878360,
+              "fixture_id": 19441417,
+              "type_id": 2,
+              "started": 1774797815,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 66,
+              "seconds": 48,
+              "has_timer": true
+            },
+            "player": {
+              "id": 186945,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 21844,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "R. Sobrino Pozuelo",
+              "firstname": "Rubén",
+              "lastname": "Sobrino Pozuelo",
+              "name": "Rubén Sobrino Pozuelo",
+              "display_name": "Rubén Sobrino",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/1/186945.png",
+              "height": 185,
+              "weight": 73,
+              "date_of_birth": "1992-06-01",
+              "gender": "male"
+            }
           }
         ],
         "statistics": [
+          {
+            "id": 819203862,
+            "fixture_id": 19441417,
+            "type_id": 51,
+            "participant_id": 238115,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
           {
             "id": 819156220,
             "fixture_id": 19441417,
             "type_id": 82,
             "participant_id": 238115,
             "data": {
-              "value": 81
+              "value": 82
             },
             "location": "away",
             "type": {
@@ -6554,24 +6640,6 @@
             }
           },
           {
-            "id": 819168017,
-            "fixture_id": 19441417,
-            "type_id": 50,
-            "participant_id": 11354,
-            "data": {
-              "value": 2
-            },
-            "location": "home",
-            "type": {
-              "id": 50,
-              "name": "Shots Outsidebox",
-              "code": "shots-outsidebox",
-              "developer_name": "SHOTS_OUTSIDEBOX",
-              "model_type": "statistic",
-              "stat_group": "offensive"
-            }
-          },
-          {
             "id": 819165415,
             "fixture_id": 19441417,
             "type_id": 108,
@@ -6595,7 +6663,7 @@
             "type_id": 1605,
             "participant_id": 238115,
             "data": {
-              "value": 44
+              "value": 40
             },
             "location": "away",
             "type": {
@@ -6613,7 +6681,7 @@
             "type_id": 82,
             "participant_id": 11354,
             "data": {
-              "value": 80
+              "value": 81
             },
             "location": "home",
             "type": {
@@ -6649,7 +6717,7 @@
             "type_id": 27265,
             "participant_id": 238115,
             "data": {
-              "value": 28
+              "value": 29
             },
             "location": "away",
             "type": {
@@ -6703,7 +6771,7 @@
             "type_id": 44,
             "participant_id": 238115,
             "data": {
-              "value": 17
+              "value": 19
             },
             "location": "away",
             "type": {
@@ -6721,7 +6789,7 @@
             "type_id": 81,
             "participant_id": 11354,
             "data": {
-              "value": 218
+              "value": 241
             },
             "location": "home",
             "type": {
@@ -6739,7 +6807,7 @@
             "type_id": 49,
             "participant_id": 238115,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -6847,7 +6915,7 @@
             "type_id": 100,
             "participant_id": 238115,
             "data": {
-              "value": 6
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -6901,7 +6969,7 @@
             "type_id": 581,
             "participant_id": 238115,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -6973,7 +7041,7 @@
             "type_id": 55,
             "participant_id": 238115,
             "data": {
-              "value": 10
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -6991,7 +7059,7 @@
             "type_id": 27265,
             "participant_id": 11354,
             "data": {
-              "value": 32
+              "value": 31
             },
             "location": "home",
             "type": {
@@ -7027,7 +7095,7 @@
             "type_id": 108,
             "participant_id": 238115,
             "data": {
-              "value": 9
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -7045,7 +7113,7 @@
             "type_id": 27264,
             "participant_id": 238115,
             "data": {
-              "value": 12
+              "value": 13
             },
             "location": "away",
             "type": {
@@ -7117,7 +7185,7 @@
             "type_id": 86,
             "participant_id": 11354,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -7135,7 +7203,7 @@
             "type_id": 42,
             "participant_id": 11354,
             "data": {
-              "value": 6
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -7153,7 +7221,7 @@
             "type_id": 45,
             "participant_id": 11354,
             "data": {
-              "value": 49
+              "value": 48
             },
             "location": "home",
             "type": {
@@ -7171,7 +7239,7 @@
             "type_id": 117,
             "participant_id": 11354,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -7189,7 +7257,7 @@
             "type_id": 117,
             "participant_id": 238115,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -7261,7 +7329,7 @@
             "type_id": 56,
             "participant_id": 238115,
             "data": {
-              "value": 5
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -7297,7 +7365,7 @@
             "type_id": 80,
             "participant_id": 11354,
             "data": {
-              "value": 273
+              "value": 297
             },
             "location": "home",
             "type": {
@@ -7315,7 +7383,7 @@
             "type_id": 80,
             "participant_id": 238115,
             "data": {
-              "value": 297
+              "value": 327
             },
             "location": "away",
             "type": {
@@ -7387,7 +7455,7 @@
             "type_id": 43,
             "participant_id": 11354,
             "data": {
-              "value": 75
+              "value": 78
             },
             "location": "home",
             "type": {
@@ -7405,7 +7473,7 @@
             "type_id": 45,
             "participant_id": 238115,
             "data": {
-              "value": 51
+              "value": 52
             },
             "location": "away",
             "type": {
@@ -7441,7 +7509,7 @@
             "type_id": 59,
             "participant_id": 11354,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -7459,7 +7527,7 @@
             "type_id": 44,
             "participant_id": 11354,
             "data": {
-              "value": 31
+              "value": 33
             },
             "location": "home",
             "type": {
@@ -7513,7 +7581,7 @@
             "type_id": 81,
             "participant_id": 238115,
             "data": {
-              "value": 241
+              "value": 269
             },
             "location": "away",
             "type": {
@@ -7531,7 +7599,7 @@
             "type_id": 62,
             "participant_id": 11354,
             "data": {
-              "value": 34
+              "value": 35
             },
             "location": "home",
             "type": {
@@ -7549,7 +7617,7 @@
             "type_id": 62,
             "participant_id": 238115,
             "data": {
-              "value": 43
+              "value": 45
             },
             "location": "away",
             "type": {
@@ -7603,7 +7671,7 @@
             "type_id": 580,
             "participant_id": 238115,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -7639,7 +7707,7 @@
             "type_id": 78,
             "participant_id": 11354,
             "data": {
-              "value": 10
+              "value": 11
             },
             "location": "home",
             "type": {
@@ -7675,7 +7743,7 @@
             "type_id": 86,
             "participant_id": 238115,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -7693,7 +7761,7 @@
             "type_id": 42,
             "participant_id": 238115,
             "data": {
-              "value": 5
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -7729,7 +7797,7 @@
             "type_id": 43,
             "participant_id": 238115,
             "data": {
-              "value": 60
+              "value": 63
             },
             "location": "away",
             "type": {
@@ -7796,6 +7864,78 @@
             }
           },
           {
+            "id": 819203213,
+            "fixture_id": 19441417,
+            "type_id": 58,
+            "participant_id": 11354,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 819203214,
+            "fixture_id": 19441417,
+            "type_id": 58,
+            "participant_id": 238115,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 819168017,
+            "fixture_id": 19441417,
+            "type_id": 50,
+            "participant_id": 11354,
+            "data": {
+              "value": 4
+            },
+            "location": "home",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 819203861,
+            "fixture_id": 19441417,
+            "type_id": 51,
+            "participant_id": 11354,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 51,
+              "name": "Offsides",
+              "code": "offsides",
+              "developer_name": "OFFSIDES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 819160081,
             "fixture_id": 19441417,
             "type_id": 581,
@@ -7819,7 +7959,7 @@
             "type_id": 57,
             "participant_id": 11354,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -7837,7 +7977,7 @@
             "type_id": 98,
             "participant_id": 11354,
             "data": {
-              "value": 11
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -7909,7 +8049,7 @@
             "type_id": 57,
             "participant_id": 238115,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -10382,7 +10522,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-29T15:40:17.017959Z"
+      "fetched_at": "2026-03-29T15:45:23.462213Z"
     }
   }
 }
