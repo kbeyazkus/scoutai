@@ -49,12 +49,12 @@
         "metric": "celcius",
         "current": {
           "temp": 9.36,
-          "wind": 6.05,
+          "wind": 5.89,
           "clouds": null,
           "humidity": "52%",
           "pressure": 1034,
-          "direction": 3,
-          "feels_like": 6.41,
+          "direction": 4,
+          "feels_like": 6.47,
           "description": "clear sky"
         }
       },
@@ -74,11 +74,11 @@
       "odds_btts_yes": 3.0,
       "homeGoalCount": 3,
       "awayGoalCount": 1,
-      "status": "INPLAY_2ND_HALF",
+      "status": "FT",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, league standings, H2H results, and primary bookmaker odds are entirely missing. Insufficient information for reliable analysis or cross-referencing.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, league standings, H2H results, and primary bookmaker odds are entirely missing. Insufficient information for reliable analysis or cross-referencing.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, league standings, H2H results, and primary bookmaker odds are entirely missing. Insufficient information for reliable analysis or cross-referencing.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY. Critical data points are missing or zero.\nREASON: xG, PPG, league standings, and most bookmaker odds are absent (0 or null). H2H records are also unavailable. Without these core metrics, a comprehensive technical analysis is impossible, and any betting recommendation would be speculative.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY. Critical data points are missing or zero.\nREASON: xG, PPG, league standings, and most bookmaker odds are absent (0 or null). H2H records are also unavailable. Without these core metrics, a comprehensive technical analysis is impossible, and any betting recommendation would be speculative.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY. Critical data points are missing or zero.\nREASON: xG, PPG, league standings, and most bookmaker odds are absent (0 or null). H2H records are also unavailable. Without these core metrics, a comprehensive technical analysis is impossible, and any betting recommendation would be speculative.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "sm-19441417",
@@ -147,9 +147,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data including xG, PPG, most odds, model predictions, standings, and H2H are missing or null. Conflicting potentials exist, specifically 0.0% for First Half Over 0.5 yet 51.58% for Both Teams Score.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data including xG, PPG, most odds, model predictions, standings, and H2H are missing or null. Conflicting potentials exist, specifically 0.0% for First Half Over 0.5 yet 51.58% for Both Teams Score.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data including xG, PPG, most odds, model predictions, standings, and H2H are missing or null. Conflicting potentials exist, specifically 0.0% for First Half Over 0.5 yet 51.58% for Both Teams Score.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points (xG, PPG, standings, H2H) are missing or null. Most bookmaker odds are unavailable. Sidelined player information is incorrect. Insufficient reliable data for robust analysis.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points (xG, PPG, standings, H2H) are missing or null. Most bookmaker odds are unavailable. Sidelined player information is incorrect. Insufficient reliable data for robust analysis.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points (xG, PPG, standings, H2H) are missing or null. Most bookmaker odds are unavailable. Sidelined player information is incorrect. Insufficient reliable data for robust analysis.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19441422",
@@ -190,9 +190,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, standings, H2H, and full match odds are missing. BTTS potential (56.44%) severely conflicts with provided BTTS odds (6.5).\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, standings, H2H, and full match odds are missing. BTTS potential (56.44%) severely conflicts with provided BTTS odds (6.5).\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, standings, H2H, and full match odds are missing. BTTS potential (56.44%) severely conflicts with provided BTTS odds (6.5).\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, full match odds, model predictions, and standings are entirely absent. The provided BTTS odds (6.5) severely contradict the BTTS potential (56.44%), indicating a major data conflict.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, full match odds, model predictions, and standings are entirely absent. The provided BTTS odds (6.5) severely contradict the BTTS potential (56.44%), indicating a major data conflict.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, full match odds, model predictions, and standings are entirely absent. The provided BTTS odds (6.5) severely contradict the BTTS potential (56.44%), indicating a major data conflict.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19441415",
@@ -261,9 +261,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, 1X2 odds, O2.5 odds, FH O0.5 potential, model predictions, standings, and H2H are entirely missing or invalid. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, 1X2 odds, O2.5 odds, FH O0.5 potential, model predictions, standings, and H2H are entirely missing or invalid. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, 1X2 odds, O2.5 odds, FH O0.5 potential, model predictions, standings, and H2H are entirely missing or invalid. Insufficient information for reliable analysis.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, full odds, and standings are missing or zero. Insufficient information prevents robust analysis and confident recommendation.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, full odds, and standings are missing or zero. Insufficient information prevents robust analysis and confident recommendation.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, full odds, and standings are missing or zero. Insufficient information prevents robust analysis and confident recommendation.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "sm-19622032",
@@ -332,10 +332,10 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, league standings, H2H, model predictions, and most bookmaker odds are absent or zero. Prematch potentials for O2.5 (6.5) and 1H O0.5 (0.0) are unrealistic, indicating data integrity issues.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, league standings, H2H, model predictions, and most bookmaker odds are absent or zero. Prematch potentials for O2.5 (6.5) and 1H O0.5 (0.0) are unrealistic, indicating data integrity issues.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, league standings, H2H, model predictions, and most bookmaker odds are absent or zero. Prematch potentials for O2.5 (6.5) and 1H O0.5 (0.0) are unrealistic, indicating data integrity issues.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points such as xG, PPG, full match odds, model predictions, league standings, and H2H results are entirely missing. Insufficient information to make a robust analysis.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points such as xG, PPG, full match odds, model predictions, league standings, and H2H results are entirely missing. Insufficient information to make a robust analysis.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points such as xG, PPG, full match odds, model predictions, league standings, and H2H results are entirely missing. Insufficient information to make a robust analysis.\nCONCLUSION: No Bet / Skip"
     }
   ],
-  "updated_at": "2026-03-29T13:14:51.677633Z"
+  "updated_at": "2026-03-29T14:03:53.745470Z"
 }
