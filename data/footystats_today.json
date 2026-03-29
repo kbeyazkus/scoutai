@@ -30,14 +30,14 @@
       "o05HT_potential": 80.0,
       "odds_ft_1": 3.0,
       "odds_ft_x": 3.2,
-      "odds_ft_2": 2.2,
+      "odds_ft_2": 2.3,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Substantial data deficiencies, including missing league context, full bookmaker odds (O2.5, BTTS), model predictions, standings, H2H records, and key sidelined players. Critical cross-verification is unfeasible.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Substantial data deficiencies, including missing league context, full bookmaker odds (O2.5, BTTS), model predictions, standings, H2H records, and key sidelined players. Critical cross-verification is unfeasible.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY.\nREASON: Substantial data deficiencies, including missing league context, full bookmaker odds (O2.5, BTTS), model predictions, standings, H2H records, and key sidelined players. Critical cross-verification is unfeasible.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY - Insufficient data for comprehensive cross-checking. Key information including model predictions, league standings, H2H, key injuries, and specific odds for Over 2.5/BTTS is missing.\n\nREASON: The absence of critical data points prevents a robust analysis of value and risk for any bet type. While a high FH O0.5 potential exists, lack of odds or supporting data makes it unbettable with confidence.\n\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY - Insufficient data for comprehensive cross-checking. Key information including model predictions, league standings, H2H, key injuries, and specific odds for Over 2.5/BTTS is missing.\n\nREASON: The absence of critical data points prevents a robust analysis of value and risk for any bet type. While a high FH O0.5 potential exists, lack of odds or supporting data makes it unbettable with confidence.\n\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY - Insufficient data for comprehensive cross-checking. Key information including model predictions, league standings, H2H, key injuries, and specific odds for Over 2.5/BTTS is missing.\n\nREASON: The absence of critical data points prevents a robust analysis of value and risk for any bet type. While a high FH O0.5 potential exists, lack of odds or supporting data makes it unbettable with confidence.\n\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8432114",
@@ -74,10 +74,49 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data missing (model predictions, standings, H2H, key players, O2.5/BTTS odds). Potentials conflict: high BTTS (70%) and FH O0.5 (73%) contradict low O2.5 (39%) likelihood.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant data missing (model predictions, standings, H2H, key players, O2.5/BTTS odds). Potentials conflict: high BTTS (70%) and FH O0.5 (73%) contradict low O2.5 (39%) likelihood.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant data missing (model predictions, standings, H2H, key players, O2.5/BTTS odds). Potentials conflict: high BTTS (70%) and FH O0.5 (73%) contradict low O2.5 (39%) likelihood.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps including missing odds for O2.5/BTTS, model predictions, league standings, and H2H results. Crucial information for confident cross-checking is absent.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps including missing odds for O2.5/BTTS, model predictions, league standings, and H2H results. Crucial information for confident cross-checking is absent.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps including missing odds for O2.5/BTTS, model predictions, league standings, and H2H results. Crucial information for confident cross-checking is absent.\nCONCLUSION: No Bet / Skip."
+    },
+    {
+      "id": "8432021",
+      "source_ids": {
+        "footystats": "8432021",
+        "sportmonks": ""
+      },
+      "home_name": "Independiente Medellín",
+      "away_name": "América de Cali",
+      "competition_name": "",
+      "competition_id": 16614,
+      "league_country": "",
+      "league_country_image": "",
+      "date_unix": 1774912200,
+      "home_image": "teams/colombia-deportivo-independiente-medellin.png",
+      "away_image": "teams/colombia-sociedad-anonima-deportiva-america-sa.png",
+      "home_country": "Colombia",
+      "away_country": "Colombia",
+      "venue_name": "Estadio Atanasio Girardot",
+      "venue_city": "Entre carreras 70 y 73 y las Calles 48 y 50, Medellín",
+      "referee_name": "",
+      "weather": {},
+      "home_ppg": 1.08,
+      "away_ppg": 1.75,
+      "team_a_xg_prematch": 1.53,
+      "team_b_xg_prematch": 1.62,
+      "btts_potential": 54.0,
+      "o25_potential": 55.0,
+      "o05HT_potential": 75.0,
+      "odds_ft_1": 2.05,
+      "odds_ft_x": 3.2,
+      "odds_ft_2": 3.2,
+      "homeGoalCount": 0,
+      "awayGoalCount": 0,
+      "status": "incomplete",
+      "elapsed": 0,
+      "boss_ai_decision": "STATUS: RISKY. Significant data gaps and conflicting indicators.\nREASON: PPG and XG data suggest Away team (América de Cali) is stronger or at least equal, yet bookmaker odds favor the Home team (Independiente Medellín). Key data including model predictions, league standings, H2H, and specific Over 2.5/BTTS odds are absent.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY. Significant data gaps and conflicting indicators.\nREASON: PPG and XG data suggest Away team (América de Cali) is stronger or at least equal, yet bookmaker odds favor the Home team (Independiente Medellín). Key data including model predictions, league standings, H2H, and specific Over 2.5/BTTS odds are absent.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY. Significant data gaps and conflicting indicators.\nREASON: PPG and XG data suggest Away team (América de Cali) is stronger or at least equal, yet bookmaker odds favor the Home team (Independiente Medellín). Key data including model predictions, league standings, H2H, and specific Over 2.5/BTTS odds are absent.\nCONCLUSION: No Bet / Skip"
     }
   ],
-  "updated_at": "2026-03-29T22:43:33.199164Z"
+  "updated_at": "2026-03-29T23:18:37.113404Z"
 }
