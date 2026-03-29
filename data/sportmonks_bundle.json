@@ -5791,8 +5791,8 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 36,
-            "seconds": 30,
+            "minutes": 45,
+            "seconds": 47,
             "has_timer": true
           }
         ],
@@ -5840,8 +5840,8 @@
               "description": "1st-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 36,
-              "seconds": 30,
+              "minutes": 45,
+              "seconds": 47,
               "has_timer": true
             },
             "player": {
@@ -5878,7 +5878,7 @@
             "related_player_name": "Jesús Owono",
             "result": null,
             "info": null,
-            "addition": "1st Missed Penalty",
+            "addition": "GoalkeeperSave",
             "minute": 35,
             "extra_minute": null,
             "injured": null,
@@ -5908,8 +5908,76 @@
               "description": "1st-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 36,
-              "seconds": 30,
+              "minutes": 45,
+              "seconds": 47,
+              "has_timer": true
+            },
+            "player": {
+              "id": 20683910,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": 79892,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 26,
+              "common_name": "L. Ribeiro Costa",
+              "firstname": "Lucas",
+              "lastname": "Ribeiro Costa",
+              "name": "Lucas Ribeiro Costa",
+              "display_name": "Lucas Ribeiro",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/6/20683910.png",
+              "height": 181,
+              "weight": null,
+              "date_of_birth": "1998-10-09",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156383918,
+            "fixture_id": 19441417,
+            "period_id": 6878140,
+            "participant_id": 11354,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 20683910,
+            "related_player_id": null,
+            "player_name": "Lucas Ribeiro",
+            "related_player_name": null,
+            "result": null,
+            "info": null,
+            "addition": "2nd Yellowcard",
+            "minute": 45,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6878140,
+            "rescinded": false,
+            "sort_order": 2,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6878140,
+              "fixture_id": 19441417,
+              "type_id": 1,
+              "started": 1774793891,
+              "ended": null,
+              "counts_from": 0,
+              "ticking": true,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 45,
+              "seconds": 47,
               "has_timer": true
             },
             "player": {
@@ -5976,8 +6044,8 @@
               "description": "1st-half",
               "time_added": null,
               "period_length": 45,
-              "minutes": 36,
-              "seconds": 30,
+              "minutes": 45,
+              "seconds": 47,
               "has_timer": true
             },
             "player": {
@@ -6000,6 +6068,74 @@
               "date_of_birth": "2002-11-01",
               "gender": "male"
             }
+          },
+          {
+            "id": 156383805,
+            "fixture_id": 19441417,
+            "period_id": 6878140,
+            "participant_id": 238115,
+            "type_id": 19,
+            "section": "event",
+            "player_id": 187056,
+            "related_player_id": null,
+            "player_name": "Diego Alende",
+            "related_player_name": null,
+            "result": null,
+            "info": "Foul",
+            "addition": "1st Yellowcard",
+            "minute": 37,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6878140,
+            "rescinded": false,
+            "sort_order": 1,
+            "type": {
+              "id": 19,
+              "name": "Yellowcard",
+              "code": "yellowcard",
+              "developer_name": "YELLOWCARD",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6878140,
+              "fixture_id": 19441417,
+              "type_id": 1,
+              "started": 1774793891,
+              "ended": null,
+              "counts_from": 0,
+              "ticking": true,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 45,
+              "seconds": 47,
+              "has_timer": true
+            },
+            "player": {
+              "id": 187056,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 80077,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "D. Alende López",
+              "firstname": "Diego",
+              "lastname": "Alende López",
+              "name": "Diego Alende López",
+              "display_name": "Diego Alende",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/16/187056.png",
+              "height": 183,
+              "weight": 76,
+              "date_of_birth": "1997-08-25",
+              "gender": "male"
+            }
           }
         ],
         "statistics": [
@@ -6009,7 +6145,7 @@
             "type_id": 82,
             "participant_id": 238115,
             "data": {
-              "value": 88
+              "value": 86
             },
             "location": "away",
             "type": {
@@ -6063,7 +6199,7 @@
             "type_id": 108,
             "participant_id": 11354,
             "data": {
-              "value": 5
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -6081,7 +6217,7 @@
             "type_id": 1605,
             "participant_id": 238115,
             "data": {
-              "value": 0
+              "value": 40
             },
             "location": "away",
             "type": {
@@ -6099,7 +6235,7 @@
             "type_id": 82,
             "participant_id": 11354,
             "data": {
-              "value": 80
+              "value": 81
             },
             "location": "home",
             "type": {
@@ -6117,7 +6253,7 @@
             "type_id": 27265,
             "participant_id": 11354,
             "data": {
-              "value": 45
+              "value": 42
             },
             "location": "home",
             "type": {
@@ -6135,7 +6271,7 @@
             "type_id": 56,
             "participant_id": 11354,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -6153,7 +6289,7 @@
             "type_id": 27265,
             "participant_id": 238115,
             "data": {
-              "value": 33
+              "value": 28
             },
             "location": "away",
             "type": {
@@ -6207,7 +6343,7 @@
             "type_id": 44,
             "participant_id": 238115,
             "data": {
-              "value": 8
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -6225,7 +6361,7 @@
             "type_id": 81,
             "participant_id": 11354,
             "data": {
-              "value": 112
+              "value": 159
             },
             "location": "home",
             "type": {
@@ -6297,7 +6433,7 @@
             "type_id": 43,
             "participant_id": 238115,
             "data": {
-              "value": 35
+              "value": 42
             },
             "location": "away",
             "type": {
@@ -6369,7 +6505,7 @@
             "type_id": 27264,
             "participant_id": 11354,
             "data": {
-              "value": 9
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -6459,7 +6595,7 @@
             "type_id": 55,
             "participant_id": 238115,
             "data": {
-              "value": 4
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -6495,7 +6631,7 @@
             "type_id": 108,
             "participant_id": 238115,
             "data": {
-              "value": 2
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -6531,7 +6667,7 @@
             "type_id": 109,
             "participant_id": 238115,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -6541,6 +6677,42 @@
               "developer_name": "SUCCESSFUL_DRIBBLES",
               "model_type": "statistic",
               "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 819173107,
+            "fixture_id": 19441417,
+            "type_id": 84,
+            "participant_id": 11354,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 819173108,
+            "fixture_id": 19441417,
+            "type_id": 84,
+            "participant_id": 238115,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 84,
+              "name": "Yellowcards",
+              "code": "yellowcards",
+              "developer_name": "YELLOWCARDS",
+              "model_type": "statistic",
+              "stat_group": "overall"
             }
           },
           {
@@ -6585,7 +6757,7 @@
             "type_id": 45,
             "participant_id": 11354,
             "data": {
-              "value": 47
+              "value": 50
             },
             "location": "home",
             "type": {
@@ -6693,7 +6865,7 @@
             "type_id": 56,
             "participant_id": 238115,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -6711,7 +6883,7 @@
             "type_id": 60,
             "participant_id": 11354,
             "data": {
-              "value": 9
+              "value": 11
             },
             "location": "home",
             "type": {
@@ -6729,7 +6901,7 @@
             "type_id": 80,
             "participant_id": 11354,
             "data": {
-              "value": 140
+              "value": 197
             },
             "location": "home",
             "type": {
@@ -6747,7 +6919,7 @@
             "type_id": 80,
             "participant_id": 238115,
             "data": {
-              "value": 170
+              "value": 207
             },
             "location": "away",
             "type": {
@@ -6837,7 +7009,7 @@
             "type_id": 43,
             "participant_id": 11354,
             "data": {
-              "value": 38
+              "value": 54
             },
             "location": "home",
             "type": {
@@ -6855,7 +7027,7 @@
             "type_id": 45,
             "participant_id": 238115,
             "data": {
-              "value": 53
+              "value": 50
             },
             "location": "away",
             "type": {
@@ -6873,7 +7045,7 @@
             "type_id": 1605,
             "participant_id": 11354,
             "data": {
-              "value": 20
+              "value": 17
             },
             "location": "home",
             "type": {
@@ -6891,7 +7063,7 @@
             "type_id": 44,
             "participant_id": 11354,
             "data": {
-              "value": 18
+              "value": 21
             },
             "location": "home",
             "type": {
@@ -6909,7 +7081,7 @@
             "type_id": 55,
             "participant_id": 11354,
             "data": {
-              "value": 4
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -6927,7 +7099,7 @@
             "type_id": 60,
             "participant_id": 238115,
             "data": {
-              "value": 9
+              "value": 12
             },
             "location": "away",
             "type": {
@@ -6945,7 +7117,7 @@
             "type_id": 81,
             "participant_id": 238115,
             "data": {
-              "value": 150
+              "value": 178
             },
             "location": "away",
             "type": {
@@ -6963,7 +7135,7 @@
             "type_id": 62,
             "participant_id": 11354,
             "data": {
-              "value": 20
+              "value": 24
             },
             "location": "home",
             "type": {
@@ -6981,7 +7153,7 @@
             "type_id": 62,
             "participant_id": 238115,
             "data": {
-              "value": 21
+              "value": 25
             },
             "location": "away",
             "type": {
@@ -7053,7 +7225,7 @@
             "type_id": 78,
             "participant_id": 11354,
             "data": {
-              "value": 4
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -7071,7 +7243,7 @@
             "type_id": 78,
             "participant_id": 238115,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "away",
             "type": {
@@ -7233,7 +7405,7 @@
             "type_id": 98,
             "participant_id": 238115,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -9232,13 +9404,13 @@
           "type": "actual",
           "metric": "celcius",
           "current": {
-            "temp": 11.22,
-            "wind": 6.17,
+            "temp": 11.19,
+            "wind": 5.14,
             "clouds": null,
-            "humidity": "62%",
+            "humidity": "61%",
             "pressure": 1030,
             "direction": 360,
-            "feels_like": 10.02,
+            "feels_like": 9.96,
             "description": "clear sky"
           }
         },
@@ -9760,7 +9932,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-29T14:54:41.539675Z"
+      "fetched_at": "2026-03-29T15:03:58.311660Z"
     }
   }
 }
