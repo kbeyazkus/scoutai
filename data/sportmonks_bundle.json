@@ -16145,7 +16145,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 373509,
-        "state_id": 2,
+        "state_id": 3,
         "venue_id": 9180,
         "name": "Almería vs Real Sociedad II",
         "starting_at": "2026-03-29 19:00:00",
@@ -16246,13 +16246,46 @@
           "national_team": false
         },
         "state": {
-          "id": 2,
-          "state": "INPLAY_1ST_HALF",
-          "name": "1st Half",
-          "short_name": "1st",
-          "developer_name": "INPLAY_1ST_HALF"
+          "id": 3,
+          "state": "HT",
+          "name": "Half Time",
+          "short_name": "HT",
+          "developer_name": "HT"
         },
         "scores": [
+          {
+            "id": 19719444,
+            "fixture_id": 19441415,
+            "type_id": 1,
+            "participant_id": 618,
+            "score": {
+              "goals": 2,
+              "participant": "home"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+            "id": 19719443,
+            "fixture_id": 19441415,
+            "type_id": 1525,
+            "participant_id": 9656,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "CURRENT"
+          },
+          {
+            "id": 19719447,
+            "fixture_id": 19441415,
+            "type_id": 2,
+            "participant_id": 9656,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "2ND_HALF"
+          },
           {
             "id": 19719442,
             "fixture_id": 19441415,
@@ -16276,39 +16309,6 @@
             "description": "1ST_HALF"
           },
           {
-            "id": 19719443,
-            "fixture_id": 19441415,
-            "type_id": 1525,
-            "participant_id": 9656,
-            "score": {
-              "goals": 0,
-              "participant": "away"
-            },
-            "description": "CURRENT"
-          },
-          {
-            "id": 19719444,
-            "fixture_id": 19441415,
-            "type_id": 1,
-            "participant_id": 618,
-            "score": {
-              "goals": 2,
-              "participant": "home"
-            },
-            "description": "1ST_HALF"
-          },
-          {
-            "id": 19719447,
-            "fixture_id": 19441415,
-            "type_id": 2,
-            "participant_id": 9656,
-            "score": {
-              "goals": 0,
-              "participant": "away"
-            },
-            "description": "2ND_HALF"
-          },
-          {
             "id": 19719446,
             "fixture_id": 19441415,
             "type_id": 2,
@@ -16326,16 +16326,16 @@
             "fixture_id": 19441415,
             "type_id": 1,
             "started": 1774810928,
-            "ended": null,
+            "ended": 1774813829,
             "counts_from": 0,
-            "ticking": true,
+            "ticking": false,
             "sort_order": 1,
             "description": "1st-half",
-            "time_added": null,
+            "time_added": 3,
             "period_length": 45,
-            "minutes": 42,
-            "seconds": 41,
-            "has_timer": true
+            "minutes": 48,
+            "seconds": 21,
+            "has_timer": false
           }
         ],
         "events": [
@@ -16375,16 +16375,16 @@
               "fixture_id": 19441415,
               "type_id": 1,
               "started": 1774810928,
-              "ended": null,
+              "ended": 1774813829,
               "counts_from": 0,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 1,
               "description": "1st-half",
-              "time_added": null,
+              "time_added": 3,
               "period_length": 45,
-              "minutes": 42,
-              "seconds": 41,
-              "has_timer": true
+              "minutes": 48,
+              "seconds": 21,
+              "has_timer": false
             },
             "player": {
               "id": 446364,
@@ -16443,16 +16443,16 @@
               "fixture_id": 19441415,
               "type_id": 1,
               "started": 1774810928,
-              "ended": null,
+              "ended": 1774813829,
               "counts_from": 0,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 1,
               "description": "1st-half",
-              "time_added": null,
+              "time_added": 3,
               "period_length": 45,
-              "minutes": 42,
-              "seconds": 41,
-              "has_timer": true
+              "minutes": 48,
+              "seconds": 21,
+              "has_timer": false
             },
             "player": {
               "id": 37316507,
@@ -16511,16 +16511,16 @@
               "fixture_id": 19441415,
               "type_id": 1,
               "started": 1774810928,
-              "ended": null,
+              "ended": 1774813829,
               "counts_from": 0,
-              "ticking": true,
+              "ticking": false,
               "sort_order": 1,
               "description": "1st-half",
-              "time_added": null,
+              "time_added": 3,
               "period_length": 45,
-              "minutes": 42,
-              "seconds": 41,
-              "has_timer": true
+              "minutes": 48,
+              "seconds": 21,
+              "has_timer": false
             },
             "player": {
               "id": 37736497,
@@ -16551,7 +16551,7 @@
             "type_id": 117,
             "participant_id": 618,
             "data": {
-              "value": 8
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -16605,7 +16605,7 @@
             "type_id": 81,
             "participant_id": 618,
             "data": {
-              "value": 136
+              "value": 144
             },
             "location": "home",
             "type": {
@@ -16623,7 +16623,7 @@
             "type_id": 62,
             "participant_id": 9656,
             "data": {
-              "value": 19
+              "value": 21
             },
             "location": "away",
             "type": {
@@ -16641,7 +16641,7 @@
             "type_id": 27264,
             "participant_id": 9656,
             "data": {
-              "value": 8
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -16659,7 +16659,7 @@
             "type_id": 86,
             "participant_id": 9656,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -16677,7 +16677,7 @@
             "type_id": 41,
             "participant_id": 618,
             "data": {
-              "value": 5
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -16695,7 +16695,7 @@
             "type_id": 99,
             "participant_id": 618,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -16713,7 +16713,7 @@
             "type_id": 49,
             "participant_id": 618,
             "data": {
-              "value": 9
+              "value": 13
             },
             "location": "home",
             "type": {
@@ -16731,7 +16731,7 @@
             "type_id": 108,
             "participant_id": 618,
             "data": {
-              "value": 9
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -16803,7 +16803,7 @@
             "type_id": 34,
             "participant_id": 618,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -16839,7 +16839,7 @@
             "type_id": 100,
             "participant_id": 618,
             "data": {
-              "value": 5
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -16875,7 +16875,7 @@
             "type_id": 81,
             "participant_id": 9656,
             "data": {
-              "value": 146
+              "value": 161
             },
             "location": "away",
             "type": {
@@ -16893,7 +16893,7 @@
             "type_id": 78,
             "participant_id": 618,
             "data": {
-              "value": 9
+              "value": 12
             },
             "location": "home",
             "type": {
@@ -16911,7 +16911,7 @@
             "type_id": 80,
             "participant_id": 618,
             "data": {
-              "value": 172
+              "value": 187
             },
             "location": "home",
             "type": {
@@ -16929,7 +16929,7 @@
             "type_id": 43,
             "participant_id": 618,
             "data": {
-              "value": 31
+              "value": 34
             },
             "location": "home",
             "type": {
@@ -16947,7 +16947,7 @@
             "type_id": 82,
             "participant_id": 618,
             "data": {
-              "value": 79
+              "value": 77
             },
             "location": "home",
             "type": {
@@ -16965,7 +16965,7 @@
             "type_id": 580,
             "participant_id": 618,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -17019,7 +17019,7 @@
             "type_id": 98,
             "participant_id": 9656,
             "data": {
-              "value": 6
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -17037,7 +17037,7 @@
             "type_id": 1605,
             "participant_id": 618,
             "data": {
-              "value": 67
+              "value": 70
             },
             "location": "home",
             "type": {
@@ -17055,7 +17055,7 @@
             "type_id": 1605,
             "participant_id": 9656,
             "data": {
-              "value": 29
+              "value": 25
             },
             "location": "away",
             "type": {
@@ -17109,7 +17109,7 @@
             "type_id": 53,
             "participant_id": 618,
             "data": {
-              "value": 4
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -17127,7 +17127,7 @@
             "type_id": 50,
             "participant_id": 9656,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -17163,7 +17163,7 @@
             "type_id": 117,
             "participant_id": 9656,
             "data": {
-              "value": 8
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -17181,7 +17181,7 @@
             "type_id": 43,
             "participant_id": 9656,
             "data": {
-              "value": 47
+              "value": 53
             },
             "location": "away",
             "type": {
@@ -17199,7 +17199,7 @@
             "type_id": 44,
             "participant_id": 618,
             "data": {
-              "value": 21
+              "value": 23
             },
             "location": "home",
             "type": {
@@ -17217,7 +17217,7 @@
             "type_id": 44,
             "participant_id": 9656,
             "data": {
-              "value": 19
+              "value": 22
             },
             "location": "away",
             "type": {
@@ -17271,7 +17271,7 @@
             "type_id": 55,
             "participant_id": 9656,
             "data": {
-              "value": 6
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -17307,7 +17307,7 @@
             "type_id": 80,
             "participant_id": 9656,
             "data": {
-              "value": 185
+              "value": 204
             },
             "location": "away",
             "type": {
@@ -17325,7 +17325,7 @@
             "type_id": 62,
             "participant_id": 618,
             "data": {
-              "value": 23
+              "value": 27
             },
             "location": "home",
             "type": {
@@ -17343,7 +17343,7 @@
             "type_id": 27264,
             "participant_id": 618,
             "data": {
-              "value": 8
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -17361,7 +17361,7 @@
             "type_id": 27265,
             "participant_id": 618,
             "data": {
-              "value": 35
+              "value": 37
             },
             "location": "home",
             "type": {
@@ -17379,7 +17379,7 @@
             "type_id": 27265,
             "participant_id": 9656,
             "data": {
-              "value": 42
+              "value": 43
             },
             "location": "away",
             "type": {
@@ -17397,7 +17397,7 @@
             "type_id": 57,
             "participant_id": 618,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -17415,7 +17415,7 @@
             "type_id": 57,
             "participant_id": 9656,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -17451,7 +17451,7 @@
             "type_id": 86,
             "participant_id": 618,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -17469,7 +17469,7 @@
             "type_id": 98,
             "participant_id": 618,
             "data": {
-              "value": 7
+              "value": 9
             },
             "location": "home",
             "type": {
@@ -17541,7 +17541,7 @@
             "type_id": 42,
             "participant_id": 618,
             "data": {
-              "value": 11
+              "value": 15
             },
             "location": "home",
             "type": {
@@ -17559,7 +17559,7 @@
             "type_id": 42,
             "participant_id": 9656,
             "data": {
-              "value": 9
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -17577,7 +17577,7 @@
             "type_id": 49,
             "participant_id": 9656,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -17595,7 +17595,7 @@
             "type_id": 108,
             "participant_id": 9656,
             "data": {
-              "value": 7
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -17631,7 +17631,7 @@
             "type_id": 53,
             "participant_id": 9656,
             "data": {
-              "value": 6
+              "value": 7
             },
             "location": "away",
             "type": {
@@ -17667,7 +17667,7 @@
             "type_id": 109,
             "participant_id": 618,
             "data": {
-              "value": 6
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -17739,7 +17739,7 @@
             "type_id": 581,
             "participant_id": 618,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "home",
             "type": {
@@ -17757,7 +17757,7 @@
             "type_id": 56,
             "participant_id": 618,
             "data": {
-              "value": 6
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -17865,7 +17865,7 @@
             "type_id": 51,
             "participant_id": 618,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -19116,9 +19116,9 @@
             "player_id": 37736497,
             "team_id": 9656,
             "position_id": 26,
-            "formation_field": "3:1",
+            "formation_field": "3:2",
             "type_id": 11,
-            "formation_position": 7,
+            "formation_position": 6,
             "player_name": "Tomy Carbonell",
             "jersey_number": 14,
             "player": {
@@ -19526,9 +19526,9 @@
             "player_id": 37719239,
             "team_id": 9656,
             "position_id": 26,
-            "formation_field": "3:2",
+            "formation_field": "3:1",
             "type_id": 11,
-            "formation_position": 6,
+            "formation_position": 7,
             "player_name": "Ibai Aguirre Basurco",
             "jersey_number": 31,
             "player": {
@@ -19859,7 +19859,7 @@
           "metric": "celcius",
           "current": {
             "temp": 13.71,
-            "wind": 8.23,
+            "wind": 5.66,
             "clouds": null,
             "humidity": "46%",
             "pressure": 1025,
@@ -20386,7 +20386,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-29T19:44:49.456925Z"
+      "fetched_at": "2026-03-29T20:02:56.551805Z"
     }
   }
 }
