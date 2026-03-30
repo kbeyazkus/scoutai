@@ -1,45 +1,6 @@
 {
   "data": [
     {
-      "id": "8432114",
-      "source_ids": {
-        "footystats": "8432114",
-        "sportmonks": ""
-      },
-      "home_name": "Llaneros",
-      "away_name": "Once Caldas",
-      "competition_name": "",
-      "competition_id": 16614,
-      "league_country": "",
-      "league_country_image": "",
-      "date_unix": 1774834200,
-      "home_image": "teams/colombia-club-llaneros-sa.png",
-      "away_image": "teams/colombia-once-caldas-sa.png",
-      "home_country": "Colombia",
-      "away_country": "Colombia",
-      "venue_name": "Estadio Manuel Calle Lombana",
-      "venue_city": ", Villavicencio",
-      "referee_name": "",
-      "weather": {},
-      "home_ppg": 1.23,
-      "away_ppg": 1.77,
-      "team_a_xg_prematch": 1.1,
-      "team_b_xg_prematch": 1.56,
-      "btts_potential": 70.0,
-      "o25_potential": 39.0,
-      "o05HT_potential": 73.0,
-      "odds_ft_1": 2.56,
-      "odds_ft_x": 3.1,
-      "odds_ft_2": 2.45,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: Low Confidence.\nREASON: Critical data points are missing, including league standings, H2H, model predictions, and specific bookmaker odds for Over 2.5 and BTTS. This prevents comprehensive cross-checking and accurate market evaluation.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: Low Confidence.\nREASON: Critical data points are missing, including league standings, H2H, model predictions, and specific bookmaker odds for Over 2.5 and BTTS. This prevents comprehensive cross-checking and accurate market evaluation.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: Low Confidence.\nREASON: Critical data points are missing, including league standings, H2H, model predictions, and specific bookmaker odds for Over 2.5 and BTTS. This prevents comprehensive cross-checking and accurate market evaluation.\nCONCLUSION: No Bet / Skip."
-    },
-    {
       "id": "8432021",
       "source_ids": {
         "footystats": "8432021",
@@ -74,9 +35,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps (standings, H2H, sidelined players, model predictions, O2.5/BTTS odds) hinder comprehensive analysis. Conflict exists between home team favored odds (2.05) and significantly lower home PPG (1.08) compared to away (1.75).\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps (standings, H2H, sidelined players, model predictions, O2.5/BTTS odds) hinder comprehensive analysis. Conflict exists between home team favored odds (2.05) and significantly lower home PPG (1.08) compared to away (1.75).\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps (standings, H2H, sidelined players, model predictions, O2.5/BTTS odds) hinder comprehensive analysis. Conflict exists between home team favored odds (2.05) and significantly lower home PPG (1.08) compared to away (1.75).\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps (missing O2.5/BTTS odds, model predictions, standings, H2H). Bookmaker odds for Home Win contradict Home's inferior PPG and xG, indicating a conflict with performance metrics.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps (missing O2.5/BTTS odds, model predictions, standings, H2H). Bookmaker odds for Home Win contradict Home's inferior PPG and xG, indicating a conflict with performance metrics.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps (missing O2.5/BTTS odds, model predictions, standings, H2H). Bookmaker odds for Home Win contradict Home's inferior PPG and xG, indicating a conflict with performance metrics.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8428689",
@@ -113,10 +74,49 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps including O2.5/BTTS odds, model predictions, standings, H2H, and key sidelined players. While Libertad shows a slight statistical edge, comprehensive risk assessment is impossible without complete data.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps including O2.5/BTTS odds, model predictions, standings, H2H, and key sidelined players. While Libertad shows a slight statistical edge, comprehensive risk assessment is impossible without complete data.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps including O2.5/BTTS odds, model predictions, standings, H2H, and key sidelined players. While Libertad shows a slight statistical edge, comprehensive risk assessment is impossible without complete data.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Insufficient data for comprehensive analysis. Critical information such as model predictions, full market odds (O2.5, BTTS), league standings, and H2H results are absent.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Insufficient data for comprehensive analysis. Critical information such as model predictions, full market odds (O2.5, BTTS), league standings, and H2H results are absent.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Insufficient data for comprehensive analysis. Critical information such as model predictions, full market odds (O2.5, BTTS), league standings, and H2H results are absent.\nCONCLUSION: No Bet / Skip"
+    },
+    {
+      "id": "8432020",
+      "source_ids": {
+        "footystats": "8432020",
+        "sportmonks": ""
+      },
+      "home_name": "Millonarios",
+      "away_name": "Fortaleza CEIF",
+      "competition_name": "",
+      "competition_id": 16614,
+      "league_country": "",
+      "league_country_image": "",
+      "date_unix": 1774920000,
+      "home_image": "teams/colombia-millonarios-fc-sa.png",
+      "away_image": "teams/colombia-fortaleza-ceif-fc.png",
+      "home_country": "Colombia",
+      "away_country": "Colombia",
+      "venue_name": "Estadio Nemesio Camacho El Campín",
+      "venue_city": "Avenida N.Q.S Calle 57, Bogotá, D.C.",
+      "referee_name": "",
+      "weather": {},
+      "home_ppg": 1.54,
+      "away_ppg": 1.08,
+      "team_a_xg_prematch": 1.56,
+      "team_b_xg_prematch": 1.28,
+      "btts_potential": 70.0,
+      "o25_potential": 58.0,
+      "o05HT_potential": 66.0,
+      "odds_ft_1": 1.58,
+      "odds_ft_x": 3.7,
+      "odds_ft_2": 5.24,
+      "homeGoalCount": 0,
+      "awayGoalCount": 0,
+      "status": "incomplete",
+      "elapsed": 0,
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps: no model predictions, standings, H2H, or key sidelined players. Critical odds for Over 2.5 and BTTS are missing (value 0), preventing cross-validation.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps: no model predictions, standings, H2H, or key sidelined players. Critical odds for Over 2.5 and BTTS are missing (value 0), preventing cross-validation.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps: no model predictions, standings, H2H, or key sidelined players. Critical odds for Over 2.5 and BTTS are missing (value 0), preventing cross-validation.\nCONCLUSION: No Bet / Skip"
     }
   ],
-  "updated_at": "2026-03-29T23:59:39.604052Z"
+  "updated_at": "2026-03-30T03:34:45.868058Z"
 }
