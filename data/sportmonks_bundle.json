@@ -27144,8 +27144,8 @@
             "description": "1st-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 6,
-            "seconds": 17,
+            "minutes": 15,
+            "seconds": 34,
             "has_timer": true
           }
         ],
@@ -27157,7 +27157,7 @@
             "type_id": 45,
             "participant_id": 3169,
             "data": {
-              "value": 27
+              "value": 44
             },
             "location": "away",
             "type": {
@@ -27170,12 +27170,48 @@
             }
           },
           {
+            "id": 820117372,
+            "fixture_id": 19441431,
+            "type_id": 41,
+            "participant_id": 3169,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820118103,
+            "fixture_id": 19441431,
+            "type_id": 49,
+            "participant_id": 6968,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 820111694,
             "fixture_id": 19441431,
             "type_id": 56,
             "participant_id": 3169,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -27193,7 +27229,7 @@
             "type_id": 81,
             "participant_id": 6968,
             "data": {
-              "value": 32
+              "value": 59
             },
             "location": "home",
             "type": {
@@ -27211,7 +27247,7 @@
             "type_id": 81,
             "participant_id": 3169,
             "data": {
-              "value": 7
+              "value": 45
             },
             "location": "away",
             "type": {
@@ -27229,7 +27265,7 @@
             "type_id": 98,
             "participant_id": 6968,
             "data": {
-              "value": 3
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -27247,7 +27283,7 @@
             "type_id": 62,
             "participant_id": 3169,
             "data": {
-              "value": 3
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -27260,12 +27296,30 @@
             }
           },
           {
+            "id": 820111706,
+            "fixture_id": 19441431,
+            "type_id": 27264,
+            "participant_id": 3169,
+            "data": {
+              "value": 3
+            },
+            "location": "away",
+            "type": {
+              "id": 27264,
+              "name": "Successful Long Passes",
+              "code": "successful-long-passes",
+              "developer_name": "SUCCESSFUL_LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
             "id": 820114619,
             "fixture_id": 19441431,
             "type_id": 99,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -27296,12 +27350,48 @@
             }
           },
           {
+            "id": 820117367,
+            "fixture_id": 19441431,
+            "type_id": 42,
+            "participant_id": 6968,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820117368,
+            "fixture_id": 19441431,
+            "type_id": 42,
+            "participant_id": 3169,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 820111708,
             "fixture_id": 19441431,
             "type_id": 27265,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 30
             },
             "location": "away",
             "type": {
@@ -27319,7 +27409,7 @@
             "type_id": 45,
             "participant_id": 6968,
             "data": {
-              "value": 73
+              "value": 56
             },
             "location": "home",
             "type": {
@@ -27337,7 +27427,7 @@
             "type_id": 82,
             "participant_id": 3169,
             "data": {
-              "value": 50
+              "value": 74
             },
             "location": "away",
             "type": {
@@ -27373,7 +27463,7 @@
             "type_id": 100,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -27391,7 +27481,7 @@
             "type_id": 60,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -27409,7 +27499,7 @@
             "type_id": 78,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -27427,7 +27517,7 @@
             "type_id": 78,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -27440,12 +27530,30 @@
             }
           },
           {
+            "id": 820111703,
+            "fixture_id": 19441431,
+            "type_id": 62,
+            "participant_id": 6968,
+            "data": {
+              "value": 14
+            },
+            "location": "home",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
             "id": 820112341,
             "fixture_id": 19441431,
             "type_id": 1605,
             "participant_id": 6968,
             "data": {
-              "value": 0
+              "value": 33
             },
             "location": "home",
             "type": {
@@ -27481,7 +27589,7 @@
             "type_id": 82,
             "participant_id": 6968,
             "data": {
-              "value": 84
+              "value": 82
             },
             "location": "home",
             "type": {
@@ -27517,7 +27625,7 @@
             "type_id": 60,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -27535,7 +27643,7 @@
             "type_id": 98,
             "participant_id": 3169,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -27553,7 +27661,7 @@
             "type_id": 27264,
             "participant_id": 6968,
             "data": {
-              "value": 3
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -27571,7 +27679,7 @@
             "type_id": 27265,
             "participant_id": 6968,
             "data": {
-              "value": 60
+              "value": 71
             },
             "location": "home",
             "type": {
@@ -27589,7 +27697,7 @@
             "type_id": 55,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -27625,7 +27733,7 @@
             "type_id": 80,
             "participant_id": 6968,
             "data": {
-              "value": 38
+              "value": 72
             },
             "location": "home",
             "type": {
@@ -27643,7 +27751,7 @@
             "type_id": 80,
             "participant_id": 3169,
             "data": {
-              "value": 14
+              "value": 61
             },
             "location": "away",
             "type": {
@@ -27656,48 +27764,12 @@
             }
           },
           {
-            "id": 820111703,
-            "fixture_id": 19441431,
-            "type_id": 62,
-            "participant_id": 6968,
-            "data": {
-              "value": 5
-            },
-            "location": "home",
-            "type": {
-              "id": 62,
-              "name": "Long Passes",
-              "code": "long-passes",
-              "developer_name": "LONG_PASSES",
-              "model_type": "statistic",
-              "stat_group": "overall"
-            }
-          },
-          {
-            "id": 820111706,
-            "fixture_id": 19441431,
-            "type_id": 27264,
-            "participant_id": 3169,
-            "data": {
-              "value": 0
-            },
-            "location": "away",
-            "type": {
-              "id": 27264,
-              "name": "Successful Long Passes",
-              "code": "successful-long-passes",
-              "developer_name": "SUCCESSFUL_LONG_PASSES",
-              "model_type": "statistic",
-              "stat_group": "overall"
-            }
-          },
-          {
             "id": 820110641,
             "fixture_id": 19441431,
             "type_id": 43,
             "participant_id": 6968,
             "data": {
-              "value": 6
+              "value": 16
             },
             "location": "home",
             "type": {
@@ -27715,7 +27787,7 @@
             "type_id": 43,
             "participant_id": 3169,
             "data": {
-              "value": 5
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -27723,6 +27795,42 @@
               "name": "Attacks",
               "code": "attacks",
               "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820117095,
+            "fixture_id": 19441431,
+            "type_id": 109,
+            "participant_id": 6968,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820117096,
+            "fixture_id": 19441431,
+            "type_id": 109,
+            "participant_id": 3169,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -27751,7 +27859,7 @@
             "type_id": 44,
             "participant_id": 6968,
             "data": {
-              "value": 3
+              "value": 15
             },
             "location": "home",
             "type": {
@@ -27769,7 +27877,7 @@
             "type_id": 44,
             "participant_id": 3169,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -27787,7 +27895,7 @@
             "type_id": 100,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -27805,7 +27913,7 @@
             "type_id": 106,
             "participant_id": 6968,
             "data": {
-              "value": 2
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -27823,7 +27931,7 @@
             "type_id": 106,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -27841,7 +27949,7 @@
             "type_id": 1605,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 50
             },
             "location": "away",
             "type": {
@@ -27859,7 +27967,7 @@
             "type_id": 108,
             "participant_id": 6968,
             "data": {
-              "value": 0
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -27877,7 +27985,7 @@
             "type_id": 108,
             "participant_id": 3169,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -27931,7 +28039,7 @@
             "type_id": 34,
             "participant_id": 6968,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -27962,6 +28070,42 @@
             }
           },
           {
+            "id": 820117093,
+            "fixture_id": 19441431,
+            "type_id": 58,
+            "participant_id": 6968,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820117094,
+            "fixture_id": 19441431,
+            "type_id": 58,
+            "participant_id": 3169,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 58,
+              "name": "Shots Blocked",
+              "code": "shots-blocked",
+              "developer_name": "SHOTS_BLOCKED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
             "id": 820115566,
             "fixture_id": 19441431,
             "type_id": 53,
@@ -27975,6 +28119,78 @@
               "name": "Goal Kicks",
               "code": "goals-kicks",
               "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820117371,
+            "fixture_id": 19441431,
+            "type_id": 41,
+            "participant_id": 6968,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820119533,
+            "fixture_id": 19441431,
+            "type_id": 50,
+            "participant_id": 6968,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820119534,
+            "fixture_id": 19441431,
+            "type_id": 50,
+            "participant_id": 3169,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820118104,
+            "fixture_id": 19441431,
+            "type_id": 49,
+            "participant_id": 3169,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
               "model_type": "statistic",
               "stat_group": "offensive"
             }
@@ -30612,7 +30828,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-31T17:08:12.749337Z"
+      "fetched_at": "2026-03-31T17:17:29.193069Z"
     }
   }
 }
