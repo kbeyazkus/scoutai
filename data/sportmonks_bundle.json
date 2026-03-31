@@ -26956,7 +26956,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 373510,
-        "state_id": 2,
+        "state_id": 22,
         "venue_id": 4550,
         "name": "Mirandés vs Albacete",
         "starting_at": "2026-03-31 17:00:00",
@@ -27057,11 +27057,11 @@
           "national_team": false
         },
         "state": {
-          "id": 2,
-          "state": "INPLAY_1ST_HALF",
-          "name": "1st Half",
-          "short_name": "1st",
-          "developer_name": "INPLAY_1ST_HALF"
+          "id": 22,
+          "state": "INPLAY_2ND_HALF",
+          "name": "2nd Half",
+          "short_name": "2nd",
+          "developer_name": "INPLAY_2ND_HALF"
         },
         "scores": [
           {
@@ -27070,7 +27070,7 @@
             "type_id": 1,
             "participant_id": 6968,
             "score": {
-              "goals": 0,
+              "goals": 1,
               "participant": "home"
             },
             "description": "1ST_HALF"
@@ -27081,7 +27081,7 @@
             "type_id": 1525,
             "participant_id": 6968,
             "score": {
-              "goals": 0,
+              "goals": 1,
               "participant": "home"
             },
             "description": "CURRENT"
@@ -27103,7 +27103,7 @@
             "type_id": 2,
             "participant_id": 6968,
             "score": {
-              "goals": 0,
+              "goals": 1,
               "participant": "home"
             },
             "description": "2ND_HALF"
@@ -27129,6 +27129,28 @@
               "participant": "away"
             },
             "description": "2ND_HALF"
+          },
+          {
+            "id": 19732203,
+            "fixture_id": 19441431,
+            "type_id": 48996,
+            "participant_id": 3169,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "2ND_HALF_ONLY"
+          },
+          {
+            "id": 19732202,
+            "fixture_id": 19441431,
+            "type_id": 48996,
+            "participant_id": 6968,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "2ND_HALF_ONLY"
           }
         ],
         "periods": [
@@ -27137,19 +27159,376 @@
             "fixture_id": 19441431,
             "type_id": 1,
             "started": 1774976515,
-            "ended": null,
+            "ended": 1774979341,
             "counts_from": 0,
-            "ticking": true,
+            "ticking": false,
             "sort_order": 1,
             "description": "1st-half",
+            "time_added": 2,
+            "period_length": 45,
+            "minutes": 47,
+            "seconds": 6,
+            "has_timer": false
+          },
+          {
+            "id": 6881246,
+            "fixture_id": 19441431,
+            "type_id": 2,
+            "started": 1774980410,
+            "ended": null,
+            "counts_from": 45,
+            "ticking": true,
+            "sort_order": 2,
+            "description": "2nd-half",
             "time_added": null,
             "period_length": 45,
-            "minutes": 15,
-            "seconds": 34,
+            "minutes": 46,
+            "seconds": 30,
             "has_timer": true
           }
         ],
-        "events": [],
+        "events": [
+          {
+            "id": 156395356,
+            "fixture_id": 19441431,
+            "period_id": 6881246,
+            "participant_id": 3169,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 30081977,
+            "related_player_id": 37749064,
+            "player_name": "Martín Fernández",
+            "related_player_name": "Daniel Bernabéu Garcia",
+            "result": null,
+            "info": null,
+            "addition": "3rd Substitution",
+            "minute": 46,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881246,
+            "rescinded": null,
+            "sort_order": 3,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881246,
+              "fixture_id": 19441431,
+              "type_id": 2,
+              "started": 1774980410,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 46,
+              "seconds": 30,
+              "has_timer": true
+            },
+            "player": {
+              "id": 30081977,
+              "sport_id": 1,
+              "country_id": 158,
+              "nationality_id": 158,
+              "city_id": 58681,
+              "position_id": 26,
+              "detailed_position_id": 149,
+              "type_id": 26,
+              "common_name": "M. Fernández Figueira",
+              "firstname": "Martín Alejandro",
+              "lastname": "Fernández Figueira",
+              "name": "Martín Alejandro Fernández Figueira",
+              "display_name": "Martín Fernández",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/25/30081977.png",
+              "height": 183,
+              "weight": 79,
+              "date_of_birth": "2001-05-08",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156395355,
+            "fixture_id": 19441431,
+            "period_id": 6881246,
+            "participant_id": 3169,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 187172,
+            "related_player_id": 37563219,
+            "player_name": "Jefté Betancor",
+            "related_player_name": "Alex Rubio",
+            "result": null,
+            "info": null,
+            "addition": "2nd Substitution",
+            "minute": 46,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881246,
+            "rescinded": null,
+            "sort_order": 2,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881246,
+              "fixture_id": 19441431,
+              "type_id": 2,
+              "started": 1774980410,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 46,
+              "seconds": 30,
+              "has_timer": true
+            },
+            "player": {
+              "id": 187172,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 48633,
+              "position_id": 27,
+              "detailed_position_id": null,
+              "type_id": 27,
+              "common_name": "J. Betancor Sánchez",
+              "firstname": "Jefté",
+              "lastname": "Betancor Sánchez",
+              "name": "Jefté Betancor Sánchez",
+              "display_name": "Jefté Betancor",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/4/187172.png",
+              "height": 186,
+              "weight": 79,
+              "date_of_birth": "1993-07-06",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156395076,
+            "fixture_id": 19441431,
+            "period_id": 6881181,
+            "participant_id": 3169,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 188060,
+            "related_player_id": 533800,
+            "player_name": "Lluís López",
+            "related_player_name": "Pepe Sánchez",
+            "result": null,
+            "info": null,
+            "addition": "1st Substitution",
+            "minute": 30,
+            "extra_minute": null,
+            "injured": true,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881181,
+            "rescinded": null,
+            "sort_order": 1,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881181,
+              "fixture_id": 19441431,
+              "type_id": 1,
+              "started": 1774976515,
+              "ended": 1774979341,
+              "counts_from": 0,
+              "ticking": false,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": 2,
+              "period_length": 45,
+              "minutes": 47,
+              "seconds": 6,
+              "has_timer": false
+            },
+            "player": {
+              "id": 188060,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 54203,
+              "position_id": 25,
+              "detailed_position_id": null,
+              "type_id": 25,
+              "common_name": "L. López Mármol",
+              "firstname": "Lluís",
+              "lastname": "López Mármol",
+              "name": "Lluís López Mármol",
+              "display_name": "Lluís López",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/28/188060.png",
+              "height": 182,
+              "weight": 79,
+              "date_of_birth": "1997-03-05",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156395140,
+            "fixture_id": 19441431,
+            "period_id": 6881181,
+            "participant_id": 6968,
+            "type_id": 14,
+            "section": "event",
+            "player_id": 37658956,
+            "related_player_id": null,
+            "player_name": "Javi Hernández",
+            "related_player_name": null,
+            "result": "1-0",
+            "info": "Left foot shot",
+            "addition": "1st Goal",
+            "minute": 36,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": 1521,
+            "detailed_period_id": 6881181,
+            "rescinded": null,
+            "sort_order": 1,
+            "type": {
+              "id": 14,
+              "name": "Goal",
+              "code": "goal",
+              "developer_name": "GOAL",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881181,
+              "fixture_id": 19441431,
+              "type_id": 1,
+              "started": 1774976515,
+              "ended": 1774979341,
+              "counts_from": 0,
+              "ticking": false,
+              "sort_order": 1,
+              "description": "1st-half",
+              "time_added": 2,
+              "period_length": 45,
+              "minutes": 47,
+              "seconds": 6,
+              "has_timer": false
+            },
+            "player": {
+              "id": 37658956,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": null,
+              "type_id": null,
+              "common_name": "F. Hernandez Coarasa",
+              "firstname": "Francisco Javier",
+              "lastname": "Hernandez Coarasa",
+              "name": "Francisco Javier Hernandez Coarasa",
+              "display_name": "Javi Hernández",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/12/37658956.png",
+              "height": 182,
+              "weight": 72,
+              "date_of_birth": "2004-01-30",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156395357,
+            "fixture_id": 19441431,
+            "period_id": 6881246,
+            "participant_id": 3169,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 187128,
+            "related_player_id": 31616510,
+            "player_name": "Antonio Puertas",
+            "related_player_name": "Antonio Pacheco",
+            "result": null,
+            "info": null,
+            "addition": "4th Substitution",
+            "minute": 46,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881246,
+            "rescinded": null,
+            "sort_order": 4,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881246,
+              "fixture_id": 19441431,
+              "type_id": 2,
+              "started": 1774980410,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 46,
+              "seconds": 30,
+              "has_timer": true
+            },
+            "player": {
+              "id": 187128,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 26,
+              "common_name": "J. Rodríguez Díaz",
+              "firstname": "José Antonio",
+              "lastname": "Rodríguez Díaz",
+              "name": "José Antonio Rodríguez Díaz",
+              "display_name": "Antonio Puertas",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/24/187128.png",
+              "height": 183,
+              "weight": 77,
+              "date_of_birth": "1992-02-21",
+              "gender": "male"
+            }
+          }
+        ],
         "statistics": [
           {
             "id": 820102492,
@@ -27157,7 +27536,7 @@
             "type_id": 45,
             "participant_id": 3169,
             "data": {
-              "value": 44
+              "value": 50
             },
             "location": "away",
             "type": {
@@ -27188,30 +27567,12 @@
             }
           },
           {
-            "id": 820118103,
-            "fixture_id": 19441431,
-            "type_id": 49,
-            "participant_id": 6968,
-            "data": {
-              "value": 1
-            },
-            "location": "home",
-            "type": {
-              "id": 49,
-              "name": "Shots Insidebox",
-              "code": "shots-insidebox",
-              "developer_name": "SHOTS_INSIDEBOX",
-              "model_type": "statistic",
-              "stat_group": "offensive"
-            }
-          },
-          {
             "id": 820111694,
             "fixture_id": 19441431,
             "type_id": 56,
             "participant_id": 3169,
             "data": {
-              "value": 2
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -27229,7 +27590,7 @@
             "type_id": 81,
             "participant_id": 6968,
             "data": {
-              "value": 59
+              "value": 145
             },
             "location": "home",
             "type": {
@@ -27247,7 +27608,7 @@
             "type_id": 81,
             "participant_id": 3169,
             "data": {
-              "value": 45
+              "value": 141
             },
             "location": "away",
             "type": {
@@ -27265,7 +27626,7 @@
             "type_id": 98,
             "participant_id": 6968,
             "data": {
-              "value": 7
+              "value": 19
             },
             "location": "home",
             "type": {
@@ -27283,7 +27644,7 @@
             "type_id": 62,
             "participant_id": 3169,
             "data": {
-              "value": 10
+              "value": 29
             },
             "location": "away",
             "type": {
@@ -27301,7 +27662,7 @@
             "type_id": 27264,
             "participant_id": 3169,
             "data": {
-              "value": 3
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -27319,7 +27680,7 @@
             "type_id": 99,
             "participant_id": 6968,
             "data": {
-              "value": 2
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -27337,7 +27698,7 @@
             "type_id": 99,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -27355,7 +27716,7 @@
             "type_id": 42,
             "participant_id": 6968,
             "data": {
-              "value": 2
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -27373,7 +27734,7 @@
             "type_id": 42,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -27391,7 +27752,7 @@
             "type_id": 27265,
             "participant_id": 3169,
             "data": {
-              "value": 30
+              "value": 31
             },
             "location": "away",
             "type": {
@@ -27409,7 +27770,7 @@
             "type_id": 45,
             "participant_id": 6968,
             "data": {
-              "value": 56
+              "value": 50
             },
             "location": "home",
             "type": {
@@ -27427,7 +27788,7 @@
             "type_id": 82,
             "participant_id": 3169,
             "data": {
-              "value": 74
+              "value": 75
             },
             "location": "away",
             "type": {
@@ -27463,7 +27824,7 @@
             "type_id": 100,
             "participant_id": 3169,
             "data": {
-              "value": 1
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -27481,7 +27842,7 @@
             "type_id": 60,
             "participant_id": 6968,
             "data": {
-              "value": 3
+              "value": 13
             },
             "location": "home",
             "type": {
@@ -27499,7 +27860,7 @@
             "type_id": 78,
             "participant_id": 6968,
             "data": {
-              "value": 3
+              "value": 5
             },
             "location": "home",
             "type": {
@@ -27517,7 +27878,7 @@
             "type_id": 78,
             "participant_id": 3169,
             "data": {
-              "value": 2
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -27535,7 +27896,7 @@
             "type_id": 62,
             "participant_id": 6968,
             "data": {
-              "value": 14
+              "value": 29
             },
             "location": "home",
             "type": {
@@ -27553,7 +27914,7 @@
             "type_id": 1605,
             "participant_id": 6968,
             "data": {
-              "value": 33
+              "value": 46
             },
             "location": "home",
             "type": {
@@ -27571,7 +27932,7 @@
             "type_id": 51,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -27589,7 +27950,7 @@
             "type_id": 82,
             "participant_id": 6968,
             "data": {
-              "value": 82
+              "value": 79
             },
             "location": "home",
             "type": {
@@ -27607,7 +27968,7 @@
             "type_id": 55,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -27625,7 +27986,7 @@
             "type_id": 60,
             "participant_id": 3169,
             "data": {
-              "value": 3
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -27643,7 +28004,7 @@
             "type_id": 98,
             "participant_id": 3169,
             "data": {
-              "value": 2
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -27661,7 +28022,7 @@
             "type_id": 27264,
             "participant_id": 6968,
             "data": {
-              "value": 10
+              "value": 14
             },
             "location": "home",
             "type": {
@@ -27679,7 +28040,7 @@
             "type_id": 27265,
             "participant_id": 6968,
             "data": {
-              "value": 71
+              "value": 48
             },
             "location": "home",
             "type": {
@@ -27697,7 +28058,7 @@
             "type_id": 55,
             "participant_id": 6968,
             "data": {
-              "value": 2
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -27715,7 +28076,7 @@
             "type_id": 56,
             "participant_id": 6968,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -27733,7 +28094,7 @@
             "type_id": 80,
             "participant_id": 6968,
             "data": {
-              "value": 72
+              "value": 184
             },
             "location": "home",
             "type": {
@@ -27751,7 +28112,7 @@
             "type_id": 80,
             "participant_id": 3169,
             "data": {
-              "value": 61
+              "value": 189
             },
             "location": "away",
             "type": {
@@ -27769,7 +28130,7 @@
             "type_id": 43,
             "participant_id": 6968,
             "data": {
-              "value": 16
+              "value": 54
             },
             "location": "home",
             "type": {
@@ -27787,7 +28148,7 @@
             "type_id": 43,
             "participant_id": 3169,
             "data": {
-              "value": 15
+              "value": 48
             },
             "location": "away",
             "type": {
@@ -27805,7 +28166,7 @@
             "type_id": 109,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -27823,7 +28184,7 @@
             "type_id": 109,
             "participant_id": 3169,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -27841,7 +28202,7 @@
             "type_id": 53,
             "participant_id": 6968,
             "data": {
-              "value": 0
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -27859,7 +28220,7 @@
             "type_id": 44,
             "participant_id": 6968,
             "data": {
-              "value": 15
+              "value": 37
             },
             "location": "home",
             "type": {
@@ -27877,7 +28238,7 @@
             "type_id": 44,
             "participant_id": 3169,
             "data": {
-              "value": 3
+              "value": 19
             },
             "location": "away",
             "type": {
@@ -27890,12 +28251,30 @@
             }
           },
           {
+            "id": 820126684,
+            "fixture_id": 19441431,
+            "type_id": 57,
+            "participant_id": 3169,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 57,
+              "name": "Saves",
+              "code": "saves",
+              "developer_name": "SAVES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
             "id": 820112503,
             "fixture_id": 19441431,
             "type_id": 100,
             "participant_id": 6968,
             "data": {
-              "value": 2
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -27905,42 +28284,6 @@
               "developer_name": "INTERCEPTIONS",
               "model_type": "statistic",
               "stat_group": "defensive"
-            }
-          },
-          {
-            "id": 820112339,
-            "fixture_id": 19441431,
-            "type_id": 106,
-            "participant_id": 6968,
-            "data": {
-              "value": 7
-            },
-            "location": "home",
-            "type": {
-              "id": 106,
-              "name": "Duels Won",
-              "code": "duels-won",
-              "developer_name": "DUELS_WON",
-              "model_type": "statistic",
-              "stat_group": "offensive"
-            }
-          },
-          {
-            "id": 820112340,
-            "fixture_id": 19441431,
-            "type_id": 106,
-            "participant_id": 3169,
-            "data": {
-              "value": 3
-            },
-            "location": "away",
-            "type": {
-              "id": 106,
-              "name": "Duels Won",
-              "code": "duels-won",
-              "developer_name": "DUELS_WON",
-              "model_type": "statistic",
-              "stat_group": "offensive"
             }
           },
           {
@@ -27967,7 +28310,7 @@
             "type_id": 108,
             "participant_id": 6968,
             "data": {
-              "value": 3
+              "value": 13
             },
             "location": "home",
             "type": {
@@ -27985,7 +28328,7 @@
             "type_id": 108,
             "participant_id": 3169,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -28003,7 +28346,7 @@
             "type_id": 46,
             "participant_id": 6968,
             "data": {
-              "value": 7
+              "value": 36
             },
             "location": "home",
             "type": {
@@ -28021,7 +28364,7 @@
             "type_id": 46,
             "participant_id": 3169,
             "data": {
-              "value": 3
+              "value": 45
             },
             "location": "away",
             "type": {
@@ -28039,7 +28382,7 @@
             "type_id": 34,
             "participant_id": 6968,
             "data": {
-              "value": 4
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -28057,7 +28400,7 @@
             "type_id": 34,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -28111,7 +28454,7 @@
             "type_id": 53,
             "participant_id": 3169,
             "data": {
-              "value": 1
+              "value": 6
             },
             "location": "away",
             "type": {
@@ -28147,7 +28490,7 @@
             "type_id": 50,
             "participant_id": 6968,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -28178,12 +28521,48 @@
             }
           },
           {
+            "id": 820137343,
+            "fixture_id": 19441431,
+            "type_id": 59,
+            "participant_id": 6968,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 59,
+              "name": "Substitutions",
+              "code": "substitutions",
+              "developer_name": "SUBSTITUTIONS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820137344,
+            "fixture_id": 19441431,
+            "type_id": 59,
+            "participant_id": 3169,
+            "data": {
+              "value": 4
+            },
+            "location": "away",
+            "type": {
+              "id": 59,
+              "name": "Substitutions",
+              "code": "substitutions",
+              "developer_name": "SUBSTITUTIONS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
             "id": 820118104,
             "fixture_id": 19441431,
             "type_id": 49,
             "participant_id": 3169,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -28193,6 +28572,294 @@
               "developer_name": "SHOTS_INSIDEBOX",
               "model_type": "statistic",
               "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820126683,
+            "fixture_id": 19441431,
+            "type_id": 57,
+            "participant_id": 6968,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 57,
+              "name": "Saves",
+              "code": "saves",
+              "developer_name": "SAVES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820148649,
+            "fixture_id": 19441431,
+            "type_id": 580,
+            "participant_id": 6968,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820148650,
+            "fixture_id": 19441431,
+            "type_id": 580,
+            "participant_id": 3169,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 580,
+              "name": "Big Chances Created",
+              "code": "big-chances-created",
+              "developer_name": "BIG_CHANCES_CREATED",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820146049,
+            "fixture_id": 19441431,
+            "type_id": 117,
+            "participant_id": 6968,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820147363,
+            "fixture_id": 19441431,
+            "type_id": 86,
+            "participant_id": 6968,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820147364,
+            "fixture_id": 19441431,
+            "type_id": 86,
+            "participant_id": 3169,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 86,
+              "name": "Shots On Target",
+              "code": "shots-on-target",
+              "developer_name": "SHOTS_ON_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820147365,
+            "fixture_id": 19441431,
+            "type_id": 52,
+            "participant_id": 6968,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820147366,
+            "fixture_id": 19441431,
+            "type_id": 52,
+            "participant_id": 3169,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 52,
+              "name": "Goals",
+              "code": "goals",
+              "developer_name": "GOALS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820118103,
+            "fixture_id": 19441431,
+            "type_id": 49,
+            "participant_id": 6968,
+            "data": {
+              "value": 4
+            },
+            "location": "home",
+            "type": {
+              "id": 49,
+              "name": "Shots Insidebox",
+              "code": "shots-insidebox",
+              "developer_name": "SHOTS_INSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820146050,
+            "fixture_id": 19441431,
+            "type_id": 117,
+            "participant_id": 3169,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 117,
+              "name": "Key Passes",
+              "code": "key-passes",
+              "developer_name": "KEY_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182035,
+            "fixture_id": 19441431,
+            "type_id": 87,
+            "participant_id": 6968,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 87,
+              "name": "Injuries",
+              "code": "injuries",
+              "developer_name": "INJURIES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182037,
+            "fixture_id": 19441431,
+            "type_id": 54,
+            "participant_id": 6968,
+            "data": {
+              "value": 4
+            },
+            "location": "home",
+            "type": {
+              "id": 54,
+              "name": "Goal Attempts",
+              "code": "goal-attempts",
+              "developer_name": "GOAL_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182038,
+            "fixture_id": 19441431,
+            "type_id": 54,
+            "participant_id": 3169,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 54,
+              "name": "Goal Attempts",
+              "code": "goal-attempts",
+              "developer_name": "GOAL_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820179143,
+            "fixture_id": 19441431,
+            "type_id": 106,
+            "participant_id": 6968,
+            "data": {
+              "value": 21
+            },
+            "location": "home",
+            "type": {
+              "id": 106,
+              "name": "Duels Won",
+              "code": "duels-won",
+              "developer_name": "DUELS_WON",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820179144,
+            "fixture_id": 19441431,
+            "type_id": 106,
+            "participant_id": 3169,
+            "data": {
+              "value": 20
+            },
+            "location": "away",
+            "type": {
+              "id": 106,
+              "name": "Duels Won",
+              "code": "duels-won",
+              "developer_name": "DUELS_WON",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182036,
+            "fixture_id": 19441431,
+            "type_id": 87,
+            "participant_id": 3169,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 87,
+              "name": "Injuries",
+              "code": "injuries",
+              "developer_name": "INJURIES",
+              "model_type": "statistic",
+              "stat_group": "overall"
             }
           }
         ],
@@ -28286,9 +28953,9 @@
             "player_id": 31616510,
             "team_id": 3169,
             "position_id": 26,
-            "formation_field": "3:3",
+            "formation_field": "3:1",
             "type_id": 11,
-            "formation_position": 7,
+            "formation_position": 9,
             "player_name": "Antonio Pacheco",
             "jersey_number": 6,
             "player": {
@@ -28901,9 +29568,9 @@
             "player_id": 37687945,
             "team_id": 3169,
             "position_id": 26,
-            "formation_field": "3:1",
+            "formation_field": "3:3",
             "type_id": 11,
-            "formation_position": 9,
+            "formation_position": 7,
             "player_name": "Capi",
             "jersey_number": 26,
             "player": {
@@ -29188,9 +29855,9 @@
             "player_id": 37690158,
             "team_id": 6968,
             "position_id": 26,
-            "formation_field": "3:2",
+            "formation_field": "3:1",
             "type_id": 11,
-            "formation_position": 7,
+            "formation_position": 6,
             "player_name": "Thiago Helguera",
             "jersey_number": 6,
             "player": {
@@ -29516,9 +30183,9 @@
             "player_id": 37716722,
             "team_id": 6968,
             "position_id": 26,
-            "formation_field": "3:1",
+            "formation_field": "3:2",
             "type_id": 11,
-            "formation_position": 6,
+            "formation_position": 7,
             "player_name": "Rafel Bauzà",
             "jersey_number": 18,
             "player": {
@@ -30280,12 +30947,12 @@
           "metric": "celcius",
           "current": {
             "temp": 9.31,
-            "wind": 3.59,
+            "wind": 2.52,
             "clouds": null,
-            "humidity": "75%",
+            "humidity": "77%",
             "pressure": 1031,
-            "direction": 350,
-            "feels_like": 7.36,
+            "direction": 349,
+            "feels_like": 7.99,
             "description": "overcast clouds"
           }
         },
@@ -30369,8 +31036,8 @@
               "bookmaker": "mansionbet",
               "fair_odd": 2.49,
               "odd": 2.61,
-              "stake": 0.72,
-              "is_value": true
+              "stake": 0.71,
+              "is_value": false
             },
             "type_id": 33,
             "type": {
@@ -30828,7 +31495,3550 @@
           }
         ]
       },
-      "fetched_at": "2026-03-31T17:17:29.193069Z"
+      "fetched_at": "2026-03-31T18:08:20.559379Z"
+    },
+    "19441426": {
+      "detail": {
+        "id": 19441426,
+        "sport_id": 1,
+        "league_id": 567,
+        "season_id": 25673,
+        "stage_id": 77476943,
+        "group_id": null,
+        "aggregate_id": null,
+        "round_id": 373510,
+        "state_id": 2,
+        "venue_id": 309970,
+        "name": "Deportivo La Coruña vs Córdoba",
+        "starting_at": "2026-03-31 18:00:00",
+        "result_info": null,
+        "leg": "1/1",
+        "details": null,
+        "length": 90,
+        "placeholder": false,
+        "has_odds": true,
+        "has_premium_odds": true,
+        "starting_at_timestamp": 1774980000,
+        "participants": [
+          {
+            "id": 429,
+            "sport_id": 1,
+            "country_id": 32,
+            "venue_id": 39,
+            "gender": "male",
+            "name": "Deportivo La Coruña",
+            "short_code": "COR",
+            "image_path": "https://cdn.sportmonks.com/images/soccer/teams/13/429.png",
+            "founded": 1906,
+            "type": "domestic",
+            "placeholder": false,
+            "last_played_at": "2026-03-21 20:00:00",
+            "meta": {
+              "location": "home",
+              "winner": null,
+              "position": 3
+            }
+          },
+          {
+            "id": 931,
+            "sport_id": 1,
+            "country_id": 32,
+            "venue_id": 338,
+            "gender": "male",
+            "name": "Córdoba",
+            "short_code": null,
+            "image_path": "https://cdn.sportmonks.com/images/soccer/teams/3/931.png",
+            "founded": 1954,
+            "type": "domestic",
+            "placeholder": false,
+            "last_played_at": "2026-03-27 18:00:00",
+            "meta": {
+              "location": "away",
+              "winner": null,
+              "position": 14
+            }
+          }
+        ],
+        "league": {
+          "id": 567,
+          "sport_id": 1,
+          "country_id": 32,
+          "name": "La Liga 2",
+          "active": true,
+          "short_code": "ESP S",
+          "image_path": "https://cdn.sportmonks.com/images/soccer/leagues/23/567.png",
+          "type": "league",
+          "sub_type": "domestic",
+          "last_played_at": "2026-03-29 19:00:00",
+          "category": 2,
+          "has_jerseys": false,
+          "country": {
+            "id": 32,
+            "continent_id": 1,
+            "name": "Spain",
+            "official_name": "Kingdom of Spain",
+            "fifa_name": "ESP",
+            "iso2": "ES",
+            "iso3": "ESP",
+            "latitude": "40.396026611328125",
+            "longitude": "-3.550692558288574",
+            "borders": [
+              "AND",
+              "FRA",
+              "GIB",
+              "PRT",
+              "MAR"
+            ],
+            "image_path": "https://cdn.sportmonks.com/images/countries/png/short/es.png"
+          }
+        },
+        "venue": {
+          "id": 309970,
+          "country_id": 32,
+          "city_id": 42,
+          "name": "Estadio Abanca-Riazor",
+          "address": "Calle Manuel Murguía",
+          "zipcode": null,
+          "latitude": "43.368733",
+          "longitude": "-8.417508",
+          "capacity": 32490,
+          "image_path": "https://cdn.sportmonks.com/images/soccer/venues/18/309970.png",
+          "city_name": "La Coruña",
+          "surface": "grass",
+          "national_team": false
+        },
+        "state": {
+          "id": 2,
+          "state": "INPLAY_1ST_HALF",
+          "name": "1st Half",
+          "short_name": "1st",
+          "developer_name": "INPLAY_1ST_HALF"
+        },
+        "scores": [
+          {
+            "id": 19731858,
+            "fixture_id": 19441426,
+            "type_id": 1,
+            "participant_id": 429,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+            "id": 19731859,
+            "fixture_id": 19441426,
+            "type_id": 1,
+            "participant_id": 931,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "1ST_HALF"
+          },
+          {
+            "id": 19731857,
+            "fixture_id": 19441426,
+            "type_id": 1525,
+            "participant_id": 931,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "CURRENT"
+          },
+          {
+            "id": 19731861,
+            "fixture_id": 19441426,
+            "type_id": 2,
+            "participant_id": 931,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "2ND_HALF"
+          },
+          {
+            "id": 19731860,
+            "fixture_id": 19441426,
+            "type_id": 2,
+            "participant_id": 429,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "2ND_HALF"
+          },
+          {
+            "id": 19731856,
+            "fixture_id": 19441426,
+            "type_id": 1525,
+            "participant_id": 429,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "CURRENT"
+          }
+        ],
+        "periods": [
+          {
+            "id": 6881238,
+            "fixture_id": 19441426,
+            "type_id": 1,
+            "started": 1774980144,
+            "ended": null,
+            "counts_from": 0,
+            "ticking": true,
+            "sort_order": 1,
+            "description": "1st-half",
+            "time_added": null,
+            "period_length": 45,
+            "minutes": 5,
+            "seconds": 55,
+            "has_timer": true
+          }
+        ],
+        "events": [],
+        "statistics": [
+          {
+            "id": 820179785,
+            "fixture_id": 19441426,
+            "type_id": 43,
+            "participant_id": 429,
+            "data": {
+              "value": 10
+            },
+            "location": "home",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820189260,
+            "fixture_id": 19441426,
+            "type_id": 100,
+            "participant_id": 931,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820182379,
+            "fixture_id": 19441426,
+            "type_id": 60,
+            "participant_id": 429,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182382,
+            "fixture_id": 19441426,
+            "type_id": 81,
+            "participant_id": 931,
+            "data": {
+              "value": 28
+            },
+            "location": "away",
+            "type": {
+              "id": 81,
+              "name": "Successful Passes",
+              "code": "successful-passes",
+              "developer_name": "SUCCESSFUL_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182386,
+            "fixture_id": 19441426,
+            "type_id": 80,
+            "participant_id": 931,
+            "data": {
+              "value": 34
+            },
+            "location": "away",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182394,
+            "fixture_id": 19441426,
+            "type_id": 109,
+            "participant_id": 931,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820165185,
+            "fixture_id": 19441426,
+            "type_id": 45,
+            "participant_id": 429,
+            "data": {
+              "value": 31
+            },
+            "location": "home",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820165186,
+            "fixture_id": 19441426,
+            "type_id": 45,
+            "participant_id": 931,
+            "data": {
+              "value": 69
+            },
+            "location": "away",
+            "type": {
+              "id": 45,
+              "name": "Ball Possession %",
+              "code": "ball-possession",
+              "developer_name": "BALL_POSSESSION",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182727,
+            "fixture_id": 19441426,
+            "type_id": 34,
+            "participant_id": 429,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182728,
+            "fixture_id": 19441426,
+            "type_id": 34,
+            "participant_id": 931,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 34,
+              "name": "Corners",
+              "code": "corners",
+              "developer_name": "CORNERS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182380,
+            "fixture_id": 19441426,
+            "type_id": 60,
+            "participant_id": 931,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 60,
+              "name": "Throwins",
+              "code": "throwins",
+              "developer_name": "THROWINS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182388,
+            "fixture_id": 19441426,
+            "type_id": 62,
+            "participant_id": 931,
+            "data": {
+              "value": 4
+            },
+            "location": "away",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182390,
+            "fixture_id": 19441426,
+            "type_id": 50,
+            "participant_id": 931,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182391,
+            "fixture_id": 19441426,
+            "type_id": 108,
+            "participant_id": 429,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182392,
+            "fixture_id": 19441426,
+            "type_id": 108,
+            "participant_id": 931,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 108,
+              "name": "Dribble Attempts",
+              "code": "dribble-attempts",
+              "developer_name": "DRIBBLED_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182398,
+            "fixture_id": 19441426,
+            "type_id": 1605,
+            "participant_id": 931,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182735,
+            "fixture_id": 19441426,
+            "type_id": 44,
+            "participant_id": 429,
+            "data": {
+              "value": 3
+            },
+            "location": "home",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820179786,
+            "fixture_id": 19441426,
+            "type_id": 43,
+            "participant_id": 931,
+            "data": {
+              "value": 9
+            },
+            "location": "away",
+            "type": {
+              "id": 43,
+              "name": "Attacks",
+              "code": "attacks",
+              "developer_name": "ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182399,
+            "fixture_id": 19441426,
+            "type_id": 106,
+            "participant_id": 429,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 106,
+              "name": "Duels Won",
+              "code": "duels-won",
+              "developer_name": "DUELS_WON",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182400,
+            "fixture_id": 19441426,
+            "type_id": 106,
+            "participant_id": 931,
+            "data": {
+              "value": 5
+            },
+            "location": "away",
+            "type": {
+              "id": 106,
+              "name": "Duels Won",
+              "code": "duels-won",
+              "developer_name": "DUELS_WON",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820184497,
+            "fixture_id": 19441426,
+            "type_id": 53,
+            "participant_id": 429,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820184498,
+            "fixture_id": 19441426,
+            "type_id": 53,
+            "participant_id": 931,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 53,
+              "name": "Goal Kicks",
+              "code": "goals-kicks",
+              "developer_name": "GOAL_KICKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820184501,
+            "fixture_id": 19441426,
+            "type_id": 27264,
+            "participant_id": 429,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 27264,
+              "name": "Successful Long Passes",
+              "code": "successful-long-passes",
+              "developer_name": "SUCCESSFUL_LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182383,
+            "fixture_id": 19441426,
+            "type_id": 98,
+            "participant_id": 429,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182384,
+            "fixture_id": 19441426,
+            "type_id": 98,
+            "participant_id": 931,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 98,
+              "name": "Total Crosses",
+              "code": "total-crosses",
+              "developer_name": "TOTAL_CROSSES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182393,
+            "fixture_id": 19441426,
+            "type_id": 109,
+            "participant_id": 429,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 109,
+              "name": "Successful Dribbles",
+              "code": "successful-dribbles",
+              "developer_name": "SUCCESSFUL_DRIBBLES",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182395,
+            "fixture_id": 19441426,
+            "type_id": 27265,
+            "participant_id": 429,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 27265,
+              "name": "Successful Long Passes Percentage",
+              "code": "successful-long-passes-percentage",
+              "developer_name": "SUCCESSFUL_LONG_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820179139,
+            "fixture_id": 19441426,
+            "type_id": 82,
+            "participant_id": 429,
+            "data": {
+              "value": 77
+            },
+            "location": "home",
+            "type": {
+              "id": 82,
+              "name": "Successful Passes Percentage",
+              "code": "successful-passes-percentage",
+              "developer_name": "SUCCESSFUL_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820181703,
+            "fixture_id": 19441426,
+            "type_id": 55,
+            "participant_id": 429,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820181704,
+            "fixture_id": 19441426,
+            "type_id": 55,
+            "participant_id": 931,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 55,
+              "name": "Free Kicks",
+              "code": "free-kicks",
+              "developer_name": "FREE_KICKS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820188912,
+            "fixture_id": 19441426,
+            "type_id": 46,
+            "participant_id": 931,
+            "data": {
+              "value": 7
+            },
+            "location": "away",
+            "type": {
+              "id": 46,
+              "name": "Ball Safe",
+              "code": "ball-safe",
+              "developer_name": "BALL_SAFE",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820181706,
+            "fixture_id": 19441426,
+            "type_id": 56,
+            "participant_id": 931,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820184502,
+            "fixture_id": 19441426,
+            "type_id": 27264,
+            "participant_id": 931,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 27264,
+              "name": "Successful Long Passes",
+              "code": "successful-long-passes",
+              "developer_name": "SUCCESSFUL_LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182736,
+            "fixture_id": 19441426,
+            "type_id": 44,
+            "participant_id": 931,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 44,
+              "name": "Dangerous Attacks",
+              "code": "dangerous-attacks",
+              "developer_name": "DANGEROUS_ATTACKS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820179140,
+            "fixture_id": 19441426,
+            "type_id": 82,
+            "participant_id": 931,
+            "data": {
+              "value": 82
+            },
+            "location": "away",
+            "type": {
+              "id": 82,
+              "name": "Successful Passes Percentage",
+              "code": "successful-passes-percentage",
+              "developer_name": "SUCCESSFUL_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820181705,
+            "fixture_id": 19441426,
+            "type_id": 56,
+            "participant_id": 429,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 56,
+              "name": "Fouls",
+              "code": "fouls",
+              "developer_name": "FOULS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820188913,
+            "fixture_id": 19441426,
+            "type_id": 54,
+            "participant_id": 429,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 54,
+              "name": "Goal Attempts",
+              "code": "goal-attempts",
+              "developer_name": "GOAL_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820188914,
+            "fixture_id": 19441426,
+            "type_id": 54,
+            "participant_id": 931,
+            "data": {
+              "value": 0
+            },
+            "location": "away",
+            "type": {
+              "id": 54,
+              "name": "Goal Attempts",
+              "code": "goal-attempts",
+              "developer_name": "GOAL_ATTEMPTS",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182381,
+            "fixture_id": 19441426,
+            "type_id": 81,
+            "participant_id": 429,
+            "data": {
+              "value": 10
+            },
+            "location": "home",
+            "type": {
+              "id": 81,
+              "name": "Successful Passes",
+              "code": "successful-passes",
+              "developer_name": "SUCCESSFUL_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182387,
+            "fixture_id": 19441426,
+            "type_id": 62,
+            "participant_id": 429,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 62,
+              "name": "Long Passes",
+              "code": "long-passes",
+              "developer_name": "LONG_PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820179787,
+            "fixture_id": 19441426,
+            "type_id": 41,
+            "participant_id": 429,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820179788,
+            "fixture_id": 19441426,
+            "type_id": 41,
+            "participant_id": 931,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 41,
+              "name": "Shots Off Target",
+              "code": "shots-off-target",
+              "developer_name": "SHOTS_OFF_TARGET",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820179789,
+            "fixture_id": 19441426,
+            "type_id": 42,
+            "participant_id": 429,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820179790,
+            "fixture_id": 19441426,
+            "type_id": 42,
+            "participant_id": 931,
+            "data": {
+              "value": 1
+            },
+            "location": "away",
+            "type": {
+              "id": 42,
+              "name": "Shots Total",
+              "code": "shots-total",
+              "developer_name": "SHOTS_TOTAL",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182385,
+            "fixture_id": 19441426,
+            "type_id": 80,
+            "participant_id": 429,
+            "data": {
+              "value": 13
+            },
+            "location": "home",
+            "type": {
+              "id": 80,
+              "name": "Passes",
+              "code": "passes",
+              "developer_name": "PASSES",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182389,
+            "fixture_id": 19441426,
+            "type_id": 50,
+            "participant_id": 429,
+            "data": {
+              "value": 1
+            },
+            "location": "home",
+            "type": {
+              "id": 50,
+              "name": "Shots Outsidebox",
+              "code": "shots-outsidebox",
+              "developer_name": "SHOTS_OUTSIDEBOX",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820182396,
+            "fixture_id": 19441426,
+            "type_id": 27265,
+            "participant_id": 931,
+            "data": {
+              "value": 50
+            },
+            "location": "away",
+            "type": {
+              "id": 27265,
+              "name": "Successful Long Passes Percentage",
+              "code": "successful-long-passes-percentage",
+              "developer_name": "SUCCESSFUL_LONG_PASSES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820182397,
+            "fixture_id": 19441426,
+            "type_id": 1605,
+            "participant_id": 429,
+            "data": {
+              "value": 50
+            },
+            "location": "home",
+            "type": {
+              "id": 1605,
+              "name": "Successful Dribbles Percentage",
+              "code": "successful-dribbles-percentage",
+              "developer_name": "SUCCESSFUL_DRIBBLES_PERCENTAGE",
+              "model_type": "statistic",
+              "stat_group": "offensive"
+            }
+          },
+          {
+            "id": 820189259,
+            "fixture_id": 19441426,
+            "type_id": 100,
+            "participant_id": 429,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 100,
+              "name": "Interceptions",
+              "code": "interceptions",
+              "developer_name": "INTERCEPTIONS",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820184499,
+            "fixture_id": 19441426,
+            "type_id": 78,
+            "participant_id": 429,
+            "data": {
+              "value": 0
+            },
+            "location": "home",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820184500,
+            "fixture_id": 19441426,
+            "type_id": 78,
+            "participant_id": 931,
+            "data": {
+              "value": 2
+            },
+            "location": "away",
+            "type": {
+              "id": 78,
+              "name": "Tackles",
+              "code": "tackles",
+              "developer_name": "TACKLES",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          },
+          {
+            "id": 820188911,
+            "fixture_id": 19441426,
+            "type_id": 46,
+            "participant_id": 429,
+            "data": {
+              "value": 4
+            },
+            "location": "home",
+            "type": {
+              "id": 46,
+              "name": "Ball Safe",
+              "code": "ball-safe",
+              "developer_name": "BALL_SAFE",
+              "model_type": "statistic",
+              "stat_group": "defensive"
+            }
+          }
+        ],
+        "lineups": [
+          {
+            "id": 14673255971,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 186471,
+            "team_id": 429,
+            "position_id": 24,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Germán Parreño",
+            "jersey_number": 1,
+            "player": {
+              "id": 186471,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 26351,
+              "position_id": 24,
+              "detailed_position_id": null,
+              "type_id": 24,
+              "common_name": "G. Parreño Boix",
+              "firstname": "Germán",
+              "lastname": "Parreño Boix",
+              "name": "Germán Parreño Boix",
+              "display_name": "Germán Parreño",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/7/186471.png",
+              "height": 191,
+              "weight": 83,
+              "date_of_birth": "1993-02-16",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255972,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 33213465,
+            "team_id": 429,
+            "position_id": 26,
+            "formation_field": "3:1",
+            "type_id": 11,
+            "formation_position": 6,
+            "player_name": "Adrià Altimira",
+            "jersey_number": 2,
+            "player": {
+              "id": 33213465,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 15130,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": 26,
+              "common_name": "A. Altimira Reynaldos",
+              "firstname": "Adrià",
+              "lastname": "Altimira Reynaldos",
+              "name": "Adrià Altimira Reynaldos",
+              "display_name": "Adrià Altimira",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/25/33213465.png",
+              "height": 170,
+              "weight": 62,
+              "date_of_birth": "2001-03-28",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255973,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 4536544,
+            "team_id": 429,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Arnau Comas",
+            "jersey_number": 3,
+            "player": {
+              "id": 4536544,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "A. Comas Freixas",
+              "firstname": "Arnau",
+              "lastname": "Comas Freixas",
+              "name": "Arnau Comas Freixas",
+              "display_name": "Arnau Comas",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/0/4536544.png",
+              "height": 191,
+              "weight": 83,
+              "date_of_birth": "2000-04-11",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255974,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37590624,
+            "team_id": 429,
+            "position_id": 25,
+            "formation_field": "2:2",
+            "type_id": 11,
+            "formation_position": 3,
+            "player_name": "Lucas Noubi",
+            "jersey_number": 4,
+            "player": {
+              "id": 37590624,
+              "sport_id": 1,
+              "country_id": 556,
+              "nationality_id": 556,
+              "city_id": 59736,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "L. Noubi Ngnokam",
+              "firstname": "Lucas",
+              "lastname": "Noubi Ngnokam",
+              "name": "Lucas Noubi Ngnokam",
+              "display_name": "Lucas Noubi",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/0/37590624.png",
+              "height": 184,
+              "weight": 81,
+              "date_of_birth": "2005-01-15",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255975,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37554558,
+            "team_id": 429,
+            "position_id": 25,
+            "formation_field": "2:3",
+            "type_id": 11,
+            "formation_position": 4,
+            "player_name": "Dani Barcia",
+            "jersey_number": 5,
+            "player": {
+              "id": 37554558,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "D. Barcia Rama",
+              "firstname": "Daniel",
+              "lastname": "Barcia Rama",
+              "name": "Daniel Barcia Rama",
+              "display_name": "Dani Barcia",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/30/37554558.png",
+              "height": 186,
+              "weight": 80,
+              "date_of_birth": "2003-01-19",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255976,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 28575730,
+            "team_id": 429,
+            "position_id": 26,
+            "formation_field": "3:4",
+            "type_id": 11,
+            "formation_position": 9,
+            "player_name": "Charlie Patiño",
+            "jersey_number": 6,
+            "player": {
+              "id": 28575730,
+              "sport_id": 1,
+              "country_id": 462,
+              "nationality_id": 462,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "C. Patino",
+              "firstname": "Charlie",
+              "lastname": "Patino",
+              "name": "Charlie Patino",
+              "display_name": "Charlie Patiño",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/18/28575730.png",
+              "height": 182,
+              "weight": 75,
+              "date_of_birth": "2003-10-17",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255977,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 12394109,
+            "team_id": 429,
+            "position_id": 27,
+            "formation_field": "4:1",
+            "type_id": 11,
+            "formation_position": 10,
+            "player_name": "Samuele Mulattieri",
+            "jersey_number": 7,
+            "player": {
+              "id": 12394109,
+              "sport_id": 1,
+              "country_id": 251,
+              "nationality_id": 251,
+              "city_id": 47381,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 26,
+              "common_name": "S. Mulattieri",
+              "firstname": "Samuele",
+              "lastname": "Mulattieri",
+              "name": "Samuele Mulattieri",
+              "display_name": "Samuele Mulattieri",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/29/12394109.png",
+              "height": 183,
+              "weight": 77,
+              "date_of_birth": "2000-10-07",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255978,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 32404514,
+            "team_id": 429,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Zakaria Eddahchouri",
+            "jersey_number": 9,
+            "player": {
+              "id": 32404514,
+              "sport_id": 1,
+              "country_id": 38,
+              "nationality_id": 38,
+              "city_id": 67063,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 26,
+              "common_name": "Z. Eddahchouri",
+              "firstname": "Zakaria",
+              "lastname": "Eddahchouri",
+              "name": "Zakaria Eddahchouri",
+              "display_name": "Zakaria Eddahchouri",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/2/32404514.png",
+              "height": 187,
+              "weight": 78,
+              "date_of_birth": "2000-05-11",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255979,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37551146,
+            "team_id": 429,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Yeremay Hernández",
+            "jersey_number": 10,
+            "player": {
+              "id": 37551146,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 48633,
+              "position_id": 27,
+              "detailed_position_id": 152,
+              "type_id": 26,
+              "common_name": "Y. Hernández Cubas",
+              "firstname": "Yeremay",
+              "lastname": "Hernández Cubas",
+              "name": "Y. Hernández Cubas",
+              "display_name": "Yeremay Hernández",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/10/37551146.png",
+              "height": 170,
+              "weight": 64,
+              "date_of_birth": "2002-12-10",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255980,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 19979845,
+            "team_id": 429,
+            "position_id": 25,
+            "formation_field": "2:4",
+            "type_id": 11,
+            "formation_position": 5,
+            "player_name": "Giacomo Quagliata",
+            "jersey_number": 12,
+            "player": {
+              "id": 19979845,
+              "sport_id": 1,
+              "country_id": 251,
+              "nationality_id": 251,
+              "city_id": 66701,
+              "position_id": 25,
+              "detailed_position_id": 155,
+              "type_id": 25,
+              "common_name": "G. Quagliata",
+              "firstname": "Giacomo",
+              "lastname": "Quagliata",
+              "name": "Giacomo Quagliata",
+              "display_name": "Giacomo Quagliata",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/5/19979845.png",
+              "height": 180,
+              "weight": 63,
+              "date_of_birth": "2000-02-19",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255981,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 21072676,
+            "team_id": 429,
+            "position_id": 26,
+            "formation_field": "3:3",
+            "type_id": 11,
+            "formation_position": 8,
+            "player_name": "Riki Rodríguez",
+            "jersey_number": 14,
+            "player": {
+              "id": 21072676,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 66236,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "R. Rodríguez Gil Carcedo",
+              "firstname": "Ricardo",
+              "lastname": "Rodríguez Gil Carcedo",
+              "name": "Ricardo Rodríguez Gil Carcedo",
+              "display_name": "Riki Rodríguez",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/4/21072676.png",
+              "height": 175,
+              "weight": 70,
+              "date_of_birth": "1997-09-25",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255982,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 382668,
+            "team_id": 429,
+            "position_id": 25,
+            "formation_field": "2:1",
+            "type_id": 11,
+            "formation_position": 2,
+            "player_name": "Miguel Loureiro",
+            "jersey_number": 15,
+            "player": {
+              "id": 382668,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": 25,
+              "common_name": "M. Loureiro Ameijeda",
+              "firstname": "Miguel",
+              "lastname": "Loureiro Ameijeda",
+              "name": "Miguel Loureiro Ameijeda",
+              "display_name": "Miguel Loureiro",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/12/382668.png",
+              "height": 182,
+              "weight": 75,
+              "date_of_birth": "1996-11-21",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255983,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 9950234,
+            "team_id": 429,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "José Gragera",
+            "jersey_number": 16,
+            "player": {
+              "id": 9950234,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "J. Gragera Amado",
+              "firstname": "José",
+              "lastname": "Gragera Amado",
+              "name": "José Gragera Amado",
+              "display_name": "José Gragera",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/26/9950234.png",
+              "height": 186,
+              "weight": 78,
+              "date_of_birth": "2000-05-14",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255984,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 186565,
+            "team_id": 429,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Cristian Herrera",
+            "jersey_number": 17,
+            "player": {
+              "id": 186565,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 48633,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "C. Herrera Pérez",
+              "firstname": "Cristian Ignacio",
+              "lastname": "Herrera Pérez",
+              "name": "Cristian Ignacio Herrera Pérez",
+              "display_name": "Cristian Herrera",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/5/186565.png",
+              "height": 182,
+              "weight": 76,
+              "date_of_birth": "1991-03-13",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255985,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 31207,
+            "team_id": 429,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Sergio Escudero",
+            "jersey_number": 18,
+            "player": {
+              "id": 31207,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 93691,
+              "position_id": 25,
+              "detailed_position_id": 155,
+              "type_id": 25,
+              "common_name": "S. Escudero Palomo",
+              "firstname": "Sergio",
+              "lastname": "Escudero Palomo",
+              "name": "Sergio Escudero Palomo",
+              "display_name": "Sergio Escudero",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/7/31207.png",
+              "height": 176,
+              "weight": 65,
+              "date_of_birth": "1989-09-02",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255986,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 22493451,
+            "team_id": 429,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Luismi Cruz",
+            "jersey_number": 19,
+            "player": {
+              "id": 22493451,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 156,
+              "type_id": 27,
+              "common_name": "L. Cruz Hernández",
+              "firstname": "Luis Miguel",
+              "lastname": "Cruz Hernández",
+              "name": "Luis Miguel Cruz Hernández",
+              "display_name": "Luismi Cruz",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/11/22493451.png",
+              "height": 166,
+              "weight": 62,
+              "date_of_birth": "2001-05-23",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255987,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 187142,
+            "team_id": 429,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "José Ángel Jurado",
+            "jersey_number": 20,
+            "player": {
+              "id": 187142,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 82287,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "J. Jurado de la Torre",
+              "firstname": "José Ángel",
+              "lastname": "Jurado de la Torre",
+              "name": "José Ángel Jurado de la Torre",
+              "display_name": "José Ángel Jurado",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/6/187142.png",
+              "height": 183,
+              "weight": 80,
+              "date_of_birth": "1992-06-21",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255988,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 24468971,
+            "team_id": 429,
+            "position_id": 26,
+            "formation_field": "3:2",
+            "type_id": 11,
+            "formation_position": 7,
+            "player_name": "Mario Soriano",
+            "jersey_number": 21,
+            "player": {
+              "id": 24468971,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": 27,
+              "common_name": "M. Soriano Carreño",
+              "firstname": "Mario",
+              "lastname": "Soriano Carreño",
+              "name": "Mario Soriano Carreño",
+              "display_name": "Mario Soriano",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/11/24468971.png",
+              "height": 163,
+              "weight": 60,
+              "date_of_birth": "2002-04-22",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255989,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 337457,
+            "team_id": 429,
+            "position_id": 27,
+            "formation_field": "4:2",
+            "type_id": 11,
+            "formation_position": 11,
+            "player_name": "Stoichkov",
+            "jersey_number": 22,
+            "player": {
+              "id": 337457,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 163,
+              "type_id": 26,
+              "common_name": "J. Molina Martínez",
+              "firstname": "Juan Diego",
+              "lastname": "Molina Martínez",
+              "name": "Juan Diego Molina Martínez",
+              "display_name": "Stoichkov",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/17/337457.png",
+              "height": 178,
+              "weight": 71,
+              "date_of_birth": "1993-11-05",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255990,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 186287,
+            "team_id": 429,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Ximo Navarro",
+            "jersey_number": 23,
+            "player": {
+              "id": 186287,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 34388,
+              "position_id": 25,
+              "detailed_position_id": 154,
+              "type_id": 25,
+              "common_name": "J. Navarro Jiménez",
+              "firstname": "Joaquín",
+              "lastname": "Navarro Jiménez",
+              "name": "Joaquín Navarro Jiménez",
+              "display_name": "Ximo Navarro",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/15/186287.png",
+              "height": 176,
+              "weight": 75,
+              "date_of_birth": "1990-01-23",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255991,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 187068,
+            "team_id": 429,
+            "position_id": 24,
+            "formation_field": "1:1",
+            "type_id": 11,
+            "formation_position": 1,
+            "player_name": "Álvaro Fernández",
+            "jersey_number": 25,
+            "player": {
+              "id": 187068,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 3825,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": 24,
+              "common_name": "Á. Fernández Llorente",
+              "firstname": "Álvaro",
+              "lastname": "Fernández Llorente",
+              "name": "Álvaro Fernández Llorente",
+              "display_name": "Álvaro Fernández",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/28/187068.png",
+              "height": 185,
+              "weight": 75,
+              "date_of_birth": "1998-04-13",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255992,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37773259,
+            "team_id": 429,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Bil Dornol Nsongo Tonfack",
+            "jersey_number": 32,
+            "player": {
+              "id": 37773259,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": null,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": null,
+              "common_name": "B. Nsongo Tonfack",
+              "firstname": "Bil Dornol",
+              "lastname": "Nsongo Tonfack",
+              "name": "Bil Dornol Nsongo Tonfack",
+              "display_name": "Bil Dornol Nsongo Tonfack",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": null,
+              "weight": null,
+              "date_of_birth": "2004-09-21",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255993,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 38207549,
+            "team_id": 429,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Noé Carrillo",
+            "jersey_number": 37,
+            "player": {
+              "id": 38207549,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": null,
+              "type_id": null,
+              "common_name": "N. Carrillo",
+              "firstname": "Noé",
+              "lastname": "Carrillo",
+              "name": "Noé Carrillo",
+              "display_name": "Noé Carrillo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": null,
+              "weight": null,
+              "date_of_birth": "2006-12-28",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255960,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 7745874,
+            "team_id": 931,
+            "position_id": 24,
+            "formation_field": "1:1",
+            "type_id": 11,
+            "formation_position": 1,
+            "player_name": "Iker Álvarez",
+            "jersey_number": 1,
+            "player": {
+              "id": 7745874,
+              "sport_id": 1,
+              "country_id": 2931,
+              "nationality_id": 2931,
+              "city_id": 2748,
+              "position_id": 24,
+              "detailed_position_id": 24,
+              "type_id": 24,
+              "common_name": "I. Iker",
+              "firstname": "Iker",
+              "lastname": "Iker",
+              "name": "Iker Iker",
+              "display_name": "Iker Álvarez",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/18/7745874.png",
+              "height": 190,
+              "weight": 81,
+              "date_of_birth": "2001-07-25",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255994,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 16144770,
+            "team_id": 931,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Ignasi Vilarrasa",
+            "jersey_number": 2,
+            "player": {
+              "id": 16144770,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 33449,
+              "position_id": 25,
+              "detailed_position_id": 155,
+              "type_id": 25,
+              "common_name": "I. Vilarrasa Palacios",
+              "firstname": "Ignasi",
+              "lastname": "Vilarrasa Palacios",
+              "name": "Ignasi Vilarrasa Palacios",
+              "display_name": "Ignasi Vilarrasa",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/2/16144770.png",
+              "height": 183,
+              "weight": 81,
+              "date_of_birth": "1999-08-23",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255995,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 531576,
+            "team_id": 931,
+            "position_id": 25,
+            "formation_field": "2:3",
+            "type_id": 11,
+            "formation_position": 3,
+            "player_name": "Álex Martín",
+            "jersey_number": 4,
+            "player": {
+              "id": 531576,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 48633,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "J. Martín Valerón",
+              "firstname": "José Alejandro",
+              "lastname": "Martín Valerón",
+              "name": "José Alejandro Martín Valerón",
+              "display_name": "Álex Martín",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/24/531576.png",
+              "height": 182,
+              "weight": 79,
+              "date_of_birth": "1998-01-25",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255961,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 32031673,
+            "team_id": 931,
+            "position_id": 25,
+            "formation_field": "2:1",
+            "type_id": 11,
+            "formation_position": 5,
+            "player_name": "Diego Bri",
+            "jersey_number": 5,
+            "player": {
+              "id": 32031673,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 26351,
+              "position_id": 25,
+              "detailed_position_id": 155,
+              "type_id": 27,
+              "common_name": "D. Bri Carrazoni",
+              "firstname": "Diego Vicente",
+              "lastname": "Bri Carrazoni",
+              "name": "Diego Vicente Bri Carrazoni",
+              "display_name": "Diego Bri",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/25/32031673.png",
+              "height": 177,
+              "weight": 67,
+              "date_of_birth": "2002-09-12",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255996,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 24817374,
+            "team_id": 931,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Théo Zidane",
+            "jersey_number": 7,
+            "player": {
+              "id": 24817374,
+              "sport_id": 1,
+              "country_id": 17,
+              "nationality_id": 17,
+              "city_id": 54981,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "T. Zidane Fernandez",
+              "firstname": "Theo",
+              "lastname": "Zidane Fernandez",
+              "name": "Theo Zidane Fernandez",
+              "display_name": "Théo Zidane",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/30/24817374.png",
+              "height": 196,
+              "weight": 74,
+              "date_of_birth": "2002-05-18",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255962,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 31238222,
+            "team_id": 931,
+            "position_id": 26,
+            "formation_field": "3:1",
+            "type_id": 11,
+            "formation_position": 8,
+            "player_name": "Isma Ruiz",
+            "jersey_number": 8,
+            "player": {
+              "id": 31238222,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "I. Ruiz Sánchez",
+              "firstname": "Ismael",
+              "lastname": "Ruiz Sánchez",
+              "name": "Ismael Ruiz Sánchez",
+              "display_name": "Isma Ruiz",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/14/31238222.png",
+              "height": 180,
+              "weight": 67,
+              "date_of_birth": "2001-02-14",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255997,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 170071,
+            "team_id": 931,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Nikolay Obolskiy",
+            "jersey_number": 9,
+            "player": {
+              "id": 170071,
+              "sport_id": 1,
+              "country_id": 227,
+              "nationality_id": 227,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "N. Obolski",
+              "firstname": "Nikolai",
+              "lastname": "Obolski",
+              "name": "Nikolai Obolski",
+              "display_name": "Nikolay Obolskiy",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/23/170071.png",
+              "height": 186,
+              "weight": 75,
+              "date_of_birth": "1997-01-14",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255963,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 189289,
+            "team_id": 931,
+            "position_id": 27,
+            "formation_field": "4:1",
+            "type_id": 11,
+            "formation_position": 11,
+            "player_name": "Jacobo González",
+            "jersey_number": 10,
+            "player": {
+              "id": 189289,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 53253,
+              "position_id": 27,
+              "detailed_position_id": null,
+              "type_id": 26,
+              "common_name": "J. González Rodrigañez",
+              "firstname": "Jacobo",
+              "lastname": "González Rodrigañez",
+              "name": "Jacobo González Rodrigañez",
+              "display_name": "Jacobo González",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/9/189289.png",
+              "height": 173,
+              "weight": 66,
+              "date_of_birth": "1997-03-25",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255998,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37357816,
+            "team_id": 931,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Kevin Medina",
+            "jersey_number": 11,
+            "player": {
+              "id": 37357816,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": 152,
+              "type_id": 27,
+              "common_name": "K. Villodres Medina",
+              "firstname": "Kevin",
+              "lastname": "Villodres Medina",
+              "name": "Kevin Villodres Medina",
+              "display_name": "Kevin Medina",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/24/37357816.png",
+              "height": 173,
+              "weight": 65,
+              "date_of_birth": "2001-02-26",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255999,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 186907,
+            "team_id": 931,
+            "position_id": 27,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Sergi Guardiola",
+            "jersey_number": 14,
+            "player": {
+              "id": 186907,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 53920,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "S. Guardiola Navarro",
+              "firstname": "Sergio",
+              "lastname": "Guardiola Navarro",
+              "name": "Sergio Guardiola Navarro",
+              "display_name": "Sergi Guardiola",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/27/186907.png",
+              "height": 184,
+              "weight": 78,
+              "date_of_birth": "1991-05-29",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255964,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 16475844,
+            "team_id": 931,
+            "position_id": 25,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Xavi Sintes",
+            "jersey_number": 15,
+            "player": {
+              "id": 16475844,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 26,
+              "common_name": "X. Egea",
+              "firstname": "Xavier Sintes",
+              "lastname": "Egea",
+              "name": "Xavier Sintes Egea",
+              "display_name": "Xavi Sintes",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/4/16475844.png",
+              "height": 189,
+              "weight": 77,
+              "date_of_birth": "2001-08-05",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255965,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 382178,
+            "team_id": 931,
+            "position_id": 25,
+            "formation_field": "2:2",
+            "type_id": 11,
+            "formation_position": 4,
+            "player_name": "Rubén Alves",
+            "jersey_number": 16,
+            "player": {
+              "id": 382178,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "R. González Alves",
+              "firstname": "Rubén",
+              "lastname": "González Alves",
+              "name": "Rubén González Alves",
+              "display_name": "Rubén Alves",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/2/382178.png",
+              "height": 184,
+              "weight": 77,
+              "date_of_birth": "1994-09-07",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255966,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 19979707,
+            "team_id": 931,
+            "position_id": 27,
+            "formation_field": "4:2",
+            "type_id": 11,
+            "formation_position": 10,
+            "player_name": "Adrián Fuentes",
+            "jersey_number": 18,
+            "player": {
+              "id": 19979707,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 53253,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "A. Fuentes González",
+              "firstname": "Adrián",
+              "lastname": "Fuentes González",
+              "name": "Adrián Fuentes González",
+              "display_name": "Adrián Fuentes",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/27/19979707.png",
+              "height": 188,
+              "weight": 80,
+              "date_of_birth": "1996-07-17",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255967,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 29313803,
+            "team_id": 931,
+            "position_id": 26,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Dalisson de Almeida",
+            "jersey_number": 19,
+            "player": {
+              "id": 29313803,
+              "sport_id": 1,
+              "country_id": 5,
+              "nationality_id": 5,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": null,
+              "type_id": 26,
+              "common_name": "D. de Almeida Leite",
+              "firstname": "Dalisson",
+              "lastname": "de Almeida Leite",
+              "name": "Dalisson de Almeida Leite",
+              "display_name": "Dalisson de Almeida",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/11/29313803.png",
+              "height": 172,
+              "weight": 60,
+              "date_of_birth": "2000-04-06",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673256000,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37251229,
+            "team_id": 931,
+            "position_id": 26,
+            "formation_field": "3:2",
+            "type_id": 11,
+            "formation_position": 7,
+            "player_name": "Alberto del Moral",
+            "jersey_number": 20,
+            "player": {
+              "id": 37251229,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "A. Del Moral Saelices",
+              "firstname": "Alberto",
+              "lastname": "Del Moral Saelices",
+              "name": "Alberto Del Moral Saelices",
+              "display_name": "Alberto del Moral",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/29/37251229.png",
+              "height": 185,
+              "weight": 70,
+              "date_of_birth": "2000-07-20",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255968,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 379302,
+            "team_id": 931,
+            "position_id": 25,
+            "formation_field": "2:4",
+            "type_id": 11,
+            "formation_position": 2,
+            "player_name": "Carlos Albarrán",
+            "jersey_number": 21,
+            "player": {
+              "id": 379302,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 5464,
+              "position_id": 25,
+              "detailed_position_id": null,
+              "type_id": 25,
+              "common_name": "C. Albarrán Sanz",
+              "firstname": "Carlos",
+              "lastname": "Albarrán Sanz",
+              "name": "Carlos Albarrán Sanz",
+              "display_name": "Carlos Albarrán",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/6/379302.png",
+              "height": 185,
+              "weight": 74,
+              "date_of_birth": "1994-01-15",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673255969,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 447951,
+            "team_id": 931,
+            "position_id": 27,
+            "formation_field": "4:3",
+            "type_id": 11,
+            "formation_position": 9,
+            "player_name": "Cristian Carracedo",
+            "jersey_number": 23,
+            "player": {
+              "id": 447951,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 46882,
+              "position_id": 27,
+              "detailed_position_id": null,
+              "type_id": 27,
+              "common_name": "C. Carracedo García",
+              "firstname": "Cristian",
+              "lastname": "Carracedo García",
+              "name": "Cristian Carracedo García",
+              "display_name": "Cristian Carracedo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/15/447951.png",
+              "height": 179,
+              "weight": 75,
+              "date_of_birth": "1995-11-30",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673256001,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37545212,
+            "team_id": 931,
+            "position_id": 26,
+            "formation_field": "3:3",
+            "type_id": 11,
+            "formation_position": 6,
+            "player_name": "Mikel Goti",
+            "jersey_number": 25,
+            "player": {
+              "id": 37545212,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 150,
+              "type_id": 26,
+              "common_name": "M. Goti López",
+              "firstname": "Mikel",
+              "lastname": "Goti López",
+              "name": "Mikel Goti López",
+              "display_name": "Mikel Goti",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/28/37545212.png",
+              "height": 185,
+              "weight": 75,
+              "date_of_birth": "2002-05-23",
+              "gender": "male"
+            },
+            "type": {
+              "id": 11,
+              "name": "Lineup",
+              "code": "lineup",
+              "developer_name": "LINEUP",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 14673256002,
+            "sport_id": 1,
+            "fixture_id": 19441426,
+            "player_id": 37775045,
+            "team_id": 931,
+            "position_id": 24,
+            "formation_field": null,
+            "type_id": 12,
+            "formation_position": null,
+            "player_name": "Alejandro Arevalo",
+            "jersey_number": 26,
+            "player": {
+              "id": 37775045,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": null,
+              "city_id": null,
+              "position_id": 24,
+              "detailed_position_id": null,
+              "type_id": null,
+              "common_name": "A. Arévalo Arrebola",
+              "firstname": "Alejandro",
+              "lastname": "Arévalo Arrebola",
+              "name": "Alejandro Arévalo Arrebola",
+              "display_name": "Alejandro Arevalo",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+              "height": 184,
+              "weight": 69,
+              "date_of_birth": "2007-11-22",
+              "gender": "male"
+            },
+            "type": {
+              "id": 12,
+              "name": "Bench",
+              "code": "bench",
+              "developer_name": "BENCH",
+              "model_type": "lineup",
+              "stat_group": null
+            }
+          }
+        ],
+        "coaches": [
+          {
+            "id": 525068,
+            "player_id": 525068,
+            "sport_id": 1,
+            "country_id": 32,
+            "nationality_id": 32,
+            "city_id": null,
+            "common_name": "I. Ania Cadavieco",
+            "firstname": "Iván",
+            "lastname": "Ania Cadavieco",
+            "name": "Iván Ania Cadavieco",
+            "display_name": "Iván Ania",
+            "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+            "height": 177,
+            "weight": null,
+            "date_of_birth": "1977-10-24",
+            "gender": "male",
+            "meta": {
+              "fixture_id": 19441426,
+              "coach_id": 525068,
+              "participant_id": 931
+            }
+          },
+          {
+            "id": 186111,
+            "player_id": 186111,
+            "sport_id": 1,
+            "country_id": 32,
+            "nationality_id": 32,
+            "city_id": null,
+            "common_name": "A. Hidalgo Morilla",
+            "firstname": "Antonio",
+            "lastname": "Hidalgo Morilla",
+            "name": "Antonio Hidalgo Morilla",
+            "display_name": "Antonio Hidalgo",
+            "image_path": "https://cdn.sportmonks.com/images/soccer/placeholder.png",
+            "height": 183,
+            "weight": 77,
+            "date_of_birth": "1979-02-06",
+            "gender": "male",
+            "meta": {
+              "fixture_id": 19441426,
+              "coach_id": 186111,
+              "participant_id": 429
+            }
+          }
+        ],
+        "sidelined": [
+          {
+            "id": 1401728,
+            "fixture_id": 19441426,
+            "sideline_id": 780999,
+            "participant_id": 931,
+            "player_id": 37262623,
+            "type_id": 1918,
+            "sideline": {
+              "id": 780999,
+              "player_id": 37262623,
+              "type_id": 1918,
+              "category": "injury",
+              "team_id": 931,
+              "season_id": null,
+              "start_date": "2026-03-28",
+              "end_date": "2026-10-28",
+              "games_missed": 0,
+              "completed": false,
+              "player": {
+                "id": 37262623,
+                "sport_id": 1,
+                "country_id": 20,
+                "nationality_id": 20,
+                "city_id": null,
+                "position_id": 27,
+                "detailed_position_id": null,
+                "type_id": 26,
+                "common_name": "A. Mendes Martins",
+                "firstname": "Adilson",
+                "lastname": "Mendes Martins",
+                "name": "Adilson Mendes Martins",
+                "display_name": "Adilson",
+                "image_path": "https://cdn.sportmonks.com/images/soccer/players/31/37262623.png",
+                "height": 169,
+                "weight": 56,
+                "date_of_birth": "1997-03-21",
+                "gender": "male"
+              },
+              "type": {
+                "id": 1918,
+                "name": "Cruciate Ligament Tear",
+                "code": "cruciate-ligament-tear",
+                "developer_name": "CRUCIATE_LIGAMENT_TEAR",
+                "model_type": "injury_suspension",
+                "stat_group": null
+              }
+            }
+          }
+        ],
+        "weatherreport": {
+          "id": 726006,
+          "fixture_id": 19441426,
+          "venue_id": 309970,
+          "temperature": {
+            "day": 16.3,
+            "morning": 8.15,
+            "evening": 14.02,
+            "night": 9.63
+          },
+          "feels_like": {
+            "day": 15.55,
+            "morning": 6.57,
+            "evening": 13.31,
+            "night": 7.47
+          },
+          "wind": {
+            "speed": 8.17,
+            "direction": 27
+          },
+          "humidity": "60%",
+          "pressure": 1032,
+          "clouds": "0%",
+          "description": "sky is clear",
+          "icon": "https://cdn.sportmonks.com/images/weather/01d.png",
+          "type": "actual",
+          "metric": "celcius",
+          "current": {
+            "temp": 15.27,
+            "wind": 5.36,
+            "clouds": null,
+            "humidity": "74%",
+            "pressure": 1031,
+            "direction": 13,
+            "feels_like": 14.78,
+            "description": "clear sky"
+          }
+        },
+        "predictions": [
+          {
+            "id": 25910245,
+            "fixture_id": 19441426,
+            "predictions": {
+              "home": 34.24,
+              "away": 23.88,
+              "draw": 41.88
+            },
+            "type_id": 233,
+            "type": {
+              "id": 233,
+              "name": "First Half Winner Probability",
+              "code": "first-half-winner",
+              "developer_name": "FIRST_HALF_WINNER_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910260,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 20.69,
+              "no": 79.31
+            },
+            "type_id": 330,
+            "type": {
+              "id": 330,
+              "name": "Home Over/Under 2.5 Probability",
+              "code": "home-over-under-2_5_probability",
+              "developer_name": "HOME_OVER_UNDER_2_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910244,
+            "fixture_id": 19441426,
+            "predictions": {
+              "home_home": 25.77,
+              "home_away": 2.35,
+              "home_draw": 5.48,
+              "away_home": 2.97,
+              "away_away": 15.39,
+              "away_draw": 5.37,
+              "draw_draw": 16.5,
+              "draw_home": 15.37,
+              "draw_away": 10.8
+            },
+            "type_id": 232,
+            "type": {
+              "id": 232,
+              "name": "Half Time/Full Time Probability",
+              "code": "half-time-full-time-probability",
+              "developer_name": "HTFT_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910275,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 68.96,
+              "no": 20.83,
+              "equal": 10.21
+            },
+            "type_id": 1686,
+            "type": {
+              "id": 1686,
+              "name": "Corners Over/Under 7 Probability",
+              "code": "corners-over-under-7-probability",
+              "developer_name": "CORNERS_OVER_UNDER_7_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910283,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 35.11,
+              "no": 64.89,
+              "equal": null
+            },
+            "type_id": 1585,
+            "type": {
+              "id": 1585,
+              "name": "Corners Over/Under 10.5 Probability",
+              "code": "corners-over-under-10_5-probability",
+              "developer_name": "CORNERS_OVER_UNDER_10_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910274,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 79.17,
+              "no": 12.61,
+              "equal": 8.22
+            },
+            "type_id": 1685,
+            "type": {
+              "id": 1685,
+              "name": "Corners Over/Under 6 Probability",
+              "code": "corners-over-under-6-probability",
+              "developer_name": "CORNERS_OVER_UNDER_6_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910268,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 4.03,
+              "no": 95.97
+            },
+            "type_id": 327,
+            "type": {
+              "id": 327,
+              "name": "Away Over/Under 3.5 Probability",
+              "code": "away-over-under-3_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_3_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910270,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 93.27,
+              "no": 3.06,
+              "equal": 3.67
+            },
+            "type_id": 1690,
+            "type": {
+              "id": 1690,
+              "name": "Corners Over/Under 4 Probability",
+              "code": "corners-over-under-4-probability",
+              "developer_name": "CORNERS_OVER_UNDER_4_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910278,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 57.55,
+              "no": 31.04,
+              "equal": 11.41
+            },
+            "type_id": 1689,
+            "type": {
+              "id": 1689,
+              "name": "Corners Over/Under 8 Probability",
+              "code": "corners-over-under-8-probability",
+              "developer_name": "CORNERS_OVER_UNDER_8_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910280,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 45.95,
+              "no": 42.45,
+              "equal": 11.6
+            },
+            "type_id": 1687,
+            "type": {
+              "id": 1687,
+              "name": "Corners Over/Under 9 Probability",
+              "code": "corners-over-under-9-probability",
+              "developer_name": "CORNERS_OVER_UNDER_9_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910281,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 35.11,
+              "no": 54.05,
+              "equal": 10.84
+            },
+            "type_id": 1688,
+            "type": {
+              "id": 1688,
+              "name": "Corners Over/Under 10 Probability",
+              "code": "corners-over-under-10-probability",
+              "developer_name": "CORNERS_OVER_UNDER_10_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910285,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 25.73,
+              "no": 64.89,
+              "equal": 9.38
+            },
+            "type_id": 1684,
+            "type": {
+              "id": 1684,
+              "name": "Corners Over/Under 11 Probability",
+              "code": "corners-over-under-11-probability",
+              "developer_name": "CORNERS_OVER_UNDER_11_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910248,
+            "fixture_id": 19441426,
+            "predictions": {
+              "draw_home": 70.02,
+              "draw_away": 55.3,
+              "home_away": 74.66
+            },
+            "type_id": 239,
+            "type": {
+              "id": 239,
+              "name": "Double Chance Probability",
+              "code": "double_chance-probability",
+              "developer_name": "DOUBLE_CHANCE_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910256,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 76.72,
+              "no": 23.28
+            },
+            "type_id": 334,
+            "type": {
+              "id": 334,
+              "name": "Home Over/Under 0.5 Probability",
+              "code": "home-over-under-0_5_probability",
+              "developer_name": "HOME_OVER_UNDER_0_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910258,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 45.44,
+              "no": 54.56
+            },
+            "type_id": 331,
+            "type": {
+              "id": 331,
+              "name": "Home Over/Under 1.5 Probability",
+              "code": "home-over-under-1_5_probability",
+              "developer_name": "HOME_OVER_UNDER_1_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910272,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 87.39,
+              "no": 6.73,
+              "equal": 5.88
+            },
+            "type_id": 1683,
+            "type": {
+              "id": 1683,
+              "name": "Corners Over/Under 5 Probability",
+              "code": "corners-over-under-5-probability",
+              "developer_name": "CORNERS_OVER_UNDER_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910246,
+            "fixture_id": 19441426,
+            "predictions": {
+              "home": 44.69,
+              "away": 29.97,
+              "draw": 25.33
+            },
+            "type_id": 237,
+            "type": {
+              "id": 237,
+              "name": "Fulltime Result Probability",
+              "code": "fulltime-result-probability",
+              "developer_name": "FULLTIME_RESULT_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910247,
+            "fixture_id": 19441426,
+            "predictions": {
+              "home": 53.48,
+              "away": 40.46,
+              "draw": 6.06
+            },
+            "type_id": 238,
+            "type": {
+              "id": 238,
+              "name": "Team To Score First Probability",
+              "code": "team_to_score_first-probability",
+              "developer_name": "TEAM_TO_SCORE_FIRST_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910249,
+            "fixture_id": 19441426,
+            "predictions": {
+              "scores": {
+                "0-0": 6.06,
+                "0-1": 7.13,
+                "0-2": 4.36,
+                "0-3": 1.96,
+                "1-0": 9.3,
+                "1-1": 11.69,
+                "1-2": 7.31,
+                "1-3": 2.98,
+                "2-0": 6.98,
+                "2-1": 9.35,
+                "2-2": 5.97,
+                "2-3": 2.45,
+                "3-0": 3.75,
+                "3-1": 4.75,
+                "3-2": 3.1,
+                "3-3": 1.38,
+                "Other_1": 7.47,
+                "Other_2": 3.79,
+                "Other_X": 0.24
+              }
+            },
+            "type_id": 240,
+            "type": {
+              "id": 240,
+              "name": "Correct Score Probability",
+              "code": "correct-score-probability",
+              "developer_name": "CORRECT_SCORE_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910252,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 32.12,
+              "no": 67.89
+            },
+            "type_id": 236,
+            "type": {
+              "id": 236,
+              "name": "Over/Under 3.5 Probability",
+              "code": "over-under-3_5_probability",
+              "developer_name": "OVER_UNDER_3_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910263,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 66.46,
+              "no": 33.54
+            },
+            "type_id": 333,
+            "type": {
+              "id": 333,
+              "name": "Away Over/Under 0.5 Probability",
+              "code": "away-over-under-0_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_0_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910243,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 57.16,
+              "no": 42.84
+            },
+            "type_id": 231,
+            "type": {
+              "id": 231,
+              "name": "Both Teams To Score Probability",
+              "code": "both-teams-to-score-probability",
+              "developer_name": "BTTS_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910250,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 77.53,
+              "no": 22.47
+            },
+            "type_id": 234,
+            "type": {
+              "id": 234,
+              "name": "Over/Under 1.5 Probability",
+              "code": "over-under-1_5-probability",
+              "developer_name": "OVER_UNDER_1_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910251,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 54.48,
+              "no": 45.52
+            },
+            "type_id": 235,
+            "type": {
+              "id": 235,
+              "name": "Over/Under 2.5 Probability",
+              "code": "over-under-2_5-probability",
+              "developer_name": "OVER_UNDER_2_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910254,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 18.43,
+              "no": 81.57
+            },
+            "type_id": 1679,
+            "type": {
+              "id": 1679,
+              "name": "Over/Under 4.5 Probability",
+              "code": "over-under-4_5-probability",
+              "developer_name": "OVER_UNDER_4_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910264,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 33.54,
+              "no": 66.46
+            },
+            "type_id": 332,
+            "type": {
+              "id": 332,
+              "name": "Away Over/Under 1.5 Probability",
+              "code": "away-over-under-1_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_1_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910266,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 12.8,
+              "no": 87.2
+            },
+            "type_id": 328,
+            "type": {
+              "id": 328,
+              "name": "Away Over/Under 2.5 Probability",
+              "code": "away-over-under-2_5_probability",
+              "developer_name": "AWAY_OVER_UNDER_2_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 25910261,
+            "fixture_id": 19441426,
+            "predictions": {
+              "yes": 7.71,
+              "no": 92.29
+            },
+            "type_id": 326,
+            "type": {
+              "id": 326,
+              "name": "Home Over/Under 3.5 Probability",
+              "code": "home-over-under-3_5_probability",
+              "developer_name": "HOME_OVER_UNDER_3_5_PROBABILITY",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          },
+          {
+            "id": 26359132,
+            "fixture_id": 19441426,
+            "predictions": {
+              "bet": "1",
+              "bookmaker": "betsson",
+              "fair_odd": 1.98,
+              "odd": 2.05,
+              "stake": 0.9,
+              "is_value": false
+            },
+            "type_id": 33,
+            "type": {
+              "id": 33,
+              "name": "Valuebet",
+              "code": "valuebet",
+              "developer_name": "VALUEBET",
+              "model_type": "prediction",
+              "stat_group": null
+            }
+          }
+        ]
+      },
+      "fetched_at": "2026-03-31T18:08:19.919067Z"
     }
   }
 }
