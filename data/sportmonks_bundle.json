@@ -10,7 +10,7 @@
         "group_id": null,
         "aggregate_id": null,
         "round_id": 373510,
-        "state_id": 3,
+        "state_id": 22,
         "venue_id": 9323,
         "name": "Real Valladolid vs Cádiz",
         "starting_at": "2026-03-31 19:30:00",
@@ -111,11 +111,11 @@
           "national_team": false
         },
         "state": {
-          "id": 3,
-          "state": "HT",
-          "name": "Half Time",
-          "short_name": "HT",
-          "developer_name": "HT"
+          "id": 22,
+          "state": "INPLAY_2ND_HALF",
+          "name": "2nd Half",
+          "short_name": "2nd",
+          "developer_name": "INPLAY_2ND_HALF"
         },
         "scores": [
           {
@@ -183,6 +183,28 @@
               "participant": "away"
             },
             "description": "1ST_HALF"
+          },
+          {
+            "id": 19732700,
+            "fixture_id": 19441434,
+            "type_id": 48996,
+            "participant_id": 361,
+            "score": {
+              "goals": 0,
+              "participant": "home"
+            },
+            "description": "2ND_HALF_ONLY"
+          },
+          {
+            "id": 19732701,
+            "fixture_id": 19441434,
+            "type_id": 48996,
+            "participant_id": 6827,
+            "score": {
+              "goals": 0,
+              "participant": "away"
+            },
+            "description": "2ND_HALF_ONLY"
           }
         ],
         "periods": [
@@ -201,6 +223,22 @@
             "minutes": 47,
             "seconds": 16,
             "has_timer": false
+          },
+          {
+            "id": 6881409,
+            "fixture_id": 19441434,
+            "type_id": 2,
+            "started": 1774989432,
+            "ended": null,
+            "counts_from": 45,
+            "ticking": true,
+            "sort_order": 2,
+            "description": "2nd-half",
+            "time_added": null,
+            "period_length": 45,
+            "minutes": 71,
+            "seconds": 12,
+            "has_timer": true
           }
         ],
         "events": [
@@ -339,6 +377,278 @@
               "date_of_birth": "2002-11-04",
               "gender": "male"
             }
+          },
+          {
+            "id": 156397360,
+            "fixture_id": 19441434,
+            "period_id": 6881409,
+            "participant_id": 6827,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37584215,
+            "related_player_id": 37597539,
+            "player_name": "Pelayo Fernández",
+            "related_player_name": "Bojan Kovacevic",
+            "result": null,
+            "info": null,
+            "addition": "1st Substitution",
+            "minute": 46,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881409,
+            "rescinded": null,
+            "sort_order": 1,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881409,
+              "fixture_id": 19441434,
+              "type_id": 2,
+              "started": 1774989432,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 71,
+              "seconds": 12,
+              "has_timer": true
+            },
+            "player": {
+              "id": 37584215,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": null,
+              "position_id": 25,
+              "detailed_position_id": 148,
+              "type_id": 25,
+              "common_name": "P. Fernández Balboa",
+              "firstname": "Pelayo",
+              "lastname": "Fernández Balboa",
+              "name": "Pelayo Fernández Balboa",
+              "display_name": "Pelayo Fernández",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/23/37584215.png",
+              "height": 190,
+              "weight": 83,
+              "date_of_birth": "2003-04-29",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156397362,
+            "fixture_id": 19441434,
+            "period_id": 6881409,
+            "participant_id": 6827,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 185975,
+            "related_player_id": 12393436,
+            "player_name": "Roger Martí",
+            "related_player_name": "Brian Ocampo",
+            "result": null,
+            "info": null,
+            "addition": "3rd Substitution",
+            "minute": 46,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881409,
+            "rescinded": null,
+            "sort_order": 3,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881409,
+              "fixture_id": 19441434,
+              "type_id": 2,
+              "started": 1774989432,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 71,
+              "seconds": 12,
+              "has_timer": true
+            },
+            "player": {
+              "id": 185975,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": 32,
+              "city_id": 91080,
+              "position_id": 27,
+              "detailed_position_id": 151,
+              "type_id": 27,
+              "common_name": "R. Martí Salvador",
+              "firstname": "Roger",
+              "lastname": "Martí Salvador",
+              "name": "Roger Martí Salvador",
+              "display_name": "Roger Martí",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/23/185975.png",
+              "height": 179,
+              "weight": 74,
+              "date_of_birth": "1991-01-03",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156397361,
+            "fixture_id": 19441434,
+            "period_id": 6881409,
+            "participant_id": 6827,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 433156,
+            "related_player_id": 6333,
+            "player_name": "Rominigue Kouamé",
+            "related_player_name": "Álex Fernández",
+            "result": null,
+            "info": null,
+            "addition": "2nd Substitution",
+            "minute": 46,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881409,
+            "rescinded": null,
+            "sort_order": 2,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881409,
+              "fixture_id": 19441434,
+              "type_id": 2,
+              "started": 1774989432,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 71,
+              "seconds": 12,
+              "has_timer": true
+            },
+            "player": {
+              "id": 433156,
+              "sport_id": 1,
+              "country_id": 26,
+              "nationality_id": 26,
+              "city_id": null,
+              "position_id": 26,
+              "detailed_position_id": 153,
+              "type_id": 26,
+              "common_name": "R. N'Guessan",
+              "firstname": "Rominigue Kouamé",
+              "lastname": "N'Guessan",
+              "name": "Rominigue Kouamé N'Guessan",
+              "display_name": "Rominigue Kouamé",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/4/433156.png",
+              "height": 177,
+              "weight": 68,
+              "date_of_birth": "1996-12-17",
+              "gender": "male"
+            }
+          },
+          {
+            "id": 156397494,
+            "fixture_id": 19441434,
+            "period_id": 6881409,
+            "participant_id": 6827,
+            "type_id": 18,
+            "section": "event",
+            "player_id": 37716699,
+            "related_player_id": 37656331,
+            "player_name": "Antoñito Cordero",
+            "related_player_name": "José Antonio de la Rosa",
+            "result": null,
+            "info": null,
+            "addition": "4th Substitution",
+            "minute": 70,
+            "extra_minute": null,
+            "injured": null,
+            "on_bench": false,
+            "coach_id": null,
+            "sub_type_id": null,
+            "detailed_period_id": 6881409,
+            "rescinded": null,
+            "sort_order": 4,
+            "type": {
+              "id": 18,
+              "name": "Substitution",
+              "code": "substitution",
+              "developer_name": "SUBSTITUTION",
+              "model_type": "event",
+              "stat_group": null
+            },
+            "period": {
+              "id": 6881409,
+              "fixture_id": 19441434,
+              "type_id": 2,
+              "started": 1774989432,
+              "ended": null,
+              "counts_from": 45,
+              "ticking": true,
+              "sort_order": 2,
+              "description": "2nd-half",
+              "time_added": null,
+              "period_length": 45,
+              "minutes": 71,
+              "seconds": 12,
+              "has_timer": true
+            },
+            "player": {
+              "id": 37716699,
+              "sport_id": 1,
+              "country_id": 32,
+              "nationality_id": null,
+              "city_id": null,
+              "position_id": 27,
+              "detailed_position_id": null,
+              "type_id": null,
+              "common_name": "Antonio Cordero",
+              "firstname": "Antonio José",
+              "lastname": "Cordero Campillo",
+              "name": "Antonio José Cordero Campillo",
+              "display_name": "Antoñito Cordero",
+              "image_path": "https://cdn.sportmonks.com/images/soccer/players/27/37716699.png",
+              "height": 178,
+              "weight": 71,
+              "date_of_birth": "2006-11-14",
+              "gender": "male"
+            }
           }
         ],
         "statistics": [
@@ -348,7 +658,7 @@
             "type_id": 56,
             "participant_id": 6827,
             "data": {
-              "value": 7
+              "value": 11
             },
             "location": "away",
             "type": {
@@ -366,7 +676,7 @@
             "type_id": 62,
             "participant_id": 6827,
             "data": {
-              "value": 35
+              "value": 55
             },
             "location": "away",
             "type": {
@@ -384,7 +694,7 @@
             "type_id": 42,
             "participant_id": 6827,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -402,7 +712,7 @@
             "type_id": 27264,
             "participant_id": 361,
             "data": {
-              "value": 20
+              "value": 27
             },
             "location": "home",
             "type": {
@@ -420,7 +730,7 @@
             "type_id": 27264,
             "participant_id": 6827,
             "data": {
-              "value": 10
+              "value": 17
             },
             "location": "away",
             "type": {
@@ -456,7 +766,7 @@
             "type_id": 57,
             "participant_id": 6827,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -528,7 +838,7 @@
             "type_id": 81,
             "participant_id": 361,
             "data": {
-              "value": 181
+              "value": 267
             },
             "location": "home",
             "type": {
@@ -564,7 +874,7 @@
             "type_id": 98,
             "participant_id": 6827,
             "data": {
-              "value": 6
+              "value": 10
             },
             "location": "away",
             "type": {
@@ -582,7 +892,7 @@
             "type_id": 62,
             "participant_id": 361,
             "data": {
-              "value": 32
+              "value": 51
             },
             "location": "home",
             "type": {
@@ -600,7 +910,7 @@
             "type_id": 45,
             "participant_id": 6827,
             "data": {
-              "value": 46
+              "value": 48
             },
             "location": "away",
             "type": {
@@ -618,7 +928,7 @@
             "type_id": 45,
             "participant_id": 361,
             "data": {
-              "value": 54
+              "value": 52
             },
             "location": "home",
             "type": {
@@ -636,7 +946,7 @@
             "type_id": 56,
             "participant_id": 361,
             "data": {
-              "value": 6
+              "value": 9
             },
             "location": "home",
             "type": {
@@ -654,7 +964,7 @@
             "type_id": 1605,
             "participant_id": 361,
             "data": {
-              "value": 54
+              "value": 39
             },
             "location": "home",
             "type": {
@@ -690,7 +1000,7 @@
             "type_id": 80,
             "participant_id": 361,
             "data": {
-              "value": 220
+              "value": 326
             },
             "location": "home",
             "type": {
@@ -708,7 +1018,7 @@
             "type_id": 80,
             "participant_id": 6827,
             "data": {
-              "value": 193
+              "value": 308
             },
             "location": "away",
             "type": {
@@ -726,7 +1036,7 @@
             "type_id": 27265,
             "participant_id": 361,
             "data": {
-              "value": 63
+              "value": 53
             },
             "location": "home",
             "type": {
@@ -744,7 +1054,7 @@
             "type_id": 27265,
             "participant_id": 6827,
             "data": {
-              "value": 29
+              "value": 31
             },
             "location": "away",
             "type": {
@@ -762,7 +1072,7 @@
             "type_id": 60,
             "participant_id": 361,
             "data": {
-              "value": 10
+              "value": 13
             },
             "location": "home",
             "type": {
@@ -780,7 +1090,7 @@
             "type_id": 60,
             "participant_id": 6827,
             "data": {
-              "value": 11
+              "value": 17
             },
             "location": "away",
             "type": {
@@ -798,7 +1108,7 @@
             "type_id": 43,
             "participant_id": 361,
             "data": {
-              "value": 62
+              "value": 90
             },
             "location": "home",
             "type": {
@@ -816,7 +1126,7 @@
             "type_id": 43,
             "participant_id": 6827,
             "data": {
-              "value": 53
+              "value": 85
             },
             "location": "away",
             "type": {
@@ -834,7 +1144,7 @@
             "type_id": 86,
             "participant_id": 361,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "home",
             "type": {
@@ -870,7 +1180,7 @@
             "type_id": 42,
             "participant_id": 361,
             "data": {
-              "value": 6
+              "value": 10
             },
             "location": "home",
             "type": {
@@ -888,7 +1198,7 @@
             "type_id": 44,
             "participant_id": 361,
             "data": {
-              "value": 30
+              "value": 40
             },
             "location": "home",
             "type": {
@@ -906,7 +1216,7 @@
             "type_id": 44,
             "participant_id": 6827,
             "data": {
-              "value": 8
+              "value": 16
             },
             "location": "away",
             "type": {
@@ -924,7 +1234,7 @@
             "type_id": 78,
             "participant_id": 6827,
             "data": {
-              "value": 10
+              "value": 16
             },
             "location": "away",
             "type": {
@@ -942,7 +1252,7 @@
             "type_id": 81,
             "participant_id": 6827,
             "data": {
-              "value": 148
+              "value": 236
             },
             "location": "away",
             "type": {
@@ -960,7 +1270,7 @@
             "type_id": 98,
             "participant_id": 361,
             "data": {
-              "value": 14
+              "value": 20
             },
             "location": "home",
             "type": {
@@ -978,7 +1288,7 @@
             "type_id": 108,
             "participant_id": 361,
             "data": {
-              "value": 13
+              "value": 18
             },
             "location": "home",
             "type": {
@@ -996,7 +1306,7 @@
             "type_id": 108,
             "participant_id": 6827,
             "data": {
-              "value": 11
+              "value": 15
             },
             "location": "away",
             "type": {
@@ -1014,7 +1324,7 @@
             "type_id": 55,
             "participant_id": 361,
             "data": {
-              "value": 7
+              "value": 11
             },
             "location": "home",
             "type": {
@@ -1032,7 +1342,7 @@
             "type_id": 55,
             "participant_id": 6827,
             "data": {
-              "value": 6
+              "value": 9
             },
             "location": "away",
             "type": {
@@ -1068,7 +1378,7 @@
             "type_id": 100,
             "participant_id": 361,
             "data": {
-              "value": 2
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -1086,7 +1396,7 @@
             "type_id": 100,
             "participant_id": 6827,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -1104,7 +1414,7 @@
             "type_id": 53,
             "participant_id": 361,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -1122,7 +1432,7 @@
             "type_id": 53,
             "participant_id": 6827,
             "data": {
-              "value": 5
+              "value": 8
             },
             "location": "away",
             "type": {
@@ -1158,7 +1468,7 @@
             "type_id": 581,
             "participant_id": 361,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "home",
             "type": {
@@ -1194,7 +1504,7 @@
             "type_id": 109,
             "participant_id": 6827,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -1230,7 +1540,7 @@
             "type_id": 78,
             "participant_id": 361,
             "data": {
-              "value": 10
+              "value": 14
             },
             "location": "home",
             "type": {
@@ -1248,7 +1558,7 @@
             "type_id": 50,
             "participant_id": 361,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -1284,7 +1594,7 @@
             "type_id": 117,
             "participant_id": 361,
             "data": {
-              "value": 4
+              "value": 8
             },
             "location": "home",
             "type": {
@@ -1302,7 +1612,7 @@
             "type_id": 117,
             "participant_id": 6827,
             "data": {
-              "value": 2
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -1320,7 +1630,7 @@
             "type_id": 50,
             "participant_id": 6827,
             "data": {
-              "value": 0
+              "value": 1
             },
             "location": "away",
             "type": {
@@ -1338,7 +1648,7 @@
             "type_id": 580,
             "participant_id": 361,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -1356,7 +1666,7 @@
             "type_id": 49,
             "participant_id": 361,
             "data": {
-              "value": 4
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -1374,7 +1684,7 @@
             "type_id": 49,
             "participant_id": 6827,
             "data": {
-              "value": 2
+              "value": 3
             },
             "location": "away",
             "type": {
@@ -1392,7 +1702,7 @@
             "type_id": 41,
             "participant_id": 361,
             "data": {
-              "value": 1
+              "value": 3
             },
             "location": "home",
             "type": {
@@ -1410,7 +1720,7 @@
             "type_id": 41,
             "participant_id": 6827,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -1428,7 +1738,7 @@
             "type_id": 34,
             "participant_id": 361,
             "data": {
-              "value": 4
+              "value": 7
             },
             "location": "home",
             "type": {
@@ -1446,7 +1756,7 @@
             "type_id": 34,
             "participant_id": 6827,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -1482,7 +1792,7 @@
             "type_id": 58,
             "participant_id": 6827,
             "data": {
-              "value": 1
+              "value": 2
             },
             "location": "away",
             "type": {
@@ -1500,7 +1810,7 @@
             "type_id": 99,
             "participant_id": 6827,
             "data": {
-              "value": 3
+              "value": 4
             },
             "location": "away",
             "type": {
@@ -1518,7 +1828,7 @@
             "type_id": 99,
             "participant_id": 361,
             "data": {
-              "value": 3
+              "value": 6
             },
             "location": "home",
             "type": {
@@ -1603,12 +1913,48 @@
             }
           },
           {
-            "id": 820459673,
+            "id": 820508183,
+            "fixture_id": 19441434,
+            "type_id": 59,
+            "participant_id": 361,
+            "data": {
+              "value": 2
+            },
+            "location": "home",
+            "type": {
+              "id": 59,
+              "name": "Substitutions",
+              "code": "substitutions",
+              "developer_name": "SUBSTITUTIONS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820508184,
+            "fixture_id": 19441434,
+            "type_id": 59,
+            "participant_id": 6827,
+            "data": {
+              "value": 4
+            },
+            "location": "away",
+            "type": {
+              "id": 59,
+              "name": "Substitutions",
+              "code": "substitutions",
+              "developer_name": "SUBSTITUTIONS",
+              "model_type": "statistic",
+              "stat_group": "overall"
+            }
+          },
+          {
+            "id": 820529635,
             "fixture_id": 19441434,
             "type_id": 106,
             "participant_id": 361,
             "data": {
-              "value": 33
+              "value": 46
             },
             "location": "home",
             "type": {
@@ -1621,12 +1967,12 @@
             }
           },
           {
-            "id": 820459674,
+            "id": 820529636,
             "fixture_id": 19441434,
             "type_id": 106,
             "participant_id": 6827,
             "data": {
-              "value": 25
+              "value": 39
             },
             "location": "away",
             "type": {
@@ -3749,13 +4095,13 @@
           "type": "actual",
           "metric": "celcius",
           "current": {
-            "temp": 9.38,
-            "wind": 7.02,
+            "temp": 9.36,
+            "wind": 5.73,
             "clouds": null,
-            "humidity": "71%",
-            "pressure": 1030,
-            "direction": 44,
-            "feels_like": 6.14,
+            "humidity": "75%",
+            "pressure": 1031,
+            "direction": 36,
+            "feels_like": 6.52,
             "description": "clear sky"
           }
         },
@@ -4298,7 +4644,7 @@
           }
         ]
       },
-      "fetched_at": "2026-03-31T20:22:43.109441Z"
+      "fetched_at": "2026-03-31T21:03:24.121795Z"
     }
   }
 }
