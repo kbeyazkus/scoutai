@@ -62,14 +62,14 @@
       "odds_ft_x": 0.0,
       "odds_ft_2": 0.0,
       "odds_ft_over25": 0.0,
-      "odds_btts_yes": 4.33,
+      "odds_btts_yes": 4.5,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Insufficient data for reliable analysis. Critical metrics (XG, PPG, standings, full odds, H2H, sidelining, model predictions) are absent or zero.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Insufficient data for reliable analysis. Critical metrics (XG, PPG, standings, full odds, H2H, sidelining, model predictions) are absent or zero.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY\nREASON: Insufficient data for reliable analysis. Critical metrics (XG, PPG, standings, full odds, H2H, sidelining, model predictions) are absent or zero.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points are missing or invalid, including xG, PPG, standings, H2H, and all primary match odds. BTTS potential significantly conflicts with BTTS odds (56.65% vs implied 22.2%).\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points are missing or invalid, including xG, PPG, standings, H2H, and all primary match odds. BTTS potential significantly conflicts with BTTS odds (56.65% vs implied 22.2%).\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points are missing or invalid, including xG, PPG, standings, H2H, and all primary match odds. BTTS potential significantly conflicts with BTTS odds (56.65% vs implied 22.2%).\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19441424",
@@ -138,9 +138,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Fundamental data conflict: Burgos and Ceuta are in different leagues (La Liga 2 vs Primera RFEF Group 2). All key performance metrics (xG, PPG, standings, H2H, model predictions, most odds) are absent or zero.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Fundamental data conflict: Burgos and Ceuta are in different leagues (La Liga 2 vs Primera RFEF Group 2). All key performance metrics (xG, PPG, standings, H2H, model predictions, most odds) are absent or zero.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Fundamental data conflict: Burgos and Ceuta are in different leagues (La Liga 2 vs Primera RFEF Group 2). All key performance metrics (xG, PPG, standings, H2H, model predictions, most odds) are absent or zero.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points (xG, PPG, standings, most odds, model predictions, H2H, key sidelines) are missing or zero. Ceuta is not a La Liga 2 team, indicating a fundamental data conflict regarding the fixture.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points (xG, PPG, standings, most odds, model predictions, H2H, key sidelines) are missing or zero. Ceuta is not a La Liga 2 team, indicating a fundamental data conflict regarding the fixture.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points (xG, PPG, standings, most odds, model predictions, H2H, key sidelines) are missing or zero. Ceuta is not a La Liga 2 team, indicating a fundamental data conflict regarding the fixture.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "sm-19441428",
@@ -209,9 +209,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY / Insufficient Data\nREASON: Critical data points (xG, PPG, standings, full odds, H2H, model predictions) are missing or zero. Significant conflict detected between BTTS potential (55.11%) and bookmaker BTTS odds (5.0, implying 20% probability).\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY / Insufficient Data\nREASON: Critical data points (xG, PPG, standings, full odds, H2H, model predictions) are missing or zero. Significant conflict detected between BTTS potential (55.11%) and bookmaker BTTS odds (5.0, implying 20% probability).\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY / Insufficient Data\nREASON: Critical data points (xG, PPG, standings, full odds, H2H, model predictions) are missing or zero. Significant conflict detected between BTTS potential (55.11%) and bookmaker BTTS odds (5.0, implying 20% probability).\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points are missing (xG, PPG, standings, H2H, model predictions, most odds). BTTS potential (55.11%) conflicts with implied probability from BTTS odds (20%).\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points are missing (xG, PPG, standings, H2H, model predictions, most odds). BTTS potential (55.11%) conflicts with implied probability from BTTS odds (20%).\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points are missing (xG, PPG, standings, H2H, model predictions, most odds). BTTS potential (55.11%) conflicts with implied probability from BTTS odds (20%).\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "sm-19441432",
@@ -275,14 +275,14 @@
       "odds_ft_x": 0.0,
       "odds_ft_2": 0.0,
       "odds_ft_over25": 0.0,
-      "odds_btts_yes": 4.0,
+      "odds_btts_yes": 3.1,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data including xG, PPG, model predictions, full odds, standings, and H2H are missing or invalid. BTTS potential (54.15%) contradicts its extremely high odd (4.0).\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data including xG, PPG, model predictions, full odds, standings, and H2H are missing or invalid. BTTS potential (54.15%) contradicts its extremely high odd (4.0).\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data including xG, PPG, model predictions, full odds, standings, and H2H are missing or invalid. BTTS potential (54.15%) contradicts its extremely high odd (4.0).\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and most bookmaker odds are missing or zero. Model predictions are absent. `iy05_potential` is suspiciously 0.0. Insufficient data to make an informed assessment.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and most bookmaker odds are missing or zero. Model predictions are absent. `iy05_potential` is suspiciously 0.0. Insufficient data to make an informed assessment.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and most bookmaker odds are missing or zero. Model predictions are absent. `iy05_potential` is suspiciously 0.0. Insufficient data to make an informed assessment.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19621993",
@@ -351,9 +351,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Data Incomplete\nREASON: Critical data points (xG, PPG, standings, H2H, most bookmaker odds, model predictions) are missing or zero. Analysis reliability is severely compromised.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: Data Incomplete\nREASON: Critical data points (xG, PPG, standings, H2H, most bookmaker odds, model predictions) are missing or zero. Analysis reliability is severely compromised.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: Data Incomplete\nREASON: Critical data points (xG, PPG, standings, H2H, most bookmaker odds, model predictions) are missing or zero. Analysis reliability is severely compromised.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data deficiencies for xG, PPG, standings, H2H, and most odds. O2.5 potential (8.41%) and 1H O0.5 potential (0.0%) are exceptionally low and inconsistent with BTTS odds. Model predictions are absent.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data deficiencies for xG, PPG, standings, H2H, and most odds. O2.5 potential (8.41%) and 1H O0.5 potential (0.0%) are exceptionally low and inconsistent with BTTS odds. Model predictions are absent.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data deficiencies for xG, PPG, standings, H2H, and most odds. O2.5 potential (8.41%) and 1H O0.5 potential (0.0%) are exceptionally low and inconsistent with BTTS odds. Model predictions are absent.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19621998",
@@ -422,9 +422,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data conflicts and significant omissions. League stated as Serie A for Mirassol (Serie B team). Most XG, PPG, odds, standings, and H2H data are zero or missing.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data conflicts and significant omissions. League stated as Serie A for Mirassol (Serie B team). Most XG, PPG, odds, standings, and H2H data are zero or missing.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data conflicts and significant omissions. League stated as Serie A for Mirassol (Serie B team). Most XG, PPG, odds, standings, and H2H data are zero or missing.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points, including xG, PPG, 1X2 odds, O2.5 odds, model predictions, and league standings, are entirely missing. Insufficient information prevents robust analysis.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points, including xG, PPG, 1X2 odds, O2.5 odds, model predictions, and league standings, are entirely missing. Insufficient information prevents robust analysis.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points, including xG, PPG, 1X2 odds, O2.5 odds, model predictions, and league standings, are entirely missing. Insufficient information prevents robust analysis.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19621991",
@@ -493,9 +493,9 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY / NO DATA\nREASON: Critical data missing including xG, PPG, standings, H2H results, and full bookmaker odds. Significant discrepancy between BTTS potential (48%) and provided BTTS odds (5.0).\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY / NO DATA\nREASON: Critical data missing including xG, PPG, standings, H2H results, and full bookmaker odds. Significant discrepancy between BTTS potential (48%) and provided BTTS odds (5.0).\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY / NO DATA\nREASON: Critical data missing including xG, PPG, standings, H2H results, and full bookmaker odds. Significant discrepancy between BTTS potential (48%) and provided BTTS odds (5.0).\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Extensive critical data missing (xG, PPG, full odds, standings, H2H, model predictions). Conflicting probabilities: BTTS potential (48%) vs. BTTS odds (5.0, implying 20%). O2.5 potential (5.24) is extremely low and questionable.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Extensive critical data missing (xG, PPG, full odds, standings, H2H, model predictions). Conflicting probabilities: BTTS potential (48%) vs. BTTS odds (5.0, implying 20%). O2.5 potential (5.24) is extremely low and questionable.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Extensive critical data missing (xG, PPG, full odds, standings, H2H, model predictions). Conflicting probabilities: BTTS potential (48%) vs. BTTS odds (5.0, implying 20%). O2.5 potential (5.24) is extremely low and questionable.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "sm-19621994",
@@ -559,14 +559,14 @@
       "odds_ft_x": 0.0,
       "odds_ft_2": 0.0,
       "odds_ft_over25": 0.0,
-      "odds_btts_yes": 7.5,
+      "odds_btts_yes": 6.0,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY - Insufficient Data\nREASON: Critical data points (xG, PPG, standings, H2H, model predictions, primary odds) are missing or null. The only predictive potential (BTTS 41.14%) strongly conflicts with bookmaker odds (BTTS 7.5).\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY - Insufficient Data\nREASON: Critical data points (xG, PPG, standings, H2H, model predictions, primary odds) are missing or null. The only predictive potential (BTTS 41.14%) strongly conflicts with bookmaker odds (BTTS 7.5).\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY - Insufficient Data\nREASON: Critical data points (xG, PPG, standings, H2H, model predictions, primary odds) are missing or null. The only predictive potential (BTTS 41.14%) strongly conflicts with bookmaker odds (BTTS 7.5).\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and model predictions are entirely missing. Bookmaker odds for most markets are absent, and the provided BTTS odds (6.0) severely contradict the BTTS potential (41.14%).\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and model predictions are entirely missing. Bookmaker odds for most markets are absent, and the provided BTTS odds (6.0) severely contradict the BTTS potential (41.14%).\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including xG, PPG, standings, H2H, and model predictions are entirely missing. Bookmaker odds for most markets are absent, and the provided BTTS odds (6.0) severely contradict the BTTS potential (41.14%).\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19621992",
@@ -635,10 +635,10 @@
       "awayGoalCount": 0,
       "status": "NS",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, standings, H2H, and full odds are missing. The provided BTTS potential (49.35) significantly contradicts the BTTS odds (5.5), indicating a severe data conflict.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, standings, H2H, and full odds are missing. The provided BTTS potential (49.35) significantly contradicts the BTTS odds (5.5), indicating a severe data conflict.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, standings, H2H, and full odds are missing. The provided BTTS potential (49.35) significantly contradicts the BTTS odds (5.5), indicating a severe data conflict.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Extensive missing data (xG, PPG, 1X2 odds, O2.5 odds, standings, H2H). Significant conflict between BTTS potential (49.35%) and bookmaker BTTS odds (5.5, implying 18.18%). Confidence in any bet is extremely low.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Extensive missing data (xG, PPG, 1X2 odds, O2.5 odds, standings, H2H). Significant conflict between BTTS potential (49.35%) and bookmaker BTTS odds (5.5, implying 18.18%). Confidence in any bet is extremely low.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Extensive missing data (xG, PPG, 1X2 odds, O2.5 odds, standings, H2H). Significant conflict between BTTS potential (49.35%) and bookmaker BTTS odds (5.5, implying 18.18%). Confidence in any bet is extremely low.\nCONCLUSION: No Bet / Skip."
     }
   ],
-  "updated_at": "2026-03-31T12:44:31.772633Z"
+  "updated_at": "2026-03-31T14:21:01.673781Z"
 }
