@@ -76,9 +76,9 @@
       "awayGoalCount": 1,
       "status": "FT",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY - Insufficient Data\nREASON: Critical data points (xG, PPG, standings, H2H, most odds, model predictions) are missing or null. Comprehensive cross-checking is impossible.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY - Insufficient Data\nREASON: Critical data points (xG, PPG, standings, H2H, most odds, model predictions) are missing or null. Comprehensive cross-checking is impossible.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY - Insufficient Data\nREASON: Critical data points (xG, PPG, standings, H2H, most odds, model predictions) are missing or null. Comprehensive cross-checking is impossible.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, model predictions, standings, H2H, and key sidelinings are absent. BTTS potential (48.33%) conflicts with implied odds (59.88%).\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, model predictions, standings, H2H, and key sidelinings are absent. BTTS potential (48.33%) conflicts with implied odds (59.88%).\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including xG, PPG, model predictions, standings, H2H, and key sidelinings are absent. BTTS potential (48.33%) conflicts with implied odds (59.88%).\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "sm-19441426",
@@ -156,9 +156,9 @@
       "awayGoalCount": 0,
       "status": "FT",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY - Insufficient Data\nREASON: xG, PPG, standings, H2H, and key odds are entirely missing. BTTS potential (57.16%) contradicts provided BTTS odds (4.5), indicating a significant discrepancy.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY - Insufficient Data\nREASON: xG, PPG, standings, H2H, and key odds are entirely missing. BTTS potential (57.16%) contradicts provided BTTS odds (4.5), indicating a significant discrepancy.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY - Insufficient Data\nREASON: xG, PPG, standings, H2H, and key odds are entirely missing. BTTS potential (57.16%) contradicts provided BTTS odds (4.5), indicating a significant discrepancy.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY. Severe data deficiencies and conflicts.\nREASON: Key metrics (xG, PPG, standings, H2H, model) are absent. BTTS potential (57.16%) drastically conflicts with bookmaker odds (4.5, implied 22.22%). First Half Over 0.5 potential is 0%, indicating data error.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY. Severe data deficiencies and conflicts.\nREASON: Key metrics (xG, PPG, standings, H2H, model) are absent. BTTS potential (57.16%) drastically conflicts with bookmaker odds (4.5, implied 22.22%). First Half Over 0.5 potential is 0%, indicating data error.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY. Severe data deficiencies and conflicts.\nREASON: Key metrics (xG, PPG, standings, H2H, model) are absent. BTTS potential (57.16%) drastically conflicts with bookmaker odds (4.5, implied 22.22%). First Half Over 0.5 potential is 0%, indicating data error.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "sm-19441434",
@@ -208,13 +208,13 @@
         "type": "actual",
         "metric": "celcius",
         "current": {
-          "temp": 9.38,
-          "wind": 7.02,
+          "temp": 9.36,
+          "wind": 5.73,
           "clouds": null,
-          "humidity": "71%",
-          "pressure": 1030,
-          "direction": 44,
-          "feels_like": 6.14,
+          "humidity": "75%",
+          "pressure": 1031,
+          "direction": 36,
+          "feels_like": 6.52,
           "description": "clear sky"
         }
       },
@@ -232,14 +232,14 @@
       "odds_ft_2": 0.0,
       "odds_ft_over25": 0.0,
       "odds_btts_yes": 3.75,
-      "homeGoalCount": 2,
+      "homeGoalCount": 3,
       "awayGoalCount": 0,
-      "status": "HT",
+      "status": "INPLAY_2ND_HALF",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points are missing or zero (xG, PPG, standings, H2H, most odds). Significant conflict between BTTS potential (51.59%) and bookmaker BTTS odds (26.67% implied probability). Confidence is severely compromised.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points are missing or zero (xG, PPG, standings, H2H, most odds). Significant conflict between BTTS potential (51.59%) and bookmaker BTTS odds (26.67% implied probability). Confidence is severely compromised.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points are missing or zero (xG, PPG, standings, H2H, most odds). Significant conflict between BTTS potential (51.59%) and bookmaker BTTS odds (26.67% implied probability). Confidence is severely compromised.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points, including xG, PPG, league standings, H2H results, and most bookmaker odds (1, X, 2, Over 2.5), are missing or zero. This severe data deficiency prevents accurate risk assessment and bet comparison.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points, including xG, PPG, league standings, H2H results, and most bookmaker odds (1, X, 2, Over 2.5), are missing or zero. This severe data deficiency prevents accurate risk assessment and bet comparison.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points, including xG, PPG, league standings, H2H results, and most bookmaker odds (1, X, 2, Over 2.5), are missing or zero. This severe data deficiency prevents accurate risk assessment and bet comparison.\nCONCLUSION: No Bet / Skip"
     }
   ],
-  "updated_at": "2026-03-31T20:28:51.608130Z"
+  "updated_at": "2026-03-31T21:08:53.249595Z"
 }
