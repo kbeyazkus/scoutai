@@ -1,45 +1,6 @@
 {
   "data": [
     {
-      "id": "8469719",
-      "source_ids": {
-        "footystats": "8469719",
-        "sportmonks": ""
-      },
-      "home_name": "Botafogo SP",
-      "away_name": "CRB",
-      "competition_name": "",
-      "competition_id": 16783,
-      "league_country": "",
-      "league_country_image": "",
-      "date_unix": 1782860400,
-      "home_image": "teams/brazil-botafogo-fc-ribeirao-preto.png",
-      "away_image": "teams/brazil-clube-de-regatas-brasil.png",
-      "home_country": "Brazil",
-      "away_country": "Brazil",
-      "venue_name": "Estádio Santa Cruz",
-      "venue_city": "Avenida Costábile Romano, Ribeirãnia",
-      "referee_name": "",
-      "weather": {},
-      "home_ppg": 1.33,
-      "away_ppg": 1.29,
-      "team_a_xg_prematch": 1.52,
-      "team_b_xg_prematch": 1.56,
-      "btts_potential": 85.0,
-      "o25_potential": 69.0,
-      "o05HT_potential": 93.0,
-      "odds_ft_1": 2.15,
-      "odds_ft_x": 3.05,
-      "odds_ft_2": 3.1,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: Data incomplete and conflicting.\nREASON: Key data (standings, H2H, player news, BTTS/O2.5 odds) is missing. Home win odds contradict balanced xG and PPG, indicating potential market mispricing or uncaptured variables.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: Data incomplete and conflicting.\nREASON: Key data (standings, H2H, player news, BTTS/O2.5 odds) is missing. Home win odds contradict balanced xG and PPG, indicating potential market mispricing or uncaptured variables.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: Data incomplete and conflicting.\nREASON: Key data (standings, H2H, player news, BTTS/O2.5 odds) is missing. Home win odds contradict balanced xG and PPG, indicating potential market mispricing or uncaptured variables.\nCONCLUSION: No Bet / Skip."
-    },
-    {
       "id": "8457497",
       "source_ids": {
         "footystats": "8457497",
@@ -74,10 +35,49 @@
       "awayGoalCount": 0,
       "status": "suspended",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points are missing, including O2.5/BTTS odds, model predictions, standings, and H2H, hindering comprehensive analysis. High IY0.5 potential (86.0%) aligns with LDU Quito's strong home favorite status and xG superiority.\nCONCLUSION: First Half Over 0.5",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points are missing, including O2.5/BTTS odds, model predictions, standings, and H2H, hindering comprehensive analysis. High IY0.5 potential (86.0%) aligns with LDU Quito's strong home favorite status and xG superiority.\nCONCLUSION: First Half Over 0.5",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points are missing, including O2.5/BTTS odds, model predictions, standings, and H2H, hindering comprehensive analysis. High IY0.5 potential (86.0%) aligns with LDU Quito's strong home favorite status and xG superiority.\nCONCLUSION: First Half Over 0.5"
+      "boss_ai_decision": "STATUS: All provided data is internally consistent. Model predictions, league standings, H2H, and key sidelined players data are missing.\nREASON: LDU Quito's xG (1.72) and PPG (1.57) suggest offensive capability. The First Half Over 0.5 potential is exceptionally high at 86.0%, strongly indicating at least one goal before halftime.\nCONCLUSION: First Half Over 0.5.",
+      "prematch_comment": "STATUS: All provided data is internally consistent. Model predictions, league standings, H2H, and key sidelined players data are missing.\nREASON: LDU Quito's xG (1.72) and PPG (1.57) suggest offensive capability. The First Half Over 0.5 potential is exceptionally high at 86.0%, strongly indicating at least one goal before halftime.\nCONCLUSION: First Half Over 0.5.",
+      "ai_comment": "STATUS: All provided data is internally consistent. Model predictions, league standings, H2H, and key sidelined players data are missing.\nREASON: LDU Quito's xG (1.72) and PPG (1.57) suggest offensive capability. The First Half Over 0.5 potential is exceptionally high at 86.0%, strongly indicating at least one goal before halftime.\nCONCLUSION: First Half Over 0.5."
+    },
+    {
+      "id": "8457376",
+      "source_ids": {
+        "footystats": "8457376",
+        "sportmonks": ""
+      },
+      "home_name": "Delfin SC",
+      "away_name": "CS Emelec",
+      "competition_name": "",
+      "competition_id": 16714,
+      "league_country": "",
+      "league_country_image": "",
+      "date_unix": 1782950400,
+      "home_image": "teams/ecuador-delfin-sc.png",
+      "away_image": "teams/ecuador-cs-emelec.png",
+      "home_country": "Ecuador",
+      "away_country": "Ecuador",
+      "venue_name": "Estadio Jocay",
+      "venue_city": "Avenida 113",
+      "referee_name": "",
+      "weather": {},
+      "home_ppg": 1.63,
+      "away_ppg": 0.71,
+      "team_a_xg_prematch": 1.29,
+      "team_b_xg_prematch": 0.89,
+      "btts_potential": 14.0,
+      "o25_potential": 7.0,
+      "o05HT_potential": 40.0,
+      "odds_ft_1": 2.82,
+      "odds_ft_x": 2.9,
+      "odds_ft_2": 2.5,
+      "homeGoalCount": 0,
+      "awayGoalCount": 0,
+      "status": "incomplete",
+      "elapsed": 0,
+      "boss_ai_decision": "No Bet / Skip",
+      "prematch_comment": "No Bet / Skip",
+      "ai_comment": "No Bet / Skip"
     }
   ],
-  "updated_at": "2026-06-30T22:52:40.986510Z"
+  "updated_at": "2026-07-01T00:15:33.836329Z"
 }
