@@ -1,84 +1,6 @@
 {
   "data": [
     {
-      "id": "8471300",
-      "source_ids": {
-        "footystats": "8471300",
-        "sportmonks": ""
-      },
-      "home_name": "Tianjin Teda",
-      "away_name": "Shenyang Urban",
-      "competition_name": "",
-      "competition_id": 16789,
-      "league_country": "",
-      "league_country_image": "",
-      "date_unix": 1783854000,
-      "home_image": "teams/china-tianjin-teda-fc.png",
-      "away_image": "teams/china-shenyang-urban-fc.png",
-      "home_country": "China",
-      "away_country": "China",
-      "venue_name": "",
-      "venue_city": "",
-      "referee_name": "",
-      "weather": {},
-      "home_ppg": 1.0,
-      "away_ppg": 0.63,
-      "team_a_xg_prematch": 1.04,
-      "team_b_xg_prematch": 1.46,
-      "btts_potential": 53.0,
-      "o25_potential": 65.0,
-      "o05HT_potential": 78.0,
-      "odds_ft_1": 2.19,
-      "odds_ft_x": 3.25,
-      "odds_ft_2": 3.0,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points are missing: O/U 2.5 and BTTS odds, model predictions, league standings, H2H, and sidelined players. Insufficient information to make a robust analysis or low-risk recommendation.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points are missing: O/U 2.5 and BTTS odds, model predictions, league standings, H2H, and sidelined players. Insufficient information to make a robust analysis or low-risk recommendation.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points are missing: O/U 2.5 and BTTS odds, model predictions, league standings, H2H, and sidelined players. Insufficient information to make a robust analysis or low-risk recommendation.\nCONCLUSION: No Bet / Skip."
-    },
-    {
-      "id": "8471299",
-      "source_ids": {
-        "footystats": "8471299",
-        "sportmonks": ""
-      },
-      "home_name": "Shanghai SIPG",
-      "away_name": "Dalian Zhixing",
-      "competition_name": "",
-      "competition_id": 16789,
-      "league_country": "",
-      "league_country_image": "",
-      "date_unix": 1783856100,
-      "home_image": "teams/china-shanghai-sipg-fc.png",
-      "away_image": "teams/china-dalian-zhixing-fc.png",
-      "home_country": "China",
-      "away_country": "China",
-      "venue_name": "Shanghai Stadium",
-      "venue_city": "Neihuan Elevated Road",
-      "referee_name": "",
-      "weather": {},
-      "home_ppg": 1.5,
-      "away_ppg": 0.88,
-      "team_a_xg_prematch": 1.68,
-      "team_b_xg_prematch": 1.38,
-      "btts_potential": 76.0,
-      "o25_potential": 69.0,
-      "o05HT_potential": 69.0,
-      "odds_ft_1": 1.95,
-      "odds_ft_x": 3.76,
-      "odds_ft_2": 3.6,
-      "homeGoalCount": 0,
-      "awayGoalCount": 0,
-      "status": "incomplete",
-      "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps exist including league context, standings, H2H, key injuries, model predictions, and crucial odds for Over/Under and BTTS markets. This prevents comprehensive cross-validation and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps exist including league context, standings, H2H, key injuries, model predictions, and crucial odds for Over/Under and BTTS markets. This prevents comprehensive cross-validation and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps exist including league context, standings, H2H, key injuries, model predictions, and crucial odds for Over/Under and BTTS markets. This prevents comprehensive cross-validation and accurate risk assessment.\nCONCLUSION: No Bet / Skip"
-    },
-    {
       "id": "8420329",
       "source_ids": {
         "footystats": "8420329",
@@ -113,9 +35,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY. Critical data (model predictions, standings, H2H, key sidelined players, Over 2.5 and BTTS odds) is missing or null, preventing comprehensive cross-referencing.\n\nREASON: Lack of essential data prohibits a robust technical analysis of all available markets and renders risk assessment incomplete. High BTTS and FH O0.5 potentials cannot be confidently converted into bets without odds.\n\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY. Critical data (model predictions, standings, H2H, key sidelined players, Over 2.5 and BTTS odds) is missing or null, preventing comprehensive cross-referencing.\n\nREASON: Lack of essential data prohibits a robust technical analysis of all available markets and renders risk assessment incomplete. High BTTS and FH O0.5 potentials cannot be confidently converted into bets without odds.\n\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY. Critical data (model predictions, standings, H2H, key sidelined players, Over 2.5 and BTTS odds) is missing or null, preventing comprehensive cross-referencing.\n\nREASON: Lack of essential data prohibits a robust technical analysis of all available markets and renders risk assessment incomplete. High BTTS and FH O0.5 potentials cannot be confidently converted into bets without odds.\n\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant conflict between PPG/xG (favoring Degerfors/parity) and bookmaker odds (heavily favoring Västerås). Critical data (model predictions, standings, H2H, specific odds for non-1X2 markets) is missing, preventing comprehensive analysis and risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Significant conflict between PPG/xG (favoring Degerfors/parity) and bookmaker odds (heavily favoring Västerås). Critical data (model predictions, standings, H2H, specific odds for non-1X2 markets) is missing, preventing comprehensive analysis and risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Significant conflict between PPG/xG (favoring Degerfors/parity) and bookmaker odds (heavily favoring Västerås). Critical data (model predictions, standings, H2H, specific odds for non-1X2 markets) is missing, preventing comprehensive analysis and risk assessment.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "8420428",
@@ -152,9 +74,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points are missing: league, standings, H2H, key sidelined players, and model predictions. Kalmar's PPG is listed as 0.0, which is highly anomalous, suggesting incomplete or erroneous data. Odds for Over 2.5 and BTTS are also missing.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points are missing: league, standings, H2H, key sidelined players, and model predictions. Kalmar's PPG is listed as 0.0, which is highly anomalous, suggesting incomplete or erroneous data. Odds for Over 2.5 and BTTS are also missing.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points are missing: league, standings, H2H, key sidelined players, and model predictions. Kalmar's PPG is listed as 0.0, which is highly anomalous, suggesting incomplete or erroneous data. Odds for Over 2.5 and BTTS are also missing.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Kalmar's PPG of 0.0 is highly suspicious, indicating a data error or incomplete season data. Critical odds for Over 2.5 and BTTS are missing. Major data gaps exist for standings, H2H, and model predictions.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Kalmar's PPG of 0.0 is highly suspicious, indicating a data error or incomplete season data. Critical odds for Over 2.5 and BTTS are missing. Major data gaps exist for standings, H2H, and model predictions.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Kalmar's PPG of 0.0 is highly suspicious, indicating a data error or incomplete season data. Critical odds for Over 2.5 and BTTS are missing. Major data gaps exist for standings, H2H, and model predictions.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8420450",
@@ -191,9 +113,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data gaps: missing model predictions, league standings, H2H results, and key sidelined players. O2.5 and BTTS odds are zero, preventing analysis of high potential markets.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data gaps: missing model predictions, league standings, H2H results, and key sidelined players. O2.5 and BTTS odds are zero, preventing analysis of high potential markets.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data gaps: missing model predictions, league standings, H2H results, and key sidelined players. O2.5 and BTTS odds are zero, preventing analysis of high potential markets.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, league standings, head-to-head results, key sidelined players, and specific odds for Over 2.5 and Both Teams Score. Home PPG (1.2) is lower than away PPG (1.33), conflicting with bookmaker's home favoritism (1.83).\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, league standings, head-to-head results, key sidelined players, and specific odds for Over 2.5 and Both Teams Score. Home PPG (1.2) is lower than away PPG (1.33), conflicting with bookmaker's home favoritism (1.83).\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points are missing, including model predictions, league standings, head-to-head results, key sidelined players, and specific odds for Over 2.5 and Both Teams Score. Home PPG (1.2) is lower than away PPG (1.33), conflicting with bookmaker's home favoritism (1.83).\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8411881",
@@ -230,9 +152,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: Neutral\nREASON: Significant missing data (standings, H2H, model predictions, key players, and specific market odds for Over 2.5, BTTS, First Half Over 0.5) prevents comprehensive cross-referencing and robust analysis for any bet recommendation. No direct data conflicts detected.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: Neutral\nREASON: Significant missing data (standings, H2H, model predictions, key players, and specific market odds for Over 2.5, BTTS, First Half Over 0.5) prevents comprehensive cross-referencing and robust analysis for any bet recommendation. No direct data conflicts detected.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: Neutral\nREASON: Significant missing data (standings, H2H, model predictions, key players, and specific market odds for Over 2.5, BTTS, First Half Over 0.5) prevents comprehensive cross-referencing and robust analysis for any bet recommendation. No direct data conflicts detected.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps impede comprehensive cross-checking and robust risk assessment. Critical information like standings, H2H, player news, and key odds (Over 2.5, BTTS, First Half Over 0.5) are missing.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps impede comprehensive cross-checking and robust risk assessment. Critical information like standings, H2H, player news, and key odds (Over 2.5, BTTS, First Half Over 0.5) are missing.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps impede comprehensive cross-checking and robust risk assessment. Critical information like standings, H2H, player news, and key odds (Over 2.5, BTTS, First Half Over 0.5) are missing.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8469713",
@@ -269,9 +191,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Operário PR shows consistent advantage in xG (1.72 vs 1.31), PPG (1.88 vs 1.63), and bookmaker odds (2.13 vs 3.06). However, the aggregated xG (3.03) conflicts with the low Over 2.5 (38%) and BTTS (32%) potentials, indicating uncertainty in goal markets.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: RISKY\nREASON: Operário PR shows consistent advantage in xG (1.72 vs 1.31), PPG (1.88 vs 1.63), and bookmaker odds (2.13 vs 3.06). However, the aggregated xG (3.03) conflicts with the low Over 2.5 (38%) and BTTS (32%) potentials, indicating uncertainty in goal markets.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: RISKY\nREASON: Operário PR shows consistent advantage in xG (1.72 vs 1.31), PPG (1.88 vs 1.63), and bookmaker odds (2.13 vs 3.06). However, the aggregated xG (3.03) conflicts with the low Over 2.5 (38%) and BTTS (32%) potentials, indicating uncertainty in goal markets.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data, including specific market odds (O2.5, BTTS), model predictions, league standings, H2H, and key sidelinings. Insufficient information for robust analysis and cross-checking.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data, including specific market odds (O2.5, BTTS), model predictions, league standings, H2H, and key sidelinings. Insufficient information for robust analysis and cross-checking.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data, including specific market odds (O2.5, BTTS), model predictions, league standings, H2H, and key sidelinings. Insufficient information for robust analysis and cross-checking.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8420275",
@@ -308,9 +230,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps: missing model predictions, league standings, H2H, key sidelined players, and crucial odds (O2.5, BTTS). Available data (xG, PPG) leans towards Away Win, but context is severely incomplete.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps: missing model predictions, league standings, H2H, key sidelined players, and crucial odds (O2.5, BTTS). Available data (xG, PPG) leans towards Away Win, but context is severely incomplete.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps: missing model predictions, league standings, H2H, key sidelined players, and crucial odds (O2.5, BTTS). Available data (xG, PPG) leans towards Away Win, but context is severely incomplete.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY. Significant data gaps detected. Missing odds for O2.5/BTTS, model predictions, standings, H2H, and key sidelined players.\n\nREASON: While xG (1.51 vs 1.19), PPG (2.6 vs 1.25), and 1X2 odds (1.65 for Away) consistently favor Sirius, the absence of crucial market odds for goals, standings context, and team news prevents comprehensive risk assessment across all bet types.\n\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY. Significant data gaps detected. Missing odds for O2.5/BTTS, model predictions, standings, H2H, and key sidelined players.\n\nREASON: While xG (1.51 vs 1.19), PPG (2.6 vs 1.25), and 1X2 odds (1.65 for Away) consistently favor Sirius, the absence of crucial market odds for goals, standings context, and team news prevents comprehensive risk assessment across all bet types.\n\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY. Significant data gaps detected. Missing odds for O2.5/BTTS, model predictions, standings, H2H, and key sidelined players.\n\nREASON: While xG (1.51 vs 1.19), PPG (2.6 vs 1.25), and 1X2 odds (1.65 for Away) consistently favor Sirius, the absence of crucial market odds for goals, standings context, and team news prevents comprehensive risk assessment across all bet types.\n\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8420427",
@@ -347,9 +269,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps exist. Model predictions, league standings, last H2H results, key sidelined players, and crucial O/U & BTTS odds are missing. This prevents comprehensive cross-checking and robust risk assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps exist. Model predictions, league standings, last H2H results, key sidelined players, and crucial O/U & BTTS odds are missing. This prevents comprehensive cross-checking and robust risk assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps exist. Model predictions, league standings, last H2H results, key sidelined players, and crucial O/U & BTTS odds are missing. This prevents comprehensive cross-checking and robust risk assessment.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data missing (standings, H2H, model predictions, key players, specific odds for O2.5/BTTS). This prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data missing (standings, H2H, model predictions, key players, specific odds for O2.5/BTTS). This prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data missing (standings, H2H, model predictions, key players, specific odds for O2.5/BTTS). This prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8411871",
@@ -386,9 +308,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points, including model predictions, league standings, head-to-head results, and specific market odds (O2.5, BTTS), are entirely absent. This prevents comprehensive cross-validation and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points, including model predictions, league standings, head-to-head results, and specific market odds (O2.5, BTTS), are entirely absent. This prevents comprehensive cross-validation and accurate risk assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Critical data points, including model predictions, league standings, head-to-head results, and specific market odds (O2.5, BTTS), are entirely absent. This prevents comprehensive cross-validation and accurate risk assessment.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data points including model predictions, full odds (O2.5, BTTS), league standings, H2H, and key sidelined players are missing. This severe data scarcity prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data points including model predictions, full odds (O2.5, BTTS), league standings, H2H, and key sidelined players are missing. This severe data scarcity prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Critical data points including model predictions, full odds (O2.5, BTTS), league standings, H2H, and key sidelined players are missing. This severe data scarcity prevents comprehensive cross-checking and accurate risk assessment.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "8411876",
@@ -425,9 +347,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Insufficient data for comprehensive analysis. Key information including model predictions, league standings, H2H results, key sidelined players, and specific odds for O2.5 and BTTS are all absent.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Insufficient data for comprehensive analysis. Key information including model predictions, league standings, H2H results, key sidelined players, and specific odds for O2.5 and BTTS are all absent.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Insufficient data for comprehensive analysis. Key information including model predictions, league standings, H2H results, key sidelined players, and specific odds for O2.5 and BTTS are all absent.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY. Bookmaker odds for Over 2.5 and BTTS are missing (0). Model predictions, standings, H2H, and sidelined player data are unavailable, limiting comprehensive cross-referencing.\nREASON: Brann exhibits significantly superior xG (1.86 vs 1.15) and PPG (1.2 vs 0.14) compared to Start. Odds for a Brann win (1.36) align with these performance metrics, indicating a high probability.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: RISKY. Bookmaker odds for Over 2.5 and BTTS are missing (0). Model predictions, standings, H2H, and sidelined player data are unavailable, limiting comprehensive cross-referencing.\nREASON: Brann exhibits significantly superior xG (1.86 vs 1.15) and PPG (1.2 vs 0.14) compared to Start. Odds for a Brann win (1.36) align with these performance metrics, indicating a high probability.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: RISKY. Bookmaker odds for Over 2.5 and BTTS are missing (0). Model predictions, standings, H2H, and sidelined player data are unavailable, limiting comprehensive cross-referencing.\nREASON: Brann exhibits significantly superior xG (1.86 vs 1.15) and PPG (1.2 vs 0.14) compared to Start. Odds for a Brann win (1.36) align with these performance metrics, indicating a high probability.\nCONCLUSION: Home Win."
     },
     {
       "id": "8411879",
@@ -464,9 +386,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Odds for Over 2.5 and Both Teams Score are zero, preventing cross-referencing with potential percentages and robust risk assessment for these markets. Critical H2H, standings, and model data are also missing.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Odds for Over 2.5 and Both Teams Score are zero, preventing cross-referencing with potential percentages and robust risk assessment for these markets. Critical H2H, standings, and model data are also missing.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Odds for Over 2.5 and Both Teams Score are zero, preventing cross-referencing with potential percentages and robust risk assessment for these markets. Critical H2H, standings, and model data are also missing.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical betting odds (Over 2.5, BTTS) are missing. Model predictions, league standings, and head-to-head records are absent, preventing comprehensive cross-verification and robust risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical betting odds (Over 2.5, BTTS) are missing. Model predictions, league standings, and head-to-head records are absent, preventing comprehensive cross-verification and robust risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical betting odds (Over 2.5, BTTS) are missing. Model predictions, league standings, and head-to-head records are absent, preventing comprehensive cross-verification and robust risk assessment.\nCONCLUSION: No Bet / Skip."
     },
     {
       "id": "8457496",
@@ -503,9 +425,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY. Critical data missing.\nREASON: Odds for Over 2.5 and Both Teams Score are 0, preventing evaluation of these markets. Model predictions, league standings, H2H, and key sidelined player information are entirely absent. Insufficient data for a reliable analysis.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY. Critical data missing.\nREASON: Odds for Over 2.5 and Both Teams Score are 0, preventing evaluation of these markets. Model predictions, league standings, H2H, and key sidelined player information are entirely absent. Insufficient data for a reliable analysis.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY. Critical data missing.\nREASON: Odds for Over 2.5 and Both Teams Score are 0, preventing evaluation of these markets. Model predictions, league standings, H2H, and key sidelined player information are entirely absent. Insufficient data for a reliable analysis.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: Data incomplete (missing model, standings, H2H, key sidelined, O2.5/BTTS odds). Available data consistent.\nREASON: Home team shows strong dominance via xG (1.78), PPG (1.75), and low win odds (1.28). First Half Over 0.5 potential is high (71%), aligning with expected early pressure and a goal from the strong home side or a potential response.\nCONCLUSION: First Half Over 0.5",
+      "prematch_comment": "STATUS: Data incomplete (missing model, standings, H2H, key sidelined, O2.5/BTTS odds). Available data consistent.\nREASON: Home team shows strong dominance via xG (1.78), PPG (1.75), and low win odds (1.28). First Half Over 0.5 potential is high (71%), aligning with expected early pressure and a goal from the strong home side or a potential response.\nCONCLUSION: First Half Over 0.5",
+      "ai_comment": "STATUS: Data incomplete (missing model, standings, H2H, key sidelined, O2.5/BTTS odds). Available data consistent.\nREASON: Home team shows strong dominance via xG (1.78), PPG (1.75), and low win odds (1.28). First Half Over 0.5 potential is high (71%), aligning with expected early pressure and a goal from the strong home side or a potential response.\nCONCLUSION: First Half Over 0.5"
     },
     {
       "id": "8411874",
@@ -542,9 +464,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data, including model predictions, standings, H2H, key injuries, and crucial over/under & BTTS odds, prevents comprehensive cross-validation.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data, including model predictions, standings, H2H, key injuries, and crucial over/under & BTTS odds, prevents comprehensive cross-validation.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data, including model predictions, standings, H2H, key injuries, and crucial over/under & BTTS odds, prevents comprehensive cross-validation.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "No Bet / Skip",
+      "prematch_comment": "No Bet / Skip",
+      "ai_comment": "No Bet / Skip"
     },
     {
       "id": "8469735",
@@ -581,9 +503,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data includes odds for O2.5 and BTTS, model predictions, league standings, H2H, and key sidelined players. This limits comprehensive analysis.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data includes odds for O2.5 and BTTS, model predictions, league standings, H2H, and key sidelined players. This limits comprehensive analysis.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data includes odds for O2.5 and BTTS, model predictions, league standings, H2H, and key sidelined players. This limits comprehensive analysis.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps exist, including crucial over/under and BTTS odds, model predictions, standings, H2H, and key sidelining information. Incomplete data prevents comprehensive cross-checking and robust risk assessment for any bet.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps exist, including crucial over/under and BTTS odds, model predictions, standings, H2H, and key sidelining information. Incomplete data prevents comprehensive cross-checking and robust risk assessment for any bet.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps exist, including crucial over/under and BTTS odds, model predictions, standings, H2H, and key sidelining information. Incomplete data prevents comprehensive cross-checking and robust risk assessment for any bet.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8469749",
@@ -620,9 +542,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps exist: no model predictions, standings, H2H, or key sidelined players. Critical odds for Over 2.5, Both Teams Score, and First Half Over 0.5 are missing. Confidence is low.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps exist: no model predictions, standings, H2H, or key sidelined players. Critical odds for Over 2.5, Both Teams Score, and First Half Over 0.5 are missing. Confidence is low.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps exist: no model predictions, standings, H2H, or key sidelined players. Critical odds for Over 2.5, Both Teams Score, and First Half Over 0.5 are missing. Confidence is low.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY - Significant data gaps (H2H, Standings, Model, Sidelined, O2.5/BTTS odds). Conflicting xG (Home advantage) and PPG (Away advantage).\nREASON: Insufficient reliable data prevents comprehensive cross-checking and confident recommendation. Potentials for Over 2.5 (20%) and BTTS (26%) are very low. First Half Over 0.5 potential is 40%, but overall confidence is low due to data scarcity.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY - Significant data gaps (H2H, Standings, Model, Sidelined, O2.5/BTTS odds). Conflicting xG (Home advantage) and PPG (Away advantage).\nREASON: Insufficient reliable data prevents comprehensive cross-checking and confident recommendation. Potentials for Over 2.5 (20%) and BTTS (26%) are very low. First Half Over 0.5 potential is 40%, but overall confidence is low due to data scarcity.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY - Significant data gaps (H2H, Standings, Model, Sidelined, O2.5/BTTS odds). Conflicting xG (Home advantage) and PPG (Away advantage).\nREASON: Insufficient reliable data prevents comprehensive cross-checking and confident recommendation. Potentials for Over 2.5 (20%) and BTTS (26%) are very low. First Half Over 0.5 potential is 40%, but overall confidence is low due to data scarcity.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8457530",
@@ -659,9 +581,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Critical data omissions: no model predictions, league standings, H2H results, or specific O2.5/BTTS odds. Potentials for BTTS (63%) conflict with O2.5 (44%), indicating an unpredictable scoreline.\nCONCLUSION: No Bet / Skip.",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Critical data omissions: no model predictions, league standings, H2H results, or specific O2.5/BTTS odds. Potentials for BTTS (63%) conflict with O2.5 (44%), indicating an unpredictable scoreline.\nCONCLUSION: No Bet / Skip.",
-      "ai_comment": "STATUS: RISKY.\nREASON: Critical data omissions: no model predictions, league standings, H2H results, or specific O2.5/BTTS odds. Potentials for BTTS (63%) conflict with O2.5 (44%), indicating an unpredictable scoreline.\nCONCLUSION: No Bet / Skip."
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Critical data points including model predictions, league standings, H2H, and key player news are missing. Available xG (away edge), PPG (home edge), and 1X2 odds (even) show conflicting outcomes, preventing confident analysis.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Critical data points including model predictions, league standings, H2H, and key player news are missing. Available xG (away edge), PPG (home edge), and 1X2 odds (even) show conflicting outcomes, preventing confident analysis.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Critical data points including model predictions, league standings, H2H, and key player news are missing. Available xG (away edge), PPG (home edge), and 1X2 odds (even) show conflicting outcomes, preventing confident analysis.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8469528",
@@ -698,9 +620,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data: league, venue, standings, H2H results, key sidelined players, and crucial odds for Over 2.5/BTTS. Model predictions are absent. Incomplete data prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data: league, venue, standings, H2H results, key sidelined players, and crucial odds for Over 2.5/BTTS. Model predictions are absent. Incomplete data prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data: league, venue, standings, H2H results, key sidelined players, and crucial odds for Over 2.5/BTTS. Model predictions are absent. Incomplete data prevents comprehensive cross-checking and reliable risk assessment.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps, including missing odds for Over 2.5 and Both Teams Score, empty model predictions, standings, H2H, and sidelined player information. Cross-checking is severely limited.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps, including missing odds for Over 2.5 and Both Teams Score, empty model predictions, standings, H2H, and sidelined player information. Cross-checking is severely limited.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps, including missing odds for Over 2.5 and Both Teams Score, empty model predictions, standings, H2H, and sidelined player information. Cross-checking is severely limited.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8469725",
@@ -737,9 +659,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data (model predictions, standings, H2H, key players). Bookmaker odds for Over 2.5 and BTTS are missing (0 value). PPG and xG show slight discrepancy.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data (model predictions, standings, H2H, key players). Bookmaker odds for Over 2.5 and BTTS are missing (0 value). PPG and xG show slight discrepancy.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data (model predictions, standings, H2H, key players). Bookmaker odds for Over 2.5 and BTTS are missing (0 value). PPG and xG show slight discrepancy.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY. Significant missing data (league, standings, h2h, model predictions, key sidelined players, odds for O2.5/BTTS).\nREASON: Inability to cross-check xG/PPG with league context, historical performance, or model-based validation. Missing odds for key markets prevent value assessment.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY. Significant missing data (league, standings, h2h, model predictions, key sidelined players, odds for O2.5/BTTS).\nREASON: Inability to cross-check xG/PPG with league context, historical performance, or model-based validation. Missing odds for key markets prevent value assessment.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY. Significant missing data (league, standings, h2h, model predictions, key sidelined players, odds for O2.5/BTTS).\nREASON: Inability to cross-check xG/PPG with league context, historical performance, or model-based validation. Missing odds for key markets prevent value assessment.\nCONCLUSION: No Bet / Skip"
     },
     {
       "id": "8457495",
@@ -776,10 +698,10 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant missing data (standings, H2H, model, sidelined). PPG (1.89 home vs 1.0 away) conflicts with xG (1.38 home vs 1.4 away). Over 2.5 potential (28%) conflicts with sum of xG (2.78).\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY\nREASON: Significant missing data (standings, H2H, model, sidelined). PPG (1.89 home vs 1.0 away) conflicts with xG (1.38 home vs 1.4 away). Over 2.5 potential (28%) conflicts with sum of xG (2.78).\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY\nREASON: Significant missing data (standings, H2H, model, sidelined). PPG (1.89 home vs 1.0 away) conflicts with xG (1.38 home vs 1.4 away). Over 2.5 potential (28%) conflicts with sum of xG (2.78).\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps, including full odds, model predictions, league standings, and head-to-head results, prevent comprehensive cross-checking and reliable analysis. Expected goals are very close.\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps, including full odds, model predictions, league standings, and head-to-head results, prevent comprehensive cross-checking and reliable analysis. Expected goals are very close.\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps, including full odds, model predictions, league standings, and head-to-head results, prevent comprehensive cross-checking and reliable analysis. Expected goals are very close.\nCONCLUSION: No Bet / Skip"
     }
   ],
-  "updated_at": "2026-07-12T10:47:03.328434Z"
+  "updated_at": "2026-07-12T11:49:12.660992Z"
 }
