@@ -35,9 +35,9 @@
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY. Significant data gaps exist (model predictions, standings, H2H, key sidelined players, over25/btts odds), limiting full cross-verification.\nREASON: Djurgården exhibits strong statistical superiority with higher xG (1.9 vs 1.26) and significantly better PPG (1.17 vs 0.2). Bookmaker odds of 1.25 strongly favor a home victory.\nCONCLUSION: Home Win.",
-      "prematch_comment": "STATUS: RISKY. Significant data gaps exist (model predictions, standings, H2H, key sidelined players, over25/btts odds), limiting full cross-verification.\nREASON: Djurgården exhibits strong statistical superiority with higher xG (1.9 vs 1.26) and significantly better PPG (1.17 vs 0.2). Bookmaker odds of 1.25 strongly favor a home victory.\nCONCLUSION: Home Win.",
-      "ai_comment": "STATUS: RISKY. Significant data gaps exist (model predictions, standings, H2H, key sidelined players, over25/btts odds), limiting full cross-verification.\nREASON: Djurgården exhibits strong statistical superiority with higher xG (1.9 vs 1.26) and significantly better PPG (1.17 vs 0.2). Bookmaker odds of 1.25 strongly favor a home victory.\nCONCLUSION: Home Win."
+      "boss_ai_decision": "STATUS: Data integrity is acceptable; no direct conflicts observed. However, crucial data points (model predictions, standings, H2H, full odds) are absent, limiting comprehensive analysis.\nREASON: Djurgården exhibits superior xG (1.9 vs 1.26) and significantly better PPG (1.17 vs 0.2). Bookmaker odds of 1.25 reinforce strong home favoritism against a poor away side.\nCONCLUSION: Home Win.",
+      "prematch_comment": "STATUS: Data integrity is acceptable; no direct conflicts observed. However, crucial data points (model predictions, standings, H2H, full odds) are absent, limiting comprehensive analysis.\nREASON: Djurgården exhibits superior xG (1.9 vs 1.26) and significantly better PPG (1.17 vs 0.2). Bookmaker odds of 1.25 reinforce strong home favoritism against a poor away side.\nCONCLUSION: Home Win.",
+      "ai_comment": "STATUS: Data integrity is acceptable; no direct conflicts observed. However, crucial data points (model predictions, standings, H2H, full odds) are absent, limiting comprehensive analysis.\nREASON: Djurgården exhibits superior xG (1.9 vs 1.26) and significantly better PPG (1.17 vs 0.2). Bookmaker odds of 1.25 reinforce strong home favoritism against a poor away side.\nCONCLUSION: Home Win."
     },
     {
       "id": "8469748",
@@ -68,16 +68,55 @@
       "o25_potential": 73.0,
       "o05HT_potential": 80.0,
       "odds_ft_1": 1.91,
-      "odds_ft_x": 3.25,
-      "odds_ft_2": 3.94,
+      "odds_ft_x": 3.35,
+      "odds_ft_2": 3.7,
       "homeGoalCount": 0,
       "awayGoalCount": 0,
       "status": "incomplete",
       "elapsed": 0,
-      "boss_ai_decision": "STATUS: RISKY.\nREASON: Significant data gaps: missing model predictions, standings, H2H, and key sidelined players. Critical conflict: América Mineiro's PPG (0.14) is extremely low, yet odds (1.91) position them as clear favorites.\nCONCLUSION: No Bet / Skip",
-      "prematch_comment": "STATUS: RISKY.\nREASON: Significant data gaps: missing model predictions, standings, H2H, and key sidelined players. Critical conflict: América Mineiro's PPG (0.14) is extremely low, yet odds (1.91) position them as clear favorites.\nCONCLUSION: No Bet / Skip",
-      "ai_comment": "STATUS: RISKY.\nREASON: Significant data gaps: missing model predictions, standings, H2H, and key sidelined players. Critical conflict: América Mineiro's PPG (0.14) is extremely low, yet odds (1.91) position them as clear favorites.\nCONCLUSION: No Bet / Skip"
+      "boss_ai_decision": "STATUS: RISKY\nREASON: Significant data gaps (standings, H2H, model predictions, O/U BTTS odds) combined with a strong conflict: Home team (0.14 PPG) is odds-on favorite (1.91) against Away team (0.88 PPG).\nCONCLUSION: No Bet / Skip",
+      "prematch_comment": "STATUS: RISKY\nREASON: Significant data gaps (standings, H2H, model predictions, O/U BTTS odds) combined with a strong conflict: Home team (0.14 PPG) is odds-on favorite (1.91) against Away team (0.88 PPG).\nCONCLUSION: No Bet / Skip",
+      "ai_comment": "STATUS: RISKY\nREASON: Significant data gaps (standings, H2H, model predictions, O/U BTTS odds) combined with a strong conflict: Home team (0.14 PPG) is odds-on favorite (1.91) against Away team (0.88 PPG).\nCONCLUSION: No Bet / Skip"
+    },
+    {
+      "id": "8469747",
+      "source_ids": {
+        "footystats": "8469747",
+        "sportmonks": ""
+      },
+      "home_name": "Ceará",
+      "away_name": "Athletic Club",
+      "competition_name": "",
+      "competition_id": 16783,
+      "league_country": "",
+      "league_country_image": "",
+      "date_unix": 1783985400,
+      "home_image": "teams/brazil-ceara-sc.png",
+      "away_image": "teams/brazil-athletic-club-minas-gerais.png",
+      "home_country": "Brazil",
+      "away_country": "Brazil",
+      "venue_name": "",
+      "venue_city": "",
+      "referee_name": "",
+      "weather": {},
+      "home_ppg": 1.38,
+      "away_ppg": 1.29,
+      "team_a_xg_prematch": 1.81,
+      "team_b_xg_prematch": 0.87,
+      "btts_potential": 75.0,
+      "o25_potential": 47.0,
+      "o05HT_potential": 66.0,
+      "odds_ft_1": 1.85,
+      "odds_ft_x": 3.1,
+      "odds_ft_2": 4.35,
+      "homeGoalCount": 0,
+      "awayGoalCount": 0,
+      "status": "incomplete",
+      "elapsed": 0,
+      "boss_ai_decision": "STATUS: RISKY.\nREASON: Crucial data points including model predictions, league standings, H2H, key sidelined players, and specific O2.5/BTTS odds are entirely missing. This severely limits comprehensive analysis and risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "prematch_comment": "STATUS: RISKY.\nREASON: Crucial data points including model predictions, league standings, H2H, key sidelined players, and specific O2.5/BTTS odds are entirely missing. This severely limits comprehensive analysis and risk assessment.\nCONCLUSION: No Bet / Skip.",
+      "ai_comment": "STATUS: RISKY.\nREASON: Crucial data points including model predictions, league standings, H2H, key sidelined players, and specific O2.5/BTTS odds are entirely missing. This severely limits comprehensive analysis and risk assessment.\nCONCLUSION: No Bet / Skip."
     }
   ],
-  "updated_at": "2026-07-12T23:10:57.506977Z"
+  "updated_at": "2026-07-13T00:12:42.671865Z"
 }
